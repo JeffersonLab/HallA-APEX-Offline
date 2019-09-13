@@ -1,0 +1,8 @@
+Scripts for LHRS (prl1 and prl2) and RHRS (preshower and shower) calorimeters are contained in the relevant subdirectories.
+
+These scripts are based on ones given to me by Tyler Kutz (tritium grad student) and in this directory are guide.html which he sent to me (a few words wors about what the scripts do).
+
+Also in this directory are also RHRS_TMinuit_calibration.pdf and calibration_methods.pdf which are short notes written by Tyler (and other tritium students) about how these scripts work.
+
+Contained in both subdirecories are scripts that calculate the pedestals and scripts that calculate the gain for each calorimeter channel.
+

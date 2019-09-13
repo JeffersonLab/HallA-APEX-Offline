@@ -1,0 +1,15 @@
+<div dir="ltr"><div dir="ltr"><div dir="ltr"><div>Hi John,</div><div><br></div><div>Attached is a zip file containing the pedestal fitting macro, calibration code, and block diagrams for both arms.  If you don&#39;t need the LHRS script, you can just ignore it (the RHRS script is more thoroughly commented anyways).  The pedestal fitting macro will produce a text file with pedestal values that will be read in by the calibration macro. </div><div><br></div><div>The RHRS calibration uses the calorimeter block clusters built by the replay.  This could be modified to use tracks projected from the VDC to determine which block was hit (for this, see the LHRS script as an example).</div><div><br></div><div>I&#39;m not familiar with APEX kinematics, but I imagine you might want to modify the cuts used to select good calibration events.  These are on lines 128-131 of <font face="monospace, monospace">RHRS_minuit_cluster_cut1.C</font>.  Other than that, I think the only thing you should have to change is paths to ROOT files (in both pedestal and calibration scripts).</div><div><br></div><div>For best performance, the calibration macros should be run compiled:</div><div><font face="monospace, monospace">root -b -q &#39;RHRS_minuit_cluster_cut1.C+&#39;</font></div><div> </div><div>Please let me know if you have any questions, or if the script isn&#39;t working.</div><div><br></div><div>Best,</div><div>Tyler</div></div></div></div><br><div class="gmail_quote"><div dir="ltr">On Thu, Oct 4, 2018 at 10:08 PM &lt;<a href="mailto:jwilli@jlab.org">jwilli@jlab.org</a>&gt; wrote:<br></div><blockquote class="gmail_quote" style="margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">Hi Tyler,<br>
+<br>
+I&#39;m a grad student (working on APEX), I was looking for the most up to<br>
+date version of the RHRS shower calibration script if you know which it<br>
+its (where it is). There are a few versions in different people&#39;s<br>
+directories in tritium_work but I&#39;m not sure which is newest.<br>
+<br>
+Many thanks,<br>
+John Williamson<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+</blockquote></div>
