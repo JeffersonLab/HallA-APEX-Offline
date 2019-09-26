@@ -1,0 +1,22 @@
+The scripts in this directory were used by Jason Bane (of tritium collaboration) to perform the BPM calibrations for APEX as documented log entry: https://logbooks.jlab.org/entry/3655612
+
+
+
+get_harp_pos will prompt for runs which for APEX are:
+
+Relevant Harp Scan run numbers for APEX are 4065,4066,4067,4069,4070,4071
+
+
+The date for these runs are:
+
+
+02162019
+
+
+
+
+For running get_harp_pos.c the script needs access to the harp scan results, these should be symbolicly linked from the HarpScans directory. These can be found in /w/halla-scifs17exp/apex/disk1/Calib/BPM/HarpScans or in /cache/halla/apex/prod/Calib/BPMS/HarpScans. 
+
+
+
+For running BPM_calibration.c the script needs access to the harp_results file. This can be attained by running get_harp_pos.c, but the result can already be found in /w/halla-scifs17exp/apex/disk1/Calib/BPM/ or /cache/halla/apex/prod/Calib/BPMS.
