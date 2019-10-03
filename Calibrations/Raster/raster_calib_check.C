@@ -9,15 +9,18 @@ void raster_calib_check(){
   cin >> run_number;
 
   TString arm;
+  TString arm_name;
   cout << "Which arm (L or R)?    ";
   cin >> arm;
   cout << endl << endl;
   
   if (arm == "L" || arm == "l"){
     arm = "L";
+    arm_name = "LHRS";
   }
   else if(arm == "R" || arm == "r"){
     arm = "R";
+    arm_name = "RHRS";
   }
   else{
     cout << "Choose L or R, you muppet" << endl;
@@ -95,7 +98,7 @@ void raster_calib_check(){
 //   tex->SetTextSize(0.05);
 //   tex->Draw();
 
-  TCanvas *c2 = new TCanvas("c2",arm + "urb + rb check",1000,1000);
+  TCanvas *c2 = new TCanvas("c2",arm_name + ":  "  + arm + "urb + rb check "+ Form("for run %d",run_number),1000,1000);
   c2->Divide(2,3);
 
   TH1F *rb[6];

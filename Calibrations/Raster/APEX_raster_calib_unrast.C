@@ -24,6 +24,9 @@ void APEX_raster_calib_unrast(){
   cout << endl << endl;
 
   TString unrast_arm;
+  TString arm_string;
+
+  arm_string = arm;
 
   if (arm == "L" || arm == "l"){
     arm = "Lrb";
@@ -31,7 +34,7 @@ void APEX_raster_calib_unrast(){
   }
   else if(arm == "R" || arm == "r"){
     arm = "Rrb";
-    unrast_arm = "Lurb";
+    unrast_arm = "Rurb";
   }
   else{
     cout << "Choose L or R, you muppet" << endl;
@@ -95,11 +98,13 @@ void APEX_raster_calib_unrast(){
 
   //  TString targ_x_pos = "(" + arm + ".BPMB.x)" + " + ((" + BtoTarg + ") * ((" + arm + ".BPMB.x - " + arm + ".BPMA.x) / (" + AtoB + " )))";
 
-  TString targ_x_pos = "(" + unrast_arm + ".BPMB.x)" + " + ((" + BtoTarg + ")/(" + AtoB + ") * (" + unrast_arm + ".BPMB.x - " + unrast_arm + ".BPMA.x)) ";
+  TString targ_x_pos = "((" + arm + ".BPMB.x)" + " + ((" + BtoTarg + ")/(" + AtoB + ") * (" + arm + ".BPMB.x - " + arm + ".BPMA.x))) ";
+
+  cout << targ_x_pos << endl;
 
   //  TString targ_x_pos = "(" + arm + ".BPMB.x) + ((2.214) * ((" + arm + ".BPMB.x - " + arm + ".BPMA.x) / (5.131)))";
 
-  TString targ_y_pos = "(" + unrast_arm + ".BPMB.y)" + " + ((" + BtoTarg +") * ((" + unrast_arm + ".BPMB.y - " + unrast_arm + ".BPMA.y) / (" + AtoB + " )))";
+  TString targ_y_pos = "((" + arm + ".BPMB.y)" + " + ((" + BtoTarg +") * ((" + arm + ".BPMB.y - " + arm + ".BPMA.y) / (" + AtoB + " ))))";
 
   //  TString targ_y_pos = "(" + arm + ".BPMB.y) + ((2.214) * ((" + arm + ".BPMB.y - " + arm + ".BPMA.y) / (5.131)))";
 
@@ -121,6 +126,11 @@ void APEX_raster_calib_unrast(){
   else if (arm == "Rrb"){
     lim_1 = 18000;
     lim_2 = 28000;
+    if (run > 4500){
+      lim_1 = 35000;
+      lim_2 = 50000;
+      
+    }
   }
   else{
     cout << "Error, 'arm' variable found to be neither 'Lrb' or 'Rrb'" << endl;
@@ -134,17 +144,17 @@ void APEX_raster_calib_unrast(){
   TH1F *r2ycurr = new TH1F("r2ycurr", "Raster 2-Y Current vs ADC Channel", 1000, lim_1, lim_2);
 
   //Plot X and Y Position for both BPMs
-  TH1F *bpmaxpos = new TH1F("bpmaxpos", "BPM A-X Position (m)", 400, -0.02, 0.02);
-  TH1F *bpmaypos = new TH1F("bpmaypos", "BPM A-Y Position (m)", 400, -0.02, 0.02);
-  TH1F *bpmbxpos = new TH1F("bpmbxpos", "BPM B-X Position (m)", 400, -0.02, 0.02);
-  TH1F *bpmbypos = new TH1F("bpmbypos", "BPM B-Y Position (m)", 400, -0.02, 0.02);
+  TH1F *bpmaxpos = new TH1F("bpmaxpos", "BPM A-X Position (m)", 400, -0.005, 0.005);
+  TH1F *bpmaypos = new TH1F("bpmaypos", "BPM A-Y Position (m)", 400, -0.005, 0.005);
+  TH1F *bpmbxpos = new TH1F("bpmbxpos", "BPM B-X Position (m)", 400, -0.005, 0.005);
+  TH1F *bpmbypos = new TH1F("bpmbypos", "BPM B-Y Position (m)", 400, -0.005, 0.005);
 
   //Plot X and Y Position at the Target
-  TH1F *targxpos = new TH1F("targxpos", "Target X Position (m)", 400, -0.02, 0.02);
-  TH1F *targypos = new TH1F("targypos", "Target Y Position (m)", 400, -0.02, 0.02);
+  TH1F *targxpos = new TH1F("targxpos", "Target X Position (m)", 400, -0.005, 0.005);
+  TH1F *targypos = new TH1F("targypos", "Target Y Position (m)", 400, -0.005, 0.005);
 
-  TH1F *An_targxpos = new TH1F("An_targxpos", "Analyzer Target X Position (m)", 400, -0.02, 0.02);
-  TH1F *An_targypos = new TH1F("An_targypos", "Analyzer Target Y Position (m)", 400, -0.02, 0.02);
+  TH1F *An_targxpos = new TH1F("An_targxpos", "Analyzer Unrastered Target X Position (m)", 400, -0.005, 0.005);
+  TH1F *An_targypos = new TH1F("An_targypos", " Analyzer Unrastered Target Y Position (m)", 400, -0.005, 0.005);
 
 
 
@@ -172,7 +182,7 @@ void APEX_raster_calib_unrast(){
 
 
   //The plots are added to a canvas as they are populated
-  TCanvas *raster_canvas = new TCanvas("raster_canvas");
+  TCanvas *raster_canvas = new TCanvas("raster_canvas",Form("Raster canvas (run-%d ",run) + arm_string + "-arm)");
   raster_canvas->Divide(2,2);
 
   raster_canvas->cd(1);
@@ -184,6 +194,7 @@ void APEX_raster_calib_unrast(){
   T->Draw(arm + ".Raster.rawcur.y>>r1ycurr",beamcut);
   Double_t r1y_mean = r1ycurr->GetMean();
   Double_t r1y_rms = r1ycurr->GetRMS();
+
 
   raster_canvas->cd(3);
   T->Draw(arm + ".Raster2.rawcur.x>>r2xcurr",beamcut);
@@ -197,26 +208,26 @@ void APEX_raster_calib_unrast(){
 
 
 
-  TCanvas *position_canvas = new TCanvas("position_canvas");
-  position_canvas->Divide(2,4);
 
+  TCanvas *position_canvas = new TCanvas("position_canvas",Form("Position canvas (run-%d ",run) + arm_string + "-arm)");
+  position_canvas->Divide(2,4);
   position_canvas->cd(1);
-  T->Draw(unrast_arm + ".BPMA.x>>bpmaxpos",beamcut);
+  T->Draw(arm + ".BPMA.x>>bpmaxpos",beamcut);
   Double_t bpmax_mean = bpmaxpos->GetMean();
   Double_t bpmax_rms = bpmaxpos->GetRMS();
 
   position_canvas->cd(2);
-  T->Draw(unrast_arm + ".BPMA.y>>bpmaypos",beamcut);
+  T->Draw(arm + ".BPMA.y>>bpmaypos",beamcut);
   Double_t bpmay_mean = bpmaypos->GetMean();
   Double_t bpmay_rms = bpmaypos->GetRMS();
 
   position_canvas->cd(3);
-  T->Draw(unrast_arm + ".BPMB.x>>bpmbxpos",beamcut);
+  T->Draw(arm + ".BPMB.x>>bpmbxpos",beamcut);
   Double_t bpmbx_mean = bpmbxpos->GetMean();
   Double_t bpmbx_rms = bpmbxpos->GetRMS();
 
   position_canvas->cd(4);
-  T->Draw(unrast_arm + ".BPMB.y>>bpmbypos",beamcut);
+  T->Draw(arm + ".BPMB.y>>bpmbypos",beamcut);
   Double_t bpmby_mean = bpmbypos->GetMean();
   Double_t bpmby_rms = bpmbypos->GetRMS();
 
@@ -232,12 +243,12 @@ void APEX_raster_calib_unrast(){
 
   
   position_canvas->cd(7);
-  T->Draw(unrast_arm + ".x>>An_targxpos",beamcut);
+  T->Draw(arm + ".x>>An_targxpos",beamcut);
   Double_t An_targx_mean = An_targxpos->GetMean();
   Double_t An_targx_rms = An_targxpos->GetRMS();
 
   position_canvas->cd(8);
-  T->Draw(unrast_arm + ".y>>An_targypos",beamcut);
+  T->Draw(arm + ".y>>An_targypos",beamcut);
   Double_t An_targy_mean = An_targypos->GetMean();
   Double_t An_targy_rms = An_targypos->GetRMS();
 
