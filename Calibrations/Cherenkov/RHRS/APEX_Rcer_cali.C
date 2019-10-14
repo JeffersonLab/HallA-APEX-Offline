@@ -49,7 +49,7 @@ void APEX_Rcer_cali()
   c1->Divide(5,2); 
   for(i=0;i<10;i++){
     c1->cd(i+1);
-    TH1F *tt1 = new TH1F("tt1",Form("FADC_Rcer_%d",i+1),100,5000,6000);
+    TH1F *tt1 = new TH1F("tt1",Form("FADC_Rcer_%d",i+1),100,8000,12000);
     T->Draw(Form("R.cer.a[%d]>>tt1",i),tritype);
     tt1->SetXTitle(Form("R.cer.a[%d]",i));
     max_bin = tt1->GetMaximumBin();

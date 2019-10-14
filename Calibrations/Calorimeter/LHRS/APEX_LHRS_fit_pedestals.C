@@ -84,6 +84,9 @@ void APEX_LHRS_fit_pedestals(Int_t run = 4179) {
 		TF1* gaus1 = prl1_ped->GetFunction("gaus");
 		prl1Ped = gaus1->GetParameter(1);
 		prl1_ped->Fit("gaus", "R", "", gaus1->GetParameter(1)-2.*gaus1->GetParameter(2), gaus1->GetParameter(1)+2.*gaus1->GetParameter(2));
+	       	TF1* gaus1_2 = prl1_ped->GetFunction("gaus");
+		prl1Ped = gaus1_2->GetParameter(1);
+
 		delete htmp;
 
 		ped_prl1.push_back(prl1Ped);
@@ -128,6 +131,9 @@ void APEX_LHRS_fit_pedestals(Int_t run = 4179) {
 		TF1* gaus2 = prl2_ped->GetFunction("gaus");
 		prl2Ped = gaus2->GetParameter(1);	
 		prl2_ped->Fit("gaus", "R", "", gaus2->GetParameter(1)-2.*gaus2->GetParameter(2), gaus2->GetParameter(1)+2.*gaus2->GetParameter(2));
+		TF1* gaus2_2 = prl2_ped->GetFunction("gaus");
+		prl2Ped = gaus2_2->GetParameter(1);
+
 		delete htmp2;
 		
 		ped_prl2.push_back(prl2Ped);
@@ -143,8 +149,8 @@ void APEX_LHRS_fit_pedestals(Int_t run = 4179) {
 		delete prl2_ped;
 	}
 
-	ofstream ped1file("ped_prl1.dat");
-	ofstream ped2file("ped_prl2.dat");
+	ofstream ped1file(Form("DB_output/%d_ped_prl1.dat",run));
+	ofstream ped2file(Form("DB_output/%d_ped_prl2.dat",run));
 	
 	for(int i = 0; i < nBlkPRL1; i++) {
 		ped1file << ped_prl1[i] << "\n";
