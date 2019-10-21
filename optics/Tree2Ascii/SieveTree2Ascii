@@ -1,0 +1,51 @@
+#PROG=./Tree2Ascii
+#PROG=./tree2Ascii
+PROG=./tree2ascii
+
+ROOTFILES="/home/sean/Grad/Research/APEX/Rootfiles"
+DIR="../Sieve/test"
+RUN="4647"
+
+IdOffSet=459
+rm $DIR/Sieve.0.f$RUN
+mv -f $DIR/Sieve.full.f$RUN  $DIR/Sieve.full.f$RUN.old
+
+   if [[ "$i" == "4647" ]];then
+	j=1
+    fi
+    if [[ "$i" == "4648" ]];then
+	j=0
+    fi
+    if [[ "$i" == "4650" ]];then
+	j=2
+    fi	
+
+Id=$IdOffSet*$j
+
+
+#$PROG   -pv -d SieveVars.def -O $Id \
+#        -s $DIR/apex_$RUN.root.SieveCut.ncut \ 
+#        -c $DIR/apex_$RUN.root.SieveCut.cut \
+#        -g $DIR/apex_$RUN.root.FullCut.root \
+#        -o $DIR/Sieve.0.f$RUN \
+#	$ROOTFILES/apex_$RUN.root   \
+#	$ROOTFILES/apex_$RUN_1.root \ 
+#	$ROOTFILES/apex_$RUN_2.root
+
+$PROG   -pv -d SieveVars.def -O $Id \
+        -c $DIR/apex_$RUN.root.SieveCut.cut \
+        -g $DIR/apex_$RUN.root.FullCut.root \
+        -o $DIR/Sieve.0.f$RUN \
+	$ROOTFILES/apex_${RUN}.root  
+
+
+
+
+    
+cat  $DIR/Sieve.0.f$RUN >> $DIR/Sieve.full.f$RUN
+
+#./$DIR/trans $DIR/Sieve.full.f51
+
+#mv temp.dat $DIR/Sieve.full.f51
+
+echo "Done!"

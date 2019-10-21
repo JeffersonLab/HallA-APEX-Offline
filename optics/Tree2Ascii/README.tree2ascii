@@ -1,0 +1,219 @@
+tree2ascii 
+~~~~~~~~~~
+
+Usage: tree2ascii [-avlpq] [-P<prefix>] [-T<treename>] [-n<nread>]
+        [-N<nwrite>] [-c<gcutsfile>] [-p<peakfile>] [-D<vardef>]
+        [-d<vardef_file>] [-f<format>] [-o<outfile>] [-O<peakoffset>]
+        ROOTFILE1 [ROOTFILE2 ...]
+
+tree2ascii copies data from a ROOT tree to an ASCII text file subject
+to optional cuts.  The entries (events) of the ROOT tree are scanned,
+and one row of output is written for every event. If cuts are specified,
+they are evaluated for every event, and only events are written 
+that satisfy at least one of the cuts.
+
+This program was written to create the input file
+for optics optimization, but it is freely configurable and can be
+used for other ROOT tree analysis as well. 
+
+Usage for optics optimization setup
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+This program is a replacement of the ESPACE kumac to generate the 
+so-called "f51" file from data produced with the C++ analyzer.
+A typical command line is:
+
+./tree2ascii -O1 -g gcuts.root -c peaks.def -d vars.def -o f51.dat file.root
+
+where
+  gcuts.root: file containing TCutG objects for all required 
+              graphical cuts. (Use separate script to create.)
+  peaks.def:  List of cuts defining peaks (= logicals in ESPACE kumac)
+  vars.def:   List of variables to extract from the ROOT file
+  f51.dat:    Output "f51" text file
+  file.root:  ROOT event file from optics replay
+
+Detailed decsription
+~~~~~~~~~~~~~~~~~~~~
+
+- Input file(s)
+
+  One or more ROOT input files containing at least one tree must 
+  be specified. 
+
+  If more than one file is given, they will be scanned in the order
+  specified, subjected to the same cuts. Output from all the files
+  will be accumulated in the output file.
+
+  Whether to scan one or several ROOT files per invocation is
+  a matter of taste and logistics; equivalent results can be
+  obtained. The -a option allows appending to an existing output
+  file. -O allows adding an offset to the cut numbers in order
+  to get distinct cut numbers for each input file. Cuts can
+  probably be simpler and better organized if only one run is
+  processed per invocation.
+
+- Tree name
+
+  By default, the program looks for a tree named "T" in the
+  input file. A different tree name can be given with -T. Example
+
+    -T GoodEvents
+
+  will read from tree GoodEvents. Only one tree can be processed
+  at a time. If several ROOT files are to be processed, the same
+  tree name will be used for all the files.
+
+- Tree variables to write
+
+  (To list the variables of a tree, use the -l option, see below.)
+
+  You can either specify the list of output variables on the command
+  line, using the -D opion, or read the list from a file, using -d.
+  Variable names must not contain spaces or colons. Multiple variables
+  are separated by spaces.
+  Example: print three variables:
+
+    -D "R.tr.n R.tr.x R.tr.y"
+
+    -d variables.def
+  where variables.def contains
+    R.tr.n  R.tr.x   R.tr.y
+  Multiple variables can be separated by spaces or newlines.
+
+  For arrays, indices or ranges of indicies can be specified explicitly.
+  If an array variable is requested, but no index is given, only
+  the first ([0]) element will be printed. (This behavior is likely to
+  be fine-tuned in future versions.) 
+  Examples
+
+    R.tr.x       -- print R.tr.x[0]
+    R.tr.x[0]    -- dto.
+    R.tr.x[1]    -- R.tr.x[1]
+    R.tr.x[0-3]  -- R.tr.x[0] through R.tr.x[3] (4 elements)
+    R.tr.x[*]    -- ALL elements of R.tr.x.
+
+    Notes:
+    - For fixed-size arrays, specifying an element outside of
+      the valid index range causes an error.
+    - For variable size arrays, any index or index range can be
+      specified, and the specified number of elements will always
+      be printed, but elements outside of the valid index range for
+      the event will have the value 1e38.
+    - Scalars are treated as arrays of size 1, so [0], may be specified.
+      Any other index causes an error.
+    - With the [*] format, if R.tr.x is a variable-size array,
+      the number of output elements will vary, depending on the
+      actual size of the array for a given event. If the array
+      size is zero for an event, NO output will be written for this
+      variable. Unless the array count is also written, such output
+      will become ambiguous if more than one [*] variable is written.
+      Use with caution.
+                    
+- Cuts (optional)
+
+  Cuts are read from a cut definition file specified with the -c option.
+  Example:
+
+  -c peaks.def
+
+  where peaks.def contains one line per cut, e.g.
+
+   R.tr.n>0
+   L.tr.n==1
+   fEvtHdr.fRun == 1500 && L.tr.n>2 
+
+  Comments starting with "#" are allowed, even in-line after an expression.
+  Any logical expression that can be used as a selection cut for
+  tree->Draw() can be used. In short, basically any C-style expression
+  using any of the available tree variable names.
+
+  Cut numbers: The cuts are numbered sequentially, starting with zero, 
+  in the order in  which they are encountered in the cut definition file. 
+  
+  The cut number will be written as the very first field of the output. 
+  (The cut number will NOT appear in the
+  output if no cuts are given.) To suppress the printing of the cut number
+  use -q. To add a fixed offset to the cut numbers, use -O. For example, 
+  to have cut numbers start at one, specify -O1.
+
+  In addition to simple expressions of tree variables, graphical cuts
+  (aka polygon cuts) are also supported. These cuts (TCutG objects) must 
+  be defined separately, usually interactively, and must be stored in a single
+  ROOT file with a unique name for each cut. Cut names must not 
+  be identical to any tree variable name.  To load graphical cut definitions,
+  use, for example,
+
+  -g gcuts.root
+
+  The names of the graphical cuts loaded in this way can then be used
+  in the cut definition file. For example:
+
+  gcuts.root contains a single TCutG object named "mycut1"; then
+  peaks.def may contain a cut defined as
+
+  R.tr.n>0 && mycut1
+
+  which will be true only if mycut1 is satisfied for the event.
+
+  If no -c option is given, no cuts will be used (even if -g is given),
+  and data will be written for every event.
+
+- Output file
+
+  -o events.txt
+
+  If no -o is given, the data will be written to standard output (the screen).
+
+- Output format
+
+  This is useful for fine-tuning and prettiness freaks. Normally, don't
+  worry about it.
+
+  Data prints via fprintf. The default format for each field is %12g. 
+  A different default format can be specified with -f.  Example:
+
+   -f10.4f
+
+  NB: Do NOT include a "%".
+
+  The default format can be overridden for individual fields by placing
+  ":<format>" after any variable definition. Example:
+
+  -D "R.tr.n:5i  R.tr.x  R.tr.y"
+
+  will print R.tr.n using a %5i format, and the remaining two variables
+  using the default format (either 12g or whatever specified with -f).
+
+  NB: Improper format specs may cause unpredictable results.
+  Use only integer (i,d) or floating point (f,e,g) formats with proper
+  width and precision parameters, if applicable.
+
+- Other options:
+ 
+  -a append data to output file instead of overwriting it
+  -v print verbose info on what the program is doing
+  -p when writing to a file, report progress to stdout
+  -l Don't write any output to file, but instead list all the
+     variables found in the input ROOT file(s).
+  -n <nev> Process only the first <nev> events from the tree in each
+     input file. (The count starts anew with each input file.)
+     This is a counter of input events.
+  -N <nev> Write up to <nev> events to output for each input file. 
+     This is a counter of output events.
+     This can be used to get well-defined statistics in the output.
+     Example:
+
+       -N 1000 
+
+     will write 1000 output events passing cuts, regardless of how 
+     many input events need to be read to achieve this count (provided
+     enough events are available in the input file, of course).
+
+  
+Limitations
+~~~~~~~~~~~
+The algorithm for loading tree variables is simplified from the full
+algorithms used in ROOT.  Therefore, it is possible that some variables in
+more complex ROOT trees cannot be accessed with this program at this time.
+
