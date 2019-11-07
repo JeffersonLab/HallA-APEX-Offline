@@ -2055,8 +2055,8 @@ Double_t ROpticsOpt::SumSquareDTh()
     // DEBUG_INFO("SumSquareDTh", "#%d : dth = %f,\t rmsth = %f", NCall, dth / fNRawData, TMath::Sqrt(rmsth / fNRawData));
     printf("SumSquareDTh: #%d : dth = %f,\t rmsth = %f\n", NCall, dth / fNRawData, TMath::Sqrt(rmsth / fNRawData));
 
-    return rmsth; //Use for opt to angles
-    //return rmsdx; //Use for opt to sieve plane
+    //return rmsth; //Use for opt to angles
+    return rmsdx; //Use for opt to sieve plane
 }
 
 Double_t ROpticsOpt::SumSquareDPhi()
@@ -2124,8 +2124,8 @@ Double_t ROpticsOpt::SumSquareDPhi()
     // DEBUG_INFO("SumSquareDPhi", "#%d : dphi = %f,\t rmsphi = %f", NCall, dphi / fNRawData, TMath::Sqrt(rmsphi / fNRawData));
     printf("SumSquareDPhi: #%d : dphi = %f,\t rmsphi = %f\n", NCall, dphi / fNRawData, TMath::Sqrt(rmsphi / fNRawData));
 
-    return rmsphi;  //Use for opt to angles
-    //return rmsdy;   //Use for opt to sieve plane
+    //return rmsphi;  //Use for opt to angles
+    return rmsdy;   //Use for opt to sieve plane
 }
 
 void ROpticsOpt::PrepareVertex(void)
