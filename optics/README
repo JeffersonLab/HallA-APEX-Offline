@@ -1,0 +1,45 @@
+This is a description of the steps used for optics analysis:
+
+----------------------------------------------------------------------------
+
+Step 1, Cut Data:
+
+In the opt/ folder run the following commands to cut the sieve,
+
+analyzer
+CutSieve(Foil number, Column number, 1)
+
+This macro has been modified so that the holes are cut by using ellipses instead of drawn polygons. You must move the ellipse around with your mouse until you are satisfied with the position and then use the toolbar to draw a polyline anywhere on the canvas. The ellipse will then save and move onto a new one. This is not particularly fast but I could not figure out another way make the cuts as ellipses. This process will output all the cut information to a file in the Sieve/ directory and will also write a csv file that keeps track of the ellipse information. In the ellipses/ directory there are macros that will plot the cuts overlayed with the data.
+
+----------------------------------------------------------------------------
+
+Step 2, Write data to ascii file:
+
+Once we have our cuts defined in the Sieve/ folder we need to put them together. First we must create text file with a bunch of zeros for all the columns that were never selected. This is done by quick.sh. The once we put everything together using gen.sh. Then go the the Tree2Ascii/ folder and run,
+
+make
+tree2ascii
+
+----------------------------------------------------------------------------
+
+Step 3, Optimize:
+
+After we have our cuts we go back to the opt/ directory and run,
+
+analyzer
+ROpticsOptScript("phi",original matrix name, new phi matrix name)  \\optimizes phi angle
+ROpticsOptScript("theta",new phi matrix name, new theta matrix name)  \\optimizes phi angle
+
+This then outputs a database with the "new theta matrix name" that has theta and phi optimized.
+
+----------------------------------------------------------------------------
+
+Step 4, Replay Data:
+
+Now we need to replay our data using the newly optimized matrix. For the we go to the analysis/processing/ directory. Here the macro replay.C takes the original root file and the new matrix as input and writes out a new root file with new target variables.
+
+----------------------------------------------------------------------------
+
+Step 5, Analysis:
+
+The data can then be analyzed using the macros in the analysis/ directory. The xpyp_plot.C and correlation.C macros make plots of the distributions of the new variables and compares to the expected positions.

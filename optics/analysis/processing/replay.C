@@ -12,16 +12,10 @@ class ROpticsOpt;
 
 ROpticsOpt * opt;
 
-UInt_t NPara = 0;
-Double_t OldMatrixArray[10000] = {-99}; //NPara
-Bool_t freed[10000] = {kFALSE}; //NPara
-
-UInt_t MaxDataPerGroup = 10000000;
-
 void replay(TString OutputFile, TString DataBase){
 
-  //Simplified replay code. Takes some functions for ROpticsOpt class and uses them to calculate new target variables with optimized matrix.
-  //Currently relies on old data being written in an ascii text file, should probably simplify that step later
+  //Simplified replay code. Takes some functions for ROpticsOpt class and uses them to calculate new target variables with different matrix.
+
 
   TString rootfiles = "/home/sean/Grad/Research/APEX/Rootfiles/";
   TFile* f_old = new TFile(rootfiles + "apex_4647.root","open");
@@ -34,13 +28,12 @@ void replay(TString OutputFile, TString DataBase){
   TTree* t_new = new TTree("T","");
   
   
-
+  //Load focal plane data with new matrix
   opt = new ROpticsOpt();
-  //Need to create a .dat file with all of the old root file information before running this. Will fix later
-  opt->LoadRawData(rootfiles + "apex_4647.dat", (UInt_t) - 1, MaxDataPerGroup);
+  opt->LoadRawData(t);
   opt->LoadDataBase(DataBase);
-  //opt->PrepareSieve();
 
+  //Define all the variables we want our output tree to have
   double R_tr_n;
   double R_tr_x_fp[100];
   double R_tr_y_fp[100];
@@ -117,7 +110,9 @@ void replay(TString OutputFile, TString DataBase){
   t_new->Branch("R.tr.tg_dp",R_tr_tg_dp);
   t_new->Branch("Sieve.x",sieve_x);
   t_new->Branch("Sieve.y",sieve_y);
-    
+
+
+  //Calculate target variables
   for(int i=0; i<entries; i++){
   
     t->GetEntry(i);
@@ -129,7 +124,6 @@ void replay(TString OutputFile, TString DataBase){
     sieve_x[0] = opt->sieve_x(i);
     sieve_y[0] = opt->sieve_y(i);
 
-    
     t_new->Fill();
     
   }

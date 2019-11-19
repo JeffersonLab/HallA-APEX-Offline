@@ -1,6 +1,6 @@
 void Distill(){
 
-  //Macro to take full root file and get only needed variables
+  //Macro to take full replayed root file and get only needed variables for optics analysis
   
   TChain * t = new TChain("T");
   t->Add("../root/old/apex_4647*.root");

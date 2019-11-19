@@ -68,34 +68,15 @@ public:
     Int_t LoadDataBase(TString DataBaseName); // Database file -> Memory
     Int_t SaveDataBase(TString DataBaseName); // Memory -> Database file
 
-    virtual void Print(const Option_t* opt) const;
-    //virtual void Print() const;
-    UInt_t Matrix2Array(Double_t Array[], Bool_t FreeParaFlag[] = NULL) // fCurrentMatrixElems -> Array
-    {
-        assert(fCurrentMatrixElems);
-        return Matrix2Array(Array, (*fCurrentMatrixElems), FreeParaFlag);
-    }
-    UInt_t Matrix2Array(Double_t Array[], const std::vector<THaMatrixElement> &Matrix, Bool_t FreeParaFlag[] = NULL);
-
-    UInt_t Array2Matrix(const Double_t Array[]) // Array -> fCurrentMatrixElems
-    {
-        assert(fCurrentMatrixElems);
-        return Array2Matrix(Array, (*fCurrentMatrixElems));
-    }
-    UInt_t Array2Matrix(const Double_t Array[], std::vector<THaMatrixElement> &Matrix);
-
-    ///////////////////////////////////////////////////////////////////////////
-    // Data storage
-    ///////////////////////////////////////////////////////////////////////////
-    
+       
     enum {
         MaxNEventData = 50, MaxNRawData = 2000000, kNUM_PRECOMP_POW = 10, kMaxDataGroup = 180 * 5 * 5
     };
     
     
     
-    UInt_t LoadRawData(TString DataFileName, UInt_t NLoad = MaxNRawData, UInt_t MaxDataPerGroup = (UInt_t) - 1); // load data to Rawdata[]
-
+    //UInt_t LoadRawData(TString DataFileName, UInt_t NLoad = MaxNRawData, UInt_t MaxDataPerGroup = (UInt_t) - 1); // load data to Rawdata[]
+    UInt_t LoadRawData(TTree *t); // load data to Rawdata[]
     
     //typedef struct {
     struct EventData {
@@ -108,12 +89,10 @@ public:
     UInt_t fNCalibData; // for dp calib only
 
     enum CommonIdx {
-      //kCutID = 0, // cut ID in order of tree2ascii cut file
         kX = 0, // R.tr.r_x
         kTh = 1, // R.tr.r_th
         kY = 2, // R.tr.r_y
         kPhi = 3, // R.tr.r_ph
-        kurb_e = 4, // Beam energy
         kBeamX = 5, // urb.x or rb.x
         kBeamY = 6, // urb.y or rb.y
 	kBeamVZ = 7, //R.tr.vz
@@ -161,31 +140,11 @@ public:
     ///////////////////////////////////////////////////////////////////////////
     // Optimization related Commands
     ///////////////////////////////////////////////////////////////////////////
-    const TVector3 GetSieveHoleTCS(UInt_t Col, UInt_t Row);
-    const TVector3 GetSieveHoleCorrectionTCS(UInt_t nfoil, UInt_t Col, UInt_t Row);
-
-    Double_t TravelLength(TVector3 ReactionVertex, TVector3 MomDirectionHCS);
-    //    Double_t ElossTarget(TVector3 ReactionVertex, TVector3 MomDirectionHCS);
-    Double_t ElossTargetBefore(TVector3 ReactionVertex, TVector3 MomDirectionHCS);
-    Double_t ElossTargetAfter(TVector3 ReactionVertex, TVector3 MomDirectionHCS);
-    void PrepareSieve(void);
-    TCanvas* CheckSieve(Int_t PlotFoilID = 0);
-    TCanvas* CheckSieveAccu(Int_t PlotFoilID = 0);
-    Double_t SumSquareDTh(void);
-    Double_t SumSquareDPhi(void);
-    //void check_fit_qual_Th(void);
-    //void check_fit_qual_y(void);
+  
     Double_t fArbitaryVertexShift[100]; // compensate bias due to event selections, array of [FoilID]
-    void PrepareVertex(void);
-    TCanvas* CheckVertex(void);
-    Double_t SumSquareDTgY();
-
+    
     Double_t fArbitaryDpKinShift[100]; // compensate bias due to dp event selections, array of [KineID]
-    void PrepareDp(void);
-    TCanvas* CheckDp(void);
-    TCanvas* CheckDpGlobal(void);
-    Double_t SumSquareDp(Bool_t IncludeExtraData = kFALSE);
-
+    
     TRotation fTCSInHCS; // transformations vector from TCS to HCS
     TVector3 fPointingOffset; // Optical point in lab coordinate system
 
@@ -283,8 +242,6 @@ public:
     int order;
     double v; // its computed value
     std::vector<double> poly; // the associated polynomial
-
-    void SkimPoly(); //reduce order to highest non-zero poly
 
     UInt_t OptOrder; //order optimize to
 };
