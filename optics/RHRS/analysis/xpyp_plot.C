@@ -3,19 +3,17 @@ void xpyp_plot(){
   //Macro makes plots to analyze the new theta and phi after optimization
   
   TString order = "5th";
-  TString range = "-10_10";
-  bool before = false; //Are we doing before optimization plots
+  TString range = "all";
+  bool before = true; //Are we doing before optimization plots
   bool make_plots = false;
 
   TString rootfiles = "/home/sean/Grad/Research/APEX/Rootfiles/";
   gStyle->SetPalette(1);
   TFile* f;
-  f = new TFile(rootfiles + "apex_4647_opt_5th_xfp_-10_10_2matrix.root","read");
-  /*
+  
   if(before) f = new TFile(rootfiles + "apex_4647.root","read");
   else if(range == "all") f = new TFile(rootfiles + "apex_4647_opt_"+order+"_xfp_full.root","read");
   else f = new TFile(rootfiles + "apex_4647_opt_"+order+"_xfp_"+range+".root","read");
-  */
   //else f = new TFile(rootfiles + "apex_4647_opt_sieve_plane_"+order+".root","read");
   TTree* t;
   f->GetObject("T",t);
