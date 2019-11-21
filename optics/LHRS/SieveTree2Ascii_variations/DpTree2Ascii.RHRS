@@ -1,0 +1,64 @@
+#!/bin/tcsh
+
+
+@ OutN = 1000000
+set DataFileName = "DpData.f51"
+
+@ IdOffSet = 180
+set ExtraCut = "L_dp_0";
+set InvExtraCut = "\!$ExtraCut";
+
+# Events to Opt
+@ Id = 0
+tree2ascii -p -O $Id -N $OutN -f 1.10e -d DpVars.RHRS.def \
+	-C $ExtraCut \
+	-c ArchivedRootFiles/SieveCentralRHRS/apex_coinc_1898.root.SieveCut.cut \
+	-g ArchivedRootFiles/SieveCentralRHRS/apex_coinc_1898.root.FullCut.root \
+	-o ArchivedRootFiles/SieveCentralRHRS/$DataFileName \
+	ArchivedRootFiles/SieveCentralRHRS/apex_coinc_1898.root
+
+@ Id += $IdOffSet
+tree2ascii -pa -O $Id -N $OutN -f 1.10e -d DpVars.RHRS.def \
+	-C $ExtraCut \
+	-c ArchivedRootFiles/SieveCentralRHRS/apex_coinc_1911.root.SieveCut.cut \
+	-g ArchivedRootFiles/SieveCentralRHRS/apex_coinc_1911.root.FullCut.root \
+	-o ArchivedRootFiles/SieveCentralRHRS/$DataFileName \
+	ArchivedRootFiles/SieveCentralRHRS/apex_coinc_1911.root
+
+@ Id += $IdOffSet
+tree2ascii -pa -O $Id -N $OutN -f 1.10e -d DpVars.RHRS.def \
+	-C $ExtraCut \
+	-c ArchivedRootFiles/SieveCentralRHRS/apex_coinc_1920.root.SieveCut.cut \
+	-g ArchivedRootFiles/SieveCentralRHRS/apex_coinc_1920.root.FullCut.root \
+	-o ArchivedRootFiles/SieveCentralRHRS/$DataFileName \
+	ArchivedRootFiles/SieveCentralRHRS/apex_coinc_1920.root
+
+# Events as bkgd
+
+@ Id += $IdOffSet
+tree2ascii -pa -O $Id -N $OutN -f 1.10e -d DpVars.RHRS.def \
+	-C $InvExtraCut \
+	-c ArchivedRootFiles/SieveCentralRHRS/apex_coinc_1898.root.SieveCut.cut \
+	-g ArchivedRootFiles/SieveCentralRHRS/apex_coinc_1898.root.FullCut.root \
+	-o ArchivedRootFiles/SieveCentralRHRS/$DataFileName \
+	ArchivedRootFiles/SieveCentralRHRS/apex_coinc_1898.root
+
+@ Id += $IdOffSet
+tree2ascii -pa -O $Id -N $OutN -f 1.10e -d DpVars.RHRS.def \
+	-C $InvExtraCut \
+	-c ArchivedRootFiles/SieveCentralRHRS/apex_coinc_1911.root.SieveCut.cut \
+	-g ArchivedRootFiles/SieveCentralRHRS/apex_coinc_1911.root.FullCut.root \
+	-o ArchivedRootFiles/SieveCentralRHRS/$DataFileName \
+	ArchivedRootFiles/SieveCentralRHRS/apex_coinc_1911.root
+
+@ Id += $IdOffSet
+tree2ascii -pa -O $Id -N $OutN -f 1.10e -d DpVars.RHRS.def \
+	-C $InvExtraCut \
+	-c ArchivedRootFiles/SieveCentralRHRS/apex_coinc_1920.root.SieveCut.cut \
+	-g ArchivedRootFiles/SieveCentralRHRS/apex_coinc_1920.root.FullCut.root \
+	-o ArchivedRootFiles/SieveCentralRHRS/$DataFileName \
+	ArchivedRootFiles/SieveCentralRHRS/apex_coinc_1920.root
+
+echo "Done!"
+
+

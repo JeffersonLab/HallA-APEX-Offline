@@ -1,0 +1,8 @@
+Scripts designed to replay and calculate optics matrix elements as well as plot FP (Focal-Plane) and target parameters:
+
+
+apex_ME_calc.C: Script recalculates ME for a run (for an input DB) and saves results in a TTree (ME for each event and FP and target parameters (and PID elements necessary)
+
+
+corr_plot.c: Accepts input TTree and plots various FP and target variables.
+
