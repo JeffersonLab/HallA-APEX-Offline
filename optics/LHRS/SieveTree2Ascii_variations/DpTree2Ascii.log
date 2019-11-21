@@ -1,0 +1,2849 @@
+Process with addtional cut (L_dp_0), cut id offset = 0
+Reading variable list from file DpVars.def
+Requested variables: L.tr.r_x L.tr.r_th L.tr.r_y L.tr.r_ph urb.x urb.y L.tr.tg_th L.tr.tg_ph L.tr.tg_dp L.tr.p urb.e fEvtHdr.fRun
+Reading graphical cuts from ArchivedRootFiles/SieveCentralLHRS/apex_coinc_1170.root.FullCut.root ...
+OBJ: TCutG	fcut_L_0	Graph : 0 at: 0x9d22108
+OBJ: TCutG	hcut_L_0_6_3	Graph : 0 at: 0x9f5b430
+OBJ: TCutG	hcut_L_0_6_5	Graph : 0 at: 0x9e2b960
+OBJ: TCutG	hcut_L_0_6_7	Graph : 0 at: 0x9e2b770
+OBJ: TCutG	hcut_L_0_6_9	Graph : 0 at: 0x9e2b6c8
+OBJ: TCutG	hcut_L_0_6_11	Graph : 0 at: 0x9e2f700
+OBJ: TCutG	hcut_L_0_6_13	Graph : 0 at: 0x9e2fd98
+OBJ: TCutG	hcut_L_0_5_4	Graph : 0 at: 0x9e30c68
+OBJ: TCutG	hcut_L_0_5_6	Graph : 0 at: 0x9e312d0
+OBJ: TCutG	hcut_L_0_5_8	Graph : 0 at: 0x9f669c0
+OBJ: TCutG	hcut_L_0_5_10	Graph : 0 at: 0x9f670c0
+OBJ: TCutG	hcut_L_0_5_12	Graph : 0 at: 0x9e304b8
+OBJ: TCutG	hcut_L_0_4_3	Graph : 0 at: 0x9f67ed0
+OBJ: TCutG	hcut_L_0_4_5	Graph : 0 at: 0x9f68540
+OBJ: TCutG	hcut_L_0_4_7	Graph : 0 at: 0x9e2b168
+OBJ: TCutG	hcut_L_0_4_9	Graph : 0 at: 0x9f677b0
+OBJ: TCutG	hcut_L_0_4_11	Graph : 0 at: 0x9f68c10
+OBJ: TCutG	hcut_L_0_3_3	Graph : 0 at: 0x9f6a288
+OBJ: TCutG	hcut_L_0_3_5	Graph : 0 at: 0x9f69b98
+OBJ: TCutG	hcut_L_0_3_7	Graph : 0 at: 0x9f6b080
+OBJ: TCutG	hcut_L_0_3_9	Graph : 0 at: 0x9f6a900
+OBJ: TCutG	hcut_L_0_3_11	Graph : 0 at: 0x9f6bea8
+OBJ: TCutG	hcut_L_0_2_6	Graph : 0 at: 0x9f6c560
+OBJ: TCutG	hcut_L_0_2_8	Graph : 0 at: 0x9f6cc88
+OBJ: TCutG	hcut_L_0_1_5	Graph : 0 at: 0x9f6d388
+OBJ: TCutG	hcut_L_0_1_7	Graph : 0 at: 0x9f6da20
+OBJ: TCutG	hcut_L_0_1_9	Graph : 0 at: 0x9f69350
+OBJ: TCutG	hcut_L_0_7_3	Graph : 0 at: 0x9f6e838
+OBJ: TCutG	hcut_L_0_7_5	Graph : 0 at: 0x9f6eee0
+OBJ: TCutG	hcut_L_0_7_7	Graph : 0 at: 0x9f6fb10
+OBJ: TCutG	hcut_L_0_7_9	Graph : 0 at: 0x9f6fd78
+OBJ: TCutG	hcut_L_0_7_11	Graph : 0 at: 0x9f6e0e8
+OBJ: TCutG	hcut_L_0_8_4	Graph : 0 at: 0x9f70ae0
+OBJ: TCutG	hcut_L_0_8_6	Graph : 0 at: 0x9f711d0
+OBJ: TCutG	hcut_L_0_8_8	Graph : 0 at: 0x9f718b8
+OBJ: TCutG	hcut_L_0_8_10	Graph : 0 at: 0x9f71f50
+OBJ: TCutG	hcut_L_0_8_12	Graph : 0 at: 0x9f72b88
+OBJ: TCutG	hcut_L_0_9_11	Graph : 0 at: 0x9f6f9f0
+OBJ: TCutG	L_dp_0	Graph : 0 at: 0x9f703e8
+39 cut(s) found
+Output to file: ArchivedRootFiles/SieveCentralLHRS/DpDataDbg.f51
+Opened ROOT input file ArchivedRootFiles/SieveCentralLHRS/apex_coinc_1170.root
+Found and initialized tree T
+Parsing tree...
+Loaded 610 tree variables from 612 tree leaves
+Parsing output variable definitions...
+DataElement: L.tr.r_x (L.tr.r_x) 	good:1 	type:8 (Double_t) 	size:1 	a/va: 0/0  min/max: 0/1  fmt: 1.10e
+DataElement: L.tr.r_th (L.tr.r_th) 	good:1 	type:8 (Double_t) 	size:1 	a/va: 0/0  min/max: 0/1  fmt: 1.10e
+DataElement: L.tr.r_y (L.tr.r_y) 	good:1 	type:8 (Double_t) 	size:1 	a/va: 0/0  min/max: 0/1  fmt: 1.10e
+DataElement: L.tr.r_ph (L.tr.r_ph) 	good:1 	type:8 (Double_t) 	size:1 	a/va: 0/0  min/max: 0/1  fmt: 1.10e
+DataElement: urb.x (urb.x) 	good:1 	type:8 (Double_t) 	size:1 	a/va: 0/0  min/max: 0/1  fmt: 1.10e
+DataElement: urb.y (urb.y) 	good:1 	type:8 (Double_t) 	size:1 	a/va: 0/0  min/max: 0/1  fmt: 1.10e
+DataElement: L.tr.tg_th (L.tr.tg_th) 	good:1 	type:8 (Double_t) 	size:1 	a/va: 0/0  min/max: 0/1  fmt: 1.10e
+DataElement: L.tr.tg_ph (L.tr.tg_ph) 	good:1 	type:8 (Double_t) 	size:1 	a/va: 0/0  min/max: 0/1  fmt: 1.10e
+DataElement: L.tr.tg_dp (L.tr.tg_dp) 	good:1 	type:8 (Double_t) 	size:1 	a/va: 0/0  min/max: 0/1  fmt: 1.10e
+DataElement: L.tr.p (L.tr.p) 	good:1 	type:8 (Double_t) 	size:1 	a/va: 0/0  min/max: 0/1  fmt: 1.10e
+DataElement: urb.e (urb.e) 	good:1 	type:8 (Double_t) 	size:1 	a/va: 0/0  min/max: 0/1  fmt: 1.10e
+DataElement: fEvtHdr.fRun (fEvtHdr.fRun) 	good:1 	type:3 (Int_t) 	size:1 	a/va: 0/0  min/max: 0/1  fmt: 1.10e
+12 tree variable(s) successfully loaded
+Reading peak definition file ArchivedRootFiles/SieveCentralLHRS/apex_coinc_1170.root.SieveCut.cut
+Cut 0: ( L_dp_0 ) && ( 0 )
+Cut 1: ( L_dp_0 ) && ( 0 )
+Cut 2: ( L_dp_0 ) && ( 0 )
+Cut 3: ( L_dp_0 ) && ( 0 )
+Cut 4: ( L_dp_0 ) && ( 0 )
+Cut 5: ( L_dp_0 ) && ( 0 )
+Cut 6: ( L_dp_0 ) && ( 0 )
+Cut 7: ( L_dp_0 ) && ( 0 )
+Cut 8: ( L_dp_0 ) && ( 0 )
+Cut 9: ( L_dp_0 ) && ( 0 )
+Cut 10: ( L_dp_0 ) && ( 0 )
+Cut 11: ( L_dp_0 ) && ( 0 )
+Cut 12: ( L_dp_0 ) && ( 0 )
+Cut 13: ( L_dp_0 ) && ( 0 )
+Cut 14: ( L_dp_0 ) && ( 0 )
+Cut 15: ( L_dp_0 ) && ( 0 )
+Cut 16: ( L_dp_0 ) && ( 0 )
+Cut 17: ( L_dp_0 ) && ( 0 )
+Cut 18: ( L_dp_0 ) && ( 0 )
+Cut 19: ( L_dp_0 ) && ( 0 )
+Cut 20: ( L_dp_0 ) && ( hcut_L_0_1_5&&(abs(L.tr.tg_dp-0.0025)<0.002)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 21: ( L_dp_0 ) && ( 0 )
+Cut 22: ( L_dp_0 ) && ( hcut_L_0_1_7&&(abs(L.tr.tg_dp-0.0025)<0.002)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 23: ( L_dp_0 ) && ( 0 )
+Cut 24: ( L_dp_0 ) && ( hcut_L_0_1_9&&(abs(L.tr.tg_dp-0.0025)<0.002)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 25: ( L_dp_0 ) && ( 0 )
+Cut 26: ( L_dp_0 ) && ( 0 )
+Cut 27: ( L_dp_0 ) && ( 0 )
+Cut 28: ( L_dp_0 ) && ( 0 )
+Cut 29: ( L_dp_0 ) && ( 0 )
+Cut 30: ( L_dp_0 ) && ( 0 )
+Cut 31: ( L_dp_0 ) && ( 0 )
+Cut 32: ( L_dp_0 ) && ( 0 )
+Cut 33: ( L_dp_0 ) && ( 0 )
+Cut 34: ( L_dp_0 ) && ( 0 )
+Cut 35: ( L_dp_0 ) && ( 0 )
+Cut 36: ( L_dp_0 ) && ( hcut_L_0_2_6&&(abs(L.tr.tg_dp-0.0025)<0.002)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 37: ( L_dp_0 ) && ( 0 )
+Cut 38: ( L_dp_0 ) && ( hcut_L_0_2_8&&(abs(L.tr.tg_dp-0.0025)<0.002)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 39: ( L_dp_0 ) && ( 0 )
+Cut 40: ( L_dp_0 ) && ( 0 )
+Cut 41: ( L_dp_0 ) && ( 0 )
+Cut 42: ( L_dp_0 ) && ( 0 )
+Cut 43: ( L_dp_0 ) && ( 0 )
+Cut 44: ( L_dp_0 ) && ( 0 )
+Cut 45: ( L_dp_0 ) && ( 0 )
+Cut 46: ( L_dp_0 ) && ( 0 )
+Cut 47: ( L_dp_0 ) && ( 0 )
+Cut 48: ( L_dp_0 ) && ( hcut_L_0_3_3&&(abs(L.tr.tg_dp-0.0025)<0.002)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 49: ( L_dp_0 ) && ( 0 )
+Cut 50: ( L_dp_0 ) && ( hcut_L_0_3_5&&(abs(L.tr.tg_dp-0.0025)<0.002)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 51: ( L_dp_0 ) && ( 0 )
+Cut 52: ( L_dp_0 ) && ( hcut_L_0_3_7&&(abs(L.tr.tg_dp-0.0025)<0.002)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 53: ( L_dp_0 ) && ( 0 )
+Cut 54: ( L_dp_0 ) && ( hcut_L_0_3_9&&(abs(L.tr.tg_dp-0.0025)<0.002)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 55: ( L_dp_0 ) && ( 0 )
+Cut 56: ( L_dp_0 ) && ( hcut_L_0_3_11&&(abs(L.tr.tg_dp-0.0025)<0.002)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 57: ( L_dp_0 ) && ( 0 )
+Cut 58: ( L_dp_0 ) && ( 0 )
+Cut 59: ( L_dp_0 ) && ( 0 )
+Cut 60: ( L_dp_0 ) && ( 0 )
+Cut 61: ( L_dp_0 ) && ( 0 )
+Cut 62: ( L_dp_0 ) && ( 0 )
+Cut 63: ( L_dp_0 ) && ( hcut_L_0_4_3&&(abs(L.tr.tg_dp-0.0025)<0.002)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 64: ( L_dp_0 ) && ( 0 )
+Cut 65: ( L_dp_0 ) && ( hcut_L_0_4_5&&(abs(L.tr.tg_dp-0.0025)<0.002)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 66: ( L_dp_0 ) && ( 0 )
+Cut 67: ( L_dp_0 ) && ( hcut_L_0_4_7&&(abs(L.tr.tg_dp-0.0025)<0.002)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 68: ( L_dp_0 ) && ( 0 )
+Cut 69: ( L_dp_0 ) && ( hcut_L_0_4_9&&(abs(L.tr.tg_dp-0.0025)<0.002)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 70: ( L_dp_0 ) && ( 0 )
+Cut 71: ( L_dp_0 ) && ( hcut_L_0_4_11&&(abs(L.tr.tg_dp-0.0025)<0.002)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 72: ( L_dp_0 ) && ( 0 )
+Cut 73: ( L_dp_0 ) && ( 0 )
+Cut 74: ( L_dp_0 ) && ( 0 )
+Cut 75: ( L_dp_0 ) && ( 0 )
+Cut 76: ( L_dp_0 ) && ( 0 )
+Cut 77: ( L_dp_0 ) && ( 0 )
+Cut 78: ( L_dp_0 ) && ( 0 )
+Cut 79: ( L_dp_0 ) && ( hcut_L_0_5_4&&(abs(L.tr.tg_dp-0.0025)<0.002)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 80: ( L_dp_0 ) && ( 0 )
+Cut 81: ( L_dp_0 ) && ( hcut_L_0_5_6&&(abs(L.tr.tg_dp-0.0025)<0.002)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 82: ( L_dp_0 ) && ( 0 )
+Cut 83: ( L_dp_0 ) && ( hcut_L_0_5_8&&(abs(L.tr.tg_dp-0.0025)<0.002)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 84: ( L_dp_0 ) && ( 0 )
+Cut 85: ( L_dp_0 ) && ( hcut_L_0_5_10&&(abs(L.tr.tg_dp-0.0025)<0.002)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 86: ( L_dp_0 ) && ( 0 )
+Cut 87: ( L_dp_0 ) && ( hcut_L_0_5_12&&(abs(L.tr.tg_dp-0.0025)<0.002)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 88: ( L_dp_0 ) && ( 0 )
+Cut 89: ( L_dp_0 ) && ( 0 )
+Cut 90: ( L_dp_0 ) && ( 0 )
+Cut 91: ( L_dp_0 ) && ( 0 )
+Cut 92: ( L_dp_0 ) && ( 0 )
+Cut 93: ( L_dp_0 ) && ( hcut_L_0_6_3&&(abs(L.tr.tg_dp-0.0025)<0.002)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 94: ( L_dp_0 ) && ( 0 )
+Cut 95: ( L_dp_0 ) && ( hcut_L_0_6_5&&(abs(L.tr.tg_dp-0.0025)<0.002)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 96: ( L_dp_0 ) && ( 0 )
+Cut 97: ( L_dp_0 ) && ( hcut_L_0_6_7&&(abs(L.tr.tg_dp-0.0025)<0.002)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 98: ( L_dp_0 ) && ( 0 )
+Cut 99: ( L_dp_0 ) && ( hcut_L_0_6_9&&(abs(L.tr.tg_dp-0.0025)<0.002)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 100: ( L_dp_0 ) && ( 0 )
+Cut 101: ( L_dp_0 ) && ( hcut_L_0_6_11&&(abs(L.tr.tg_dp-0.0025)<0.002)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 102: ( L_dp_0 ) && ( 0 )
+Cut 103: ( L_dp_0 ) && ( hcut_L_0_6_13&&(abs(L.tr.tg_dp-0.0025)<0.002)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 104: ( L_dp_0 ) && ( 0 )
+Cut 105: ( L_dp_0 ) && ( 0 )
+Cut 106: ( L_dp_0 ) && ( 0 )
+Cut 107: ( L_dp_0 ) && ( 0 )
+Cut 108: ( L_dp_0 ) && ( hcut_L_0_7_3&&(abs(L.tr.tg_dp-0.0025)<0.002)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 109: ( L_dp_0 ) && ( 0 )
+Cut 110: ( L_dp_0 ) && ( hcut_L_0_7_5&&(abs(L.tr.tg_dp-0.0025)<0.002)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 111: ( L_dp_0 ) && ( 0 )
+Cut 112: ( L_dp_0 ) && ( hcut_L_0_7_7&&(abs(L.tr.tg_dp-0.0025)<0.002)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 113: ( L_dp_0 ) && ( 0 )
+Cut 114: ( L_dp_0 ) && ( hcut_L_0_7_9&&(abs(L.tr.tg_dp-0.0025)<0.002)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 115: ( L_dp_0 ) && ( 0 )
+Cut 116: ( L_dp_0 ) && ( hcut_L_0_7_11&&(abs(L.tr.tg_dp-0.0025)<0.002)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 117: ( L_dp_0 ) && ( 0 )
+Cut 118: ( L_dp_0 ) && ( 0 )
+Cut 119: ( L_dp_0 ) && ( 0 )
+Cut 120: ( L_dp_0 ) && ( 0 )
+Cut 121: ( L_dp_0 ) && ( 0 )
+Cut 122: ( L_dp_0 ) && ( 0 )
+Cut 123: ( L_dp_0 ) && ( 0 )
+Cut 124: ( L_dp_0 ) && ( hcut_L_0_8_4&&(abs(L.tr.tg_dp-0.0025)<0.002)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 125: ( L_dp_0 ) && ( 0 )
+Cut 126: ( L_dp_0 ) && ( hcut_L_0_8_6&&(abs(L.tr.tg_dp-0.0025)<0.002)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 127: ( L_dp_0 ) && ( 0 )
+Cut 128: ( L_dp_0 ) && ( hcut_L_0_8_8&&(abs(L.tr.tg_dp-0.0025)<0.002)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 129: ( L_dp_0 ) && ( 0 )
+Cut 130: ( L_dp_0 ) && ( hcut_L_0_8_10&&(abs(L.tr.tg_dp-0.0025)<0.002)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 131: ( L_dp_0 ) && ( 0 )
+Cut 132: ( L_dp_0 ) && ( hcut_L_0_8_12&&(abs(L.tr.tg_dp-0.0025)<0.002)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 133: ( L_dp_0 ) && ( 0 )
+Cut 134: ( L_dp_0 ) && ( 0 )
+Cut 135: ( L_dp_0 ) && ( 0 )
+Cut 136: ( L_dp_0 ) && ( 0 )
+Cut 137: ( L_dp_0 ) && ( 0 )
+Cut 138: ( L_dp_0 ) && ( 0 )
+Cut 139: ( L_dp_0 ) && ( 0 )
+Cut 140: ( L_dp_0 ) && ( 0 )
+Cut 141: ( L_dp_0 ) && ( 0 )
+Cut 142: ( L_dp_0 ) && ( 0 )
+Cut 143: ( L_dp_0 ) && ( 0 )
+Cut 144: ( L_dp_0 ) && ( 0 )
+Cut 145: ( L_dp_0 ) && ( 0 )
+Cut 146: ( L_dp_0 ) && ( hcut_L_0_9_11&&(abs(L.tr.tg_dp-0.0025)<0.002)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 147: ( L_dp_0 ) && ( 0 )
+Cut 148: ( L_dp_0 ) && ( 0 )
+Cut 149: ( L_dp_0 ) && ( 0 )
+Cut 150: ( L_dp_0 ) && ( 0 )
+Cut 151: ( L_dp_0 ) && ( 0 )
+Cut 152: ( L_dp_0 ) && ( 0 )
+Cut 153: ( L_dp_0 ) && ( 0 )
+Cut 154: ( L_dp_0 ) && ( 0 )
+Cut 155: ( L_dp_0 ) && ( 0 )
+Cut 156: ( L_dp_0 ) && ( 0 )
+Cut 157: ( L_dp_0 ) && ( 0 )
+Cut 158: ( L_dp_0 ) && ( 0 )
+Cut 159: ( L_dp_0 ) && ( 0 )
+Cut 160: ( L_dp_0 ) && ( 0 )
+Cut 161: ( L_dp_0 ) && ( 0 )
+Cut 162: ( L_dp_0 ) && ( 0 )
+Cut 163: ( L_dp_0 ) && ( 0 )
+Cut 164: ( L_dp_0 ) && ( 0 )
+Cut 165: ( L_dp_0 ) && ( 0 )
+Cut 166: ( L_dp_0 ) && ( 0 )
+Cut 167: ( L_dp_0 ) && ( 0 )
+Cut 168: ( L_dp_0 ) && ( 0 )
+Cut 169: ( L_dp_0 ) && ( 0 )
+Cut 170: ( L_dp_0 ) && ( 0 )
+Cut 171: ( L_dp_0 ) && ( 0 )
+Cut 172: ( L_dp_0 ) && ( 0 )
+Cut 173: ( L_dp_0 ) && ( 0 )
+Cut 174: ( L_dp_0 ) && ( 0 )
+Cut 175: ( L_dp_0 ) && ( 0 )
+Cut 176: ( L_dp_0 ) && ( 0 )
+Cut 177: ( L_dp_0 ) && ( 0 )
+Cut 178: ( L_dp_0 ) && ( 0 )
+Cut 179: ( L_dp_0 ) && ( 0 )
+180 peak definition(s) found
+Tree reports 395509 events. Event limits: read: 395509 write: 10
+10 event(s) passed the cuts
+10 event(s) written in total
+Process with addtional cut (L_dp_0), cut id offset = 180
+Reading variable list from file DpVars.def
+Requested variables: L.tr.r_x L.tr.r_th L.tr.r_y L.tr.r_ph urb.x urb.y L.tr.tg_th L.tr.tg_ph L.tr.tg_dp L.tr.p urb.e fEvtHdr.fRun
+Reading graphical cuts from ArchivedRootFiles/SieveCentralLHRS/apex_coinc_1172.root.FullCut.root ...
+OBJ: TCutG	fcut_L_0	Graph : 0 at: 0x9138c90
+OBJ: TCutG	hcut_L_0_6_5	Graph : 0 at: 0x9372060
+OBJ: TCutG	hcut_L_0_6_7	Graph : 0 at: 0x9242530
+OBJ: TCutG	hcut_L_0_6_9	Graph : 0 at: 0x9245b40
+OBJ: TCutG	hcut_L_0_6_11	Graph : 0 at: 0x92422a0
+OBJ: TCutG	hcut_L_0_6_13	Graph : 0 at: 0x92461f8
+OBJ: TCutG	hcut_L_0_6_3	Graph : 0 at: 0x9246fd8
+OBJ: TCutG	hcut_L_0_5_2	Graph : 0 at: 0x92468b0
+OBJ: TCutG	hcut_L_0_5_4	Graph : 0 at: 0x9247d30
+OBJ: TCutG	hcut_L_0_5_6	Graph : 0 at: 0x9241ce8
+OBJ: TCutG	hcut_L_0_5_8	Graph : 0 at: 0x937d560
+OBJ: TCutG	hcut_L_0_5_10	Graph : 0 at: 0x9247600
+OBJ: TCutG	hcut_L_0_5_12	Graph : 0 at: 0x937ea38
+OBJ: TCutG	hcut_L_0_4_3	Graph : 0 at: 0x937f0a0
+OBJ: TCutG	hcut_L_0_4_5	Graph : 0 at: 0x937e330
+OBJ: TCutG	hcut_L_0_4_7	Graph : 0 at: 0x93803b8
+OBJ: TCutG	hcut_L_0_4_9	Graph : 0 at: 0x937f8e8
+OBJ: TCutG	hcut_L_0_4_11	Graph : 0 at: 0x9380630
+OBJ: TCutG	hcut_L_0_3_3	Graph : 0 at: 0x9381418
+OBJ: TCutG	hcut_L_0_3_7	Graph : 0 at: 0x9381a78
+OBJ: TCutG	hcut_L_0_3_9	Graph : 0 at: 0x937fe78
+OBJ: TCutG	hcut_L_0_3_11	Graph : 0 at: 0x9382878
+OBJ: TCutG	hcut_L_0_3_5	Graph : 0 at: 0x9382f18
+OBJ: TCutG	hcut_L_0_2_6	Graph : 0 at: 0x9383460
+OBJ: TCutG	hcut_L_0_2_8	Graph : 0 at: 0x9380c88
+OBJ: TCutG	hcut_L_0_1_5	Graph : 0 at: 0x9242cf8
+OBJ: TCutG	hcut_L_0_1_7	Graph : 0 at: 0x92425e0
+OBJ: TCutG	hcut_L_0_1_9	Graph : 0 at: 0x9382118
+OBJ: TCutG	hcut_L_0_7_3	Graph : 0 at: 0x92441d0
+OBJ: TCutG	hcut_L_0_7_7	Graph : 0 at: 0x9243ad0
+OBJ: TCutG	hcut_L_0_7_9	Graph : 0 at: 0x9245008
+OBJ: TCutG	hcut_L_0_7_11	Graph : 0 at: 0x9244a88
+OBJ: TCutG	hcut_L_0_7_5	Graph : 0 at: 0x9383700
+OBJ: TCutG	hcut_L_0_8_4	Graph : 0 at: 0x9384740
+OBJ: TCutG	hcut_L_0_8_6	Graph : 0 at: 0x9384040
+OBJ: TCutG	hcut_L_0_8_8	Graph : 0 at: 0x93854b8
+OBJ: TCutG	hcut_L_0_8_10	Graph : 0 at: 0x9243390
+OBJ: TCutG	hcut_L_0_8_12	Graph : 0 at: 0x93864d8
+OBJ: TCutG	hcut_L_0_9_11	Graph : 0 at: 0x9384f58
+OBJ: TCutG	L_dp_0	Graph : 0 at: 0x93862a0
+40 cut(s) found
+Output to file: ArchivedRootFiles/SieveCentralLHRS/DpDataDbg.f51
+Opened ROOT input file ArchivedRootFiles/SieveCentralLHRS/apex_coinc_1172.root
+Found and initialized tree T
+Parsing tree...
+Loaded 610 tree variables from 612 tree leaves
+Parsing output variable definitions...
+DataElement: L.tr.r_x (L.tr.r_x) 	good:1 	type:8 (Double_t) 	size:1 	a/va: 0/0  min/max: 0/1  fmt: 1.10e
+DataElement: L.tr.r_th (L.tr.r_th) 	good:1 	type:8 (Double_t) 	size:1 	a/va: 0/0  min/max: 0/1  fmt: 1.10e
+DataElement: L.tr.r_y (L.tr.r_y) 	good:1 	type:8 (Double_t) 	size:1 	a/va: 0/0  min/max: 0/1  fmt: 1.10e
+DataElement: L.tr.r_ph (L.tr.r_ph) 	good:1 	type:8 (Double_t) 	size:1 	a/va: 0/0  min/max: 0/1  fmt: 1.10e
+DataElement: urb.x (urb.x) 	good:1 	type:8 (Double_t) 	size:1 	a/va: 0/0  min/max: 0/1  fmt: 1.10e
+DataElement: urb.y (urb.y) 	good:1 	type:8 (Double_t) 	size:1 	a/va: 0/0  min/max: 0/1  fmt: 1.10e
+DataElement: L.tr.tg_th (L.tr.tg_th) 	good:1 	type:8 (Double_t) 	size:1 	a/va: 0/0  min/max: 0/1  fmt: 1.10e
+DataElement: L.tr.tg_ph (L.tr.tg_ph) 	good:1 	type:8 (Double_t) 	size:1 	a/va: 0/0  min/max: 0/1  fmt: 1.10e
+DataElement: L.tr.tg_dp (L.tr.tg_dp) 	good:1 	type:8 (Double_t) 	size:1 	a/va: 0/0  min/max: 0/1  fmt: 1.10e
+DataElement: L.tr.p (L.tr.p) 	good:1 	type:8 (Double_t) 	size:1 	a/va: 0/0  min/max: 0/1  fmt: 1.10e
+DataElement: urb.e (urb.e) 	good:1 	type:8 (Double_t) 	size:1 	a/va: 0/0  min/max: 0/1  fmt: 1.10e
+DataElement: fEvtHdr.fRun (fEvtHdr.fRun) 	good:1 	type:3 (Int_t) 	size:1 	a/va: 0/0  min/max: 0/1  fmt: 1.10e
+12 tree variable(s) successfully loaded
+Reading peak definition file ArchivedRootFiles/SieveCentralLHRS/apex_coinc_1172.root.SieveCut.cut
+Cut 0: ( L_dp_0 ) && ( 0 )
+Cut 1: ( L_dp_0 ) && ( 0 )
+Cut 2: ( L_dp_0 ) && ( 0 )
+Cut 3: ( L_dp_0 ) && ( 0 )
+Cut 4: ( L_dp_0 ) && ( 0 )
+Cut 5: ( L_dp_0 ) && ( 0 )
+Cut 6: ( L_dp_0 ) && ( 0 )
+Cut 7: ( L_dp_0 ) && ( 0 )
+Cut 8: ( L_dp_0 ) && ( 0 )
+Cut 9: ( L_dp_0 ) && ( 0 )
+Cut 10: ( L_dp_0 ) && ( 0 )
+Cut 11: ( L_dp_0 ) && ( 0 )
+Cut 12: ( L_dp_0 ) && ( 0 )
+Cut 13: ( L_dp_0 ) && ( 0 )
+Cut 14: ( L_dp_0 ) && ( 0 )
+Cut 15: ( L_dp_0 ) && ( 0 )
+Cut 16: ( L_dp_0 ) && ( 0 )
+Cut 17: ( L_dp_0 ) && ( 0 )
+Cut 18: ( L_dp_0 ) && ( 0 )
+Cut 19: ( L_dp_0 ) && ( 0 )
+Cut 20: ( L_dp_0 ) && ( hcut_L_0_1_5&&(abs(L.tr.tg_dp-0.0115)<0.0025)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 21: ( L_dp_0 ) && ( 0 )
+Cut 22: ( L_dp_0 ) && ( hcut_L_0_1_7&&(abs(L.tr.tg_dp-0.0115)<0.0025)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 23: ( L_dp_0 ) && ( 0 )
+Cut 24: ( L_dp_0 ) && ( hcut_L_0_1_9&&(abs(L.tr.tg_dp-0.0115)<0.0025)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 25: ( L_dp_0 ) && ( 0 )
+Cut 26: ( L_dp_0 ) && ( 0 )
+Cut 27: ( L_dp_0 ) && ( 0 )
+Cut 28: ( L_dp_0 ) && ( 0 )
+Cut 29: ( L_dp_0 ) && ( 0 )
+Cut 30: ( L_dp_0 ) && ( 0 )
+Cut 31: ( L_dp_0 ) && ( 0 )
+Cut 32: ( L_dp_0 ) && ( 0 )
+Cut 33: ( L_dp_0 ) && ( 0 )
+Cut 34: ( L_dp_0 ) && ( 0 )
+Cut 35: ( L_dp_0 ) && ( 0 )
+Cut 36: ( L_dp_0 ) && ( hcut_L_0_2_6&&(abs(L.tr.tg_dp-0.0115)<0.0025)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 37: ( L_dp_0 ) && ( 0 )
+Cut 38: ( L_dp_0 ) && ( hcut_L_0_2_8&&(abs(L.tr.tg_dp-0.0115)<0.0025)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 39: ( L_dp_0 ) && ( 0 )
+Cut 40: ( L_dp_0 ) && ( 0 )
+Cut 41: ( L_dp_0 ) && ( 0 )
+Cut 42: ( L_dp_0 ) && ( 0 )
+Cut 43: ( L_dp_0 ) && ( 0 )
+Cut 44: ( L_dp_0 ) && ( 0 )
+Cut 45: ( L_dp_0 ) && ( 0 )
+Cut 46: ( L_dp_0 ) && ( 0 )
+Cut 47: ( L_dp_0 ) && ( 0 )
+Cut 48: ( L_dp_0 ) && ( hcut_L_0_3_3&&(abs(L.tr.tg_dp-0.0115)<0.0025)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 49: ( L_dp_0 ) && ( 0 )
+Cut 50: ( L_dp_0 ) && ( hcut_L_0_3_5&&(abs(L.tr.tg_dp-0.0115)<0.0025)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 51: ( L_dp_0 ) && ( 0 )
+Cut 52: ( L_dp_0 ) && ( hcut_L_0_3_7&&(abs(L.tr.tg_dp-0.0115)<0.0025)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 53: ( L_dp_0 ) && ( 0 )
+Cut 54: ( L_dp_0 ) && ( hcut_L_0_3_9&&(abs(L.tr.tg_dp-0.0115)<0.0025)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 55: ( L_dp_0 ) && ( 0 )
+Cut 56: ( L_dp_0 ) && ( hcut_L_0_3_11&&(abs(L.tr.tg_dp-0.0115)<0.0025)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 57: ( L_dp_0 ) && ( 0 )
+Cut 58: ( L_dp_0 ) && ( 0 )
+Cut 59: ( L_dp_0 ) && ( 0 )
+Cut 60: ( L_dp_0 ) && ( 0 )
+Cut 61: ( L_dp_0 ) && ( 0 )
+Cut 62: ( L_dp_0 ) && ( 0 )
+Cut 63: ( L_dp_0 ) && ( hcut_L_0_4_3&&(abs(L.tr.tg_dp-0.0115)<0.0025)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 64: ( L_dp_0 ) && ( 0 )
+Cut 65: ( L_dp_0 ) && ( hcut_L_0_4_5&&(abs(L.tr.tg_dp-0.0115)<0.0025)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 66: ( L_dp_0 ) && ( 0 )
+Cut 67: ( L_dp_0 ) && ( hcut_L_0_4_7&&(abs(L.tr.tg_dp-0.0115)<0.0025)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 68: ( L_dp_0 ) && ( 0 )
+Cut 69: ( L_dp_0 ) && ( hcut_L_0_4_9&&(abs(L.tr.tg_dp-0.0115)<0.0025)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 70: ( L_dp_0 ) && ( 0 )
+Cut 71: ( L_dp_0 ) && ( hcut_L_0_4_11&&(abs(L.tr.tg_dp-0.0115)<0.0025)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 72: ( L_dp_0 ) && ( 0 )
+Cut 73: ( L_dp_0 ) && ( 0 )
+Cut 74: ( L_dp_0 ) && ( 0 )
+Cut 75: ( L_dp_0 ) && ( 0 )
+Cut 76: ( L_dp_0 ) && ( 0 )
+Cut 77: ( L_dp_0 ) && ( hcut_L_0_5_2&&(abs(L.tr.tg_dp-0.0115)<0.0025)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 78: ( L_dp_0 ) && ( 0 )
+Cut 79: ( L_dp_0 ) && ( hcut_L_0_5_4&&(abs(L.tr.tg_dp-0.0115)<0.0025)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 80: ( L_dp_0 ) && ( 0 )
+Cut 81: ( L_dp_0 ) && ( hcut_L_0_5_6&&(abs(L.tr.tg_dp-0.0115)<0.0025)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 82: ( L_dp_0 ) && ( 0 )
+Cut 83: ( L_dp_0 ) && ( hcut_L_0_5_8&&(abs(L.tr.tg_dp-0.0115)<0.0025)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 84: ( L_dp_0 ) && ( 0 )
+Cut 85: ( L_dp_0 ) && ( hcut_L_0_5_10&&(abs(L.tr.tg_dp-0.0115)<0.0025)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 86: ( L_dp_0 ) && ( 0 )
+Cut 87: ( L_dp_0 ) && ( hcut_L_0_5_12&&(abs(L.tr.tg_dp-0.0115)<0.0025)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 88: ( L_dp_0 ) && ( 0 )
+Cut 89: ( L_dp_0 ) && ( 0 )
+Cut 90: ( L_dp_0 ) && ( 0 )
+Cut 91: ( L_dp_0 ) && ( 0 )
+Cut 92: ( L_dp_0 ) && ( 0 )
+Cut 93: ( L_dp_0 ) && ( hcut_L_0_6_3&&(abs(L.tr.tg_dp-0.0115)<0.0025)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 94: ( L_dp_0 ) && ( 0 )
+Cut 95: ( L_dp_0 ) && ( hcut_L_0_6_5&&(abs(L.tr.tg_dp-0.0115)<0.0025)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 96: ( L_dp_0 ) && ( 0 )
+Cut 97: ( L_dp_0 ) && ( hcut_L_0_6_7&&(abs(L.tr.tg_dp-0.0115)<0.0025)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 98: ( L_dp_0 ) && ( 0 )
+Cut 99: ( L_dp_0 ) && ( hcut_L_0_6_9&&(abs(L.tr.tg_dp-0.0115)<0.0025)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 100: ( L_dp_0 ) && ( 0 )
+Cut 101: ( L_dp_0 ) && ( hcut_L_0_6_11&&(abs(L.tr.tg_dp-0.0115)<0.0025)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 102: ( L_dp_0 ) && ( 0 )
+Cut 103: ( L_dp_0 ) && ( hcut_L_0_6_13&&(abs(L.tr.tg_dp-0.0115)<0.0025)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 104: ( L_dp_0 ) && ( 0 )
+Cut 105: ( L_dp_0 ) && ( 0 )
+Cut 106: ( L_dp_0 ) && ( 0 )
+Cut 107: ( L_dp_0 ) && ( 0 )
+Cut 108: ( L_dp_0 ) && ( hcut_L_0_7_3&&(abs(L.tr.tg_dp-0.0115)<0.0025)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 109: ( L_dp_0 ) && ( 0 )
+Cut 110: ( L_dp_0 ) && ( hcut_L_0_7_5&&(abs(L.tr.tg_dp-0.0115)<0.0025)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 111: ( L_dp_0 ) && ( 0 )
+Cut 112: ( L_dp_0 ) && ( hcut_L_0_7_7&&(abs(L.tr.tg_dp-0.0115)<0.0025)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 113: ( L_dp_0 ) && ( 0 )
+Cut 114: ( L_dp_0 ) && ( hcut_L_0_7_9&&(abs(L.tr.tg_dp-0.0115)<0.0025)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 115: ( L_dp_0 ) && ( 0 )
+Cut 116: ( L_dp_0 ) && ( hcut_L_0_7_11&&(abs(L.tr.tg_dp-0.0115)<0.0025)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 117: ( L_dp_0 ) && ( 0 )
+Cut 118: ( L_dp_0 ) && ( 0 )
+Cut 119: ( L_dp_0 ) && ( 0 )
+Cut 120: ( L_dp_0 ) && ( 0 )
+Cut 121: ( L_dp_0 ) && ( 0 )
+Cut 122: ( L_dp_0 ) && ( 0 )
+Cut 123: ( L_dp_0 ) && ( 0 )
+Cut 124: ( L_dp_0 ) && ( hcut_L_0_8_4&&(abs(L.tr.tg_dp-0.0115)<0.0025)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 125: ( L_dp_0 ) && ( 0 )
+Cut 126: ( L_dp_0 ) && ( hcut_L_0_8_6&&(abs(L.tr.tg_dp-0.0115)<0.0025)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 127: ( L_dp_0 ) && ( 0 )
+Cut 128: ( L_dp_0 ) && ( hcut_L_0_8_8&&(abs(L.tr.tg_dp-0.0115)<0.0025)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 129: ( L_dp_0 ) && ( 0 )
+Cut 130: ( L_dp_0 ) && ( hcut_L_0_8_10&&(abs(L.tr.tg_dp-0.0115)<0.0025)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 131: ( L_dp_0 ) && ( 0 )
+Cut 132: ( L_dp_0 ) && ( hcut_L_0_8_12&&(abs(L.tr.tg_dp-0.0115)<0.0025)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 133: ( L_dp_0 ) && ( 0 )
+Cut 134: ( L_dp_0 ) && ( 0 )
+Cut 135: ( L_dp_0 ) && ( 0 )
+Cut 136: ( L_dp_0 ) && ( 0 )
+Cut 137: ( L_dp_0 ) && ( 0 )
+Cut 138: ( L_dp_0 ) && ( 0 )
+Cut 139: ( L_dp_0 ) && ( 0 )
+Cut 140: ( L_dp_0 ) && ( 0 )
+Cut 141: ( L_dp_0 ) && ( 0 )
+Cut 142: ( L_dp_0 ) && ( 0 )
+Cut 143: ( L_dp_0 ) && ( 0 )
+Cut 144: ( L_dp_0 ) && ( 0 )
+Cut 145: ( L_dp_0 ) && ( 0 )
+Cut 146: ( L_dp_0 ) && ( hcut_L_0_9_11&&(abs(L.tr.tg_dp-0.0115)<0.0025)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 147: ( L_dp_0 ) && ( 0 )
+Cut 148: ( L_dp_0 ) && ( 0 )
+Cut 149: ( L_dp_0 ) && ( 0 )
+Cut 150: ( L_dp_0 ) && ( 0 )
+Cut 151: ( L_dp_0 ) && ( 0 )
+Cut 152: ( L_dp_0 ) && ( 0 )
+Cut 153: ( L_dp_0 ) && ( 0 )
+Cut 154: ( L_dp_0 ) && ( 0 )
+Cut 155: ( L_dp_0 ) && ( 0 )
+Cut 156: ( L_dp_0 ) && ( 0 )
+Cut 157: ( L_dp_0 ) && ( 0 )
+Cut 158: ( L_dp_0 ) && ( 0 )
+Cut 159: ( L_dp_0 ) && ( 0 )
+Cut 160: ( L_dp_0 ) && ( 0 )
+Cut 161: ( L_dp_0 ) && ( 0 )
+Cut 162: ( L_dp_0 ) && ( 0 )
+Cut 163: ( L_dp_0 ) && ( 0 )
+Cut 164: ( L_dp_0 ) && ( 0 )
+Cut 165: ( L_dp_0 ) && ( 0 )
+Cut 166: ( L_dp_0 ) && ( 0 )
+Cut 167: ( L_dp_0 ) && ( 0 )
+Cut 168: ( L_dp_0 ) && ( 0 )
+Cut 169: ( L_dp_0 ) && ( 0 )
+Cut 170: ( L_dp_0 ) && ( 0 )
+Cut 171: ( L_dp_0 ) && ( 0 )
+Cut 172: ( L_dp_0 ) && ( 0 )
+Cut 173: ( L_dp_0 ) && ( 0 )
+Cut 174: ( L_dp_0 ) && ( 0 )
+Cut 175: ( L_dp_0 ) && ( 0 )
+Cut 176: ( L_dp_0 ) && ( 0 )
+Cut 177: ( L_dp_0 ) && ( 0 )
+Cut 178: ( L_dp_0 ) && ( 0 )
+Cut 179: ( L_dp_0 ) && ( 0 )
+180 peak definition(s) found
+Tree reports 399462 events. Event limits: read: 399462 write: 10
+10 event(s) passed the cuts
+10 event(s) written in total
+Process with addtional cut (L_dp_0), cut id offset = 360
+Reading variable list from file DpVars.def
+Requested variables: L.tr.r_x L.tr.r_th L.tr.r_y L.tr.r_ph urb.x urb.y L.tr.tg_th L.tr.tg_ph L.tr.tg_dp L.tr.p urb.e fEvtHdr.fRun
+Reading graphical cuts from ArchivedRootFiles/SieveCentralLHRS/apex_coinc_1181.root.FullCut.root ...
+OBJ: TCutG	fcut_L_0	Graph : 0 at: 0x9bffc90
+OBJ: TCutG	hcut_L_0_6_3	Graph : 0 at: 0x9e39028
+OBJ: TCutG	hcut_L_0_6_7	Graph : 0 at: 0x9d092c0
+OBJ: TCutG	hcut_L_0_6_9	Graph : 0 at: 0x9d0cd30
+OBJ: TCutG	hcut_L_0_6_11	Graph : 0 at: 0x9d0cb80
+OBJ: TCutG	hcut_L_0_6_13	Graph : 0 at: 0x9d0d898
+OBJ: TCutG	hcut_L_0_6_5	Graph : 0 at: 0x9d08ce8
+OBJ: TCutG	hcut_L_0_7_3	Graph : 0 at: 0x9d0e630
+OBJ: TCutG	hcut_L_0_7_5	Graph : 0 at: 0x9d0f1f8
+OBJ: TCutG	hcut_L_0_7_7	Graph : 0 at: 0x9d0df20
+OBJ: TCutG	hcut_L_0_7_9	Graph : 0 at: 0x9e44c18
+OBJ: TCutG	hcut_L_0_7_11	Graph : 0 at: 0x9d0ecb8
+OBJ: TCutG	hcut_L_0_8_4	Graph : 0 at: 0x9e45a40
+OBJ: TCutG	hcut_L_0_8_6	Graph : 0 at: 0x9e444f8
+OBJ: TCutG	hcut_L_0_8_10	Graph : 0 at: 0x9e467b8
+OBJ: TCutG	hcut_L_0_8_12	Graph : 0 at: 0x9e45308
+OBJ: TCutG	hcut_L_0_9_11	Graph : 0 at: 0x9e475c8
+OBJ: TCutG	hcut_L_0_5_2	Graph : 0 at: 0x9e47c80
+OBJ: TCutG	hcut_L_0_5_4	Graph : 0 at: 0x9e460b8
+OBJ: TCutG	hcut_L_0_5_6	Graph : 0 at: 0x9e46e90
+OBJ: TCutG	hcut_L_0_5_8	Graph : 0 at: 0x9e491f0
+OBJ: TCutG	hcut_L_0_5_10	Graph : 0 at: 0x9e498f0
+OBJ: TCutG	hcut_L_0_5_12	Graph : 0 at: 0x9e48320
+OBJ: TCutG	hcut_L_0_4_3	Graph : 0 at: 0x9e4a6d8
+OBJ: TCutG	hcut_L_0_4_5	Graph : 0 at: 0x9e49f90
+OBJ: TCutG	hcut_L_0_4_7	Graph : 0 at: 0x9e48ac0
+OBJ: TCutG	hcut_L_0_4_9	Graph : 0 at: 0x9e4b4c0
+OBJ: TCutG	hcut_L_0_4_11	Graph : 0 at: 0x9e4ad50
+OBJ: TCutG	hcut_L_0_4_13	Graph : 0 at: 0x9e4c9f0
+OBJ: TCutG	hcut_L_0_2_6	Graph : 0 at: 0x9e4c2d0
+OBJ: TCutG	hcut_L_0_2_8	Graph : 0 at: 0x9e4bbb0
+OBJ: TCutG	hcut_L_0_3_3	Graph : 0 at: 0x9e4ded8
+OBJ: TCutG	hcut_L_0_3_5	Graph : 0 at: 0x9e4d060
+OBJ: TCutG	hcut_L_0_3_7	Graph : 0 at: 0x9e4d7c8
+OBJ: TCutG	hcut_L_0_3_9	Graph : 0 at: 0x9e4f3c0
+OBJ: TCutG	hcut_L_0_3_11	Graph : 0 at: 0x9e4faa8
+OBJ: TCutG	hcut_L_0_1_5	Graph : 0 at: 0x9e4ec80
+OBJ: TCutG	hcut_L_0_1_9	Graph : 0 at: 0x9e4e510
+OBJ: TCutG	hcut_L_0_1_7	Graph : 0 at: 0x9e50f88
+OBJ: TCutG	L_dp_0	Graph : 0 at: 0x9e501b8
+40 cut(s) found
+Output to file: ArchivedRootFiles/SieveCentralLHRS/DpDataDbg.f51
+Opened ROOT input file ArchivedRootFiles/SieveCentralLHRS/apex_coinc_1181.root
+Found and initialized tree T
+Parsing tree...
+Loaded 610 tree variables from 612 tree leaves
+Parsing output variable definitions...
+DataElement: L.tr.r_x (L.tr.r_x) 	good:1 	type:8 (Double_t) 	size:1 	a/va: 0/0  min/max: 0/1  fmt: 1.10e
+DataElement: L.tr.r_th (L.tr.r_th) 	good:1 	type:8 (Double_t) 	size:1 	a/va: 0/0  min/max: 0/1  fmt: 1.10e
+DataElement: L.tr.r_y (L.tr.r_y) 	good:1 	type:8 (Double_t) 	size:1 	a/va: 0/0  min/max: 0/1  fmt: 1.10e
+DataElement: L.tr.r_ph (L.tr.r_ph) 	good:1 	type:8 (Double_t) 	size:1 	a/va: 0/0  min/max: 0/1  fmt: 1.10e
+DataElement: urb.x (urb.x) 	good:1 	type:8 (Double_t) 	size:1 	a/va: 0/0  min/max: 0/1  fmt: 1.10e
+DataElement: urb.y (urb.y) 	good:1 	type:8 (Double_t) 	size:1 	a/va: 0/0  min/max: 0/1  fmt: 1.10e
+DataElement: L.tr.tg_th (L.tr.tg_th) 	good:1 	type:8 (Double_t) 	size:1 	a/va: 0/0  min/max: 0/1  fmt: 1.10e
+DataElement: L.tr.tg_ph (L.tr.tg_ph) 	good:1 	type:8 (Double_t) 	size:1 	a/va: 0/0  min/max: 0/1  fmt: 1.10e
+DataElement: L.tr.tg_dp (L.tr.tg_dp) 	good:1 	type:8 (Double_t) 	size:1 	a/va: 0/0  min/max: 0/1  fmt: 1.10e
+DataElement: L.tr.p (L.tr.p) 	good:1 	type:8 (Double_t) 	size:1 	a/va: 0/0  min/max: 0/1  fmt: 1.10e
+DataElement: urb.e (urb.e) 	good:1 	type:8 (Double_t) 	size:1 	a/va: 0/0  min/max: 0/1  fmt: 1.10e
+DataElement: fEvtHdr.fRun (fEvtHdr.fRun) 	good:1 	type:3 (Int_t) 	size:1 	a/va: 0/0  min/max: 0/1  fmt: 1.10e
+12 tree variable(s) successfully loaded
+Reading peak definition file ArchivedRootFiles/SieveCentralLHRS/apex_coinc_1181.root.SieveCut.cut
+Cut 0: ( L_dp_0 ) && ( 0 )
+Cut 1: ( L_dp_0 ) && ( 0 )
+Cut 2: ( L_dp_0 ) && ( 0 )
+Cut 3: ( L_dp_0 ) && ( 0 )
+Cut 4: ( L_dp_0 ) && ( 0 )
+Cut 5: ( L_dp_0 ) && ( 0 )
+Cut 6: ( L_dp_0 ) && ( 0 )
+Cut 7: ( L_dp_0 ) && ( 0 )
+Cut 8: ( L_dp_0 ) && ( 0 )
+Cut 9: ( L_dp_0 ) && ( 0 )
+Cut 10: ( L_dp_0 ) && ( 0 )
+Cut 11: ( L_dp_0 ) && ( 0 )
+Cut 12: ( L_dp_0 ) && ( 0 )
+Cut 13: ( L_dp_0 ) && ( 0 )
+Cut 14: ( L_dp_0 ) && ( 0 )
+Cut 15: ( L_dp_0 ) && ( 0 )
+Cut 16: ( L_dp_0 ) && ( 0 )
+Cut 17: ( L_dp_0 ) && ( 0 )
+Cut 18: ( L_dp_0 ) && ( 0 )
+Cut 19: ( L_dp_0 ) && ( 0 )
+Cut 20: ( L_dp_0 ) && ( hcut_L_0_1_5&&(abs(L.tr.tg_dp-0.0222)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 21: ( L_dp_0 ) && ( 0 )
+Cut 22: ( L_dp_0 ) && ( hcut_L_0_1_7&&(abs(L.tr.tg_dp-0.0222)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 23: ( L_dp_0 ) && ( 0 )
+Cut 24: ( L_dp_0 ) && ( hcut_L_0_1_9&&(abs(L.tr.tg_dp-0.0222)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 25: ( L_dp_0 ) && ( 0 )
+Cut 26: ( L_dp_0 ) && ( 0 )
+Cut 27: ( L_dp_0 ) && ( 0 )
+Cut 28: ( L_dp_0 ) && ( 0 )
+Cut 29: ( L_dp_0 ) && ( 0 )
+Cut 30: ( L_dp_0 ) && ( 0 )
+Cut 31: ( L_dp_0 ) && ( 0 )
+Cut 32: ( L_dp_0 ) && ( 0 )
+Cut 33: ( L_dp_0 ) && ( 0 )
+Cut 34: ( L_dp_0 ) && ( 0 )
+Cut 35: ( L_dp_0 ) && ( 0 )
+Cut 36: ( L_dp_0 ) && ( hcut_L_0_2_6&&(abs(L.tr.tg_dp-0.0222)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 37: ( L_dp_0 ) && ( 0 )
+Cut 38: ( L_dp_0 ) && ( hcut_L_0_2_8&&(abs(L.tr.tg_dp-0.0222)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 39: ( L_dp_0 ) && ( 0 )
+Cut 40: ( L_dp_0 ) && ( 0 )
+Cut 41: ( L_dp_0 ) && ( 0 )
+Cut 42: ( L_dp_0 ) && ( 0 )
+Cut 43: ( L_dp_0 ) && ( 0 )
+Cut 44: ( L_dp_0 ) && ( 0 )
+Cut 45: ( L_dp_0 ) && ( 0 )
+Cut 46: ( L_dp_0 ) && ( 0 )
+Cut 47: ( L_dp_0 ) && ( 0 )
+Cut 48: ( L_dp_0 ) && ( hcut_L_0_3_3&&(abs(L.tr.tg_dp-0.0222)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 49: ( L_dp_0 ) && ( 0 )
+Cut 50: ( L_dp_0 ) && ( hcut_L_0_3_5&&(abs(L.tr.tg_dp-0.0222)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 51: ( L_dp_0 ) && ( 0 )
+Cut 52: ( L_dp_0 ) && ( hcut_L_0_3_7&&(abs(L.tr.tg_dp-0.0222)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 53: ( L_dp_0 ) && ( 0 )
+Cut 54: ( L_dp_0 ) && ( hcut_L_0_3_9&&(abs(L.tr.tg_dp-0.0222)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 55: ( L_dp_0 ) && ( 0 )
+Cut 56: ( L_dp_0 ) && ( hcut_L_0_3_11&&(abs(L.tr.tg_dp-0.0222)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 57: ( L_dp_0 ) && ( 0 )
+Cut 58: ( L_dp_0 ) && ( 0 )
+Cut 59: ( L_dp_0 ) && ( 0 )
+Cut 60: ( L_dp_0 ) && ( 0 )
+Cut 61: ( L_dp_0 ) && ( 0 )
+Cut 62: ( L_dp_0 ) && ( 0 )
+Cut 63: ( L_dp_0 ) && ( hcut_L_0_4_3&&(abs(L.tr.tg_dp-0.0222)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 64: ( L_dp_0 ) && ( 0 )
+Cut 65: ( L_dp_0 ) && ( hcut_L_0_4_5&&(abs(L.tr.tg_dp-0.0222)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 66: ( L_dp_0 ) && ( 0 )
+Cut 67: ( L_dp_0 ) && ( hcut_L_0_4_7&&(abs(L.tr.tg_dp-0.0222)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 68: ( L_dp_0 ) && ( 0 )
+Cut 69: ( L_dp_0 ) && ( hcut_L_0_4_9&&(abs(L.tr.tg_dp-0.0222)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 70: ( L_dp_0 ) && ( 0 )
+Cut 71: ( L_dp_0 ) && ( hcut_L_0_4_11&&(abs(L.tr.tg_dp-0.0222)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 72: ( L_dp_0 ) && ( 0 )
+Cut 73: ( L_dp_0 ) && ( hcut_L_0_4_13&&(abs(L.tr.tg_dp-0.0222)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 74: ( L_dp_0 ) && ( 0 )
+Cut 75: ( L_dp_0 ) && ( 0 )
+Cut 76: ( L_dp_0 ) && ( 0 )
+Cut 77: ( L_dp_0 ) && ( hcut_L_0_5_2&&(abs(L.tr.tg_dp-0.0222)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 78: ( L_dp_0 ) && ( 0 )
+Cut 79: ( L_dp_0 ) && ( hcut_L_0_5_4&&(abs(L.tr.tg_dp-0.0222)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 80: ( L_dp_0 ) && ( 0 )
+Cut 81: ( L_dp_0 ) && ( hcut_L_0_5_6&&(abs(L.tr.tg_dp-0.0222)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 82: ( L_dp_0 ) && ( 0 )
+Cut 83: ( L_dp_0 ) && ( hcut_L_0_5_8&&(abs(L.tr.tg_dp-0.0222)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 84: ( L_dp_0 ) && ( 0 )
+Cut 85: ( L_dp_0 ) && ( hcut_L_0_5_10&&(abs(L.tr.tg_dp-0.0222)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 86: ( L_dp_0 ) && ( 0 )
+Cut 87: ( L_dp_0 ) && ( hcut_L_0_5_12&&(abs(L.tr.tg_dp-0.0222)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 88: ( L_dp_0 ) && ( 0 )
+Cut 89: ( L_dp_0 ) && ( 0 )
+Cut 90: ( L_dp_0 ) && ( 0 )
+Cut 91: ( L_dp_0 ) && ( 0 )
+Cut 92: ( L_dp_0 ) && ( 0 )
+Cut 93: ( L_dp_0 ) && ( hcut_L_0_6_3&&(abs(L.tr.tg_dp-0.0222)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 94: ( L_dp_0 ) && ( 0 )
+Cut 95: ( L_dp_0 ) && ( hcut_L_0_6_5&&(abs(L.tr.tg_dp-0.0222)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 96: ( L_dp_0 ) && ( 0 )
+Cut 97: ( L_dp_0 ) && ( hcut_L_0_6_7&&(abs(L.tr.tg_dp-0.0222)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 98: ( L_dp_0 ) && ( 0 )
+Cut 99: ( L_dp_0 ) && ( hcut_L_0_6_9&&(abs(L.tr.tg_dp-0.0222)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 100: ( L_dp_0 ) && ( 0 )
+Cut 101: ( L_dp_0 ) && ( hcut_L_0_6_11&&(abs(L.tr.tg_dp-0.0222)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 102: ( L_dp_0 ) && ( 0 )
+Cut 103: ( L_dp_0 ) && ( hcut_L_0_6_13&&(abs(L.tr.tg_dp-0.0222)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 104: ( L_dp_0 ) && ( 0 )
+Cut 105: ( L_dp_0 ) && ( 0 )
+Cut 106: ( L_dp_0 ) && ( 0 )
+Cut 107: ( L_dp_0 ) && ( 0 )
+Cut 108: ( L_dp_0 ) && ( hcut_L_0_7_3&&(abs(L.tr.tg_dp-0.0222)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 109: ( L_dp_0 ) && ( 0 )
+Cut 110: ( L_dp_0 ) && ( hcut_L_0_7_5&&(abs(L.tr.tg_dp-0.0222)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 111: ( L_dp_0 ) && ( 0 )
+Cut 112: ( L_dp_0 ) && ( hcut_L_0_7_7&&(abs(L.tr.tg_dp-0.0222)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 113: ( L_dp_0 ) && ( 0 )
+Cut 114: ( L_dp_0 ) && ( hcut_L_0_7_9&&(abs(L.tr.tg_dp-0.0222)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 115: ( L_dp_0 ) && ( 0 )
+Cut 116: ( L_dp_0 ) && ( hcut_L_0_7_11&&(abs(L.tr.tg_dp-0.0222)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 117: ( L_dp_0 ) && ( 0 )
+Cut 118: ( L_dp_0 ) && ( 0 )
+Cut 119: ( L_dp_0 ) && ( 0 )
+Cut 120: ( L_dp_0 ) && ( 0 )
+Cut 121: ( L_dp_0 ) && ( 0 )
+Cut 122: ( L_dp_0 ) && ( 0 )
+Cut 123: ( L_dp_0 ) && ( 0 )
+Cut 124: ( L_dp_0 ) && ( hcut_L_0_8_4&&(abs(L.tr.tg_dp-0.0222)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 125: ( L_dp_0 ) && ( 0 )
+Cut 126: ( L_dp_0 ) && ( hcut_L_0_8_6&&(abs(L.tr.tg_dp-0.0222)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 127: ( L_dp_0 ) && ( 0 )
+Cut 128: ( L_dp_0 ) && ( 0 )
+Cut 129: ( L_dp_0 ) && ( 0 )
+Cut 130: ( L_dp_0 ) && ( hcut_L_0_8_10&&(abs(L.tr.tg_dp-0.0222)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 131: ( L_dp_0 ) && ( 0 )
+Cut 132: ( L_dp_0 ) && ( hcut_L_0_8_12&&(abs(L.tr.tg_dp-0.0222)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 133: ( L_dp_0 ) && ( 0 )
+Cut 134: ( L_dp_0 ) && ( 0 )
+Cut 135: ( L_dp_0 ) && ( 0 )
+Cut 136: ( L_dp_0 ) && ( 0 )
+Cut 137: ( L_dp_0 ) && ( 0 )
+Cut 138: ( L_dp_0 ) && ( 0 )
+Cut 139: ( L_dp_0 ) && ( 0 )
+Cut 140: ( L_dp_0 ) && ( 0 )
+Cut 141: ( L_dp_0 ) && ( 0 )
+Cut 142: ( L_dp_0 ) && ( 0 )
+Cut 143: ( L_dp_0 ) && ( 0 )
+Cut 144: ( L_dp_0 ) && ( 0 )
+Cut 145: ( L_dp_0 ) && ( 0 )
+Cut 146: ( L_dp_0 ) && ( hcut_L_0_9_11&&(abs(L.tr.tg_dp-0.0222)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 147: ( L_dp_0 ) && ( 0 )
+Cut 148: ( L_dp_0 ) && ( 0 )
+Cut 149: ( L_dp_0 ) && ( 0 )
+Cut 150: ( L_dp_0 ) && ( 0 )
+Cut 151: ( L_dp_0 ) && ( 0 )
+Cut 152: ( L_dp_0 ) && ( 0 )
+Cut 153: ( L_dp_0 ) && ( 0 )
+Cut 154: ( L_dp_0 ) && ( 0 )
+Cut 155: ( L_dp_0 ) && ( 0 )
+Cut 156: ( L_dp_0 ) && ( 0 )
+Cut 157: ( L_dp_0 ) && ( 0 )
+Cut 158: ( L_dp_0 ) && ( 0 )
+Cut 159: ( L_dp_0 ) && ( 0 )
+Cut 160: ( L_dp_0 ) && ( 0 )
+Cut 161: ( L_dp_0 ) && ( 0 )
+Cut 162: ( L_dp_0 ) && ( 0 )
+Cut 163: ( L_dp_0 ) && ( 0 )
+Cut 164: ( L_dp_0 ) && ( 0 )
+Cut 165: ( L_dp_0 ) && ( 0 )
+Cut 166: ( L_dp_0 ) && ( 0 )
+Cut 167: ( L_dp_0 ) && ( 0 )
+Cut 168: ( L_dp_0 ) && ( 0 )
+Cut 169: ( L_dp_0 ) && ( 0 )
+Cut 170: ( L_dp_0 ) && ( 0 )
+Cut 171: ( L_dp_0 ) && ( 0 )
+Cut 172: ( L_dp_0 ) && ( 0 )
+Cut 173: ( L_dp_0 ) && ( 0 )
+Cut 174: ( L_dp_0 ) && ( 0 )
+Cut 175: ( L_dp_0 ) && ( 0 )
+Cut 176: ( L_dp_0 ) && ( 0 )
+Cut 177: ( L_dp_0 ) && ( 0 )
+Cut 178: ( L_dp_0 ) && ( 0 )
+Cut 179: ( L_dp_0 ) && ( 0 )
+180 peak definition(s) found
+Tree reports 405448 events. Event limits: read: 405448 write: 10
+10 event(s) passed the cuts
+10 event(s) written in total
+Process with addtional cut (L_dp_0), cut id offset = 540
+Reading variable list from file DpVars.def
+Requested variables: L.tr.r_x L.tr.r_th L.tr.r_y L.tr.r_ph urb.x urb.y L.tr.tg_th L.tr.tg_ph L.tr.tg_dp L.tr.p urb.e fEvtHdr.fRun
+Reading graphical cuts from ArchivedRootFiles/SieveCentralLHRS/apex_coinc_1183.root.FullCut.root ...
+OBJ: TCutG	fcut_L_0	Graph : 0 at: 0x8c93750
+OBJ: TCutG	hcut_L_0_6_3	Graph : 0 at: 0x8eccae8
+OBJ: TCutG	hcut_L_0_6_5	Graph : 0 at: 0x8d9cf98
+OBJ: TCutG	hcut_L_0_6_7	Graph : 0 at: 0x8d9cda0
+OBJ: TCutG	hcut_L_0_6_9	Graph : 0 at: 0x8d9cd08
+OBJ: TCutG	hcut_L_0_6_11	Graph : 0 at: 0x8da0d08
+OBJ: TCutG	hcut_L_0_6_13	Graph : 0 at: 0x8da1aa8
+OBJ: TCutG	hcut_L_0_5_4	Graph : 0 at: 0x8da2170
+OBJ: TCutG	hcut_L_0_5_6	Graph : 0 at: 0x8da13d0
+OBJ: TCutG	hcut_L_0_5_8	Graph : 0 at: 0x8d9cbd0
+OBJ: TCutG	hcut_L_0_5_10	Graph : 0 at: 0x8d9d998
+OBJ: TCutG	hcut_L_0_5_12	Graph : 0 at: 0x8d9e070
+OBJ: TCutG	hcut_L_0_4_5	Graph : 0 at: 0x8d9e728
+OBJ: TCutG	hcut_L_0_4_7	Graph : 0 at: 0x8d9edc0
+OBJ: TCutG	hcut_L_0_4_9	Graph : 0 at: 0x8d9c988
+OBJ: TCutG	hcut_L_0_4_11	Graph : 0 at: 0x8d9fdf8
+OBJ: TCutG	hcut_L_0_4_13	Graph : 0 at: 0x8d9f568
+OBJ: TCutG	hcut_L_0_3_5	Graph : 0 at: 0x8ed8578
+OBJ: TCutG	hcut_L_0_3_7	Graph : 0 at: 0x8d9fbc8
+OBJ: TCutG	hcut_L_0_3_9	Graph : 0 at: 0x8edc2a0
+OBJ: TCutG	hcut_L_0_3_11	Graph : 0 at: 0x8ed8048
+OBJ: TCutG	hcut_L_0_2_8	Graph : 0 at: 0x8edd0d8
+OBJ: TCutG	hcut_L_0_2_6	Graph : 0 at: 0x8edbb80
+OBJ: TCutG	hcut_L_0_1_5	Graph : 0 at: 0x8edde70
+OBJ: TCutG	hcut_L_0_1_7	Graph : 0 at: 0x8ede350
+OBJ: TCutG	hcut_L_0_1_9	Graph : 0 at: 0x8edefc0
+OBJ: TCutG	hcut_L_0_7_3	Graph : 0 at: 0x8edf680
+OBJ: TCutG	hcut_L_0_7_5	Graph : 0 at: 0x8edd750
+OBJ: TCutG	hcut_L_0_7_7	Graph : 0 at: 0x8ee0580
+OBJ: TCutG	hcut_L_0_7_9	Graph : 0 at: 0x8ee0bf8
+OBJ: TCutG	hcut_L_0_7_11	Graph : 0 at: 0x8ee12d8
+OBJ: TCutG	hcut_L_0_8_4	Graph : 0 at: 0x8ee19a0
+OBJ: TCutG	hcut_L_0_8_6	Graph : 0 at: 0x8ede8d0
+OBJ: TCutG	hcut_L_0_8_10	Graph : 0 at: 0x8edfd78
+OBJ: TCutG	hcut_L_0_8_12	Graph : 0 at: 0x8ee2040
+OBJ: TCutG	hcut_L_0_9_11	Graph : 0 at: 0x8ee2770
+OBJ: TCutG	L_dp_0	Graph : 0 at: 0x8ee3da0
+37 cut(s) found
+Output to file: ArchivedRootFiles/SieveCentralLHRS/DpDataDbg.f51
+Opened ROOT input file ArchivedRootFiles/SieveCentralLHRS/apex_coinc_1183.root
+Found and initialized tree T
+Parsing tree...
+Loaded 610 tree variables from 612 tree leaves
+Parsing output variable definitions...
+DataElement: L.tr.r_x (L.tr.r_x) 	good:1 	type:8 (Double_t) 	size:1 	a/va: 0/0  min/max: 0/1  fmt: 1.10e
+DataElement: L.tr.r_th (L.tr.r_th) 	good:1 	type:8 (Double_t) 	size:1 	a/va: 0/0  min/max: 0/1  fmt: 1.10e
+DataElement: L.tr.r_y (L.tr.r_y) 	good:1 	type:8 (Double_t) 	size:1 	a/va: 0/0  min/max: 0/1  fmt: 1.10e
+DataElement: L.tr.r_ph (L.tr.r_ph) 	good:1 	type:8 (Double_t) 	size:1 	a/va: 0/0  min/max: 0/1  fmt: 1.10e
+DataElement: urb.x (urb.x) 	good:1 	type:8 (Double_t) 	size:1 	a/va: 0/0  min/max: 0/1  fmt: 1.10e
+DataElement: urb.y (urb.y) 	good:1 	type:8 (Double_t) 	size:1 	a/va: 0/0  min/max: 0/1  fmt: 1.10e
+DataElement: L.tr.tg_th (L.tr.tg_th) 	good:1 	type:8 (Double_t) 	size:1 	a/va: 0/0  min/max: 0/1  fmt: 1.10e
+DataElement: L.tr.tg_ph (L.tr.tg_ph) 	good:1 	type:8 (Double_t) 	size:1 	a/va: 0/0  min/max: 0/1  fmt: 1.10e
+DataElement: L.tr.tg_dp (L.tr.tg_dp) 	good:1 	type:8 (Double_t) 	size:1 	a/va: 0/0  min/max: 0/1  fmt: 1.10e
+DataElement: L.tr.p (L.tr.p) 	good:1 	type:8 (Double_t) 	size:1 	a/va: 0/0  min/max: 0/1  fmt: 1.10e
+DataElement: urb.e (urb.e) 	good:1 	type:8 (Double_t) 	size:1 	a/va: 0/0  min/max: 0/1  fmt: 1.10e
+DataElement: fEvtHdr.fRun (fEvtHdr.fRun) 	good:1 	type:3 (Int_t) 	size:1 	a/va: 0/0  min/max: 0/1  fmt: 1.10e
+12 tree variable(s) successfully loaded
+Reading peak definition file ArchivedRootFiles/SieveCentralLHRS/apex_coinc_1183.root.SieveCut.cut
+Cut 0: ( L_dp_0 ) && ( 0 )
+Cut 1: ( L_dp_0 ) && ( 0 )
+Cut 2: ( L_dp_0 ) && ( 0 )
+Cut 3: ( L_dp_0 ) && ( 0 )
+Cut 4: ( L_dp_0 ) && ( 0 )
+Cut 5: ( L_dp_0 ) && ( 0 )
+Cut 6: ( L_dp_0 ) && ( 0 )
+Cut 7: ( L_dp_0 ) && ( 0 )
+Cut 8: ( L_dp_0 ) && ( 0 )
+Cut 9: ( L_dp_0 ) && ( 0 )
+Cut 10: ( L_dp_0 ) && ( 0 )
+Cut 11: ( L_dp_0 ) && ( 0 )
+Cut 12: ( L_dp_0 ) && ( 0 )
+Cut 13: ( L_dp_0 ) && ( 0 )
+Cut 14: ( L_dp_0 ) && ( 0 )
+Cut 15: ( L_dp_0 ) && ( 0 )
+Cut 16: ( L_dp_0 ) && ( 0 )
+Cut 17: ( L_dp_0 ) && ( 0 )
+Cut 18: ( L_dp_0 ) && ( 0 )
+Cut 19: ( L_dp_0 ) && ( 0 )
+Cut 20: ( L_dp_0 ) && ( hcut_L_0_1_5&&(abs(L.tr.tg_dp-0.0333)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 21: ( L_dp_0 ) && ( 0 )
+Cut 22: ( L_dp_0 ) && ( hcut_L_0_1_7&&(abs(L.tr.tg_dp-0.0333)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 23: ( L_dp_0 ) && ( 0 )
+Cut 24: ( L_dp_0 ) && ( hcut_L_0_1_9&&(abs(L.tr.tg_dp-0.0333)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 25: ( L_dp_0 ) && ( 0 )
+Cut 26: ( L_dp_0 ) && ( 0 )
+Cut 27: ( L_dp_0 ) && ( 0 )
+Cut 28: ( L_dp_0 ) && ( 0 )
+Cut 29: ( L_dp_0 ) && ( 0 )
+Cut 30: ( L_dp_0 ) && ( 0 )
+Cut 31: ( L_dp_0 ) && ( 0 )
+Cut 32: ( L_dp_0 ) && ( 0 )
+Cut 33: ( L_dp_0 ) && ( 0 )
+Cut 34: ( L_dp_0 ) && ( 0 )
+Cut 35: ( L_dp_0 ) && ( 0 )
+Cut 36: ( L_dp_0 ) && ( hcut_L_0_2_6&&(abs(L.tr.tg_dp-0.0333)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 37: ( L_dp_0 ) && ( 0 )
+Cut 38: ( L_dp_0 ) && ( hcut_L_0_2_8&&(abs(L.tr.tg_dp-0.0333)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 39: ( L_dp_0 ) && ( 0 )
+Cut 40: ( L_dp_0 ) && ( 0 )
+Cut 41: ( L_dp_0 ) && ( 0 )
+Cut 42: ( L_dp_0 ) && ( 0 )
+Cut 43: ( L_dp_0 ) && ( 0 )
+Cut 44: ( L_dp_0 ) && ( 0 )
+Cut 45: ( L_dp_0 ) && ( 0 )
+Cut 46: ( L_dp_0 ) && ( 0 )
+Cut 47: ( L_dp_0 ) && ( 0 )
+Cut 48: ( L_dp_0 ) && ( 0 )
+Cut 49: ( L_dp_0 ) && ( 0 )
+Cut 50: ( L_dp_0 ) && ( hcut_L_0_3_5&&(abs(L.tr.tg_dp-0.0333)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 51: ( L_dp_0 ) && ( 0 )
+Cut 52: ( L_dp_0 ) && ( hcut_L_0_3_7&&(abs(L.tr.tg_dp-0.0333)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 53: ( L_dp_0 ) && ( 0 )
+Cut 54: ( L_dp_0 ) && ( hcut_L_0_3_9&&(abs(L.tr.tg_dp-0.0333)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 55: ( L_dp_0 ) && ( 0 )
+Cut 56: ( L_dp_0 ) && ( hcut_L_0_3_11&&(abs(L.tr.tg_dp-0.0333)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 57: ( L_dp_0 ) && ( 0 )
+Cut 58: ( L_dp_0 ) && ( 0 )
+Cut 59: ( L_dp_0 ) && ( 0 )
+Cut 60: ( L_dp_0 ) && ( 0 )
+Cut 61: ( L_dp_0 ) && ( 0 )
+Cut 62: ( L_dp_0 ) && ( 0 )
+Cut 63: ( L_dp_0 ) && ( 0 )
+Cut 64: ( L_dp_0 ) && ( 0 )
+Cut 65: ( L_dp_0 ) && ( hcut_L_0_4_5&&(abs(L.tr.tg_dp-0.0333)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 66: ( L_dp_0 ) && ( 0 )
+Cut 67: ( L_dp_0 ) && ( hcut_L_0_4_7&&(abs(L.tr.tg_dp-0.0333)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 68: ( L_dp_0 ) && ( 0 )
+Cut 69: ( L_dp_0 ) && ( hcut_L_0_4_9&&(abs(L.tr.tg_dp-0.0333)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 70: ( L_dp_0 ) && ( 0 )
+Cut 71: ( L_dp_0 ) && ( hcut_L_0_4_11&&(abs(L.tr.tg_dp-0.0333)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 72: ( L_dp_0 ) && ( 0 )
+Cut 73: ( L_dp_0 ) && ( hcut_L_0_4_13&&(abs(L.tr.tg_dp-0.0333)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 74: ( L_dp_0 ) && ( 0 )
+Cut 75: ( L_dp_0 ) && ( 0 )
+Cut 76: ( L_dp_0 ) && ( 0 )
+Cut 77: ( L_dp_0 ) && ( 0 )
+Cut 78: ( L_dp_0 ) && ( 0 )
+Cut 79: ( L_dp_0 ) && ( hcut_L_0_5_4&&(abs(L.tr.tg_dp-0.0333)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 80: ( L_dp_0 ) && ( 0 )
+Cut 81: ( L_dp_0 ) && ( hcut_L_0_5_6&&(abs(L.tr.tg_dp-0.0333)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 82: ( L_dp_0 ) && ( 0 )
+Cut 83: ( L_dp_0 ) && ( hcut_L_0_5_8&&(abs(L.tr.tg_dp-0.0333)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 84: ( L_dp_0 ) && ( 0 )
+Cut 85: ( L_dp_0 ) && ( hcut_L_0_5_10&&(abs(L.tr.tg_dp-0.0333)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 86: ( L_dp_0 ) && ( 0 )
+Cut 87: ( L_dp_0 ) && ( hcut_L_0_5_12&&(abs(L.tr.tg_dp-0.0333)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 88: ( L_dp_0 ) && ( 0 )
+Cut 89: ( L_dp_0 ) && ( 0 )
+Cut 90: ( L_dp_0 ) && ( 0 )
+Cut 91: ( L_dp_0 ) && ( 0 )
+Cut 92: ( L_dp_0 ) && ( 0 )
+Cut 93: ( L_dp_0 ) && ( hcut_L_0_6_3&&(abs(L.tr.tg_dp-0.0333)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 94: ( L_dp_0 ) && ( 0 )
+Cut 95: ( L_dp_0 ) && ( hcut_L_0_6_5&&(abs(L.tr.tg_dp-0.0333)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 96: ( L_dp_0 ) && ( 0 )
+Cut 97: ( L_dp_0 ) && ( hcut_L_0_6_7&&(abs(L.tr.tg_dp-0.0333)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 98: ( L_dp_0 ) && ( 0 )
+Cut 99: ( L_dp_0 ) && ( hcut_L_0_6_9&&(abs(L.tr.tg_dp-0.0333)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 100: ( L_dp_0 ) && ( 0 )
+Cut 101: ( L_dp_0 ) && ( hcut_L_0_6_11&&(abs(L.tr.tg_dp-0.0333)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 102: ( L_dp_0 ) && ( 0 )
+Cut 103: ( L_dp_0 ) && ( hcut_L_0_6_13&&(abs(L.tr.tg_dp-0.0333)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 104: ( L_dp_0 ) && ( 0 )
+Cut 105: ( L_dp_0 ) && ( 0 )
+Cut 106: ( L_dp_0 ) && ( 0 )
+Cut 107: ( L_dp_0 ) && ( 0 )
+Cut 108: ( L_dp_0 ) && ( hcut_L_0_7_3&&(abs(L.tr.tg_dp-0.0333)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 109: ( L_dp_0 ) && ( 0 )
+Cut 110: ( L_dp_0 ) && ( hcut_L_0_7_5&&(abs(L.tr.tg_dp-0.0333)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 111: ( L_dp_0 ) && ( 0 )
+Cut 112: ( L_dp_0 ) && ( hcut_L_0_7_7&&(abs(L.tr.tg_dp-0.0333)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 113: ( L_dp_0 ) && ( 0 )
+Cut 114: ( L_dp_0 ) && ( hcut_L_0_7_9&&(abs(L.tr.tg_dp-0.0333)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 115: ( L_dp_0 ) && ( 0 )
+Cut 116: ( L_dp_0 ) && ( hcut_L_0_7_11&&(abs(L.tr.tg_dp-0.0333)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 117: ( L_dp_0 ) && ( 0 )
+Cut 118: ( L_dp_0 ) && ( 0 )
+Cut 119: ( L_dp_0 ) && ( 0 )
+Cut 120: ( L_dp_0 ) && ( 0 )
+Cut 121: ( L_dp_0 ) && ( 0 )
+Cut 122: ( L_dp_0 ) && ( 0 )
+Cut 123: ( L_dp_0 ) && ( 0 )
+Cut 124: ( L_dp_0 ) && ( hcut_L_0_8_4&&(abs(L.tr.tg_dp-0.0333)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 125: ( L_dp_0 ) && ( 0 )
+Cut 126: ( L_dp_0 ) && ( hcut_L_0_8_6&&(abs(L.tr.tg_dp-0.0333)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 127: ( L_dp_0 ) && ( 0 )
+Cut 128: ( L_dp_0 ) && ( 0 )
+Cut 129: ( L_dp_0 ) && ( 0 )
+Cut 130: ( L_dp_0 ) && ( hcut_L_0_8_10&&(abs(L.tr.tg_dp-0.0333)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 131: ( L_dp_0 ) && ( 0 )
+Cut 132: ( L_dp_0 ) && ( hcut_L_0_8_12&&(abs(L.tr.tg_dp-0.0333)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 133: ( L_dp_0 ) && ( 0 )
+Cut 134: ( L_dp_0 ) && ( 0 )
+Cut 135: ( L_dp_0 ) && ( 0 )
+Cut 136: ( L_dp_0 ) && ( 0 )
+Cut 137: ( L_dp_0 ) && ( 0 )
+Cut 138: ( L_dp_0 ) && ( 0 )
+Cut 139: ( L_dp_0 ) && ( 0 )
+Cut 140: ( L_dp_0 ) && ( 0 )
+Cut 141: ( L_dp_0 ) && ( 0 )
+Cut 142: ( L_dp_0 ) && ( 0 )
+Cut 143: ( L_dp_0 ) && ( 0 )
+Cut 144: ( L_dp_0 ) && ( 0 )
+Cut 145: ( L_dp_0 ) && ( 0 )
+Cut 146: ( L_dp_0 ) && ( hcut_L_0_9_11&&(abs(L.tr.tg_dp-0.0333)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 147: ( L_dp_0 ) && ( 0 )
+Cut 148: ( L_dp_0 ) && ( 0 )
+Cut 149: ( L_dp_0 ) && ( 0 )
+Cut 150: ( L_dp_0 ) && ( 0 )
+Cut 151: ( L_dp_0 ) && ( 0 )
+Cut 152: ( L_dp_0 ) && ( 0 )
+Cut 153: ( L_dp_0 ) && ( 0 )
+Cut 154: ( L_dp_0 ) && ( 0 )
+Cut 155: ( L_dp_0 ) && ( 0 )
+Cut 156: ( L_dp_0 ) && ( 0 )
+Cut 157: ( L_dp_0 ) && ( 0 )
+Cut 158: ( L_dp_0 ) && ( 0 )
+Cut 159: ( L_dp_0 ) && ( 0 )
+Cut 160: ( L_dp_0 ) && ( 0 )
+Cut 161: ( L_dp_0 ) && ( 0 )
+Cut 162: ( L_dp_0 ) && ( 0 )
+Cut 163: ( L_dp_0 ) && ( 0 )
+Cut 164: ( L_dp_0 ) && ( 0 )
+Cut 165: ( L_dp_0 ) && ( 0 )
+Cut 166: ( L_dp_0 ) && ( 0 )
+Cut 167: ( L_dp_0 ) && ( 0 )
+Cut 168: ( L_dp_0 ) && ( 0 )
+Cut 169: ( L_dp_0 ) && ( 0 )
+Cut 170: ( L_dp_0 ) && ( 0 )
+Cut 171: ( L_dp_0 ) && ( 0 )
+Cut 172: ( L_dp_0 ) && ( 0 )
+Cut 173: ( L_dp_0 ) && ( 0 )
+Cut 174: ( L_dp_0 ) && ( 0 )
+Cut 175: ( L_dp_0 ) && ( 0 )
+Cut 176: ( L_dp_0 ) && ( 0 )
+Cut 177: ( L_dp_0 ) && ( 0 )
+Cut 178: ( L_dp_0 ) && ( 0 )
+Cut 179: ( L_dp_0 ) && ( 0 )
+180 peak definition(s) found
+Tree reports 407727 events. Event limits: read: 407727 write: 10
+10 event(s) passed the cuts
+10 event(s) written in total
+Process with addtional cut (L_dp_0), cut id offset = 720
+Reading variable list from file DpVars.def
+Requested variables: L.tr.r_x L.tr.r_th L.tr.r_y L.tr.r_ph urb.x urb.y L.tr.tg_th L.tr.tg_ph L.tr.tg_dp L.tr.p urb.e fEvtHdr.fRun
+Reading graphical cuts from ArchivedRootFiles/SieveCentralLHRS/apex_coinc_1190.root.FullCut.root ...
+OBJ: TCutG	fcut_L_0	Graph : 0 at: 0x83b64c8
+OBJ: TCutG	hcut_L_0_6_9	Graph : 0 at: 0x85efb70
+OBJ: TCutG	hcut_L_0_6_11	Graph : 0 at: 0x84bfcb0
+OBJ: TCutG	hcut_L_0_6_13	Graph : 0 at: 0x84c32a8
+OBJ: TCutG	hcut_L_0_7_9	Graph : 0 at: 0x84c3990
+OBJ: TCutG	hcut_L_0_7_11	Graph : 0 at: 0x84bfa68
+OBJ: TCutG	hcut_L_0_8_10	Graph : 0 at: 0x84c40b8
+OBJ: TCutG	hcut_L_0_8_12	Graph : 0 at: 0x84c4f78
+OBJ: TCutG	hcut_L_0_9_11	Graph : 0 at: 0x84c5648
+OBJ: TCutG	hcut_L_0_5_8	Graph : 0 at: 0x84c4a50
+OBJ: TCutG	hcut_L_0_5_10	Graph : 0 at: 0x84bf508
+OBJ: TCutG	hcut_L_0_5_12	Graph : 0 at: 0x84bfd60
+OBJ: TCutG	hcut_L_0_4_9	Graph : 0 at: 0x84c1480
+OBJ: TCutG	hcut_L_0_4_11	Graph : 0 at: 0x84c0d80
+OBJ: TCutG	hcut_L_0_4_13	Graph : 0 at: 0x84c2278
+OBJ: TCutG	hcut_L_0_3_9	Graph : 0 at: 0x84c2908
+OBJ: TCutG	hcut_L_0_3_11	Graph : 0 at: 0x84c2bc0
+OBJ: TCutG	hcut_L_0_2_8	Graph : 0 at: 0x85feab0
+OBJ: TCutG	hcut_L_0_1_9	Graph : 0 at: 0x85fe2b8
+OBJ: TCutG	hcut_L_0_6_7	Graph : 0 at: 0x85ff3f0
+OBJ: TCutG	L_dp_0	Graph : 0 at: 0x85fe580
+21 cut(s) found
+Output to file: ArchivedRootFiles/SieveCentralLHRS/DpDataDbg.f51
+Opened ROOT input file ArchivedRootFiles/SieveCentralLHRS/apex_coinc_1190.root
+Found and initialized tree T
+Parsing tree...
+Loaded 646 tree variables from 648 tree leaves
+Parsing output variable definitions...
+DataElement: L.tr.r_x (L.tr.r_x) 	good:1 	type:8 (Double_t) 	size:1 	a/va: 0/0  min/max: 0/1  fmt: 1.10e
+DataElement: L.tr.r_th (L.tr.r_th) 	good:1 	type:8 (Double_t) 	size:1 	a/va: 0/0  min/max: 0/1  fmt: 1.10e
+DataElement: L.tr.r_y (L.tr.r_y) 	good:1 	type:8 (Double_t) 	size:1 	a/va: 0/0  min/max: 0/1  fmt: 1.10e
+DataElement: L.tr.r_ph (L.tr.r_ph) 	good:1 	type:8 (Double_t) 	size:1 	a/va: 0/0  min/max: 0/1  fmt: 1.10e
+DataElement: urb.x (urb.x) 	good:1 	type:8 (Double_t) 	size:1 	a/va: 0/0  min/max: 0/1  fmt: 1.10e
+DataElement: urb.y (urb.y) 	good:1 	type:8 (Double_t) 	size:1 	a/va: 0/0  min/max: 0/1  fmt: 1.10e
+DataElement: L.tr.tg_th (L.tr.tg_th) 	good:1 	type:8 (Double_t) 	size:1 	a/va: 0/0  min/max: 0/1  fmt: 1.10e
+DataElement: L.tr.tg_ph (L.tr.tg_ph) 	good:1 	type:8 (Double_t) 	size:1 	a/va: 0/0  min/max: 0/1  fmt: 1.10e
+DataElement: L.tr.tg_dp (L.tr.tg_dp) 	good:1 	type:8 (Double_t) 	size:1 	a/va: 0/0  min/max: 0/1  fmt: 1.10e
+DataElement: L.tr.p (L.tr.p) 	good:1 	type:8 (Double_t) 	size:1 	a/va: 0/0  min/max: 0/1  fmt: 1.10e
+DataElement: urb.e (urb.e) 	good:1 	type:8 (Double_t) 	size:1 	a/va: 0/0  min/max: 0/1  fmt: 1.10e
+DataElement: fEvtHdr.fRun (fEvtHdr.fRun) 	good:1 	type:3 (Int_t) 	size:1 	a/va: 0/0  min/max: 0/1  fmt: 1.10e
+12 tree variable(s) successfully loaded
+Reading peak definition file ArchivedRootFiles/SieveCentralLHRS/apex_coinc_1190.root.SieveCut.cut
+Cut 0: ( L_dp_0 ) && ( 0 )
+Cut 1: ( L_dp_0 ) && ( 0 )
+Cut 2: ( L_dp_0 ) && ( 0 )
+Cut 3: ( L_dp_0 ) && ( 0 )
+Cut 4: ( L_dp_0 ) && ( 0 )
+Cut 5: ( L_dp_0 ) && ( 0 )
+Cut 6: ( L_dp_0 ) && ( 0 )
+Cut 7: ( L_dp_0 ) && ( 0 )
+Cut 8: ( L_dp_0 ) && ( 0 )
+Cut 9: ( L_dp_0 ) && ( 0 )
+Cut 10: ( L_dp_0 ) && ( 0 )
+Cut 11: ( L_dp_0 ) && ( 0 )
+Cut 12: ( L_dp_0 ) && ( 0 )
+Cut 13: ( L_dp_0 ) && ( 0 )
+Cut 14: ( L_dp_0 ) && ( 0 )
+Cut 15: ( L_dp_0 ) && ( 0 )
+Cut 16: ( L_dp_0 ) && ( 0 )
+Cut 17: ( L_dp_0 ) && ( 0 )
+Cut 18: ( L_dp_0 ) && ( 0 )
+Cut 19: ( L_dp_0 ) && ( 0 )
+Cut 20: ( L_dp_0 ) && ( 0 )
+Cut 21: ( L_dp_0 ) && ( 0 )
+Cut 22: ( L_dp_0 ) && ( 0 )
+Cut 23: ( L_dp_0 ) && ( 0 )
+Cut 24: ( L_dp_0 ) && ( hcut_L_0_1_9&&(abs(L.tr.tg_dp-0.044)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 25: ( L_dp_0 ) && ( 0 )
+Cut 26: ( L_dp_0 ) && ( 0 )
+Cut 27: ( L_dp_0 ) && ( 0 )
+Cut 28: ( L_dp_0 ) && ( 0 )
+Cut 29: ( L_dp_0 ) && ( 0 )
+Cut 30: ( L_dp_0 ) && ( 0 )
+Cut 31: ( L_dp_0 ) && ( 0 )
+Cut 32: ( L_dp_0 ) && ( 0 )
+Cut 33: ( L_dp_0 ) && ( 0 )
+Cut 34: ( L_dp_0 ) && ( 0 )
+Cut 35: ( L_dp_0 ) && ( 0 )
+Cut 36: ( L_dp_0 ) && ( 0 )
+Cut 37: ( L_dp_0 ) && ( 0 )
+Cut 38: ( L_dp_0 ) && ( hcut_L_0_2_8&&(abs(L.tr.tg_dp-0.044)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 39: ( L_dp_0 ) && ( 0 )
+Cut 40: ( L_dp_0 ) && ( 0 )
+Cut 41: ( L_dp_0 ) && ( 0 )
+Cut 42: ( L_dp_0 ) && ( 0 )
+Cut 43: ( L_dp_0 ) && ( 0 )
+Cut 44: ( L_dp_0 ) && ( 0 )
+Cut 45: ( L_dp_0 ) && ( 0 )
+Cut 46: ( L_dp_0 ) && ( 0 )
+Cut 47: ( L_dp_0 ) && ( 0 )
+Cut 48: ( L_dp_0 ) && ( 0 )
+Cut 49: ( L_dp_0 ) && ( 0 )
+Cut 50: ( L_dp_0 ) && ( 0 )
+Cut 51: ( L_dp_0 ) && ( 0 )
+Cut 52: ( L_dp_0 ) && ( 0 )
+Cut 53: ( L_dp_0 ) && ( 0 )
+Cut 54: ( L_dp_0 ) && ( hcut_L_0_3_9&&(abs(L.tr.tg_dp-0.044)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 55: ( L_dp_0 ) && ( 0 )
+Cut 56: ( L_dp_0 ) && ( hcut_L_0_3_11&&(abs(L.tr.tg_dp-0.044)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 57: ( L_dp_0 ) && ( 0 )
+Cut 58: ( L_dp_0 ) && ( 0 )
+Cut 59: ( L_dp_0 ) && ( 0 )
+Cut 60: ( L_dp_0 ) && ( 0 )
+Cut 61: ( L_dp_0 ) && ( 0 )
+Cut 62: ( L_dp_0 ) && ( 0 )
+Cut 63: ( L_dp_0 ) && ( 0 )
+Cut 64: ( L_dp_0 ) && ( 0 )
+Cut 65: ( L_dp_0 ) && ( 0 )
+Cut 66: ( L_dp_0 ) && ( 0 )
+Cut 67: ( L_dp_0 ) && ( 0 )
+Cut 68: ( L_dp_0 ) && ( 0 )
+Cut 69: ( L_dp_0 ) && ( hcut_L_0_4_9&&(abs(L.tr.tg_dp-0.044)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 70: ( L_dp_0 ) && ( 0 )
+Cut 71: ( L_dp_0 ) && ( hcut_L_0_4_11&&(abs(L.tr.tg_dp-0.044)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 72: ( L_dp_0 ) && ( 0 )
+Cut 73: ( L_dp_0 ) && ( hcut_L_0_4_13&&(abs(L.tr.tg_dp-0.044)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 74: ( L_dp_0 ) && ( 0 )
+Cut 75: ( L_dp_0 ) && ( 0 )
+Cut 76: ( L_dp_0 ) && ( 0 )
+Cut 77: ( L_dp_0 ) && ( 0 )
+Cut 78: ( L_dp_0 ) && ( 0 )
+Cut 79: ( L_dp_0 ) && ( 0 )
+Cut 80: ( L_dp_0 ) && ( 0 )
+Cut 81: ( L_dp_0 ) && ( 0 )
+Cut 82: ( L_dp_0 ) && ( 0 )
+Cut 83: ( L_dp_0 ) && ( hcut_L_0_5_8&&(abs(L.tr.tg_dp-0.044)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 84: ( L_dp_0 ) && ( 0 )
+Cut 85: ( L_dp_0 ) && ( hcut_L_0_5_10&&(abs(L.tr.tg_dp-0.044)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 86: ( L_dp_0 ) && ( 0 )
+Cut 87: ( L_dp_0 ) && ( hcut_L_0_5_12&&(abs(L.tr.tg_dp-0.044)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 88: ( L_dp_0 ) && ( 0 )
+Cut 89: ( L_dp_0 ) && ( 0 )
+Cut 90: ( L_dp_0 ) && ( 0 )
+Cut 91: ( L_dp_0 ) && ( 0 )
+Cut 92: ( L_dp_0 ) && ( 0 )
+Cut 93: ( L_dp_0 ) && ( 0 )
+Cut 94: ( L_dp_0 ) && ( 0 )
+Cut 95: ( L_dp_0 ) && ( 0 )
+Cut 96: ( L_dp_0 ) && ( 0 )
+Cut 97: ( L_dp_0 ) && ( hcut_L_0_6_7&&(abs(L.tr.tg_dp-0.044)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 98: ( L_dp_0 ) && ( 0 )
+Cut 99: ( L_dp_0 ) && ( hcut_L_0_6_9&&(abs(L.tr.tg_dp-0.044)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 100: ( L_dp_0 ) && ( 0 )
+Cut 101: ( L_dp_0 ) && ( hcut_L_0_6_11&&(abs(L.tr.tg_dp-0.044)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 102: ( L_dp_0 ) && ( 0 )
+Cut 103: ( L_dp_0 ) && ( hcut_L_0_6_13&&(abs(L.tr.tg_dp-0.044)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 104: ( L_dp_0 ) && ( 0 )
+Cut 105: ( L_dp_0 ) && ( 0 )
+Cut 106: ( L_dp_0 ) && ( 0 )
+Cut 107: ( L_dp_0 ) && ( 0 )
+Cut 108: ( L_dp_0 ) && ( 0 )
+Cut 109: ( L_dp_0 ) && ( 0 )
+Cut 110: ( L_dp_0 ) && ( 0 )
+Cut 111: ( L_dp_0 ) && ( 0 )
+Cut 112: ( L_dp_0 ) && ( 0 )
+Cut 113: ( L_dp_0 ) && ( 0 )
+Cut 114: ( L_dp_0 ) && ( hcut_L_0_7_9&&(abs(L.tr.tg_dp-0.044)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 115: ( L_dp_0 ) && ( 0 )
+Cut 116: ( L_dp_0 ) && ( hcut_L_0_7_11&&(abs(L.tr.tg_dp-0.044)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 117: ( L_dp_0 ) && ( 0 )
+Cut 118: ( L_dp_0 ) && ( 0 )
+Cut 119: ( L_dp_0 ) && ( 0 )
+Cut 120: ( L_dp_0 ) && ( 0 )
+Cut 121: ( L_dp_0 ) && ( 0 )
+Cut 122: ( L_dp_0 ) && ( 0 )
+Cut 123: ( L_dp_0 ) && ( 0 )
+Cut 124: ( L_dp_0 ) && ( 0 )
+Cut 125: ( L_dp_0 ) && ( 0 )
+Cut 126: ( L_dp_0 ) && ( 0 )
+Cut 127: ( L_dp_0 ) && ( 0 )
+Cut 128: ( L_dp_0 ) && ( 0 )
+Cut 129: ( L_dp_0 ) && ( 0 )
+Cut 130: ( L_dp_0 ) && ( hcut_L_0_8_10&&(abs(L.tr.tg_dp-0.044)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 131: ( L_dp_0 ) && ( 0 )
+Cut 132: ( L_dp_0 ) && ( hcut_L_0_8_12&&(abs(L.tr.tg_dp-0.044)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 133: ( L_dp_0 ) && ( 0 )
+Cut 134: ( L_dp_0 ) && ( 0 )
+Cut 135: ( L_dp_0 ) && ( 0 )
+Cut 136: ( L_dp_0 ) && ( 0 )
+Cut 137: ( L_dp_0 ) && ( 0 )
+Cut 138: ( L_dp_0 ) && ( 0 )
+Cut 139: ( L_dp_0 ) && ( 0 )
+Cut 140: ( L_dp_0 ) && ( 0 )
+Cut 141: ( L_dp_0 ) && ( 0 )
+Cut 142: ( L_dp_0 ) && ( 0 )
+Cut 143: ( L_dp_0 ) && ( 0 )
+Cut 144: ( L_dp_0 ) && ( 0 )
+Cut 145: ( L_dp_0 ) && ( 0 )
+Cut 146: ( L_dp_0 ) && ( hcut_L_0_9_11&&(abs(L.tr.tg_dp-0.044)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 147: ( L_dp_0 ) && ( 0 )
+Cut 148: ( L_dp_0 ) && ( 0 )
+Cut 149: ( L_dp_0 ) && ( 0 )
+Cut 150: ( L_dp_0 ) && ( 0 )
+Cut 151: ( L_dp_0 ) && ( 0 )
+Cut 152: ( L_dp_0 ) && ( 0 )
+Cut 153: ( L_dp_0 ) && ( 0 )
+Cut 154: ( L_dp_0 ) && ( 0 )
+Cut 155: ( L_dp_0 ) && ( 0 )
+Cut 156: ( L_dp_0 ) && ( 0 )
+Cut 157: ( L_dp_0 ) && ( 0 )
+Cut 158: ( L_dp_0 ) && ( 0 )
+Cut 159: ( L_dp_0 ) && ( 0 )
+Cut 160: ( L_dp_0 ) && ( 0 )
+Cut 161: ( L_dp_0 ) && ( 0 )
+Cut 162: ( L_dp_0 ) && ( 0 )
+Cut 163: ( L_dp_0 ) && ( 0 )
+Cut 164: ( L_dp_0 ) && ( 0 )
+Cut 165: ( L_dp_0 ) && ( 0 )
+Cut 166: ( L_dp_0 ) && ( 0 )
+Cut 167: ( L_dp_0 ) && ( 0 )
+Cut 168: ( L_dp_0 ) && ( 0 )
+Cut 169: ( L_dp_0 ) && ( 0 )
+Cut 170: ( L_dp_0 ) && ( 0 )
+Cut 171: ( L_dp_0 ) && ( 0 )
+Cut 172: ( L_dp_0 ) && ( 0 )
+Cut 173: ( L_dp_0 ) && ( 0 )
+Cut 174: ( L_dp_0 ) && ( 0 )
+Cut 175: ( L_dp_0 ) && ( 0 )
+Cut 176: ( L_dp_0 ) && ( 0 )
+Cut 177: ( L_dp_0 ) && ( 0 )
+Cut 178: ( L_dp_0 ) && ( 0 )
+Cut 179: ( L_dp_0 ) && ( 0 )
+180 peak definition(s) found
+Tree reports 504723 events. Event limits: read: 504723 write: 10
+10 event(s) passed the cuts
+Opened ROOT input file ArchivedRootFiles/SieveCentralLHRS/apex_coinc_1191.root
+Found and initialized tree T
+Parsing tree...
+Loaded 646 tree variables from 648 tree leaves
+Parsing output variable definitions...
+DataElement: L.tr.r_x (L.tr.r_x) 	good:1 	type:8 (Double_t) 	size:1 	a/va: 0/0  min/max: 0/1  fmt: 1.10e
+DataElement: L.tr.r_th (L.tr.r_th) 	good:1 	type:8 (Double_t) 	size:1 	a/va: 0/0  min/max: 0/1  fmt: 1.10e
+DataElement: L.tr.r_y (L.tr.r_y) 	good:1 	type:8 (Double_t) 	size:1 	a/va: 0/0  min/max: 0/1  fmt: 1.10e
+DataElement: L.tr.r_ph (L.tr.r_ph) 	good:1 	type:8 (Double_t) 	size:1 	a/va: 0/0  min/max: 0/1  fmt: 1.10e
+DataElement: urb.x (urb.x) 	good:1 	type:8 (Double_t) 	size:1 	a/va: 0/0  min/max: 0/1  fmt: 1.10e
+DataElement: urb.y (urb.y) 	good:1 	type:8 (Double_t) 	size:1 	a/va: 0/0  min/max: 0/1  fmt: 1.10e
+DataElement: L.tr.tg_th (L.tr.tg_th) 	good:1 	type:8 (Double_t) 	size:1 	a/va: 0/0  min/max: 0/1  fmt: 1.10e
+DataElement: L.tr.tg_ph (L.tr.tg_ph) 	good:1 	type:8 (Double_t) 	size:1 	a/va: 0/0  min/max: 0/1  fmt: 1.10e
+DataElement: L.tr.tg_dp (L.tr.tg_dp) 	good:1 	type:8 (Double_t) 	size:1 	a/va: 0/0  min/max: 0/1  fmt: 1.10e
+DataElement: L.tr.p (L.tr.p) 	good:1 	type:8 (Double_t) 	size:1 	a/va: 0/0  min/max: 0/1  fmt: 1.10e
+DataElement: urb.e (urb.e) 	good:1 	type:8 (Double_t) 	size:1 	a/va: 0/0  min/max: 0/1  fmt: 1.10e
+DataElement: fEvtHdr.fRun (fEvtHdr.fRun) 	good:1 	type:3 (Int_t) 	size:1 	a/va: 0/0  min/max: 0/1  fmt: 1.10e
+12 tree variable(s) successfully loaded
+Reading peak definition file ArchivedRootFiles/SieveCentralLHRS/apex_coinc_1190.root.SieveCut.cut
+Cut 0: ( L_dp_0 ) && ( 0 )
+Cut 1: ( L_dp_0 ) && ( 0 )
+Cut 2: ( L_dp_0 ) && ( 0 )
+Cut 3: ( L_dp_0 ) && ( 0 )
+Cut 4: ( L_dp_0 ) && ( 0 )
+Cut 5: ( L_dp_0 ) && ( 0 )
+Cut 6: ( L_dp_0 ) && ( 0 )
+Cut 7: ( L_dp_0 ) && ( 0 )
+Cut 8: ( L_dp_0 ) && ( 0 )
+Cut 9: ( L_dp_0 ) && ( 0 )
+Cut 10: ( L_dp_0 ) && ( 0 )
+Cut 11: ( L_dp_0 ) && ( 0 )
+Cut 12: ( L_dp_0 ) && ( 0 )
+Cut 13: ( L_dp_0 ) && ( 0 )
+Cut 14: ( L_dp_0 ) && ( 0 )
+Cut 15: ( L_dp_0 ) && ( 0 )
+Cut 16: ( L_dp_0 ) && ( 0 )
+Cut 17: ( L_dp_0 ) && ( 0 )
+Cut 18: ( L_dp_0 ) && ( 0 )
+Cut 19: ( L_dp_0 ) && ( 0 )
+Cut 20: ( L_dp_0 ) && ( 0 )
+Cut 21: ( L_dp_0 ) && ( 0 )
+Cut 22: ( L_dp_0 ) && ( 0 )
+Cut 23: ( L_dp_0 ) && ( 0 )
+Cut 24: ( L_dp_0 ) && ( hcut_L_0_1_9&&(abs(L.tr.tg_dp-0.044)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 25: ( L_dp_0 ) && ( 0 )
+Cut 26: ( L_dp_0 ) && ( 0 )
+Cut 27: ( L_dp_0 ) && ( 0 )
+Cut 28: ( L_dp_0 ) && ( 0 )
+Cut 29: ( L_dp_0 ) && ( 0 )
+Cut 30: ( L_dp_0 ) && ( 0 )
+Cut 31: ( L_dp_0 ) && ( 0 )
+Cut 32: ( L_dp_0 ) && ( 0 )
+Cut 33: ( L_dp_0 ) && ( 0 )
+Cut 34: ( L_dp_0 ) && ( 0 )
+Cut 35: ( L_dp_0 ) && ( 0 )
+Cut 36: ( L_dp_0 ) && ( 0 )
+Cut 37: ( L_dp_0 ) && ( 0 )
+Cut 38: ( L_dp_0 ) && ( hcut_L_0_2_8&&(abs(L.tr.tg_dp-0.044)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 39: ( L_dp_0 ) && ( 0 )
+Cut 40: ( L_dp_0 ) && ( 0 )
+Cut 41: ( L_dp_0 ) && ( 0 )
+Cut 42: ( L_dp_0 ) && ( 0 )
+Cut 43: ( L_dp_0 ) && ( 0 )
+Cut 44: ( L_dp_0 ) && ( 0 )
+Cut 45: ( L_dp_0 ) && ( 0 )
+Cut 46: ( L_dp_0 ) && ( 0 )
+Cut 47: ( L_dp_0 ) && ( 0 )
+Cut 48: ( L_dp_0 ) && ( 0 )
+Cut 49: ( L_dp_0 ) && ( 0 )
+Cut 50: ( L_dp_0 ) && ( 0 )
+Cut 51: ( L_dp_0 ) && ( 0 )
+Cut 52: ( L_dp_0 ) && ( 0 )
+Cut 53: ( L_dp_0 ) && ( 0 )
+Cut 54: ( L_dp_0 ) && ( hcut_L_0_3_9&&(abs(L.tr.tg_dp-0.044)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 55: ( L_dp_0 ) && ( 0 )
+Cut 56: ( L_dp_0 ) && ( hcut_L_0_3_11&&(abs(L.tr.tg_dp-0.044)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 57: ( L_dp_0 ) && ( 0 )
+Cut 58: ( L_dp_0 ) && ( 0 )
+Cut 59: ( L_dp_0 ) && ( 0 )
+Cut 60: ( L_dp_0 ) && ( 0 )
+Cut 61: ( L_dp_0 ) && ( 0 )
+Cut 62: ( L_dp_0 ) && ( 0 )
+Cut 63: ( L_dp_0 ) && ( 0 )
+Cut 64: ( L_dp_0 ) && ( 0 )
+Cut 65: ( L_dp_0 ) && ( 0 )
+Cut 66: ( L_dp_0 ) && ( 0 )
+Cut 67: ( L_dp_0 ) && ( 0 )
+Cut 68: ( L_dp_0 ) && ( 0 )
+Cut 69: ( L_dp_0 ) && ( hcut_L_0_4_9&&(abs(L.tr.tg_dp-0.044)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 70: ( L_dp_0 ) && ( 0 )
+Cut 71: ( L_dp_0 ) && ( hcut_L_0_4_11&&(abs(L.tr.tg_dp-0.044)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 72: ( L_dp_0 ) && ( 0 )
+Cut 73: ( L_dp_0 ) && ( hcut_L_0_4_13&&(abs(L.tr.tg_dp-0.044)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 74: ( L_dp_0 ) && ( 0 )
+Cut 75: ( L_dp_0 ) && ( 0 )
+Cut 76: ( L_dp_0 ) && ( 0 )
+Cut 77: ( L_dp_0 ) && ( 0 )
+Cut 78: ( L_dp_0 ) && ( 0 )
+Cut 79: ( L_dp_0 ) && ( 0 )
+Cut 80: ( L_dp_0 ) && ( 0 )
+Cut 81: ( L_dp_0 ) && ( 0 )
+Cut 82: ( L_dp_0 ) && ( 0 )
+Cut 83: ( L_dp_0 ) && ( hcut_L_0_5_8&&(abs(L.tr.tg_dp-0.044)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 84: ( L_dp_0 ) && ( 0 )
+Cut 85: ( L_dp_0 ) && ( hcut_L_0_5_10&&(abs(L.tr.tg_dp-0.044)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 86: ( L_dp_0 ) && ( 0 )
+Cut 87: ( L_dp_0 ) && ( hcut_L_0_5_12&&(abs(L.tr.tg_dp-0.044)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 88: ( L_dp_0 ) && ( 0 )
+Cut 89: ( L_dp_0 ) && ( 0 )
+Cut 90: ( L_dp_0 ) && ( 0 )
+Cut 91: ( L_dp_0 ) && ( 0 )
+Cut 92: ( L_dp_0 ) && ( 0 )
+Cut 93: ( L_dp_0 ) && ( 0 )
+Cut 94: ( L_dp_0 ) && ( 0 )
+Cut 95: ( L_dp_0 ) && ( 0 )
+Cut 96: ( L_dp_0 ) && ( 0 )
+Cut 97: ( L_dp_0 ) && ( hcut_L_0_6_7&&(abs(L.tr.tg_dp-0.044)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 98: ( L_dp_0 ) && ( 0 )
+Cut 99: ( L_dp_0 ) && ( hcut_L_0_6_9&&(abs(L.tr.tg_dp-0.044)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 100: ( L_dp_0 ) && ( 0 )
+Cut 101: ( L_dp_0 ) && ( hcut_L_0_6_11&&(abs(L.tr.tg_dp-0.044)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 102: ( L_dp_0 ) && ( 0 )
+Cut 103: ( L_dp_0 ) && ( hcut_L_0_6_13&&(abs(L.tr.tg_dp-0.044)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 104: ( L_dp_0 ) && ( 0 )
+Cut 105: ( L_dp_0 ) && ( 0 )
+Cut 106: ( L_dp_0 ) && ( 0 )
+Cut 107: ( L_dp_0 ) && ( 0 )
+Cut 108: ( L_dp_0 ) && ( 0 )
+Cut 109: ( L_dp_0 ) && ( 0 )
+Cut 110: ( L_dp_0 ) && ( 0 )
+Cut 111: ( L_dp_0 ) && ( 0 )
+Cut 112: ( L_dp_0 ) && ( 0 )
+Cut 113: ( L_dp_0 ) && ( 0 )
+Cut 114: ( L_dp_0 ) && ( hcut_L_0_7_9&&(abs(L.tr.tg_dp-0.044)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 115: ( L_dp_0 ) && ( 0 )
+Cut 116: ( L_dp_0 ) && ( hcut_L_0_7_11&&(abs(L.tr.tg_dp-0.044)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 117: ( L_dp_0 ) && ( 0 )
+Cut 118: ( L_dp_0 ) && ( 0 )
+Cut 119: ( L_dp_0 ) && ( 0 )
+Cut 120: ( L_dp_0 ) && ( 0 )
+Cut 121: ( L_dp_0 ) && ( 0 )
+Cut 122: ( L_dp_0 ) && ( 0 )
+Cut 123: ( L_dp_0 ) && ( 0 )
+Cut 124: ( L_dp_0 ) && ( 0 )
+Cut 125: ( L_dp_0 ) && ( 0 )
+Cut 126: ( L_dp_0 ) && ( 0 )
+Cut 127: ( L_dp_0 ) && ( 0 )
+Cut 128: ( L_dp_0 ) && ( 0 )
+Cut 129: ( L_dp_0 ) && ( 0 )
+Cut 130: ( L_dp_0 ) && ( hcut_L_0_8_10&&(abs(L.tr.tg_dp-0.044)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 131: ( L_dp_0 ) && ( 0 )
+Cut 132: ( L_dp_0 ) && ( hcut_L_0_8_12&&(abs(L.tr.tg_dp-0.044)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 133: ( L_dp_0 ) && ( 0 )
+Cut 134: ( L_dp_0 ) && ( 0 )
+Cut 135: ( L_dp_0 ) && ( 0 )
+Cut 136: ( L_dp_0 ) && ( 0 )
+Cut 137: ( L_dp_0 ) && ( 0 )
+Cut 138: ( L_dp_0 ) && ( 0 )
+Cut 139: ( L_dp_0 ) && ( 0 )
+Cut 140: ( L_dp_0 ) && ( 0 )
+Cut 141: ( L_dp_0 ) && ( 0 )
+Cut 142: ( L_dp_0 ) && ( 0 )
+Cut 143: ( L_dp_0 ) && ( 0 )
+Cut 144: ( L_dp_0 ) && ( 0 )
+Cut 145: ( L_dp_0 ) && ( 0 )
+Cut 146: ( L_dp_0 ) && ( hcut_L_0_9_11&&(abs(L.tr.tg_dp-0.044)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 147: ( L_dp_0 ) && ( 0 )
+Cut 148: ( L_dp_0 ) && ( 0 )
+Cut 149: ( L_dp_0 ) && ( 0 )
+Cut 150: ( L_dp_0 ) && ( 0 )
+Cut 151: ( L_dp_0 ) && ( 0 )
+Cut 152: ( L_dp_0 ) && ( 0 )
+Cut 153: ( L_dp_0 ) && ( 0 )
+Cut 154: ( L_dp_0 ) && ( 0 )
+Cut 155: ( L_dp_0 ) && ( 0 )
+Cut 156: ( L_dp_0 ) && ( 0 )
+Cut 157: ( L_dp_0 ) && ( 0 )
+Cut 158: ( L_dp_0 ) && ( 0 )
+Cut 159: ( L_dp_0 ) && ( 0 )
+Cut 160: ( L_dp_0 ) && ( 0 )
+Cut 161: ( L_dp_0 ) && ( 0 )
+Cut 162: ( L_dp_0 ) && ( 0 )
+Cut 163: ( L_dp_0 ) && ( 0 )
+Cut 164: ( L_dp_0 ) && ( 0 )
+Cut 165: ( L_dp_0 ) && ( 0 )
+Cut 166: ( L_dp_0 ) && ( 0 )
+Cut 167: ( L_dp_0 ) && ( 0 )
+Cut 168: ( L_dp_0 ) && ( 0 )
+Cut 169: ( L_dp_0 ) && ( 0 )
+Cut 170: ( L_dp_0 ) && ( 0 )
+Cut 171: ( L_dp_0 ) && ( 0 )
+Cut 172: ( L_dp_0 ) && ( 0 )
+Cut 173: ( L_dp_0 ) && ( 0 )
+Cut 174: ( L_dp_0 ) && ( 0 )
+Cut 175: ( L_dp_0 ) && ( 0 )
+Cut 176: ( L_dp_0 ) && ( 0 )
+Cut 177: ( L_dp_0 ) && ( 0 )
+Cut 178: ( L_dp_0 ) && ( 0 )
+Cut 179: ( L_dp_0 ) && ( 0 )
+180 peak definition(s) found
+Tree reports 508015 events. Event limits: read: 508015 write: 10
+10 event(s) passed the cuts
+20 event(s) written in total
+Process with addtional cut (!L_dp_0), cut id offset = 900
+Reading variable list from file DpVars.def
+Requested variables: L.tr.r_x L.tr.r_th L.tr.r_y L.tr.r_ph urb.x urb.y L.tr.tg_th L.tr.tg_ph L.tr.tg_dp L.tr.p urb.e fEvtHdr.fRun
+Reading graphical cuts from ArchivedRootFiles/SieveCentralLHRS/apex_coinc_1170.root.FullCut.root ...
+OBJ: TCutG	fcut_L_0	Graph : 0 at: 0x8ebe108
+OBJ: TCutG	hcut_L_0_6_3	Graph : 0 at: 0x90f7430
+OBJ: TCutG	hcut_L_0_6_5	Graph : 0 at: 0x8fc7960
+OBJ: TCutG	hcut_L_0_6_7	Graph : 0 at: 0x8fc7770
+OBJ: TCutG	hcut_L_0_6_9	Graph : 0 at: 0x8fc76c8
+OBJ: TCutG	hcut_L_0_6_11	Graph : 0 at: 0x8fcb700
+OBJ: TCutG	hcut_L_0_6_13	Graph : 0 at: 0x8fcbd98
+OBJ: TCutG	hcut_L_0_5_4	Graph : 0 at: 0x8fccc68
+OBJ: TCutG	hcut_L_0_5_6	Graph : 0 at: 0x8fcd2d0
+OBJ: TCutG	hcut_L_0_5_8	Graph : 0 at: 0x91029c0
+OBJ: TCutG	hcut_L_0_5_10	Graph : 0 at: 0x91030c0
+OBJ: TCutG	hcut_L_0_5_12	Graph : 0 at: 0x8fcc4b8
+OBJ: TCutG	hcut_L_0_4_3	Graph : 0 at: 0x9103ed0
+OBJ: TCutG	hcut_L_0_4_5	Graph : 0 at: 0x9104540
+OBJ: TCutG	hcut_L_0_4_7	Graph : 0 at: 0x8fc7168
+OBJ: TCutG	hcut_L_0_4_9	Graph : 0 at: 0x91037b0
+OBJ: TCutG	hcut_L_0_4_11	Graph : 0 at: 0x9104c10
+OBJ: TCutG	hcut_L_0_3_3	Graph : 0 at: 0x9106288
+OBJ: TCutG	hcut_L_0_3_5	Graph : 0 at: 0x9105b98
+OBJ: TCutG	hcut_L_0_3_7	Graph : 0 at: 0x9107080
+OBJ: TCutG	hcut_L_0_3_9	Graph : 0 at: 0x9106900
+OBJ: TCutG	hcut_L_0_3_11	Graph : 0 at: 0x9107ea8
+OBJ: TCutG	hcut_L_0_2_6	Graph : 0 at: 0x9108560
+OBJ: TCutG	hcut_L_0_2_8	Graph : 0 at: 0x9108c88
+OBJ: TCutG	hcut_L_0_1_5	Graph : 0 at: 0x9109388
+OBJ: TCutG	hcut_L_0_1_7	Graph : 0 at: 0x9109a20
+OBJ: TCutG	hcut_L_0_1_9	Graph : 0 at: 0x9105350
+OBJ: TCutG	hcut_L_0_7_3	Graph : 0 at: 0x910a838
+OBJ: TCutG	hcut_L_0_7_5	Graph : 0 at: 0x910aee0
+OBJ: TCutG	hcut_L_0_7_7	Graph : 0 at: 0x910bb10
+OBJ: TCutG	hcut_L_0_7_9	Graph : 0 at: 0x910bd78
+OBJ: TCutG	hcut_L_0_7_11	Graph : 0 at: 0x910a0e8
+OBJ: TCutG	hcut_L_0_8_4	Graph : 0 at: 0x910cae0
+OBJ: TCutG	hcut_L_0_8_6	Graph : 0 at: 0x910d1d0
+OBJ: TCutG	hcut_L_0_8_8	Graph : 0 at: 0x910d8b8
+OBJ: TCutG	hcut_L_0_8_10	Graph : 0 at: 0x910df50
+OBJ: TCutG	hcut_L_0_8_12	Graph : 0 at: 0x910eb88
+OBJ: TCutG	hcut_L_0_9_11	Graph : 0 at: 0x910b9f0
+OBJ: TCutG	L_dp_0	Graph : 0 at: 0x910c3e8
+39 cut(s) found
+Output to file: ArchivedRootFiles/SieveCentralLHRS/DpDataDbg.f51
+Opened ROOT input file ArchivedRootFiles/SieveCentralLHRS/apex_coinc_1170.root
+Found and initialized tree T
+Parsing tree...
+Loaded 610 tree variables from 612 tree leaves
+Parsing output variable definitions...
+DataElement: L.tr.r_x (L.tr.r_x) 	good:1 	type:8 (Double_t) 	size:1 	a/va: 0/0  min/max: 0/1  fmt: 1.10e
+DataElement: L.tr.r_th (L.tr.r_th) 	good:1 	type:8 (Double_t) 	size:1 	a/va: 0/0  min/max: 0/1  fmt: 1.10e
+DataElement: L.tr.r_y (L.tr.r_y) 	good:1 	type:8 (Double_t) 	size:1 	a/va: 0/0  min/max: 0/1  fmt: 1.10e
+DataElement: L.tr.r_ph (L.tr.r_ph) 	good:1 	type:8 (Double_t) 	size:1 	a/va: 0/0  min/max: 0/1  fmt: 1.10e
+DataElement: urb.x (urb.x) 	good:1 	type:8 (Double_t) 	size:1 	a/va: 0/0  min/max: 0/1  fmt: 1.10e
+DataElement: urb.y (urb.y) 	good:1 	type:8 (Double_t) 	size:1 	a/va: 0/0  min/max: 0/1  fmt: 1.10e
+DataElement: L.tr.tg_th (L.tr.tg_th) 	good:1 	type:8 (Double_t) 	size:1 	a/va: 0/0  min/max: 0/1  fmt: 1.10e
+DataElement: L.tr.tg_ph (L.tr.tg_ph) 	good:1 	type:8 (Double_t) 	size:1 	a/va: 0/0  min/max: 0/1  fmt: 1.10e
+DataElement: L.tr.tg_dp (L.tr.tg_dp) 	good:1 	type:8 (Double_t) 	size:1 	a/va: 0/0  min/max: 0/1  fmt: 1.10e
+DataElement: L.tr.p (L.tr.p) 	good:1 	type:8 (Double_t) 	size:1 	a/va: 0/0  min/max: 0/1  fmt: 1.10e
+DataElement: urb.e (urb.e) 	good:1 	type:8 (Double_t) 	size:1 	a/va: 0/0  min/max: 0/1  fmt: 1.10e
+DataElement: fEvtHdr.fRun (fEvtHdr.fRun) 	good:1 	type:3 (Int_t) 	size:1 	a/va: 0/0  min/max: 0/1  fmt: 1.10e
+12 tree variable(s) successfully loaded
+Reading peak definition file ArchivedRootFiles/SieveCentralLHRS/apex_coinc_1170.root.SieveCut.cut
+Cut 0: ( !L_dp_0 ) && ( 0 )
+Cut 1: ( !L_dp_0 ) && ( 0 )
+Cut 2: ( !L_dp_0 ) && ( 0 )
+Cut 3: ( !L_dp_0 ) && ( 0 )
+Cut 4: ( !L_dp_0 ) && ( 0 )
+Cut 5: ( !L_dp_0 ) && ( 0 )
+Cut 6: ( !L_dp_0 ) && ( 0 )
+Cut 7: ( !L_dp_0 ) && ( 0 )
+Cut 8: ( !L_dp_0 ) && ( 0 )
+Cut 9: ( !L_dp_0 ) && ( 0 )
+Cut 10: ( !L_dp_0 ) && ( 0 )
+Cut 11: ( !L_dp_0 ) && ( 0 )
+Cut 12: ( !L_dp_0 ) && ( 0 )
+Cut 13: ( !L_dp_0 ) && ( 0 )
+Cut 14: ( !L_dp_0 ) && ( 0 )
+Cut 15: ( !L_dp_0 ) && ( 0 )
+Cut 16: ( !L_dp_0 ) && ( 0 )
+Cut 17: ( !L_dp_0 ) && ( 0 )
+Cut 18: ( !L_dp_0 ) && ( 0 )
+Cut 19: ( !L_dp_0 ) && ( 0 )
+Cut 20: ( !L_dp_0 ) && ( hcut_L_0_1_5&&(abs(L.tr.tg_dp-0.0025)<0.002)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 21: ( !L_dp_0 ) && ( 0 )
+Cut 22: ( !L_dp_0 ) && ( hcut_L_0_1_7&&(abs(L.tr.tg_dp-0.0025)<0.002)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 23: ( !L_dp_0 ) && ( 0 )
+Cut 24: ( !L_dp_0 ) && ( hcut_L_0_1_9&&(abs(L.tr.tg_dp-0.0025)<0.002)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 25: ( !L_dp_0 ) && ( 0 )
+Cut 26: ( !L_dp_0 ) && ( 0 )
+Cut 27: ( !L_dp_0 ) && ( 0 )
+Cut 28: ( !L_dp_0 ) && ( 0 )
+Cut 29: ( !L_dp_0 ) && ( 0 )
+Cut 30: ( !L_dp_0 ) && ( 0 )
+Cut 31: ( !L_dp_0 ) && ( 0 )
+Cut 32: ( !L_dp_0 ) && ( 0 )
+Cut 33: ( !L_dp_0 ) && ( 0 )
+Cut 34: ( !L_dp_0 ) && ( 0 )
+Cut 35: ( !L_dp_0 ) && ( 0 )
+Cut 36: ( !L_dp_0 ) && ( hcut_L_0_2_6&&(abs(L.tr.tg_dp-0.0025)<0.002)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 37: ( !L_dp_0 ) && ( 0 )
+Cut 38: ( !L_dp_0 ) && ( hcut_L_0_2_8&&(abs(L.tr.tg_dp-0.0025)<0.002)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 39: ( !L_dp_0 ) && ( 0 )
+Cut 40: ( !L_dp_0 ) && ( 0 )
+Cut 41: ( !L_dp_0 ) && ( 0 )
+Cut 42: ( !L_dp_0 ) && ( 0 )
+Cut 43: ( !L_dp_0 ) && ( 0 )
+Cut 44: ( !L_dp_0 ) && ( 0 )
+Cut 45: ( !L_dp_0 ) && ( 0 )
+Cut 46: ( !L_dp_0 ) && ( 0 )
+Cut 47: ( !L_dp_0 ) && ( 0 )
+Cut 48: ( !L_dp_0 ) && ( hcut_L_0_3_3&&(abs(L.tr.tg_dp-0.0025)<0.002)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 49: ( !L_dp_0 ) && ( 0 )
+Cut 50: ( !L_dp_0 ) && ( hcut_L_0_3_5&&(abs(L.tr.tg_dp-0.0025)<0.002)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 51: ( !L_dp_0 ) && ( 0 )
+Cut 52: ( !L_dp_0 ) && ( hcut_L_0_3_7&&(abs(L.tr.tg_dp-0.0025)<0.002)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 53: ( !L_dp_0 ) && ( 0 )
+Cut 54: ( !L_dp_0 ) && ( hcut_L_0_3_9&&(abs(L.tr.tg_dp-0.0025)<0.002)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 55: ( !L_dp_0 ) && ( 0 )
+Cut 56: ( !L_dp_0 ) && ( hcut_L_0_3_11&&(abs(L.tr.tg_dp-0.0025)<0.002)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 57: ( !L_dp_0 ) && ( 0 )
+Cut 58: ( !L_dp_0 ) && ( 0 )
+Cut 59: ( !L_dp_0 ) && ( 0 )
+Cut 60: ( !L_dp_0 ) && ( 0 )
+Cut 61: ( !L_dp_0 ) && ( 0 )
+Cut 62: ( !L_dp_0 ) && ( 0 )
+Cut 63: ( !L_dp_0 ) && ( hcut_L_0_4_3&&(abs(L.tr.tg_dp-0.0025)<0.002)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 64: ( !L_dp_0 ) && ( 0 )
+Cut 65: ( !L_dp_0 ) && ( hcut_L_0_4_5&&(abs(L.tr.tg_dp-0.0025)<0.002)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 66: ( !L_dp_0 ) && ( 0 )
+Cut 67: ( !L_dp_0 ) && ( hcut_L_0_4_7&&(abs(L.tr.tg_dp-0.0025)<0.002)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 68: ( !L_dp_0 ) && ( 0 )
+Cut 69: ( !L_dp_0 ) && ( hcut_L_0_4_9&&(abs(L.tr.tg_dp-0.0025)<0.002)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 70: ( !L_dp_0 ) && ( 0 )
+Cut 71: ( !L_dp_0 ) && ( hcut_L_0_4_11&&(abs(L.tr.tg_dp-0.0025)<0.002)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 72: ( !L_dp_0 ) && ( 0 )
+Cut 73: ( !L_dp_0 ) && ( 0 )
+Cut 74: ( !L_dp_0 ) && ( 0 )
+Cut 75: ( !L_dp_0 ) && ( 0 )
+Cut 76: ( !L_dp_0 ) && ( 0 )
+Cut 77: ( !L_dp_0 ) && ( 0 )
+Cut 78: ( !L_dp_0 ) && ( 0 )
+Cut 79: ( !L_dp_0 ) && ( hcut_L_0_5_4&&(abs(L.tr.tg_dp-0.0025)<0.002)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 80: ( !L_dp_0 ) && ( 0 )
+Cut 81: ( !L_dp_0 ) && ( hcut_L_0_5_6&&(abs(L.tr.tg_dp-0.0025)<0.002)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 82: ( !L_dp_0 ) && ( 0 )
+Cut 83: ( !L_dp_0 ) && ( hcut_L_0_5_8&&(abs(L.tr.tg_dp-0.0025)<0.002)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 84: ( !L_dp_0 ) && ( 0 )
+Cut 85: ( !L_dp_0 ) && ( hcut_L_0_5_10&&(abs(L.tr.tg_dp-0.0025)<0.002)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 86: ( !L_dp_0 ) && ( 0 )
+Cut 87: ( !L_dp_0 ) && ( hcut_L_0_5_12&&(abs(L.tr.tg_dp-0.0025)<0.002)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 88: ( !L_dp_0 ) && ( 0 )
+Cut 89: ( !L_dp_0 ) && ( 0 )
+Cut 90: ( !L_dp_0 ) && ( 0 )
+Cut 91: ( !L_dp_0 ) && ( 0 )
+Cut 92: ( !L_dp_0 ) && ( 0 )
+Cut 93: ( !L_dp_0 ) && ( hcut_L_0_6_3&&(abs(L.tr.tg_dp-0.0025)<0.002)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 94: ( !L_dp_0 ) && ( 0 )
+Cut 95: ( !L_dp_0 ) && ( hcut_L_0_6_5&&(abs(L.tr.tg_dp-0.0025)<0.002)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 96: ( !L_dp_0 ) && ( 0 )
+Cut 97: ( !L_dp_0 ) && ( hcut_L_0_6_7&&(abs(L.tr.tg_dp-0.0025)<0.002)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 98: ( !L_dp_0 ) && ( 0 )
+Cut 99: ( !L_dp_0 ) && ( hcut_L_0_6_9&&(abs(L.tr.tg_dp-0.0025)<0.002)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 100: ( !L_dp_0 ) && ( 0 )
+Cut 101: ( !L_dp_0 ) && ( hcut_L_0_6_11&&(abs(L.tr.tg_dp-0.0025)<0.002)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 102: ( !L_dp_0 ) && ( 0 )
+Cut 103: ( !L_dp_0 ) && ( hcut_L_0_6_13&&(abs(L.tr.tg_dp-0.0025)<0.002)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 104: ( !L_dp_0 ) && ( 0 )
+Cut 105: ( !L_dp_0 ) && ( 0 )
+Cut 106: ( !L_dp_0 ) && ( 0 )
+Cut 107: ( !L_dp_0 ) && ( 0 )
+Cut 108: ( !L_dp_0 ) && ( hcut_L_0_7_3&&(abs(L.tr.tg_dp-0.0025)<0.002)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 109: ( !L_dp_0 ) && ( 0 )
+Cut 110: ( !L_dp_0 ) && ( hcut_L_0_7_5&&(abs(L.tr.tg_dp-0.0025)<0.002)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 111: ( !L_dp_0 ) && ( 0 )
+Cut 112: ( !L_dp_0 ) && ( hcut_L_0_7_7&&(abs(L.tr.tg_dp-0.0025)<0.002)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 113: ( !L_dp_0 ) && ( 0 )
+Cut 114: ( !L_dp_0 ) && ( hcut_L_0_7_9&&(abs(L.tr.tg_dp-0.0025)<0.002)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 115: ( !L_dp_0 ) && ( 0 )
+Cut 116: ( !L_dp_0 ) && ( hcut_L_0_7_11&&(abs(L.tr.tg_dp-0.0025)<0.002)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 117: ( !L_dp_0 ) && ( 0 )
+Cut 118: ( !L_dp_0 ) && ( 0 )
+Cut 119: ( !L_dp_0 ) && ( 0 )
+Cut 120: ( !L_dp_0 ) && ( 0 )
+Cut 121: ( !L_dp_0 ) && ( 0 )
+Cut 122: ( !L_dp_0 ) && ( 0 )
+Cut 123: ( !L_dp_0 ) && ( 0 )
+Cut 124: ( !L_dp_0 ) && ( hcut_L_0_8_4&&(abs(L.tr.tg_dp-0.0025)<0.002)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 125: ( !L_dp_0 ) && ( 0 )
+Cut 126: ( !L_dp_0 ) && ( hcut_L_0_8_6&&(abs(L.tr.tg_dp-0.0025)<0.002)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 127: ( !L_dp_0 ) && ( 0 )
+Cut 128: ( !L_dp_0 ) && ( hcut_L_0_8_8&&(abs(L.tr.tg_dp-0.0025)<0.002)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 129: ( !L_dp_0 ) && ( 0 )
+Cut 130: ( !L_dp_0 ) && ( hcut_L_0_8_10&&(abs(L.tr.tg_dp-0.0025)<0.002)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 131: ( !L_dp_0 ) && ( 0 )
+Cut 132: ( !L_dp_0 ) && ( hcut_L_0_8_12&&(abs(L.tr.tg_dp-0.0025)<0.002)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 133: ( !L_dp_0 ) && ( 0 )
+Cut 134: ( !L_dp_0 ) && ( 0 )
+Cut 135: ( !L_dp_0 ) && ( 0 )
+Cut 136: ( !L_dp_0 ) && ( 0 )
+Cut 137: ( !L_dp_0 ) && ( 0 )
+Cut 138: ( !L_dp_0 ) && ( 0 )
+Cut 139: ( !L_dp_0 ) && ( 0 )
+Cut 140: ( !L_dp_0 ) && ( 0 )
+Cut 141: ( !L_dp_0 ) && ( 0 )
+Cut 142: ( !L_dp_0 ) && ( 0 )
+Cut 143: ( !L_dp_0 ) && ( 0 )
+Cut 144: ( !L_dp_0 ) && ( 0 )
+Cut 145: ( !L_dp_0 ) && ( 0 )
+Cut 146: ( !L_dp_0 ) && ( hcut_L_0_9_11&&(abs(L.tr.tg_dp-0.0025)<0.002)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 147: ( !L_dp_0 ) && ( 0 )
+Cut 148: ( !L_dp_0 ) && ( 0 )
+Cut 149: ( !L_dp_0 ) && ( 0 )
+Cut 150: ( !L_dp_0 ) && ( 0 )
+Cut 151: ( !L_dp_0 ) && ( 0 )
+Cut 152: ( !L_dp_0 ) && ( 0 )
+Cut 153: ( !L_dp_0 ) && ( 0 )
+Cut 154: ( !L_dp_0 ) && ( 0 )
+Cut 155: ( !L_dp_0 ) && ( 0 )
+Cut 156: ( !L_dp_0 ) && ( 0 )
+Cut 157: ( !L_dp_0 ) && ( 0 )
+Cut 158: ( !L_dp_0 ) && ( 0 )
+Cut 159: ( !L_dp_0 ) && ( 0 )
+Cut 160: ( !L_dp_0 ) && ( 0 )
+Cut 161: ( !L_dp_0 ) && ( 0 )
+Cut 162: ( !L_dp_0 ) && ( 0 )
+Cut 163: ( !L_dp_0 ) && ( 0 )
+Cut 164: ( !L_dp_0 ) && ( 0 )
+Cut 165: ( !L_dp_0 ) && ( 0 )
+Cut 166: ( !L_dp_0 ) && ( 0 )
+Cut 167: ( !L_dp_0 ) && ( 0 )
+Cut 168: ( !L_dp_0 ) && ( 0 )
+Cut 169: ( !L_dp_0 ) && ( 0 )
+Cut 170: ( !L_dp_0 ) && ( 0 )
+Cut 171: ( !L_dp_0 ) && ( 0 )
+Cut 172: ( !L_dp_0 ) && ( 0 )
+Cut 173: ( !L_dp_0 ) && ( 0 )
+Cut 174: ( !L_dp_0 ) && ( 0 )
+Cut 175: ( !L_dp_0 ) && ( 0 )
+Cut 176: ( !L_dp_0 ) && ( 0 )
+Cut 177: ( !L_dp_0 ) && ( 0 )
+Cut 178: ( !L_dp_0 ) && ( 0 )
+Cut 179: ( !L_dp_0 ) && ( 0 )
+180 peak definition(s) found
+Tree reports 395509 events. Event limits: read: 395509 write: 10
+10 event(s) passed the cuts
+10 event(s) written in total
+Process with addtional cut (!L_dp_0), cut id offset = 1080
+Reading variable list from file DpVars.def
+Requested variables: L.tr.r_x L.tr.r_th L.tr.r_y L.tr.r_ph urb.x urb.y L.tr.tg_th L.tr.tg_ph L.tr.tg_dp L.tr.p urb.e fEvtHdr.fRun
+Reading graphical cuts from ArchivedRootFiles/SieveCentralLHRS/apex_coinc_1172.root.FullCut.root ...
+OBJ: TCutG	fcut_L_0	Graph : 0 at: 0x92aec90
+OBJ: TCutG	hcut_L_0_6_5	Graph : 0 at: 0x94e8060
+OBJ: TCutG	hcut_L_0_6_7	Graph : 0 at: 0x93b8530
+OBJ: TCutG	hcut_L_0_6_9	Graph : 0 at: 0x93bbb40
+OBJ: TCutG	hcut_L_0_6_11	Graph : 0 at: 0x93b82a0
+OBJ: TCutG	hcut_L_0_6_13	Graph : 0 at: 0x93bc1f8
+OBJ: TCutG	hcut_L_0_6_3	Graph : 0 at: 0x93bcfd8
+OBJ: TCutG	hcut_L_0_5_2	Graph : 0 at: 0x93bc8b0
+OBJ: TCutG	hcut_L_0_5_4	Graph : 0 at: 0x93bdd30
+OBJ: TCutG	hcut_L_0_5_6	Graph : 0 at: 0x93b7ce8
+OBJ: TCutG	hcut_L_0_5_8	Graph : 0 at: 0x94f3560
+OBJ: TCutG	hcut_L_0_5_10	Graph : 0 at: 0x93bd600
+OBJ: TCutG	hcut_L_0_5_12	Graph : 0 at: 0x94f4a38
+OBJ: TCutG	hcut_L_0_4_3	Graph : 0 at: 0x94f50a0
+OBJ: TCutG	hcut_L_0_4_5	Graph : 0 at: 0x94f4330
+OBJ: TCutG	hcut_L_0_4_7	Graph : 0 at: 0x94f63b8
+OBJ: TCutG	hcut_L_0_4_9	Graph : 0 at: 0x94f58e8
+OBJ: TCutG	hcut_L_0_4_11	Graph : 0 at: 0x94f6630
+OBJ: TCutG	hcut_L_0_3_3	Graph : 0 at: 0x94f7418
+OBJ: TCutG	hcut_L_0_3_7	Graph : 0 at: 0x94f7a78
+OBJ: TCutG	hcut_L_0_3_9	Graph : 0 at: 0x94f5e78
+OBJ: TCutG	hcut_L_0_3_11	Graph : 0 at: 0x94f8878
+OBJ: TCutG	hcut_L_0_3_5	Graph : 0 at: 0x94f8f18
+OBJ: TCutG	hcut_L_0_2_6	Graph : 0 at: 0x94f9460
+OBJ: TCutG	hcut_L_0_2_8	Graph : 0 at: 0x94f6c88
+OBJ: TCutG	hcut_L_0_1_5	Graph : 0 at: 0x93b8cf8
+OBJ: TCutG	hcut_L_0_1_7	Graph : 0 at: 0x93b85e0
+OBJ: TCutG	hcut_L_0_1_9	Graph : 0 at: 0x94f8118
+OBJ: TCutG	hcut_L_0_7_3	Graph : 0 at: 0x93ba1d0
+OBJ: TCutG	hcut_L_0_7_7	Graph : 0 at: 0x93b9ad0
+OBJ: TCutG	hcut_L_0_7_9	Graph : 0 at: 0x93bb008
+OBJ: TCutG	hcut_L_0_7_11	Graph : 0 at: 0x93baa88
+OBJ: TCutG	hcut_L_0_7_5	Graph : 0 at: 0x94f9700
+OBJ: TCutG	hcut_L_0_8_4	Graph : 0 at: 0x94fa740
+OBJ: TCutG	hcut_L_0_8_6	Graph : 0 at: 0x94fa040
+OBJ: TCutG	hcut_L_0_8_8	Graph : 0 at: 0x94fb4b8
+OBJ: TCutG	hcut_L_0_8_10	Graph : 0 at: 0x93b9390
+OBJ: TCutG	hcut_L_0_8_12	Graph : 0 at: 0x94fc4d8
+OBJ: TCutG	hcut_L_0_9_11	Graph : 0 at: 0x94faf58
+OBJ: TCutG	L_dp_0	Graph : 0 at: 0x94fc2a0
+40 cut(s) found
+Output to file: ArchivedRootFiles/SieveCentralLHRS/DpDataDbg.f51
+Opened ROOT input file ArchivedRootFiles/SieveCentralLHRS/apex_coinc_1172.root
+Found and initialized tree T
+Parsing tree...
+Loaded 610 tree variables from 612 tree leaves
+Parsing output variable definitions...
+DataElement: L.tr.r_x (L.tr.r_x) 	good:1 	type:8 (Double_t) 	size:1 	a/va: 0/0  min/max: 0/1  fmt: 1.10e
+DataElement: L.tr.r_th (L.tr.r_th) 	good:1 	type:8 (Double_t) 	size:1 	a/va: 0/0  min/max: 0/1  fmt: 1.10e
+DataElement: L.tr.r_y (L.tr.r_y) 	good:1 	type:8 (Double_t) 	size:1 	a/va: 0/0  min/max: 0/1  fmt: 1.10e
+DataElement: L.tr.r_ph (L.tr.r_ph) 	good:1 	type:8 (Double_t) 	size:1 	a/va: 0/0  min/max: 0/1  fmt: 1.10e
+DataElement: urb.x (urb.x) 	good:1 	type:8 (Double_t) 	size:1 	a/va: 0/0  min/max: 0/1  fmt: 1.10e
+DataElement: urb.y (urb.y) 	good:1 	type:8 (Double_t) 	size:1 	a/va: 0/0  min/max: 0/1  fmt: 1.10e
+DataElement: L.tr.tg_th (L.tr.tg_th) 	good:1 	type:8 (Double_t) 	size:1 	a/va: 0/0  min/max: 0/1  fmt: 1.10e
+DataElement: L.tr.tg_ph (L.tr.tg_ph) 	good:1 	type:8 (Double_t) 	size:1 	a/va: 0/0  min/max: 0/1  fmt: 1.10e
+DataElement: L.tr.tg_dp (L.tr.tg_dp) 	good:1 	type:8 (Double_t) 	size:1 	a/va: 0/0  min/max: 0/1  fmt: 1.10e
+DataElement: L.tr.p (L.tr.p) 	good:1 	type:8 (Double_t) 	size:1 	a/va: 0/0  min/max: 0/1  fmt: 1.10e
+DataElement: urb.e (urb.e) 	good:1 	type:8 (Double_t) 	size:1 	a/va: 0/0  min/max: 0/1  fmt: 1.10e
+DataElement: fEvtHdr.fRun (fEvtHdr.fRun) 	good:1 	type:3 (Int_t) 	size:1 	a/va: 0/0  min/max: 0/1  fmt: 1.10e
+12 tree variable(s) successfully loaded
+Reading peak definition file ArchivedRootFiles/SieveCentralLHRS/apex_coinc_1172.root.SieveCut.cut
+Cut 0: ( !L_dp_0 ) && ( 0 )
+Cut 1: ( !L_dp_0 ) && ( 0 )
+Cut 2: ( !L_dp_0 ) && ( 0 )
+Cut 3: ( !L_dp_0 ) && ( 0 )
+Cut 4: ( !L_dp_0 ) && ( 0 )
+Cut 5: ( !L_dp_0 ) && ( 0 )
+Cut 6: ( !L_dp_0 ) && ( 0 )
+Cut 7: ( !L_dp_0 ) && ( 0 )
+Cut 8: ( !L_dp_0 ) && ( 0 )
+Cut 9: ( !L_dp_0 ) && ( 0 )
+Cut 10: ( !L_dp_0 ) && ( 0 )
+Cut 11: ( !L_dp_0 ) && ( 0 )
+Cut 12: ( !L_dp_0 ) && ( 0 )
+Cut 13: ( !L_dp_0 ) && ( 0 )
+Cut 14: ( !L_dp_0 ) && ( 0 )
+Cut 15: ( !L_dp_0 ) && ( 0 )
+Cut 16: ( !L_dp_0 ) && ( 0 )
+Cut 17: ( !L_dp_0 ) && ( 0 )
+Cut 18: ( !L_dp_0 ) && ( 0 )
+Cut 19: ( !L_dp_0 ) && ( 0 )
+Cut 20: ( !L_dp_0 ) && ( hcut_L_0_1_5&&(abs(L.tr.tg_dp-0.0115)<0.0025)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 21: ( !L_dp_0 ) && ( 0 )
+Cut 22: ( !L_dp_0 ) && ( hcut_L_0_1_7&&(abs(L.tr.tg_dp-0.0115)<0.0025)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 23: ( !L_dp_0 ) && ( 0 )
+Cut 24: ( !L_dp_0 ) && ( hcut_L_0_1_9&&(abs(L.tr.tg_dp-0.0115)<0.0025)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 25: ( !L_dp_0 ) && ( 0 )
+Cut 26: ( !L_dp_0 ) && ( 0 )
+Cut 27: ( !L_dp_0 ) && ( 0 )
+Cut 28: ( !L_dp_0 ) && ( 0 )
+Cut 29: ( !L_dp_0 ) && ( 0 )
+Cut 30: ( !L_dp_0 ) && ( 0 )
+Cut 31: ( !L_dp_0 ) && ( 0 )
+Cut 32: ( !L_dp_0 ) && ( 0 )
+Cut 33: ( !L_dp_0 ) && ( 0 )
+Cut 34: ( !L_dp_0 ) && ( 0 )
+Cut 35: ( !L_dp_0 ) && ( 0 )
+Cut 36: ( !L_dp_0 ) && ( hcut_L_0_2_6&&(abs(L.tr.tg_dp-0.0115)<0.0025)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 37: ( !L_dp_0 ) && ( 0 )
+Cut 38: ( !L_dp_0 ) && ( hcut_L_0_2_8&&(abs(L.tr.tg_dp-0.0115)<0.0025)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 39: ( !L_dp_0 ) && ( 0 )
+Cut 40: ( !L_dp_0 ) && ( 0 )
+Cut 41: ( !L_dp_0 ) && ( 0 )
+Cut 42: ( !L_dp_0 ) && ( 0 )
+Cut 43: ( !L_dp_0 ) && ( 0 )
+Cut 44: ( !L_dp_0 ) && ( 0 )
+Cut 45: ( !L_dp_0 ) && ( 0 )
+Cut 46: ( !L_dp_0 ) && ( 0 )
+Cut 47: ( !L_dp_0 ) && ( 0 )
+Cut 48: ( !L_dp_0 ) && ( hcut_L_0_3_3&&(abs(L.tr.tg_dp-0.0115)<0.0025)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 49: ( !L_dp_0 ) && ( 0 )
+Cut 50: ( !L_dp_0 ) && ( hcut_L_0_3_5&&(abs(L.tr.tg_dp-0.0115)<0.0025)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 51: ( !L_dp_0 ) && ( 0 )
+Cut 52: ( !L_dp_0 ) && ( hcut_L_0_3_7&&(abs(L.tr.tg_dp-0.0115)<0.0025)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 53: ( !L_dp_0 ) && ( 0 )
+Cut 54: ( !L_dp_0 ) && ( hcut_L_0_3_9&&(abs(L.tr.tg_dp-0.0115)<0.0025)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 55: ( !L_dp_0 ) && ( 0 )
+Cut 56: ( !L_dp_0 ) && ( hcut_L_0_3_11&&(abs(L.tr.tg_dp-0.0115)<0.0025)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 57: ( !L_dp_0 ) && ( 0 )
+Cut 58: ( !L_dp_0 ) && ( 0 )
+Cut 59: ( !L_dp_0 ) && ( 0 )
+Cut 60: ( !L_dp_0 ) && ( 0 )
+Cut 61: ( !L_dp_0 ) && ( 0 )
+Cut 62: ( !L_dp_0 ) && ( 0 )
+Cut 63: ( !L_dp_0 ) && ( hcut_L_0_4_3&&(abs(L.tr.tg_dp-0.0115)<0.0025)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 64: ( !L_dp_0 ) && ( 0 )
+Cut 65: ( !L_dp_0 ) && ( hcut_L_0_4_5&&(abs(L.tr.tg_dp-0.0115)<0.0025)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 66: ( !L_dp_0 ) && ( 0 )
+Cut 67: ( !L_dp_0 ) && ( hcut_L_0_4_7&&(abs(L.tr.tg_dp-0.0115)<0.0025)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 68: ( !L_dp_0 ) && ( 0 )
+Cut 69: ( !L_dp_0 ) && ( hcut_L_0_4_9&&(abs(L.tr.tg_dp-0.0115)<0.0025)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 70: ( !L_dp_0 ) && ( 0 )
+Cut 71: ( !L_dp_0 ) && ( hcut_L_0_4_11&&(abs(L.tr.tg_dp-0.0115)<0.0025)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 72: ( !L_dp_0 ) && ( 0 )
+Cut 73: ( !L_dp_0 ) && ( 0 )
+Cut 74: ( !L_dp_0 ) && ( 0 )
+Cut 75: ( !L_dp_0 ) && ( 0 )
+Cut 76: ( !L_dp_0 ) && ( 0 )
+Cut 77: ( !L_dp_0 ) && ( hcut_L_0_5_2&&(abs(L.tr.tg_dp-0.0115)<0.0025)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 78: ( !L_dp_0 ) && ( 0 )
+Cut 79: ( !L_dp_0 ) && ( hcut_L_0_5_4&&(abs(L.tr.tg_dp-0.0115)<0.0025)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 80: ( !L_dp_0 ) && ( 0 )
+Cut 81: ( !L_dp_0 ) && ( hcut_L_0_5_6&&(abs(L.tr.tg_dp-0.0115)<0.0025)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 82: ( !L_dp_0 ) && ( 0 )
+Cut 83: ( !L_dp_0 ) && ( hcut_L_0_5_8&&(abs(L.tr.tg_dp-0.0115)<0.0025)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 84: ( !L_dp_0 ) && ( 0 )
+Cut 85: ( !L_dp_0 ) && ( hcut_L_0_5_10&&(abs(L.tr.tg_dp-0.0115)<0.0025)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 86: ( !L_dp_0 ) && ( 0 )
+Cut 87: ( !L_dp_0 ) && ( hcut_L_0_5_12&&(abs(L.tr.tg_dp-0.0115)<0.0025)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 88: ( !L_dp_0 ) && ( 0 )
+Cut 89: ( !L_dp_0 ) && ( 0 )
+Cut 90: ( !L_dp_0 ) && ( 0 )
+Cut 91: ( !L_dp_0 ) && ( 0 )
+Cut 92: ( !L_dp_0 ) && ( 0 )
+Cut 93: ( !L_dp_0 ) && ( hcut_L_0_6_3&&(abs(L.tr.tg_dp-0.0115)<0.0025)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 94: ( !L_dp_0 ) && ( 0 )
+Cut 95: ( !L_dp_0 ) && ( hcut_L_0_6_5&&(abs(L.tr.tg_dp-0.0115)<0.0025)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 96: ( !L_dp_0 ) && ( 0 )
+Cut 97: ( !L_dp_0 ) && ( hcut_L_0_6_7&&(abs(L.tr.tg_dp-0.0115)<0.0025)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 98: ( !L_dp_0 ) && ( 0 )
+Cut 99: ( !L_dp_0 ) && ( hcut_L_0_6_9&&(abs(L.tr.tg_dp-0.0115)<0.0025)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 100: ( !L_dp_0 ) && ( 0 )
+Cut 101: ( !L_dp_0 ) && ( hcut_L_0_6_11&&(abs(L.tr.tg_dp-0.0115)<0.0025)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 102: ( !L_dp_0 ) && ( 0 )
+Cut 103: ( !L_dp_0 ) && ( hcut_L_0_6_13&&(abs(L.tr.tg_dp-0.0115)<0.0025)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 104: ( !L_dp_0 ) && ( 0 )
+Cut 105: ( !L_dp_0 ) && ( 0 )
+Cut 106: ( !L_dp_0 ) && ( 0 )
+Cut 107: ( !L_dp_0 ) && ( 0 )
+Cut 108: ( !L_dp_0 ) && ( hcut_L_0_7_3&&(abs(L.tr.tg_dp-0.0115)<0.0025)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 109: ( !L_dp_0 ) && ( 0 )
+Cut 110: ( !L_dp_0 ) && ( hcut_L_0_7_5&&(abs(L.tr.tg_dp-0.0115)<0.0025)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 111: ( !L_dp_0 ) && ( 0 )
+Cut 112: ( !L_dp_0 ) && ( hcut_L_0_7_7&&(abs(L.tr.tg_dp-0.0115)<0.0025)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 113: ( !L_dp_0 ) && ( 0 )
+Cut 114: ( !L_dp_0 ) && ( hcut_L_0_7_9&&(abs(L.tr.tg_dp-0.0115)<0.0025)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 115: ( !L_dp_0 ) && ( 0 )
+Cut 116: ( !L_dp_0 ) && ( hcut_L_0_7_11&&(abs(L.tr.tg_dp-0.0115)<0.0025)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 117: ( !L_dp_0 ) && ( 0 )
+Cut 118: ( !L_dp_0 ) && ( 0 )
+Cut 119: ( !L_dp_0 ) && ( 0 )
+Cut 120: ( !L_dp_0 ) && ( 0 )
+Cut 121: ( !L_dp_0 ) && ( 0 )
+Cut 122: ( !L_dp_0 ) && ( 0 )
+Cut 123: ( !L_dp_0 ) && ( 0 )
+Cut 124: ( !L_dp_0 ) && ( hcut_L_0_8_4&&(abs(L.tr.tg_dp-0.0115)<0.0025)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 125: ( !L_dp_0 ) && ( 0 )
+Cut 126: ( !L_dp_0 ) && ( hcut_L_0_8_6&&(abs(L.tr.tg_dp-0.0115)<0.0025)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 127: ( !L_dp_0 ) && ( 0 )
+Cut 128: ( !L_dp_0 ) && ( hcut_L_0_8_8&&(abs(L.tr.tg_dp-0.0115)<0.0025)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 129: ( !L_dp_0 ) && ( 0 )
+Cut 130: ( !L_dp_0 ) && ( hcut_L_0_8_10&&(abs(L.tr.tg_dp-0.0115)<0.0025)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 131: ( !L_dp_0 ) && ( 0 )
+Cut 132: ( !L_dp_0 ) && ( hcut_L_0_8_12&&(abs(L.tr.tg_dp-0.0115)<0.0025)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 133: ( !L_dp_0 ) && ( 0 )
+Cut 134: ( !L_dp_0 ) && ( 0 )
+Cut 135: ( !L_dp_0 ) && ( 0 )
+Cut 136: ( !L_dp_0 ) && ( 0 )
+Cut 137: ( !L_dp_0 ) && ( 0 )
+Cut 138: ( !L_dp_0 ) && ( 0 )
+Cut 139: ( !L_dp_0 ) && ( 0 )
+Cut 140: ( !L_dp_0 ) && ( 0 )
+Cut 141: ( !L_dp_0 ) && ( 0 )
+Cut 142: ( !L_dp_0 ) && ( 0 )
+Cut 143: ( !L_dp_0 ) && ( 0 )
+Cut 144: ( !L_dp_0 ) && ( 0 )
+Cut 145: ( !L_dp_0 ) && ( 0 )
+Cut 146: ( !L_dp_0 ) && ( hcut_L_0_9_11&&(abs(L.tr.tg_dp-0.0115)<0.0025)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 147: ( !L_dp_0 ) && ( 0 )
+Cut 148: ( !L_dp_0 ) && ( 0 )
+Cut 149: ( !L_dp_0 ) && ( 0 )
+Cut 150: ( !L_dp_0 ) && ( 0 )
+Cut 151: ( !L_dp_0 ) && ( 0 )
+Cut 152: ( !L_dp_0 ) && ( 0 )
+Cut 153: ( !L_dp_0 ) && ( 0 )
+Cut 154: ( !L_dp_0 ) && ( 0 )
+Cut 155: ( !L_dp_0 ) && ( 0 )
+Cut 156: ( !L_dp_0 ) && ( 0 )
+Cut 157: ( !L_dp_0 ) && ( 0 )
+Cut 158: ( !L_dp_0 ) && ( 0 )
+Cut 159: ( !L_dp_0 ) && ( 0 )
+Cut 160: ( !L_dp_0 ) && ( 0 )
+Cut 161: ( !L_dp_0 ) && ( 0 )
+Cut 162: ( !L_dp_0 ) && ( 0 )
+Cut 163: ( !L_dp_0 ) && ( 0 )
+Cut 164: ( !L_dp_0 ) && ( 0 )
+Cut 165: ( !L_dp_0 ) && ( 0 )
+Cut 166: ( !L_dp_0 ) && ( 0 )
+Cut 167: ( !L_dp_0 ) && ( 0 )
+Cut 168: ( !L_dp_0 ) && ( 0 )
+Cut 169: ( !L_dp_0 ) && ( 0 )
+Cut 170: ( !L_dp_0 ) && ( 0 )
+Cut 171: ( !L_dp_0 ) && ( 0 )
+Cut 172: ( !L_dp_0 ) && ( 0 )
+Cut 173: ( !L_dp_0 ) && ( 0 )
+Cut 174: ( !L_dp_0 ) && ( 0 )
+Cut 175: ( !L_dp_0 ) && ( 0 )
+Cut 176: ( !L_dp_0 ) && ( 0 )
+Cut 177: ( !L_dp_0 ) && ( 0 )
+Cut 178: ( !L_dp_0 ) && ( 0 )
+Cut 179: ( !L_dp_0 ) && ( 0 )
+180 peak definition(s) found
+Tree reports 399462 events. Event limits: read: 399462 write: 10
+10 event(s) passed the cuts
+10 event(s) written in total
+Process with addtional cut (!L_dp_0), cut id offset = 1260
+Reading variable list from file DpVars.def
+Requested variables: L.tr.r_x L.tr.r_th L.tr.r_y L.tr.r_ph urb.x urb.y L.tr.tg_th L.tr.tg_ph L.tr.tg_dp L.tr.p urb.e fEvtHdr.fRun
+Reading graphical cuts from ArchivedRootFiles/SieveCentralLHRS/apex_coinc_1181.root.FullCut.root ...
+OBJ: TCutG	fcut_L_0	Graph : 0 at: 0x857fc90
+OBJ: TCutG	hcut_L_0_6_3	Graph : 0 at: 0x87b9028
+OBJ: TCutG	hcut_L_0_6_7	Graph : 0 at: 0x86892c0
+OBJ: TCutG	hcut_L_0_6_9	Graph : 0 at: 0x868cd30
+OBJ: TCutG	hcut_L_0_6_11	Graph : 0 at: 0x868cb80
+OBJ: TCutG	hcut_L_0_6_13	Graph : 0 at: 0x868d898
+OBJ: TCutG	hcut_L_0_6_5	Graph : 0 at: 0x8688ce8
+OBJ: TCutG	hcut_L_0_7_3	Graph : 0 at: 0x868e630
+OBJ: TCutG	hcut_L_0_7_5	Graph : 0 at: 0x868f1f8
+OBJ: TCutG	hcut_L_0_7_7	Graph : 0 at: 0x868df20
+OBJ: TCutG	hcut_L_0_7_9	Graph : 0 at: 0x87c4c18
+OBJ: TCutG	hcut_L_0_7_11	Graph : 0 at: 0x868ecb8
+OBJ: TCutG	hcut_L_0_8_4	Graph : 0 at: 0x87c5a40
+OBJ: TCutG	hcut_L_0_8_6	Graph : 0 at: 0x87c44f8
+OBJ: TCutG	hcut_L_0_8_10	Graph : 0 at: 0x87c67b8
+OBJ: TCutG	hcut_L_0_8_12	Graph : 0 at: 0x87c5308
+OBJ: TCutG	hcut_L_0_9_11	Graph : 0 at: 0x87c75c8
+OBJ: TCutG	hcut_L_0_5_2	Graph : 0 at: 0x87c7c80
+OBJ: TCutG	hcut_L_0_5_4	Graph : 0 at: 0x87c60b8
+OBJ: TCutG	hcut_L_0_5_6	Graph : 0 at: 0x87c6e90
+OBJ: TCutG	hcut_L_0_5_8	Graph : 0 at: 0x87c91f0
+OBJ: TCutG	hcut_L_0_5_10	Graph : 0 at: 0x87c98f0
+OBJ: TCutG	hcut_L_0_5_12	Graph : 0 at: 0x87c8320
+OBJ: TCutG	hcut_L_0_4_3	Graph : 0 at: 0x87ca6d8
+OBJ: TCutG	hcut_L_0_4_5	Graph : 0 at: 0x87c9f90
+OBJ: TCutG	hcut_L_0_4_7	Graph : 0 at: 0x87c8ac0
+OBJ: TCutG	hcut_L_0_4_9	Graph : 0 at: 0x87cb4c0
+OBJ: TCutG	hcut_L_0_4_11	Graph : 0 at: 0x87cad50
+OBJ: TCutG	hcut_L_0_4_13	Graph : 0 at: 0x87cc9f0
+OBJ: TCutG	hcut_L_0_2_6	Graph : 0 at: 0x87cc2d0
+OBJ: TCutG	hcut_L_0_2_8	Graph : 0 at: 0x87cbbb0
+OBJ: TCutG	hcut_L_0_3_3	Graph : 0 at: 0x87cded8
+OBJ: TCutG	hcut_L_0_3_5	Graph : 0 at: 0x87cd060
+OBJ: TCutG	hcut_L_0_3_7	Graph : 0 at: 0x87cd7c8
+OBJ: TCutG	hcut_L_0_3_9	Graph : 0 at: 0x87cf3c0
+OBJ: TCutG	hcut_L_0_3_11	Graph : 0 at: 0x87cfaa8
+OBJ: TCutG	hcut_L_0_1_5	Graph : 0 at: 0x87cec80
+OBJ: TCutG	hcut_L_0_1_9	Graph : 0 at: 0x87ce510
+OBJ: TCutG	hcut_L_0_1_7	Graph : 0 at: 0x87d0f88
+OBJ: TCutG	L_dp_0	Graph : 0 at: 0x87d01b8
+40 cut(s) found
+Output to file: ArchivedRootFiles/SieveCentralLHRS/DpDataDbg.f51
+Opened ROOT input file ArchivedRootFiles/SieveCentralLHRS/apex_coinc_1181.root
+Found and initialized tree T
+Parsing tree...
+Loaded 610 tree variables from 612 tree leaves
+Parsing output variable definitions...
+DataElement: L.tr.r_x (L.tr.r_x) 	good:1 	type:8 (Double_t) 	size:1 	a/va: 0/0  min/max: 0/1  fmt: 1.10e
+DataElement: L.tr.r_th (L.tr.r_th) 	good:1 	type:8 (Double_t) 	size:1 	a/va: 0/0  min/max: 0/1  fmt: 1.10e
+DataElement: L.tr.r_y (L.tr.r_y) 	good:1 	type:8 (Double_t) 	size:1 	a/va: 0/0  min/max: 0/1  fmt: 1.10e
+DataElement: L.tr.r_ph (L.tr.r_ph) 	good:1 	type:8 (Double_t) 	size:1 	a/va: 0/0  min/max: 0/1  fmt: 1.10e
+DataElement: urb.x (urb.x) 	good:1 	type:8 (Double_t) 	size:1 	a/va: 0/0  min/max: 0/1  fmt: 1.10e
+DataElement: urb.y (urb.y) 	good:1 	type:8 (Double_t) 	size:1 	a/va: 0/0  min/max: 0/1  fmt: 1.10e
+DataElement: L.tr.tg_th (L.tr.tg_th) 	good:1 	type:8 (Double_t) 	size:1 	a/va: 0/0  min/max: 0/1  fmt: 1.10e
+DataElement: L.tr.tg_ph (L.tr.tg_ph) 	good:1 	type:8 (Double_t) 	size:1 	a/va: 0/0  min/max: 0/1  fmt: 1.10e
+DataElement: L.tr.tg_dp (L.tr.tg_dp) 	good:1 	type:8 (Double_t) 	size:1 	a/va: 0/0  min/max: 0/1  fmt: 1.10e
+DataElement: L.tr.p (L.tr.p) 	good:1 	type:8 (Double_t) 	size:1 	a/va: 0/0  min/max: 0/1  fmt: 1.10e
+DataElement: urb.e (urb.e) 	good:1 	type:8 (Double_t) 	size:1 	a/va: 0/0  min/max: 0/1  fmt: 1.10e
+DataElement: fEvtHdr.fRun (fEvtHdr.fRun) 	good:1 	type:3 (Int_t) 	size:1 	a/va: 0/0  min/max: 0/1  fmt: 1.10e
+12 tree variable(s) successfully loaded
+Reading peak definition file ArchivedRootFiles/SieveCentralLHRS/apex_coinc_1181.root.SieveCut.cut
+Cut 0: ( !L_dp_0 ) && ( 0 )
+Cut 1: ( !L_dp_0 ) && ( 0 )
+Cut 2: ( !L_dp_0 ) && ( 0 )
+Cut 3: ( !L_dp_0 ) && ( 0 )
+Cut 4: ( !L_dp_0 ) && ( 0 )
+Cut 5: ( !L_dp_0 ) && ( 0 )
+Cut 6: ( !L_dp_0 ) && ( 0 )
+Cut 7: ( !L_dp_0 ) && ( 0 )
+Cut 8: ( !L_dp_0 ) && ( 0 )
+Cut 9: ( !L_dp_0 ) && ( 0 )
+Cut 10: ( !L_dp_0 ) && ( 0 )
+Cut 11: ( !L_dp_0 ) && ( 0 )
+Cut 12: ( !L_dp_0 ) && ( 0 )
+Cut 13: ( !L_dp_0 ) && ( 0 )
+Cut 14: ( !L_dp_0 ) && ( 0 )
+Cut 15: ( !L_dp_0 ) && ( 0 )
+Cut 16: ( !L_dp_0 ) && ( 0 )
+Cut 17: ( !L_dp_0 ) && ( 0 )
+Cut 18: ( !L_dp_0 ) && ( 0 )
+Cut 19: ( !L_dp_0 ) && ( 0 )
+Cut 20: ( !L_dp_0 ) && ( hcut_L_0_1_5&&(abs(L.tr.tg_dp-0.0222)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 21: ( !L_dp_0 ) && ( 0 )
+Cut 22: ( !L_dp_0 ) && ( hcut_L_0_1_7&&(abs(L.tr.tg_dp-0.0222)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 23: ( !L_dp_0 ) && ( 0 )
+Cut 24: ( !L_dp_0 ) && ( hcut_L_0_1_9&&(abs(L.tr.tg_dp-0.0222)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 25: ( !L_dp_0 ) && ( 0 )
+Cut 26: ( !L_dp_0 ) && ( 0 )
+Cut 27: ( !L_dp_0 ) && ( 0 )
+Cut 28: ( !L_dp_0 ) && ( 0 )
+Cut 29: ( !L_dp_0 ) && ( 0 )
+Cut 30: ( !L_dp_0 ) && ( 0 )
+Cut 31: ( !L_dp_0 ) && ( 0 )
+Cut 32: ( !L_dp_0 ) && ( 0 )
+Cut 33: ( !L_dp_0 ) && ( 0 )
+Cut 34: ( !L_dp_0 ) && ( 0 )
+Cut 35: ( !L_dp_0 ) && ( 0 )
+Cut 36: ( !L_dp_0 ) && ( hcut_L_0_2_6&&(abs(L.tr.tg_dp-0.0222)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 37: ( !L_dp_0 ) && ( 0 )
+Cut 38: ( !L_dp_0 ) && ( hcut_L_0_2_8&&(abs(L.tr.tg_dp-0.0222)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 39: ( !L_dp_0 ) && ( 0 )
+Cut 40: ( !L_dp_0 ) && ( 0 )
+Cut 41: ( !L_dp_0 ) && ( 0 )
+Cut 42: ( !L_dp_0 ) && ( 0 )
+Cut 43: ( !L_dp_0 ) && ( 0 )
+Cut 44: ( !L_dp_0 ) && ( 0 )
+Cut 45: ( !L_dp_0 ) && ( 0 )
+Cut 46: ( !L_dp_0 ) && ( 0 )
+Cut 47: ( !L_dp_0 ) && ( 0 )
+Cut 48: ( !L_dp_0 ) && ( hcut_L_0_3_3&&(abs(L.tr.tg_dp-0.0222)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 49: ( !L_dp_0 ) && ( 0 )
+Cut 50: ( !L_dp_0 ) && ( hcut_L_0_3_5&&(abs(L.tr.tg_dp-0.0222)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 51: ( !L_dp_0 ) && ( 0 )
+Cut 52: ( !L_dp_0 ) && ( hcut_L_0_3_7&&(abs(L.tr.tg_dp-0.0222)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 53: ( !L_dp_0 ) && ( 0 )
+Cut 54: ( !L_dp_0 ) && ( hcut_L_0_3_9&&(abs(L.tr.tg_dp-0.0222)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 55: ( !L_dp_0 ) && ( 0 )
+Cut 56: ( !L_dp_0 ) && ( hcut_L_0_3_11&&(abs(L.tr.tg_dp-0.0222)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 57: ( !L_dp_0 ) && ( 0 )
+Cut 58: ( !L_dp_0 ) && ( 0 )
+Cut 59: ( !L_dp_0 ) && ( 0 )
+Cut 60: ( !L_dp_0 ) && ( 0 )
+Cut 61: ( !L_dp_0 ) && ( 0 )
+Cut 62: ( !L_dp_0 ) && ( 0 )
+Cut 63: ( !L_dp_0 ) && ( hcut_L_0_4_3&&(abs(L.tr.tg_dp-0.0222)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 64: ( !L_dp_0 ) && ( 0 )
+Cut 65: ( !L_dp_0 ) && ( hcut_L_0_4_5&&(abs(L.tr.tg_dp-0.0222)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 66: ( !L_dp_0 ) && ( 0 )
+Cut 67: ( !L_dp_0 ) && ( hcut_L_0_4_7&&(abs(L.tr.tg_dp-0.0222)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 68: ( !L_dp_0 ) && ( 0 )
+Cut 69: ( !L_dp_0 ) && ( hcut_L_0_4_9&&(abs(L.tr.tg_dp-0.0222)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 70: ( !L_dp_0 ) && ( 0 )
+Cut 71: ( !L_dp_0 ) && ( hcut_L_0_4_11&&(abs(L.tr.tg_dp-0.0222)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 72: ( !L_dp_0 ) && ( 0 )
+Cut 73: ( !L_dp_0 ) && ( hcut_L_0_4_13&&(abs(L.tr.tg_dp-0.0222)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 74: ( !L_dp_0 ) && ( 0 )
+Cut 75: ( !L_dp_0 ) && ( 0 )
+Cut 76: ( !L_dp_0 ) && ( 0 )
+Cut 77: ( !L_dp_0 ) && ( hcut_L_0_5_2&&(abs(L.tr.tg_dp-0.0222)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 78: ( !L_dp_0 ) && ( 0 )
+Cut 79: ( !L_dp_0 ) && ( hcut_L_0_5_4&&(abs(L.tr.tg_dp-0.0222)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 80: ( !L_dp_0 ) && ( 0 )
+Cut 81: ( !L_dp_0 ) && ( hcut_L_0_5_6&&(abs(L.tr.tg_dp-0.0222)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 82: ( !L_dp_0 ) && ( 0 )
+Cut 83: ( !L_dp_0 ) && ( hcut_L_0_5_8&&(abs(L.tr.tg_dp-0.0222)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 84: ( !L_dp_0 ) && ( 0 )
+Cut 85: ( !L_dp_0 ) && ( hcut_L_0_5_10&&(abs(L.tr.tg_dp-0.0222)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 86: ( !L_dp_0 ) && ( 0 )
+Cut 87: ( !L_dp_0 ) && ( hcut_L_0_5_12&&(abs(L.tr.tg_dp-0.0222)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 88: ( !L_dp_0 ) && ( 0 )
+Cut 89: ( !L_dp_0 ) && ( 0 )
+Cut 90: ( !L_dp_0 ) && ( 0 )
+Cut 91: ( !L_dp_0 ) && ( 0 )
+Cut 92: ( !L_dp_0 ) && ( 0 )
+Cut 93: ( !L_dp_0 ) && ( hcut_L_0_6_3&&(abs(L.tr.tg_dp-0.0222)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 94: ( !L_dp_0 ) && ( 0 )
+Cut 95: ( !L_dp_0 ) && ( hcut_L_0_6_5&&(abs(L.tr.tg_dp-0.0222)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 96: ( !L_dp_0 ) && ( 0 )
+Cut 97: ( !L_dp_0 ) && ( hcut_L_0_6_7&&(abs(L.tr.tg_dp-0.0222)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 98: ( !L_dp_0 ) && ( 0 )
+Cut 99: ( !L_dp_0 ) && ( hcut_L_0_6_9&&(abs(L.tr.tg_dp-0.0222)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 100: ( !L_dp_0 ) && ( 0 )
+Cut 101: ( !L_dp_0 ) && ( hcut_L_0_6_11&&(abs(L.tr.tg_dp-0.0222)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 102: ( !L_dp_0 ) && ( 0 )
+Cut 103: ( !L_dp_0 ) && ( hcut_L_0_6_13&&(abs(L.tr.tg_dp-0.0222)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 104: ( !L_dp_0 ) && ( 0 )
+Cut 105: ( !L_dp_0 ) && ( 0 )
+Cut 106: ( !L_dp_0 ) && ( 0 )
+Cut 107: ( !L_dp_0 ) && ( 0 )
+Cut 108: ( !L_dp_0 ) && ( hcut_L_0_7_3&&(abs(L.tr.tg_dp-0.0222)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 109: ( !L_dp_0 ) && ( 0 )
+Cut 110: ( !L_dp_0 ) && ( hcut_L_0_7_5&&(abs(L.tr.tg_dp-0.0222)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 111: ( !L_dp_0 ) && ( 0 )
+Cut 112: ( !L_dp_0 ) && ( hcut_L_0_7_7&&(abs(L.tr.tg_dp-0.0222)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 113: ( !L_dp_0 ) && ( 0 )
+Cut 114: ( !L_dp_0 ) && ( hcut_L_0_7_9&&(abs(L.tr.tg_dp-0.0222)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 115: ( !L_dp_0 ) && ( 0 )
+Cut 116: ( !L_dp_0 ) && ( hcut_L_0_7_11&&(abs(L.tr.tg_dp-0.0222)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 117: ( !L_dp_0 ) && ( 0 )
+Cut 118: ( !L_dp_0 ) && ( 0 )
+Cut 119: ( !L_dp_0 ) && ( 0 )
+Cut 120: ( !L_dp_0 ) && ( 0 )
+Cut 121: ( !L_dp_0 ) && ( 0 )
+Cut 122: ( !L_dp_0 ) && ( 0 )
+Cut 123: ( !L_dp_0 ) && ( 0 )
+Cut 124: ( !L_dp_0 ) && ( hcut_L_0_8_4&&(abs(L.tr.tg_dp-0.0222)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 125: ( !L_dp_0 ) && ( 0 )
+Cut 126: ( !L_dp_0 ) && ( hcut_L_0_8_6&&(abs(L.tr.tg_dp-0.0222)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 127: ( !L_dp_0 ) && ( 0 )
+Cut 128: ( !L_dp_0 ) && ( 0 )
+Cut 129: ( !L_dp_0 ) && ( 0 )
+Cut 130: ( !L_dp_0 ) && ( hcut_L_0_8_10&&(abs(L.tr.tg_dp-0.0222)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 131: ( !L_dp_0 ) && ( 0 )
+Cut 132: ( !L_dp_0 ) && ( hcut_L_0_8_12&&(abs(L.tr.tg_dp-0.0222)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 133: ( !L_dp_0 ) && ( 0 )
+Cut 134: ( !L_dp_0 ) && ( 0 )
+Cut 135: ( !L_dp_0 ) && ( 0 )
+Cut 136: ( !L_dp_0 ) && ( 0 )
+Cut 137: ( !L_dp_0 ) && ( 0 )
+Cut 138: ( !L_dp_0 ) && ( 0 )
+Cut 139: ( !L_dp_0 ) && ( 0 )
+Cut 140: ( !L_dp_0 ) && ( 0 )
+Cut 141: ( !L_dp_0 ) && ( 0 )
+Cut 142: ( !L_dp_0 ) && ( 0 )
+Cut 143: ( !L_dp_0 ) && ( 0 )
+Cut 144: ( !L_dp_0 ) && ( 0 )
+Cut 145: ( !L_dp_0 ) && ( 0 )
+Cut 146: ( !L_dp_0 ) && ( hcut_L_0_9_11&&(abs(L.tr.tg_dp-0.0222)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 147: ( !L_dp_0 ) && ( 0 )
+Cut 148: ( !L_dp_0 ) && ( 0 )
+Cut 149: ( !L_dp_0 ) && ( 0 )
+Cut 150: ( !L_dp_0 ) && ( 0 )
+Cut 151: ( !L_dp_0 ) && ( 0 )
+Cut 152: ( !L_dp_0 ) && ( 0 )
+Cut 153: ( !L_dp_0 ) && ( 0 )
+Cut 154: ( !L_dp_0 ) && ( 0 )
+Cut 155: ( !L_dp_0 ) && ( 0 )
+Cut 156: ( !L_dp_0 ) && ( 0 )
+Cut 157: ( !L_dp_0 ) && ( 0 )
+Cut 158: ( !L_dp_0 ) && ( 0 )
+Cut 159: ( !L_dp_0 ) && ( 0 )
+Cut 160: ( !L_dp_0 ) && ( 0 )
+Cut 161: ( !L_dp_0 ) && ( 0 )
+Cut 162: ( !L_dp_0 ) && ( 0 )
+Cut 163: ( !L_dp_0 ) && ( 0 )
+Cut 164: ( !L_dp_0 ) && ( 0 )
+Cut 165: ( !L_dp_0 ) && ( 0 )
+Cut 166: ( !L_dp_0 ) && ( 0 )
+Cut 167: ( !L_dp_0 ) && ( 0 )
+Cut 168: ( !L_dp_0 ) && ( 0 )
+Cut 169: ( !L_dp_0 ) && ( 0 )
+Cut 170: ( !L_dp_0 ) && ( 0 )
+Cut 171: ( !L_dp_0 ) && ( 0 )
+Cut 172: ( !L_dp_0 ) && ( 0 )
+Cut 173: ( !L_dp_0 ) && ( 0 )
+Cut 174: ( !L_dp_0 ) && ( 0 )
+Cut 175: ( !L_dp_0 ) && ( 0 )
+Cut 176: ( !L_dp_0 ) && ( 0 )
+Cut 177: ( !L_dp_0 ) && ( 0 )
+Cut 178: ( !L_dp_0 ) && ( 0 )
+Cut 179: ( !L_dp_0 ) && ( 0 )
+180 peak definition(s) found
+Tree reports 405448 events. Event limits: read: 405448 write: 10
+10 event(s) passed the cuts
+10 event(s) written in total
+Process with addtional cut (!L_dp_0), cut id offset = 1440
+Reading variable list from file DpVars.def
+Requested variables: L.tr.r_x L.tr.r_th L.tr.r_y L.tr.r_ph urb.x urb.y L.tr.tg_th L.tr.tg_ph L.tr.tg_dp L.tr.p urb.e fEvtHdr.fRun
+Reading graphical cuts from ArchivedRootFiles/SieveCentralLHRS/apex_coinc_1183.root.FullCut.root ...
+OBJ: TCutG	fcut_L_0	Graph : 0 at: 0x85c5750
+OBJ: TCutG	hcut_L_0_6_3	Graph : 0 at: 0x87feae8
+OBJ: TCutG	hcut_L_0_6_5	Graph : 0 at: 0x86cef98
+OBJ: TCutG	hcut_L_0_6_7	Graph : 0 at: 0x86ceda0
+OBJ: TCutG	hcut_L_0_6_9	Graph : 0 at: 0x86ced08
+OBJ: TCutG	hcut_L_0_6_11	Graph : 0 at: 0x86d2d08
+OBJ: TCutG	hcut_L_0_6_13	Graph : 0 at: 0x86d3aa8
+OBJ: TCutG	hcut_L_0_5_4	Graph : 0 at: 0x86d4170
+OBJ: TCutG	hcut_L_0_5_6	Graph : 0 at: 0x86d33d0
+OBJ: TCutG	hcut_L_0_5_8	Graph : 0 at: 0x86cebd0
+OBJ: TCutG	hcut_L_0_5_10	Graph : 0 at: 0x86cf998
+OBJ: TCutG	hcut_L_0_5_12	Graph : 0 at: 0x86d0070
+OBJ: TCutG	hcut_L_0_4_5	Graph : 0 at: 0x86d0728
+OBJ: TCutG	hcut_L_0_4_7	Graph : 0 at: 0x86d0dc0
+OBJ: TCutG	hcut_L_0_4_9	Graph : 0 at: 0x86ce988
+OBJ: TCutG	hcut_L_0_4_11	Graph : 0 at: 0x86d1df8
+OBJ: TCutG	hcut_L_0_4_13	Graph : 0 at: 0x86d1568
+OBJ: TCutG	hcut_L_0_3_5	Graph : 0 at: 0x880a578
+OBJ: TCutG	hcut_L_0_3_7	Graph : 0 at: 0x86d1bc8
+OBJ: TCutG	hcut_L_0_3_9	Graph : 0 at: 0x880e2a0
+OBJ: TCutG	hcut_L_0_3_11	Graph : 0 at: 0x880a048
+OBJ: TCutG	hcut_L_0_2_8	Graph : 0 at: 0x880f0d8
+OBJ: TCutG	hcut_L_0_2_6	Graph : 0 at: 0x880db80
+OBJ: TCutG	hcut_L_0_1_5	Graph : 0 at: 0x880fe70
+OBJ: TCutG	hcut_L_0_1_7	Graph : 0 at: 0x8810350
+OBJ: TCutG	hcut_L_0_1_9	Graph : 0 at: 0x8810fc0
+OBJ: TCutG	hcut_L_0_7_3	Graph : 0 at: 0x8811680
+OBJ: TCutG	hcut_L_0_7_5	Graph : 0 at: 0x880f750
+OBJ: TCutG	hcut_L_0_7_7	Graph : 0 at: 0x8812580
+OBJ: TCutG	hcut_L_0_7_9	Graph : 0 at: 0x8812bf8
+OBJ: TCutG	hcut_L_0_7_11	Graph : 0 at: 0x88132d8
+OBJ: TCutG	hcut_L_0_8_4	Graph : 0 at: 0x88139a0
+OBJ: TCutG	hcut_L_0_8_6	Graph : 0 at: 0x88108d0
+OBJ: TCutG	hcut_L_0_8_10	Graph : 0 at: 0x8811d78
+OBJ: TCutG	hcut_L_0_8_12	Graph : 0 at: 0x8814040
+OBJ: TCutG	hcut_L_0_9_11	Graph : 0 at: 0x8814770
+OBJ: TCutG	L_dp_0	Graph : 0 at: 0x8815da0
+37 cut(s) found
+Output to file: ArchivedRootFiles/SieveCentralLHRS/DpDataDbg.f51
+Opened ROOT input file ArchivedRootFiles/SieveCentralLHRS/apex_coinc_1183.root
+Found and initialized tree T
+Parsing tree...
+Loaded 610 tree variables from 612 tree leaves
+Parsing output variable definitions...
+DataElement: L.tr.r_x (L.tr.r_x) 	good:1 	type:8 (Double_t) 	size:1 	a/va: 0/0  min/max: 0/1  fmt: 1.10e
+DataElement: L.tr.r_th (L.tr.r_th) 	good:1 	type:8 (Double_t) 	size:1 	a/va: 0/0  min/max: 0/1  fmt: 1.10e
+DataElement: L.tr.r_y (L.tr.r_y) 	good:1 	type:8 (Double_t) 	size:1 	a/va: 0/0  min/max: 0/1  fmt: 1.10e
+DataElement: L.tr.r_ph (L.tr.r_ph) 	good:1 	type:8 (Double_t) 	size:1 	a/va: 0/0  min/max: 0/1  fmt: 1.10e
+DataElement: urb.x (urb.x) 	good:1 	type:8 (Double_t) 	size:1 	a/va: 0/0  min/max: 0/1  fmt: 1.10e
+DataElement: urb.y (urb.y) 	good:1 	type:8 (Double_t) 	size:1 	a/va: 0/0  min/max: 0/1  fmt: 1.10e
+DataElement: L.tr.tg_th (L.tr.tg_th) 	good:1 	type:8 (Double_t) 	size:1 	a/va: 0/0  min/max: 0/1  fmt: 1.10e
+DataElement: L.tr.tg_ph (L.tr.tg_ph) 	good:1 	type:8 (Double_t) 	size:1 	a/va: 0/0  min/max: 0/1  fmt: 1.10e
+DataElement: L.tr.tg_dp (L.tr.tg_dp) 	good:1 	type:8 (Double_t) 	size:1 	a/va: 0/0  min/max: 0/1  fmt: 1.10e
+DataElement: L.tr.p (L.tr.p) 	good:1 	type:8 (Double_t) 	size:1 	a/va: 0/0  min/max: 0/1  fmt: 1.10e
+DataElement: urb.e (urb.e) 	good:1 	type:8 (Double_t) 	size:1 	a/va: 0/0  min/max: 0/1  fmt: 1.10e
+DataElement: fEvtHdr.fRun (fEvtHdr.fRun) 	good:1 	type:3 (Int_t) 	size:1 	a/va: 0/0  min/max: 0/1  fmt: 1.10e
+12 tree variable(s) successfully loaded
+Reading peak definition file ArchivedRootFiles/SieveCentralLHRS/apex_coinc_1183.root.SieveCut.cut
+Cut 0: ( !L_dp_0 ) && ( 0 )
+Cut 1: ( !L_dp_0 ) && ( 0 )
+Cut 2: ( !L_dp_0 ) && ( 0 )
+Cut 3: ( !L_dp_0 ) && ( 0 )
+Cut 4: ( !L_dp_0 ) && ( 0 )
+Cut 5: ( !L_dp_0 ) && ( 0 )
+Cut 6: ( !L_dp_0 ) && ( 0 )
+Cut 7: ( !L_dp_0 ) && ( 0 )
+Cut 8: ( !L_dp_0 ) && ( 0 )
+Cut 9: ( !L_dp_0 ) && ( 0 )
+Cut 10: ( !L_dp_0 ) && ( 0 )
+Cut 11: ( !L_dp_0 ) && ( 0 )
+Cut 12: ( !L_dp_0 ) && ( 0 )
+Cut 13: ( !L_dp_0 ) && ( 0 )
+Cut 14: ( !L_dp_0 ) && ( 0 )
+Cut 15: ( !L_dp_0 ) && ( 0 )
+Cut 16: ( !L_dp_0 ) && ( 0 )
+Cut 17: ( !L_dp_0 ) && ( 0 )
+Cut 18: ( !L_dp_0 ) && ( 0 )
+Cut 19: ( !L_dp_0 ) && ( 0 )
+Cut 20: ( !L_dp_0 ) && ( hcut_L_0_1_5&&(abs(L.tr.tg_dp-0.0333)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 21: ( !L_dp_0 ) && ( 0 )
+Cut 22: ( !L_dp_0 ) && ( hcut_L_0_1_7&&(abs(L.tr.tg_dp-0.0333)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 23: ( !L_dp_0 ) && ( 0 )
+Cut 24: ( !L_dp_0 ) && ( hcut_L_0_1_9&&(abs(L.tr.tg_dp-0.0333)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 25: ( !L_dp_0 ) && ( 0 )
+Cut 26: ( !L_dp_0 ) && ( 0 )
+Cut 27: ( !L_dp_0 ) && ( 0 )
+Cut 28: ( !L_dp_0 ) && ( 0 )
+Cut 29: ( !L_dp_0 ) && ( 0 )
+Cut 30: ( !L_dp_0 ) && ( 0 )
+Cut 31: ( !L_dp_0 ) && ( 0 )
+Cut 32: ( !L_dp_0 ) && ( 0 )
+Cut 33: ( !L_dp_0 ) && ( 0 )
+Cut 34: ( !L_dp_0 ) && ( 0 )
+Cut 35: ( !L_dp_0 ) && ( 0 )
+Cut 36: ( !L_dp_0 ) && ( hcut_L_0_2_6&&(abs(L.tr.tg_dp-0.0333)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 37: ( !L_dp_0 ) && ( 0 )
+Cut 38: ( !L_dp_0 ) && ( hcut_L_0_2_8&&(abs(L.tr.tg_dp-0.0333)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 39: ( !L_dp_0 ) && ( 0 )
+Cut 40: ( !L_dp_0 ) && ( 0 )
+Cut 41: ( !L_dp_0 ) && ( 0 )
+Cut 42: ( !L_dp_0 ) && ( 0 )
+Cut 43: ( !L_dp_0 ) && ( 0 )
+Cut 44: ( !L_dp_0 ) && ( 0 )
+Cut 45: ( !L_dp_0 ) && ( 0 )
+Cut 46: ( !L_dp_0 ) && ( 0 )
+Cut 47: ( !L_dp_0 ) && ( 0 )
+Cut 48: ( !L_dp_0 ) && ( 0 )
+Cut 49: ( !L_dp_0 ) && ( 0 )
+Cut 50: ( !L_dp_0 ) && ( hcut_L_0_3_5&&(abs(L.tr.tg_dp-0.0333)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 51: ( !L_dp_0 ) && ( 0 )
+Cut 52: ( !L_dp_0 ) && ( hcut_L_0_3_7&&(abs(L.tr.tg_dp-0.0333)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 53: ( !L_dp_0 ) && ( 0 )
+Cut 54: ( !L_dp_0 ) && ( hcut_L_0_3_9&&(abs(L.tr.tg_dp-0.0333)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 55: ( !L_dp_0 ) && ( 0 )
+Cut 56: ( !L_dp_0 ) && ( hcut_L_0_3_11&&(abs(L.tr.tg_dp-0.0333)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 57: ( !L_dp_0 ) && ( 0 )
+Cut 58: ( !L_dp_0 ) && ( 0 )
+Cut 59: ( !L_dp_0 ) && ( 0 )
+Cut 60: ( !L_dp_0 ) && ( 0 )
+Cut 61: ( !L_dp_0 ) && ( 0 )
+Cut 62: ( !L_dp_0 ) && ( 0 )
+Cut 63: ( !L_dp_0 ) && ( 0 )
+Cut 64: ( !L_dp_0 ) && ( 0 )
+Cut 65: ( !L_dp_0 ) && ( hcut_L_0_4_5&&(abs(L.tr.tg_dp-0.0333)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 66: ( !L_dp_0 ) && ( 0 )
+Cut 67: ( !L_dp_0 ) && ( hcut_L_0_4_7&&(abs(L.tr.tg_dp-0.0333)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 68: ( !L_dp_0 ) && ( 0 )
+Cut 69: ( !L_dp_0 ) && ( hcut_L_0_4_9&&(abs(L.tr.tg_dp-0.0333)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 70: ( !L_dp_0 ) && ( 0 )
+Cut 71: ( !L_dp_0 ) && ( hcut_L_0_4_11&&(abs(L.tr.tg_dp-0.0333)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 72: ( !L_dp_0 ) && ( 0 )
+Cut 73: ( !L_dp_0 ) && ( hcut_L_0_4_13&&(abs(L.tr.tg_dp-0.0333)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 74: ( !L_dp_0 ) && ( 0 )
+Cut 75: ( !L_dp_0 ) && ( 0 )
+Cut 76: ( !L_dp_0 ) && ( 0 )
+Cut 77: ( !L_dp_0 ) && ( 0 )
+Cut 78: ( !L_dp_0 ) && ( 0 )
+Cut 79: ( !L_dp_0 ) && ( hcut_L_0_5_4&&(abs(L.tr.tg_dp-0.0333)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 80: ( !L_dp_0 ) && ( 0 )
+Cut 81: ( !L_dp_0 ) && ( hcut_L_0_5_6&&(abs(L.tr.tg_dp-0.0333)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 82: ( !L_dp_0 ) && ( 0 )
+Cut 83: ( !L_dp_0 ) && ( hcut_L_0_5_8&&(abs(L.tr.tg_dp-0.0333)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 84: ( !L_dp_0 ) && ( 0 )
+Cut 85: ( !L_dp_0 ) && ( hcut_L_0_5_10&&(abs(L.tr.tg_dp-0.0333)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 86: ( !L_dp_0 ) && ( 0 )
+Cut 87: ( !L_dp_0 ) && ( hcut_L_0_5_12&&(abs(L.tr.tg_dp-0.0333)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 88: ( !L_dp_0 ) && ( 0 )
+Cut 89: ( !L_dp_0 ) && ( 0 )
+Cut 90: ( !L_dp_0 ) && ( 0 )
+Cut 91: ( !L_dp_0 ) && ( 0 )
+Cut 92: ( !L_dp_0 ) && ( 0 )
+Cut 93: ( !L_dp_0 ) && ( hcut_L_0_6_3&&(abs(L.tr.tg_dp-0.0333)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 94: ( !L_dp_0 ) && ( 0 )
+Cut 95: ( !L_dp_0 ) && ( hcut_L_0_6_5&&(abs(L.tr.tg_dp-0.0333)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 96: ( !L_dp_0 ) && ( 0 )
+Cut 97: ( !L_dp_0 ) && ( hcut_L_0_6_7&&(abs(L.tr.tg_dp-0.0333)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 98: ( !L_dp_0 ) && ( 0 )
+Cut 99: ( !L_dp_0 ) && ( hcut_L_0_6_9&&(abs(L.tr.tg_dp-0.0333)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 100: ( !L_dp_0 ) && ( 0 )
+Cut 101: ( !L_dp_0 ) && ( hcut_L_0_6_11&&(abs(L.tr.tg_dp-0.0333)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 102: ( !L_dp_0 ) && ( 0 )
+Cut 103: ( !L_dp_0 ) && ( hcut_L_0_6_13&&(abs(L.tr.tg_dp-0.0333)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 104: ( !L_dp_0 ) && ( 0 )
+Cut 105: ( !L_dp_0 ) && ( 0 )
+Cut 106: ( !L_dp_0 ) && ( 0 )
+Cut 107: ( !L_dp_0 ) && ( 0 )
+Cut 108: ( !L_dp_0 ) && ( hcut_L_0_7_3&&(abs(L.tr.tg_dp-0.0333)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 109: ( !L_dp_0 ) && ( 0 )
+Cut 110: ( !L_dp_0 ) && ( hcut_L_0_7_5&&(abs(L.tr.tg_dp-0.0333)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 111: ( !L_dp_0 ) && ( 0 )
+Cut 112: ( !L_dp_0 ) && ( hcut_L_0_7_7&&(abs(L.tr.tg_dp-0.0333)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 113: ( !L_dp_0 ) && ( 0 )
+Cut 114: ( !L_dp_0 ) && ( hcut_L_0_7_9&&(abs(L.tr.tg_dp-0.0333)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 115: ( !L_dp_0 ) && ( 0 )
+Cut 116: ( !L_dp_0 ) && ( hcut_L_0_7_11&&(abs(L.tr.tg_dp-0.0333)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 117: ( !L_dp_0 ) && ( 0 )
+Cut 118: ( !L_dp_0 ) && ( 0 )
+Cut 119: ( !L_dp_0 ) && ( 0 )
+Cut 120: ( !L_dp_0 ) && ( 0 )
+Cut 121: ( !L_dp_0 ) && ( 0 )
+Cut 122: ( !L_dp_0 ) && ( 0 )
+Cut 123: ( !L_dp_0 ) && ( 0 )
+Cut 124: ( !L_dp_0 ) && ( hcut_L_0_8_4&&(abs(L.tr.tg_dp-0.0333)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 125: ( !L_dp_0 ) && ( 0 )
+Cut 126: ( !L_dp_0 ) && ( hcut_L_0_8_6&&(abs(L.tr.tg_dp-0.0333)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 127: ( !L_dp_0 ) && ( 0 )
+Cut 128: ( !L_dp_0 ) && ( 0 )
+Cut 129: ( !L_dp_0 ) && ( 0 )
+Cut 130: ( !L_dp_0 ) && ( hcut_L_0_8_10&&(abs(L.tr.tg_dp-0.0333)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 131: ( !L_dp_0 ) && ( 0 )
+Cut 132: ( !L_dp_0 ) && ( hcut_L_0_8_12&&(abs(L.tr.tg_dp-0.0333)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 133: ( !L_dp_0 ) && ( 0 )
+Cut 134: ( !L_dp_0 ) && ( 0 )
+Cut 135: ( !L_dp_0 ) && ( 0 )
+Cut 136: ( !L_dp_0 ) && ( 0 )
+Cut 137: ( !L_dp_0 ) && ( 0 )
+Cut 138: ( !L_dp_0 ) && ( 0 )
+Cut 139: ( !L_dp_0 ) && ( 0 )
+Cut 140: ( !L_dp_0 ) && ( 0 )
+Cut 141: ( !L_dp_0 ) && ( 0 )
+Cut 142: ( !L_dp_0 ) && ( 0 )
+Cut 143: ( !L_dp_0 ) && ( 0 )
+Cut 144: ( !L_dp_0 ) && ( 0 )
+Cut 145: ( !L_dp_0 ) && ( 0 )
+Cut 146: ( !L_dp_0 ) && ( hcut_L_0_9_11&&(abs(L.tr.tg_dp-0.0333)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 147: ( !L_dp_0 ) && ( 0 )
+Cut 148: ( !L_dp_0 ) && ( 0 )
+Cut 149: ( !L_dp_0 ) && ( 0 )
+Cut 150: ( !L_dp_0 ) && ( 0 )
+Cut 151: ( !L_dp_0 ) && ( 0 )
+Cut 152: ( !L_dp_0 ) && ( 0 )
+Cut 153: ( !L_dp_0 ) && ( 0 )
+Cut 154: ( !L_dp_0 ) && ( 0 )
+Cut 155: ( !L_dp_0 ) && ( 0 )
+Cut 156: ( !L_dp_0 ) && ( 0 )
+Cut 157: ( !L_dp_0 ) && ( 0 )
+Cut 158: ( !L_dp_0 ) && ( 0 )
+Cut 159: ( !L_dp_0 ) && ( 0 )
+Cut 160: ( !L_dp_0 ) && ( 0 )
+Cut 161: ( !L_dp_0 ) && ( 0 )
+Cut 162: ( !L_dp_0 ) && ( 0 )
+Cut 163: ( !L_dp_0 ) && ( 0 )
+Cut 164: ( !L_dp_0 ) && ( 0 )
+Cut 165: ( !L_dp_0 ) && ( 0 )
+Cut 166: ( !L_dp_0 ) && ( 0 )
+Cut 167: ( !L_dp_0 ) && ( 0 )
+Cut 168: ( !L_dp_0 ) && ( 0 )
+Cut 169: ( !L_dp_0 ) && ( 0 )
+Cut 170: ( !L_dp_0 ) && ( 0 )
+Cut 171: ( !L_dp_0 ) && ( 0 )
+Cut 172: ( !L_dp_0 ) && ( 0 )
+Cut 173: ( !L_dp_0 ) && ( 0 )
+Cut 174: ( !L_dp_0 ) && ( 0 )
+Cut 175: ( !L_dp_0 ) && ( 0 )
+Cut 176: ( !L_dp_0 ) && ( 0 )
+Cut 177: ( !L_dp_0 ) && ( 0 )
+Cut 178: ( !L_dp_0 ) && ( 0 )
+Cut 179: ( !L_dp_0 ) && ( 0 )
+180 peak definition(s) found
+Tree reports 407727 events. Event limits: read: 407727 write: 10
+10 event(s) passed the cuts
+10 event(s) written in total
+Process with addtional cut (!L_dp_0), cut id offset = 1620
+Reading variable list from file DpVars.def
+Requested variables: L.tr.r_x L.tr.r_th L.tr.r_y L.tr.r_ph urb.x urb.y L.tr.tg_th L.tr.tg_ph L.tr.tg_dp L.tr.p urb.e fEvtHdr.fRun
+Reading graphical cuts from ArchivedRootFiles/SieveCentralLHRS/apex_coinc_1190.root.FullCut.root ...
+OBJ: TCutG	fcut_L_0	Graph : 0 at: 0x8a6e4c8
+OBJ: TCutG	hcut_L_0_6_9	Graph : 0 at: 0x8ca7b70
+OBJ: TCutG	hcut_L_0_6_11	Graph : 0 at: 0x8b77cb0
+OBJ: TCutG	hcut_L_0_6_13	Graph : 0 at: 0x8b7b2a8
+OBJ: TCutG	hcut_L_0_7_9	Graph : 0 at: 0x8b7b990
+OBJ: TCutG	hcut_L_0_7_11	Graph : 0 at: 0x8b77a68
+OBJ: TCutG	hcut_L_0_8_10	Graph : 0 at: 0x8b7c0b8
+OBJ: TCutG	hcut_L_0_8_12	Graph : 0 at: 0x8b7cf78
+OBJ: TCutG	hcut_L_0_9_11	Graph : 0 at: 0x8b7d648
+OBJ: TCutG	hcut_L_0_5_8	Graph : 0 at: 0x8b7ca50
+OBJ: TCutG	hcut_L_0_5_10	Graph : 0 at: 0x8b77508
+OBJ: TCutG	hcut_L_0_5_12	Graph : 0 at: 0x8b77d60
+OBJ: TCutG	hcut_L_0_4_9	Graph : 0 at: 0x8b79480
+OBJ: TCutG	hcut_L_0_4_11	Graph : 0 at: 0x8b78d80
+OBJ: TCutG	hcut_L_0_4_13	Graph : 0 at: 0x8b7a278
+OBJ: TCutG	hcut_L_0_3_9	Graph : 0 at: 0x8b7a908
+OBJ: TCutG	hcut_L_0_3_11	Graph : 0 at: 0x8b7abc0
+OBJ: TCutG	hcut_L_0_2_8	Graph : 0 at: 0x8cb6ab0
+OBJ: TCutG	hcut_L_0_1_9	Graph : 0 at: 0x8cb62b8
+OBJ: TCutG	hcut_L_0_6_7	Graph : 0 at: 0x8cb73f0
+OBJ: TCutG	L_dp_0	Graph : 0 at: 0x8cb6580
+21 cut(s) found
+Output to file: ArchivedRootFiles/SieveCentralLHRS/DpDataDbg.f51
+Opened ROOT input file ArchivedRootFiles/SieveCentralLHRS/apex_coinc_1190.root
+Found and initialized tree T
+Parsing tree...
+Loaded 646 tree variables from 648 tree leaves
+Parsing output variable definitions...
+DataElement: L.tr.r_x (L.tr.r_x) 	good:1 	type:8 (Double_t) 	size:1 	a/va: 0/0  min/max: 0/1  fmt: 1.10e
+DataElement: L.tr.r_th (L.tr.r_th) 	good:1 	type:8 (Double_t) 	size:1 	a/va: 0/0  min/max: 0/1  fmt: 1.10e
+DataElement: L.tr.r_y (L.tr.r_y) 	good:1 	type:8 (Double_t) 	size:1 	a/va: 0/0  min/max: 0/1  fmt: 1.10e
+DataElement: L.tr.r_ph (L.tr.r_ph) 	good:1 	type:8 (Double_t) 	size:1 	a/va: 0/0  min/max: 0/1  fmt: 1.10e
+DataElement: urb.x (urb.x) 	good:1 	type:8 (Double_t) 	size:1 	a/va: 0/0  min/max: 0/1  fmt: 1.10e
+DataElement: urb.y (urb.y) 	good:1 	type:8 (Double_t) 	size:1 	a/va: 0/0  min/max: 0/1  fmt: 1.10e
+DataElement: L.tr.tg_th (L.tr.tg_th) 	good:1 	type:8 (Double_t) 	size:1 	a/va: 0/0  min/max: 0/1  fmt: 1.10e
+DataElement: L.tr.tg_ph (L.tr.tg_ph) 	good:1 	type:8 (Double_t) 	size:1 	a/va: 0/0  min/max: 0/1  fmt: 1.10e
+DataElement: L.tr.tg_dp (L.tr.tg_dp) 	good:1 	type:8 (Double_t) 	size:1 	a/va: 0/0  min/max: 0/1  fmt: 1.10e
+DataElement: L.tr.p (L.tr.p) 	good:1 	type:8 (Double_t) 	size:1 	a/va: 0/0  min/max: 0/1  fmt: 1.10e
+DataElement: urb.e (urb.e) 	good:1 	type:8 (Double_t) 	size:1 	a/va: 0/0  min/max: 0/1  fmt: 1.10e
+DataElement: fEvtHdr.fRun (fEvtHdr.fRun) 	good:1 	type:3 (Int_t) 	size:1 	a/va: 0/0  min/max: 0/1  fmt: 1.10e
+12 tree variable(s) successfully loaded
+Reading peak definition file ArchivedRootFiles/SieveCentralLHRS/apex_coinc_1190.root.SieveCut.cut
+Cut 0: ( !L_dp_0 ) && ( 0 )
+Cut 1: ( !L_dp_0 ) && ( 0 )
+Cut 2: ( !L_dp_0 ) && ( 0 )
+Cut 3: ( !L_dp_0 ) && ( 0 )
+Cut 4: ( !L_dp_0 ) && ( 0 )
+Cut 5: ( !L_dp_0 ) && ( 0 )
+Cut 6: ( !L_dp_0 ) && ( 0 )
+Cut 7: ( !L_dp_0 ) && ( 0 )
+Cut 8: ( !L_dp_0 ) && ( 0 )
+Cut 9: ( !L_dp_0 ) && ( 0 )
+Cut 10: ( !L_dp_0 ) && ( 0 )
+Cut 11: ( !L_dp_0 ) && ( 0 )
+Cut 12: ( !L_dp_0 ) && ( 0 )
+Cut 13: ( !L_dp_0 ) && ( 0 )
+Cut 14: ( !L_dp_0 ) && ( 0 )
+Cut 15: ( !L_dp_0 ) && ( 0 )
+Cut 16: ( !L_dp_0 ) && ( 0 )
+Cut 17: ( !L_dp_0 ) && ( 0 )
+Cut 18: ( !L_dp_0 ) && ( 0 )
+Cut 19: ( !L_dp_0 ) && ( 0 )
+Cut 20: ( !L_dp_0 ) && ( 0 )
+Cut 21: ( !L_dp_0 ) && ( 0 )
+Cut 22: ( !L_dp_0 ) && ( 0 )
+Cut 23: ( !L_dp_0 ) && ( 0 )
+Cut 24: ( !L_dp_0 ) && ( hcut_L_0_1_9&&(abs(L.tr.tg_dp-0.044)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 25: ( !L_dp_0 ) && ( 0 )
+Cut 26: ( !L_dp_0 ) && ( 0 )
+Cut 27: ( !L_dp_0 ) && ( 0 )
+Cut 28: ( !L_dp_0 ) && ( 0 )
+Cut 29: ( !L_dp_0 ) && ( 0 )
+Cut 30: ( !L_dp_0 ) && ( 0 )
+Cut 31: ( !L_dp_0 ) && ( 0 )
+Cut 32: ( !L_dp_0 ) && ( 0 )
+Cut 33: ( !L_dp_0 ) && ( 0 )
+Cut 34: ( !L_dp_0 ) && ( 0 )
+Cut 35: ( !L_dp_0 ) && ( 0 )
+Cut 36: ( !L_dp_0 ) && ( 0 )
+Cut 37: ( !L_dp_0 ) && ( 0 )
+Cut 38: ( !L_dp_0 ) && ( hcut_L_0_2_8&&(abs(L.tr.tg_dp-0.044)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 39: ( !L_dp_0 ) && ( 0 )
+Cut 40: ( !L_dp_0 ) && ( 0 )
+Cut 41: ( !L_dp_0 ) && ( 0 )
+Cut 42: ( !L_dp_0 ) && ( 0 )
+Cut 43: ( !L_dp_0 ) && ( 0 )
+Cut 44: ( !L_dp_0 ) && ( 0 )
+Cut 45: ( !L_dp_0 ) && ( 0 )
+Cut 46: ( !L_dp_0 ) && ( 0 )
+Cut 47: ( !L_dp_0 ) && ( 0 )
+Cut 48: ( !L_dp_0 ) && ( 0 )
+Cut 49: ( !L_dp_0 ) && ( 0 )
+Cut 50: ( !L_dp_0 ) && ( 0 )
+Cut 51: ( !L_dp_0 ) && ( 0 )
+Cut 52: ( !L_dp_0 ) && ( 0 )
+Cut 53: ( !L_dp_0 ) && ( 0 )
+Cut 54: ( !L_dp_0 ) && ( hcut_L_0_3_9&&(abs(L.tr.tg_dp-0.044)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 55: ( !L_dp_0 ) && ( 0 )
+Cut 56: ( !L_dp_0 ) && ( hcut_L_0_3_11&&(abs(L.tr.tg_dp-0.044)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 57: ( !L_dp_0 ) && ( 0 )
+Cut 58: ( !L_dp_0 ) && ( 0 )
+Cut 59: ( !L_dp_0 ) && ( 0 )
+Cut 60: ( !L_dp_0 ) && ( 0 )
+Cut 61: ( !L_dp_0 ) && ( 0 )
+Cut 62: ( !L_dp_0 ) && ( 0 )
+Cut 63: ( !L_dp_0 ) && ( 0 )
+Cut 64: ( !L_dp_0 ) && ( 0 )
+Cut 65: ( !L_dp_0 ) && ( 0 )
+Cut 66: ( !L_dp_0 ) && ( 0 )
+Cut 67: ( !L_dp_0 ) && ( 0 )
+Cut 68: ( !L_dp_0 ) && ( 0 )
+Cut 69: ( !L_dp_0 ) && ( hcut_L_0_4_9&&(abs(L.tr.tg_dp-0.044)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 70: ( !L_dp_0 ) && ( 0 )
+Cut 71: ( !L_dp_0 ) && ( hcut_L_0_4_11&&(abs(L.tr.tg_dp-0.044)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 72: ( !L_dp_0 ) && ( 0 )
+Cut 73: ( !L_dp_0 ) && ( hcut_L_0_4_13&&(abs(L.tr.tg_dp-0.044)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 74: ( !L_dp_0 ) && ( 0 )
+Cut 75: ( !L_dp_0 ) && ( 0 )
+Cut 76: ( !L_dp_0 ) && ( 0 )
+Cut 77: ( !L_dp_0 ) && ( 0 )
+Cut 78: ( !L_dp_0 ) && ( 0 )
+Cut 79: ( !L_dp_0 ) && ( 0 )
+Cut 80: ( !L_dp_0 ) && ( 0 )
+Cut 81: ( !L_dp_0 ) && ( 0 )
+Cut 82: ( !L_dp_0 ) && ( 0 )
+Cut 83: ( !L_dp_0 ) && ( hcut_L_0_5_8&&(abs(L.tr.tg_dp-0.044)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 84: ( !L_dp_0 ) && ( 0 )
+Cut 85: ( !L_dp_0 ) && ( hcut_L_0_5_10&&(abs(L.tr.tg_dp-0.044)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 86: ( !L_dp_0 ) && ( 0 )
+Cut 87: ( !L_dp_0 ) && ( hcut_L_0_5_12&&(abs(L.tr.tg_dp-0.044)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 88: ( !L_dp_0 ) && ( 0 )
+Cut 89: ( !L_dp_0 ) && ( 0 )
+Cut 90: ( !L_dp_0 ) && ( 0 )
+Cut 91: ( !L_dp_0 ) && ( 0 )
+Cut 92: ( !L_dp_0 ) && ( 0 )
+Cut 93: ( !L_dp_0 ) && ( 0 )
+Cut 94: ( !L_dp_0 ) && ( 0 )
+Cut 95: ( !L_dp_0 ) && ( 0 )
+Cut 96: ( !L_dp_0 ) && ( 0 )
+Cut 97: ( !L_dp_0 ) && ( hcut_L_0_6_7&&(abs(L.tr.tg_dp-0.044)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 98: ( !L_dp_0 ) && ( 0 )
+Cut 99: ( !L_dp_0 ) && ( hcut_L_0_6_9&&(abs(L.tr.tg_dp-0.044)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 100: ( !L_dp_0 ) && ( 0 )
+Cut 101: ( !L_dp_0 ) && ( hcut_L_0_6_11&&(abs(L.tr.tg_dp-0.044)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 102: ( !L_dp_0 ) && ( 0 )
+Cut 103: ( !L_dp_0 ) && ( hcut_L_0_6_13&&(abs(L.tr.tg_dp-0.044)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 104: ( !L_dp_0 ) && ( 0 )
+Cut 105: ( !L_dp_0 ) && ( 0 )
+Cut 106: ( !L_dp_0 ) && ( 0 )
+Cut 107: ( !L_dp_0 ) && ( 0 )
+Cut 108: ( !L_dp_0 ) && ( 0 )
+Cut 109: ( !L_dp_0 ) && ( 0 )
+Cut 110: ( !L_dp_0 ) && ( 0 )
+Cut 111: ( !L_dp_0 ) && ( 0 )
+Cut 112: ( !L_dp_0 ) && ( 0 )
+Cut 113: ( !L_dp_0 ) && ( 0 )
+Cut 114: ( !L_dp_0 ) && ( hcut_L_0_7_9&&(abs(L.tr.tg_dp-0.044)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 115: ( !L_dp_0 ) && ( 0 )
+Cut 116: ( !L_dp_0 ) && ( hcut_L_0_7_11&&(abs(L.tr.tg_dp-0.044)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 117: ( !L_dp_0 ) && ( 0 )
+Cut 118: ( !L_dp_0 ) && ( 0 )
+Cut 119: ( !L_dp_0 ) && ( 0 )
+Cut 120: ( !L_dp_0 ) && ( 0 )
+Cut 121: ( !L_dp_0 ) && ( 0 )
+Cut 122: ( !L_dp_0 ) && ( 0 )
+Cut 123: ( !L_dp_0 ) && ( 0 )
+Cut 124: ( !L_dp_0 ) && ( 0 )
+Cut 125: ( !L_dp_0 ) && ( 0 )
+Cut 126: ( !L_dp_0 ) && ( 0 )
+Cut 127: ( !L_dp_0 ) && ( 0 )
+Cut 128: ( !L_dp_0 ) && ( 0 )
+Cut 129: ( !L_dp_0 ) && ( 0 )
+Cut 130: ( !L_dp_0 ) && ( hcut_L_0_8_10&&(abs(L.tr.tg_dp-0.044)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 131: ( !L_dp_0 ) && ( 0 )
+Cut 132: ( !L_dp_0 ) && ( hcut_L_0_8_12&&(abs(L.tr.tg_dp-0.044)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 133: ( !L_dp_0 ) && ( 0 )
+Cut 134: ( !L_dp_0 ) && ( 0 )
+Cut 135: ( !L_dp_0 ) && ( 0 )
+Cut 136: ( !L_dp_0 ) && ( 0 )
+Cut 137: ( !L_dp_0 ) && ( 0 )
+Cut 138: ( !L_dp_0 ) && ( 0 )
+Cut 139: ( !L_dp_0 ) && ( 0 )
+Cut 140: ( !L_dp_0 ) && ( 0 )
+Cut 141: ( !L_dp_0 ) && ( 0 )
+Cut 142: ( !L_dp_0 ) && ( 0 )
+Cut 143: ( !L_dp_0 ) && ( 0 )
+Cut 144: ( !L_dp_0 ) && ( 0 )
+Cut 145: ( !L_dp_0 ) && ( 0 )
+Cut 146: ( !L_dp_0 ) && ( hcut_L_0_9_11&&(abs(L.tr.tg_dp-0.044)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 147: ( !L_dp_0 ) && ( 0 )
+Cut 148: ( !L_dp_0 ) && ( 0 )
+Cut 149: ( !L_dp_0 ) && ( 0 )
+Cut 150: ( !L_dp_0 ) && ( 0 )
+Cut 151: ( !L_dp_0 ) && ( 0 )
+Cut 152: ( !L_dp_0 ) && ( 0 )
+Cut 153: ( !L_dp_0 ) && ( 0 )
+Cut 154: ( !L_dp_0 ) && ( 0 )
+Cut 155: ( !L_dp_0 ) && ( 0 )
+Cut 156: ( !L_dp_0 ) && ( 0 )
+Cut 157: ( !L_dp_0 ) && ( 0 )
+Cut 158: ( !L_dp_0 ) && ( 0 )
+Cut 159: ( !L_dp_0 ) && ( 0 )
+Cut 160: ( !L_dp_0 ) && ( 0 )
+Cut 161: ( !L_dp_0 ) && ( 0 )
+Cut 162: ( !L_dp_0 ) && ( 0 )
+Cut 163: ( !L_dp_0 ) && ( 0 )
+Cut 164: ( !L_dp_0 ) && ( 0 )
+Cut 165: ( !L_dp_0 ) && ( 0 )
+Cut 166: ( !L_dp_0 ) && ( 0 )
+Cut 167: ( !L_dp_0 ) && ( 0 )
+Cut 168: ( !L_dp_0 ) && ( 0 )
+Cut 169: ( !L_dp_0 ) && ( 0 )
+Cut 170: ( !L_dp_0 ) && ( 0 )
+Cut 171: ( !L_dp_0 ) && ( 0 )
+Cut 172: ( !L_dp_0 ) && ( 0 )
+Cut 173: ( !L_dp_0 ) && ( 0 )
+Cut 174: ( !L_dp_0 ) && ( 0 )
+Cut 175: ( !L_dp_0 ) && ( 0 )
+Cut 176: ( !L_dp_0 ) && ( 0 )
+Cut 177: ( !L_dp_0 ) && ( 0 )
+Cut 178: ( !L_dp_0 ) && ( 0 )
+Cut 179: ( !L_dp_0 ) && ( 0 )
+180 peak definition(s) found
+Tree reports 504723 events. Event limits: read: 504723 write: 10
+10 event(s) passed the cuts
+Opened ROOT input file ArchivedRootFiles/SieveCentralLHRS/apex_coinc_1191.root
+Found and initialized tree T
+Parsing tree...
+Loaded 646 tree variables from 648 tree leaves
+Parsing output variable definitions...
+DataElement: L.tr.r_x (L.tr.r_x) 	good:1 	type:8 (Double_t) 	size:1 	a/va: 0/0  min/max: 0/1  fmt: 1.10e
+DataElement: L.tr.r_th (L.tr.r_th) 	good:1 	type:8 (Double_t) 	size:1 	a/va: 0/0  min/max: 0/1  fmt: 1.10e
+DataElement: L.tr.r_y (L.tr.r_y) 	good:1 	type:8 (Double_t) 	size:1 	a/va: 0/0  min/max: 0/1  fmt: 1.10e
+DataElement: L.tr.r_ph (L.tr.r_ph) 	good:1 	type:8 (Double_t) 	size:1 	a/va: 0/0  min/max: 0/1  fmt: 1.10e
+DataElement: urb.x (urb.x) 	good:1 	type:8 (Double_t) 	size:1 	a/va: 0/0  min/max: 0/1  fmt: 1.10e
+DataElement: urb.y (urb.y) 	good:1 	type:8 (Double_t) 	size:1 	a/va: 0/0  min/max: 0/1  fmt: 1.10e
+DataElement: L.tr.tg_th (L.tr.tg_th) 	good:1 	type:8 (Double_t) 	size:1 	a/va: 0/0  min/max: 0/1  fmt: 1.10e
+DataElement: L.tr.tg_ph (L.tr.tg_ph) 	good:1 	type:8 (Double_t) 	size:1 	a/va: 0/0  min/max: 0/1  fmt: 1.10e
+DataElement: L.tr.tg_dp (L.tr.tg_dp) 	good:1 	type:8 (Double_t) 	size:1 	a/va: 0/0  min/max: 0/1  fmt: 1.10e
+DataElement: L.tr.p (L.tr.p) 	good:1 	type:8 (Double_t) 	size:1 	a/va: 0/0  min/max: 0/1  fmt: 1.10e
+DataElement: urb.e (urb.e) 	good:1 	type:8 (Double_t) 	size:1 	a/va: 0/0  min/max: 0/1  fmt: 1.10e
+DataElement: fEvtHdr.fRun (fEvtHdr.fRun) 	good:1 	type:3 (Int_t) 	size:1 	a/va: 0/0  min/max: 0/1  fmt: 1.10e
+12 tree variable(s) successfully loaded
+Reading peak definition file ArchivedRootFiles/SieveCentralLHRS/apex_coinc_1190.root.SieveCut.cut
+Cut 0: ( !L_dp_0 ) && ( 0 )
+Cut 1: ( !L_dp_0 ) && ( 0 )
+Cut 2: ( !L_dp_0 ) && ( 0 )
+Cut 3: ( !L_dp_0 ) && ( 0 )
+Cut 4: ( !L_dp_0 ) && ( 0 )
+Cut 5: ( !L_dp_0 ) && ( 0 )
+Cut 6: ( !L_dp_0 ) && ( 0 )
+Cut 7: ( !L_dp_0 ) && ( 0 )
+Cut 8: ( !L_dp_0 ) && ( 0 )
+Cut 9: ( !L_dp_0 ) && ( 0 )
+Cut 10: ( !L_dp_0 ) && ( 0 )
+Cut 11: ( !L_dp_0 ) && ( 0 )
+Cut 12: ( !L_dp_0 ) && ( 0 )
+Cut 13: ( !L_dp_0 ) && ( 0 )
+Cut 14: ( !L_dp_0 ) && ( 0 )
+Cut 15: ( !L_dp_0 ) && ( 0 )
+Cut 16: ( !L_dp_0 ) && ( 0 )
+Cut 17: ( !L_dp_0 ) && ( 0 )
+Cut 18: ( !L_dp_0 ) && ( 0 )
+Cut 19: ( !L_dp_0 ) && ( 0 )
+Cut 20: ( !L_dp_0 ) && ( 0 )
+Cut 21: ( !L_dp_0 ) && ( 0 )
+Cut 22: ( !L_dp_0 ) && ( 0 )
+Cut 23: ( !L_dp_0 ) && ( 0 )
+Cut 24: ( !L_dp_0 ) && ( hcut_L_0_1_9&&(abs(L.tr.tg_dp-0.044)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 25: ( !L_dp_0 ) && ( 0 )
+Cut 26: ( !L_dp_0 ) && ( 0 )
+Cut 27: ( !L_dp_0 ) && ( 0 )
+Cut 28: ( !L_dp_0 ) && ( 0 )
+Cut 29: ( !L_dp_0 ) && ( 0 )
+Cut 30: ( !L_dp_0 ) && ( 0 )
+Cut 31: ( !L_dp_0 ) && ( 0 )
+Cut 32: ( !L_dp_0 ) && ( 0 )
+Cut 33: ( !L_dp_0 ) && ( 0 )
+Cut 34: ( !L_dp_0 ) && ( 0 )
+Cut 35: ( !L_dp_0 ) && ( 0 )
+Cut 36: ( !L_dp_0 ) && ( 0 )
+Cut 37: ( !L_dp_0 ) && ( 0 )
+Cut 38: ( !L_dp_0 ) && ( hcut_L_0_2_8&&(abs(L.tr.tg_dp-0.044)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 39: ( !L_dp_0 ) && ( 0 )
+Cut 40: ( !L_dp_0 ) && ( 0 )
+Cut 41: ( !L_dp_0 ) && ( 0 )
+Cut 42: ( !L_dp_0 ) && ( 0 )
+Cut 43: ( !L_dp_0 ) && ( 0 )
+Cut 44: ( !L_dp_0 ) && ( 0 )
+Cut 45: ( !L_dp_0 ) && ( 0 )
+Cut 46: ( !L_dp_0 ) && ( 0 )
+Cut 47: ( !L_dp_0 ) && ( 0 )
+Cut 48: ( !L_dp_0 ) && ( 0 )
+Cut 49: ( !L_dp_0 ) && ( 0 )
+Cut 50: ( !L_dp_0 ) && ( 0 )
+Cut 51: ( !L_dp_0 ) && ( 0 )
+Cut 52: ( !L_dp_0 ) && ( 0 )
+Cut 53: ( !L_dp_0 ) && ( 0 )
+Cut 54: ( !L_dp_0 ) && ( hcut_L_0_3_9&&(abs(L.tr.tg_dp-0.044)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 55: ( !L_dp_0 ) && ( 0 )
+Cut 56: ( !L_dp_0 ) && ( hcut_L_0_3_11&&(abs(L.tr.tg_dp-0.044)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 57: ( !L_dp_0 ) && ( 0 )
+Cut 58: ( !L_dp_0 ) && ( 0 )
+Cut 59: ( !L_dp_0 ) && ( 0 )
+Cut 60: ( !L_dp_0 ) && ( 0 )
+Cut 61: ( !L_dp_0 ) && ( 0 )
+Cut 62: ( !L_dp_0 ) && ( 0 )
+Cut 63: ( !L_dp_0 ) && ( 0 )
+Cut 64: ( !L_dp_0 ) && ( 0 )
+Cut 65: ( !L_dp_0 ) && ( 0 )
+Cut 66: ( !L_dp_0 ) && ( 0 )
+Cut 67: ( !L_dp_0 ) && ( 0 )
+Cut 68: ( !L_dp_0 ) && ( 0 )
+Cut 69: ( !L_dp_0 ) && ( hcut_L_0_4_9&&(abs(L.tr.tg_dp-0.044)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 70: ( !L_dp_0 ) && ( 0 )
+Cut 71: ( !L_dp_0 ) && ( hcut_L_0_4_11&&(abs(L.tr.tg_dp-0.044)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 72: ( !L_dp_0 ) && ( 0 )
+Cut 73: ( !L_dp_0 ) && ( hcut_L_0_4_13&&(abs(L.tr.tg_dp-0.044)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 74: ( !L_dp_0 ) && ( 0 )
+Cut 75: ( !L_dp_0 ) && ( 0 )
+Cut 76: ( !L_dp_0 ) && ( 0 )
+Cut 77: ( !L_dp_0 ) && ( 0 )
+Cut 78: ( !L_dp_0 ) && ( 0 )
+Cut 79: ( !L_dp_0 ) && ( 0 )
+Cut 80: ( !L_dp_0 ) && ( 0 )
+Cut 81: ( !L_dp_0 ) && ( 0 )
+Cut 82: ( !L_dp_0 ) && ( 0 )
+Cut 83: ( !L_dp_0 ) && ( hcut_L_0_5_8&&(abs(L.tr.tg_dp-0.044)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 84: ( !L_dp_0 ) && ( 0 )
+Cut 85: ( !L_dp_0 ) && ( hcut_L_0_5_10&&(abs(L.tr.tg_dp-0.044)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 86: ( !L_dp_0 ) && ( 0 )
+Cut 87: ( !L_dp_0 ) && ( hcut_L_0_5_12&&(abs(L.tr.tg_dp-0.044)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 88: ( !L_dp_0 ) && ( 0 )
+Cut 89: ( !L_dp_0 ) && ( 0 )
+Cut 90: ( !L_dp_0 ) && ( 0 )
+Cut 91: ( !L_dp_0 ) && ( 0 )
+Cut 92: ( !L_dp_0 ) && ( 0 )
+Cut 93: ( !L_dp_0 ) && ( 0 )
+Cut 94: ( !L_dp_0 ) && ( 0 )
+Cut 95: ( !L_dp_0 ) && ( 0 )
+Cut 96: ( !L_dp_0 ) && ( 0 )
+Cut 97: ( !L_dp_0 ) && ( hcut_L_0_6_7&&(abs(L.tr.tg_dp-0.044)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 98: ( !L_dp_0 ) && ( 0 )
+Cut 99: ( !L_dp_0 ) && ( hcut_L_0_6_9&&(abs(L.tr.tg_dp-0.044)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 100: ( !L_dp_0 ) && ( 0 )
+Cut 101: ( !L_dp_0 ) && ( hcut_L_0_6_11&&(abs(L.tr.tg_dp-0.044)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 102: ( !L_dp_0 ) && ( 0 )
+Cut 103: ( !L_dp_0 ) && ( hcut_L_0_6_13&&(abs(L.tr.tg_dp-0.044)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 104: ( !L_dp_0 ) && ( 0 )
+Cut 105: ( !L_dp_0 ) && ( 0 )
+Cut 106: ( !L_dp_0 ) && ( 0 )
+Cut 107: ( !L_dp_0 ) && ( 0 )
+Cut 108: ( !L_dp_0 ) && ( 0 )
+Cut 109: ( !L_dp_0 ) && ( 0 )
+Cut 110: ( !L_dp_0 ) && ( 0 )
+Cut 111: ( !L_dp_0 ) && ( 0 )
+Cut 112: ( !L_dp_0 ) && ( 0 )
+Cut 113: ( !L_dp_0 ) && ( 0 )
+Cut 114: ( !L_dp_0 ) && ( hcut_L_0_7_9&&(abs(L.tr.tg_dp-0.044)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 115: ( !L_dp_0 ) && ( 0 )
+Cut 116: ( !L_dp_0 ) && ( hcut_L_0_7_11&&(abs(L.tr.tg_dp-0.044)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 117: ( !L_dp_0 ) && ( 0 )
+Cut 118: ( !L_dp_0 ) && ( 0 )
+Cut 119: ( !L_dp_0 ) && ( 0 )
+Cut 120: ( !L_dp_0 ) && ( 0 )
+Cut 121: ( !L_dp_0 ) && ( 0 )
+Cut 122: ( !L_dp_0 ) && ( 0 )
+Cut 123: ( !L_dp_0 ) && ( 0 )
+Cut 124: ( !L_dp_0 ) && ( 0 )
+Cut 125: ( !L_dp_0 ) && ( 0 )
+Cut 126: ( !L_dp_0 ) && ( 0 )
+Cut 127: ( !L_dp_0 ) && ( 0 )
+Cut 128: ( !L_dp_0 ) && ( 0 )
+Cut 129: ( !L_dp_0 ) && ( 0 )
+Cut 130: ( !L_dp_0 ) && ( hcut_L_0_8_10&&(abs(L.tr.tg_dp-0.044)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 131: ( !L_dp_0 ) && ( 0 )
+Cut 132: ( !L_dp_0 ) && ( hcut_L_0_8_12&&(abs(L.tr.tg_dp-0.044)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 133: ( !L_dp_0 ) && ( 0 )
+Cut 134: ( !L_dp_0 ) && ( 0 )
+Cut 135: ( !L_dp_0 ) && ( 0 )
+Cut 136: ( !L_dp_0 ) && ( 0 )
+Cut 137: ( !L_dp_0 ) && ( 0 )
+Cut 138: ( !L_dp_0 ) && ( 0 )
+Cut 139: ( !L_dp_0 ) && ( 0 )
+Cut 140: ( !L_dp_0 ) && ( 0 )
+Cut 141: ( !L_dp_0 ) && ( 0 )
+Cut 142: ( !L_dp_0 ) && ( 0 )
+Cut 143: ( !L_dp_0 ) && ( 0 )
+Cut 144: ( !L_dp_0 ) && ( 0 )
+Cut 145: ( !L_dp_0 ) && ( 0 )
+Cut 146: ( !L_dp_0 ) && ( hcut_L_0_9_11&&(abs(L.tr.tg_dp-0.044)<0.003)&&(L.tr.n==1&&L.tr.chi2<0.004&&abs(L.tr.x)<0.75&&abs(L.tr.y)<0.55&&abs(L.tr.th)<0.15&&abs(L.tr.ph)<0.045) )
+Cut 147: ( !L_dp_0 ) && ( 0 )
+Cut 148: ( !L_dp_0 ) && ( 0 )
+Cut 149: ( !L_dp_0 ) && ( 0 )
+Cut 150: ( !L_dp_0 ) && ( 0 )
+Cut 151: ( !L_dp_0 ) && ( 0 )
+Cut 152: ( !L_dp_0 ) && ( 0 )
+Cut 153: ( !L_dp_0 ) && ( 0 )
+Cut 154: ( !L_dp_0 ) && ( 0 )
+Cut 155: ( !L_dp_0 ) && ( 0 )
+Cut 156: ( !L_dp_0 ) && ( 0 )
+Cut 157: ( !L_dp_0 ) && ( 0 )
+Cut 158: ( !L_dp_0 ) && ( 0 )
+Cut 159: ( !L_dp_0 ) && ( 0 )
+Cut 160: ( !L_dp_0 ) && ( 0 )
+Cut 161: ( !L_dp_0 ) && ( 0 )
+Cut 162: ( !L_dp_0 ) && ( 0 )
+Cut 163: ( !L_dp_0 ) && ( 0 )
+Cut 164: ( !L_dp_0 ) && ( 0 )
+Cut 165: ( !L_dp_0 ) && ( 0 )
+Cut 166: ( !L_dp_0 ) && ( 0 )
+Cut 167: ( !L_dp_0 ) && ( 0 )
+Cut 168: ( !L_dp_0 ) && ( 0 )
+Cut 169: ( !L_dp_0 ) && ( 0 )
+Cut 170: ( !L_dp_0 ) && ( 0 )
+Cut 171: ( !L_dp_0 ) && ( 0 )
+Cut 172: ( !L_dp_0 ) && ( 0 )
+Cut 173: ( !L_dp_0 ) && ( 0 )
+Cut 174: ( !L_dp_0 ) && ( 0 )
+Cut 175: ( !L_dp_0 ) && ( 0 )
+Cut 176: ( !L_dp_0 ) && ( 0 )
+Cut 177: ( !L_dp_0 ) && ( 0 )
+Cut 178: ( !L_dp_0 ) && ( 0 )
+Cut 179: ( !L_dp_0 ) && ( 0 )
+180 peak definition(s) found
+Tree reports 508015 events. Event limits: read: 508015 write: 10
+10 event(s) passed the cuts
+20 event(s) written in total
+Done!
