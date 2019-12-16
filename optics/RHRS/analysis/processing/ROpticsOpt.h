@@ -243,6 +243,8 @@ public:
     double v; // its computed value
     std::vector<double> poly; // the associated polynomial
 
+    void SkimPoly(); //reduce order to highest non-zero poly
+
     UInt_t OptOrder; //order optimize to
 };
 #endif
