@@ -3,7 +3,7 @@
 PROG=./tree2ascii
 
 ROOTFILES="/home/sean/Grad/Research/APEX/Rootfiles"
-DIR="../Sieve/test"
+DIR="../Sieve/xfp_-10_10"
 RUN="4647"
 
 IdOffSet=459

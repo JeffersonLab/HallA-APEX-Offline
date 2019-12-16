@@ -18,7 +18,7 @@ Step 2, Write data to ascii file:
 Once we have our cuts defined in the Sieve/ folder we need to put them together. First we must create text file with a bunch of zeros for all the columns that were never selected. This is done by quick.sh. The once we put everything together using gen.sh. Then go the the Tree2Ascii/ folder and run,
 
 make
-tree2ascii
+SieveTree2Ascii
 
 ----------------------------------------------------------------------------
 
