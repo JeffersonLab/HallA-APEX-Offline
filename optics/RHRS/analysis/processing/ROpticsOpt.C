@@ -375,7 +375,27 @@ UInt_t ROpticsOpt::LoadRawData(TTree* t)
     return entries;
 }
 
+///////////////////////////////////////////////////////////////////////////////
+// declarations for target vertex reconstruction
+///////////////////////////////////////////////////////////////////////////////
 
+void ROpticsOpt::CalcMatrix(const Double_t x, vector<THaMatrixElement>& matrix)
+{
+    // calculates the values of the matrix elements for a given location
+    // by evaluating a polynomial in x of order it->order with
+    // coefficients given by it->poly
+
+    for (vector<THaMatrixElement>::iterator it = matrix.begin();
+            it != matrix.end(); it++) {
+        it->v = 0.0;
+
+        if (it->order > 0) {
+            for (int i = it->order - 1; i >= 1; i--)
+                it->v = x * (it->v + it->poly[i]);
+            it->v += it->poly[0];
+        }
+    }
+}
  
 
 Double_t ROpticsOpt::CalcTargetVar(const vector<THaMatrixElement>& matrix, const Double_t powers[][5])
@@ -549,3 +569,35 @@ double ROpticsOpt::sieve_y(int event){
   
 }
 
+///////////////////////////////////////////////////////////////////////////////
+// class for storing matrix element data
+///////////////////////////////////////////////////////////////////////////////
+
+bool THaMatrixElement::match(const THaMatrixElement& rhs) const
+{
+    // Compare coefficients of this matrix element to another
+
+    if (pw.size() != rhs.pw.size())
+        return false;
+    for (vector<int>::size_type i = 0; i < pw.size(); i++) {
+        if (pw[i] != rhs.pw[i])
+            return false;
+    }
+    return true;
+}
+
+void THaMatrixElement::SkimPoly()
+{
+    // reduce order to highest non-zero poly
+
+    if (iszero) return;
+
+    while (!poly[order - 1] && order > 0) {
+        poly.pop_back();
+        order = order - 1;
+    }
+
+    if (order == 0) iszero = kTRUE;
+}
+
+ClassImp(ROpticsOpt);
