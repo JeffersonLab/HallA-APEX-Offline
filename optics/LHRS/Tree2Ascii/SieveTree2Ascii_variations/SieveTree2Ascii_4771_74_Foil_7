@@ -1,0 +1,90 @@
+#!/bin/tcsh
+
+# @ IdOffSet = 180
+# @ Id = 0
+@ OutN = 100000000
+# @ OutN = 10
+
+
+
+
+#set baseRootFileName = "/scratch/johnw/apex/Rootfiles/apex_online_"
+
+set baseRootFileName = "/w/work3/home/johnw/Rootfiles/apex_"
+
+
+set DataFileName = "text_cuts/4771_4774_Foil_7.dat"
+
+
+
+# For run 4771 
+
+
+set Run_number = "4771"
+
+
+set RootFileName_1_c = "${baseRootFileName}${Run_number}_27_11_2019.root"
+
+
+
+# For run 4771 Foils 1,3	    
+
+set RootFileName_1 = "/w/work3/home/johnw/Rootfiles/Correlations/TP_13_1_20_Old_Y_no_col_0/${Run_number}_replay.root"; 
+
+echo "$RootFileName_1"
+
+
+set CutSieveFile_1 = "Cuts_Sieve/apex_4771_27_11_2019.root.SieveCut_ell.cut_foil_7"
+
+
+
+tree2ascii -p -N $OutN -d Ascii_Variables/SieveVars.def \
+    -c $CutSieveFile_1 \
+    -g $RootFileName_1_c.FullCut.root_Foil_7 \
+    -o $DataFileName \
+    $RootFileName_1 
+
+
+
+set RootFileName_1_1 = "/w/work3/home/johnw/Rootfiles/Correlations/TP_13_1_20_Old_Y_no_col_0/${Run_number}_replay_1.root"; 
+
+tree2ascii -ap -N $OutN -d Ascii_Variables/SieveVars.def \
+    -c $CutSieveFile_1 \
+    -g $RootFileName_1_c.FullCut.root_Foil_7 \
+    -o $DataFileName \
+    $RootFileName_1_1 
+
+
+set RootFileName_1_2 = "/w/work3/home/johnw/Rootfiles/Correlations/TP_13_1_20_Old_Y_no_col_0/${Run_number}_replay_2.root"; 
+
+
+tree2ascii -ap -N $OutN -d Ascii_Variables/SieveVars.def \
+    -c $CutSieveFile_1 \
+    -g $RootFileName_1_c.FullCut.root_Foil_7 \
+    -o $DataFileName \
+    $RootFileName_1_2
+
+set RootFileName_1_3 = "/w/work3/home/johnw/Rootfiles/Correlations/TP_13_1_20_Old_Y_no_col_0/${Run_number}_replay_3.root"; 
+
+
+tree2ascii -ap -N $OutN -d Ascii_Variables/SieveVars.def \
+    -c $CutSieveFile_1 \
+    -g $RootFileName_1_c.FullCut.root_Foil_7 \
+    -o $DataFileName \
+    $RootFileName_1_3
+
+
+set RootFileName_1_4 = "/w/work3/home/johnw/Rootfiles/Correlations/TP_13_1_20_Old_Y_no_col_0/${Run_number}_replay_4.root"; 
+
+
+tree2ascii -ap -N $OutN -d Ascii_Variables/SieveVars.def \
+    -c $CutSieveFile_1 \
+    -g $RootFileName_1_c.FullCut.root_Foil_7 \
+    -o $DataFileName \
+    $RootFileName_1_4 
+
+
+
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
+
+echo "Done!"
