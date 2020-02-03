@@ -19,7 +19,7 @@
 
 
 #include "file_def.h"
-#include "../opt_new/InputAPEXL.h"
+#include "InputAPEXL.h"
 #include "TVector3.h"
 #include "TRotation.h"
 #include "TCut.h"
@@ -49,22 +49,24 @@ const TVector3 GetSieveHoleTCS(Int_t Col, Int_t Row) /*const*/
 
   // following lines get Sieve offset in HCS (Hall Co-ordinate System) and transfer to TCS (Target Co-ordinate System)
 
-  TVector3 TCSX(0, -1, 0);
-  TVector3 TCSZ(TMath::Sin(HRSAngle), 0, TMath::Cos(HRSAngle));
-  TVector3 TCSY = TCSZ.Cross(TCSX);
+  /* TVector3 TCSX(0, -1, 0); */
+  /* TVector3 TCSZ(TMath::Sin(HRSAngle), 0, TMath::Cos(HRSAngle)); */
+  /* TVector3 TCSY = TCSZ.Cross(TCSX); */
 
-  TRotation fTCSInHCS;
-  fTCSInHCS.RotateAxes(TCSX, TCSY, TCSZ);
+  /* TRotation fTCSInHCS; */
+  /* fTCSInHCS.RotateAxes(TCSX, TCSY, TCSZ); */
 
-  TVector3 Sieve_offset_HCS(SieveOffX_HCS,SieveOffY_HCS,ZPos_HCS);
+  /* TVector3 Sieve_offset_HCS(SieveOffX_HCS,SieveOffY_HCS,ZPos_HCS); */
 
-  TVector3 Sieve_offset_TCS = fTCSInHCS.Inverse()*(Sieve_offset_HCS);
+  //  TVector3 Sieve_offset_TCS = fTCSInHCS.Inverse()*(Sieve_offset_HCS);
     
 
   //  TVector3 SieveHoleTCS(SieveXbyRow[Row]+SieveOffX, SieveYbyCol[Col]+SieveOffY, ZPos);
 
 
-  TVector3 SieveHoleTCS( SieveXbyRow[Row] + Sieve_offset_TCS.X(), Sieve_offset_TCS.Y() + SieveYbyCol[Col], Sieve_offset_TCS.Z());
+  /* TVector3 SieveHoleTCS( SieveXbyRow[Row] + Sieve_offset_TCS.X(), Sieve_offset_TCS.Y() + SieveYbyCol[Col], Sieve_offset_TCS.Z()); */
+
+  TVector3 SieveHoleTCS(SieveOffX + SieveXbyRow[Row], SieveOffY + SieveYbyCol[Col], ZPos);
 
 
   return SieveHoleTCS;
@@ -129,10 +131,14 @@ const TVector3 GetSieveHoleCorrectionTCS(UInt_t nfoil, UInt_t Col, UInt_t Row)
 
 
 
-    const TVector3 BeamSpotHCS_average(BeamX_average, BeamY_average, targetfoils[nfoil]);
+    //    const TVector3 BeamSpotHCS_average(BeamX_average, BeamY_average, targetfoils[nfoil]);
+    const TVector3 BeamSpotHCS_average(BeamX_average + (targetfoils[nfoil]/BeamZDir_average)*BeamXDir_average, BeamY_average + (targetfoils[nfoil]/BeamZDir_average)*BeamYDir_average, targetfoils[nfoil]);
+
 
     const Int_t a = (HRSAngle > 0) ? 1 : -1;
     //    fPointingOffset.SetXYZ(a*-MissPointZ*TMath::Sin(HRSAngle)*TMath::Cos(HRSAngle),(Double_t)MissPointY,MissPointZ*TMath::Sin(HRSAngle)*TMath::Sin(HRSAngle));
+
+
     fPointingOffset.SetXYZ(-a*MissPointZ*TMath::Cos(HRSAngle), MissPointY, -MissPointZ * TMath::Sin(HRSAngle));
 
 

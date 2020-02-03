@@ -943,13 +943,17 @@ const TVector3 LOpticsOpt::GetSieveHoleTCS(UInt_t Col, UInt_t Row)
 
     XbyRow = SieveXbyRow[Row];
 
-    TVector3 Sieve_offset_HCS(SieveOffX_HCS,SieveOffY_HCS,ZPos_HCS);
+    //    TVector3 Sieve_offset_HCS(SieveOffX_HCS,SieveOffY_HCS,ZPos_HCS);
 
-    TVector3 Sieve_offset_TCS = fTCSInHCS.Inverse()*(Sieve_offset_HCS);
+    //    TVector3 Sieve_offset_TCS = fTCSInHCS.Inverse()*(Sieve_offset_HCS);
     
+    //    TVector3 SieveHoleTCS( Sieve_offset_TCS.X() + XbyRow, Sieve_offset_TCS.Y() + SieveYbyCol[Col], Sieve_offset_TCS.Z());
+
+    
+    TVector3 SieveHoleTCS(SieveOffX + XbyRow, SieveOffY + SieveYbyCol[Col], ZPos);
 
 
-    TVector3 SieveHoleTCS( Sieve_offset_TCS.X() + XbyRow, Sieve_offset_TCS.Y() + SieveYbyCol[Col], Sieve_offset_TCS.Z());
+
     /*
     cout<<"Col%2:"<<Col%2<<endl;
     cout<<"Col:"<<Col<<endl;
@@ -978,9 +982,16 @@ const TVector3 LOpticsOpt::GetSieveHoleCorrectionTCS(UInt_t nfoil, UInt_t Col, U
     //    Double_t SieveY_Correction[NFoils][NSieveCol][NSieveRow] ={{{0}}};
     //    Double_t SieveX_Correction[NFoils][NSieveCol][NSieveRow] ={{{0}}};
 
-    //const TVector3 BeamSpotHCS_average(BeamX_average, BeamY_average, targetfoils[nfoil]);
+    //const TVector3 BeamSpotH CS_average(BeamX_average, BeamY_average, targetfoils[nfoil]);
     //    const TVector3 BeamSpotHCS_average(BeamX_average[nfoil], BeamY_average, targetfoils[nfoil]);
-    const TVector3 BeamSpotHCS_average(BeamX_average, BeamY_average, targetfoils[nfoil]);
+
+
+    //    const TVector3 BeamSpotHCS_average(BeamX_average, BeamY_average, targetfoils[nfoil]);
+    const TVector3 BeamSpotHCS_average(BeamX_average + (targetfoils[nfoil]/BeamZDir_average)*BeamXDir_average, BeamY_average + (targetfoils[nfoil]/BeamZDir_average)*BeamYDir_average, targetfoils[nfoil]);
+
+
+
+
     const TVector3 BeamSpotTCS_average = fTCSInHCS.Inverse()*(BeamSpotHCS_average - fPointingOffset);        
     BeamXHCS= BeamSpotTCS_average.X();
     BeamYHCS= BeamSpotTCS_average.Y();
@@ -1040,7 +1051,11 @@ void LOpticsOpt::PrepareSieve(void)
         eventdata.Data[kSieveY] = SieveHoleCorrectionTCS.Y();
         eventdata.Data[kSieveZ] = SieveHoleCorrectionTCS.Z();
 
-	const TVector3 BeamSpotHCS(eventdata.Data[kBeamX], eventdata.Data[kBeamY], targetfoils[FoilID]);
+	//	const TVector3 BeamSpotHCS(eventdata.Data[kBeamX], eventdata.Data[kBeamY], targetfoils[FoilID]);
+	const TVector3 BeamSpotHCS( eventdata.Data[kBeamX] + (targetfoils[FoilID]/BeamZDir_average)*BeamXDir_average, eventdata.Data[kBeamY] + (targetfoils[FoilID]/BeamZDir_average)*BeamYDir_average, targetfoils[FoilID]);
+
+
+
 	//const TVector3 BeamSpotHCS(BeamX_average[FoilID], BeamY_average, targetfoils[FoilID]);
         eventdata.Data[kBeamZ] = targetfoils[FoilID];
 
@@ -1130,7 +1145,8 @@ TCanvas * LOpticsOpt::CheckSieve(Int_t PlotFoilID)
       assert(HSievePlane[idx]); // assure memory allocation
 
 
-      HSieveAngle[idx] = new TH2D(Form("Angle_Sieve_Foil%d",idx),Form("theta_target vs. phi_target for Data set #%d",idx), 500, -0.04, 0.04, 500, -0.08, 0.08);
+      //      HSieveAngle[idx] = new TH2D(Form("Angle_Sieve_Foil%d",idx),Form("theta_target vs. phi_target for Data set #%d",idx), 500, -0.04, 0.04, 500, -0.08, 0.08);
+      HSieveAngle[idx] = new TH2D(Form("Angle_Sieve_Foil%d",idx),Form("theta_target vs. phi_target for Data set #%d",idx), 500, -0.08, 0.0, 500, -0.08, 0.08);
       
 
       HSieveAngle[idx]->SetXTitle("Phi");
@@ -1174,7 +1190,9 @@ TCanvas * LOpticsOpt::CheckSieve(Int_t PlotFoilID)
 
       // calculate theta and phi 'real' positions of holes
 
-      TVector3 BeamSpotHCS_average(BeamX_average,BeamY_average,targetfoils[FoilID]);
+      //      TVector3 BeamSpotHCS_average(BeamX_average,BeamY_average,targetfoils[FoilID]);
+      const TVector3 BeamSpotHCS_average(BeamX_average + (targetfoils[FoilID]/BeamZDir_average)*BeamXDir_average, BeamY_average + (targetfoils[FoilID]/BeamZDir_average)*BeamYDir_average, targetfoils[FoilID]);
+    
       
       TVector3 BeamSpotTCS_average = fTCSInHCS.Inverse()*(BeamSpotHCS_average-fPointingOffset);
 
@@ -1332,7 +1350,9 @@ TCanvas * LOpticsOpt::CheckSieve(Int_t PlotFoilID)
 	  
 	  const TVector3 SieveHoleCorrectionTCS = GetSieveHoleCorrectionTCS(FoilID, Col, Row);
 	  
-	  TVector3 BeamSpotHCS_average(BeamX_average,BeamY_average,targetfoils[FoilID]);
+	  //	  TVector3 BeamSpotHCS_average(BeamX_average,BeamY_average,targetfoils[FoilID]);
+	  const TVector3 BeamSpotHCS_average(BeamX_average + (targetfoils[FoilID]/BeamZDir_average)*BeamXDir_average, BeamY_average + (targetfoils[FoilID]/BeamZDir_average)*BeamYDir_average, targetfoils[FoilID]);
+	      
 	  
 	  TVector3 BeamSpotTCS_average = fTCSInHCS.Inverse()*(BeamSpotHCS_average-fPointingOffset);
 
@@ -2247,10 +2267,13 @@ Double_t LOpticsOpt::SumSquareDTh()
         eventdata.Data[kCalcTh] = theta;
 
 	const TVector3 SieveHoleCorrectionTCS = GetSieveHoleCorrectionTCS(FoilID, Col, Row);
-	const TVector3 BeamSpotHCS(eventdata.Data[kBeamX], eventdata.Data[kBeamY], targetfoils[FoilID]);
+	//	const TVector3 BeamSpotHCS(eventdata.Data[kBeamX], eventdata.Data[kBeamY], targetfoils[FoilID]);
+	const TVector3 BeamSpotHCS( eventdata.Data[kBeamX] + (targetfoils[FoilID]/BeamZDir_average)*BeamXDir_average, eventdata.Data[kBeamY] + (targetfoils[FoilID]/BeamZDir_average)*BeamYDir_average, targetfoils[FoilID]);
+
 	const TVector3 BeamSpotTCS = fTCSInHCS.Inverse()*(BeamSpotHCS - fPointingOffset);
 	const Double_t x_tg = BeamSpotTCS.X() - BeamSpotTCS.Z() * tan(eventdata.Data[kCalcTh]);
-	double ProjectionX = x_tg + (tan(eventdata.Data[kCalcTh]) + x_tg * ExtTarCor_ThetaCorr) * (ZPos);
+	//	double ProjectionX = x_tg + (tan(eventdata.Data[kCalcTh]) + x_tg * ExtTarCor_ThetaCorr) * (ZPos);
+	double ProjectionX = x_tg + (tan(eventdata.Data[kCalcTh])*(ZPos));
 	
 	const Double_t posx = SieveHoleCorrectionTCS.X();
 	
@@ -2259,8 +2282,9 @@ Double_t LOpticsOpt::SumSquareDTh()
     }
     
 
-    // DEBUG_INFO("SumSquareDTh", "#%d : dth = %f,\t rmsth = %f", NCall, dth / fNRawData, TMath::Sqrt(rmsth / fNRawData));
-    //    printf("SumSquareDTh: #%d : dth = %f,\t rmsth = %f\n", NCall, dth / fNRawData, TMath::Sqrt(rmsth / fNRawData));
+    DEBUG_INFO("SumSquareDTh", "#%d : dth = %f,\t rmsth = %f", NCall, dth / fNRawData, TMath::Sqrt(rmsth / fNRawData));
+    printf("SumSquareDTh: #%d : dth = %f,\t rmsth = %f\n", NCall, dth / fNRawData, TMath::Sqrt(rmsth / fNRawData));
+    printf("SumSquareDX: #%d : dx = %f,\t rmsdx = %f\t, orig rmsdx = %f\n", NCall, dx / fNRawData, TMath::Sqrt(rmsdx / fNRawData), rmsdx);
 
     //return rmsth; //Use for opt to angles
     return rmsdx; //Use for opt to sieve plane
@@ -2319,7 +2343,9 @@ Double_t LOpticsOpt::SumSquareDPhi()
         eventdata.Data[kCalcPh] = phi;
 
 	const TVector3 SieveHoleCorrectionTCS = GetSieveHoleCorrectionTCS(FoilID, Col, Row);
-	const TVector3 BeamSpotHCS(eventdata.Data[kBeamX], eventdata.Data[kBeamY], targetfoils[FoilID]);
+	//	const TVector3 BeamSpotHCS(eventdata.Data[kBeamX], eventdata.Data[kBeamY], targetfoils[FoilID]);
+	const TVector3 BeamSpotHCS( eventdata.Data[kBeamX] + (targetfoils[FoilID]/BeamZDir_average)*BeamXDir_average, eventdata.Data[kBeamY] + (targetfoils[FoilID]/BeamZDir_average)*BeamYDir_average, targetfoils[FoilID]);
+
 	const TVector3 BeamSpotTCS = fTCSInHCS.Inverse()*(BeamSpotHCS - fPointingOffset);
 	const Double_t y_tg = BeamSpotTCS.Y() - BeamSpotTCS.Z() * tan(eventdata.Data[kCalcPh]);
 
@@ -2341,7 +2367,8 @@ Double_t LOpticsOpt::SumSquareDPhi()
     }
     
     // DEBUG_INFO("SumSquareDPhi", "#%d : dphi = %f,\t rmsphi = %f", NCall, dphi / fNRawData, TMath::Sqrt(rmsphi / fNRawData));
-    printf("SumSquareDPhi: #%d : dphi = %f,\t rmsphi = %f\n", NCall, dphi / fNRawData, TMath::Sqrt(rmsphi / fNRawData));
+    printf("SumSquareDPhi: #%d : dphi = %f,\t rmsphi = %f,\t overall rmsphi = %f\n", NCall, dphi / fNRawData, TMath::Sqrt(rmsphi / fNRawData), rmsphi);
+    printf("SumSquareDY: #%d : dy = %f,\t rmsdy = %f,\t overall rmsdy = %f\n", NCall, dy / fNRawData, TMath::Sqrt(rmsdy / fNRawData), rmsdy);
 
     //return rmsphi;  //Use for opt to angles
     return rmsdy;   //Use for opt to sieve plane
@@ -2367,7 +2394,10 @@ void LOpticsOpt::PrepareVertex(void)
         eventdata.Data[kSieveY] = SieveHoleCorrectionTCS.Y();
         eventdata.Data[kSieveZ] = SieveHoleCorrectionTCS.Z();
 
-	TVector3 BeamSpotHCS(eventdata.Data[kBeamX], eventdata.Data[kBeamY], targetfoils[FoilID]);
+	//	TVector3 BeamSpotHCS(eventdata.Data[kBeamX], eventdata.Data[kBeamY], targetfoils[FoilID]);
+	const TVector3 BeamSpotHCS( eventdata.Data[kBeamX] + (targetfoils[FoilID]/BeamZDir_average)*BeamXDir_average, eventdata.Data[kBeamY] + (targetfoils[FoilID]/BeamZDir_average)*BeamYDir_average, targetfoils[FoilID]);
+
+
 	//	TVector3 BeamSpotHCS(BeamX_average, BeamY_average , targetfoils[FoilID]);
         eventdata.Data[kBeamZ] = targetfoils[FoilID];
         TVector3 BeamSpotTCS = fTCSInHCS.Inverse()*(BeamSpotHCS - fPointingOffset);
@@ -2532,11 +2562,13 @@ TCanvas * LOpticsOpt::CheckVertex()
     Check_Tong->SetLineWidth(2);
     TCanvas * c_Tong=new TCanvas("c_Tong", "c_Tong", 1800, 1350);
     
+    Double_t Z_offset = -1.053;
+
     
      Check_Tong->SetXTitle("Target Z [m]");
     for (UInt_t idx = 0; idx < NFoils; idx++) {
-        HTgZ[idx] = new TH1D(Form("Target_Z%d", idx), Form("Target Z for Foil Target #%d", idx), 500, -ZRange, ZRange);
-        HTgZReal[idx] = new TH1D(Form("Target_Z%d", idx), Form("Target Z for Foil Target #%d", idx), 500, -ZRange, ZRange);
+        HTgZ[idx] = new TH1D(Form("Target_Z%d", idx), Form("Target Z for Foil Target #%d", idx), 500, -ZRange+Z_offset, ZRange+Z_offset);
+        HTgZReal[idx] = new TH1D(Form("Target_Z%d", idx), Form("Target Z for Foil Target #%d", idx), 500, -ZRange+Z_offset, ZRange+Z_offset);
 
         HTgZ[idx]->SetXTitle("Target Z [m]");
         assert(HTgZ[idx]); // assure memory allocation
@@ -2572,7 +2604,10 @@ TCanvas * LOpticsOpt::CheckVertex()
         eventdata.Data[kSieveY] = SieveHoleCorrectionTCS.Y();
         eventdata.Data[kSieveZ] = SieveHoleCorrectionTCS.Z();
 
-	TVector3 BeamSpotHCS(eventdata.Data[kBeamX], eventdata.Data[kBeamY], targetfoils[FoilID]);
+	//	TVector3 BeamSpotHCS(eventdata.Data[kBeamX], eventdata.Data[kBeamY], targetfoils[FoilID]);
+	const TVector3 BeamSpotHCS( eventdata.Data[kBeamX] + (targetfoils[FoilID]/BeamZDir_average)*BeamXDir_average, eventdata.Data[kBeamY] + (targetfoils[FoilID]/BeamZDir_average)*BeamYDir_average, targetfoils[FoilID]);
+
+
 	// 	TVector3 BeamSpotHCS(BeamX_average, BeamY_average, targetfoils[FoilID]);
        eventdata.Data[kBeamZ] = targetfoils[FoilID];
         TVector3 BeamSpotTCS = fTCSInHCS.Inverse()*(BeamSpotHCS - fPointingOffset);
@@ -2773,7 +2808,10 @@ const Double_t ArbitaryVertexShift = 0;
 	eventdata.Data[kRealReactZ] = targetfoils[FoilID];
 	Double_t CalcReacZ =0;
         const TVector3 SieveHoleCorrectionTCS = GetSieveHoleCorrectionTCS(FoilID, Col, Row);
-	TVector3 BeamSpotHCS(eventdata.Data[kBeamX], eventdata.Data[kBeamY], targetfoils[FoilID]);
+	//	TVector3 BeamSpotHCS(eventdata.Data[kBeamX], eventdata.Data[kBeamY], targetfoils[FoilID]);
+	const TVector3 BeamSpotHCS( eventdata.Data[kBeamX] + (targetfoils[FoilID]/BeamZDir_average)*BeamXDir_average, eventdata.Data[kBeamY] + (targetfoils[FoilID]/BeamZDir_average)*BeamYDir_average, targetfoils[FoilID]);
+	
+
 	// 	TVector3 BeamSpotHCS(BeamX_average, BeamY_average, targetfoils[FoilID]);
        eventdata.Data[kBeamZ] = targetfoils[FoilID];
         TVector3 BeamSpotTCS = fTCSInHCS.Inverse()*(BeamSpotHCS - fPointingOffset);
@@ -2798,9 +2836,9 @@ const Double_t ArbitaryVertexShift = 0;
     }
     //    cout<<"fNRawData:"<<fNRawData<<endl;
 
-    //DEBUG_INFO("SumSquareDTgY", "#%d : dtg_y = %f, dtg_y_rms = %f", NCall, dtg_y / fNRawData, TMath::Sqrt(dtg_y_rms / fNRawData));
-    // printf("SumSquareDTgY: #%d : dtg_y = %f, dtg_y_rms = %f\n", NCall, dtg_y / fNRawData, TMath::Sqrt(dtg_y_rms / fNRawData));
-    // printf("SumSquareDTgY: #%d : dz = %f, dz_rms=%f\n",NCall,dz/fNRawData,TMath::Sqrt(dz_rms/fNRawData));
+    DEBUG_INFO("SumSquareDTgY", "#%d : dtg_y = %f, dtg_y_rms = %f", NCall, dtg_y / fNRawData, TMath::Sqrt(dtg_y_rms / fNRawData));
+    printf("SumSquareDTgY: #%d : dtg_y = %f, dtg_y_rms = %f\n", NCall, dtg_y / fNRawData, TMath::Sqrt(dtg_y_rms / fNRawData));
+    printf("SumSquareDTgY: #%d : dz = %f, dz_rms=%f\n",NCall,dz/fNRawData,TMath::Sqrt(dz_rms/fNRawData));
 
 
     return dtg_y_rms;
