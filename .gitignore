@@ -56,6 +56,12 @@ optics/LHRS/opt_new/DB/*
 optics/LHRS/opt_new/*_C*
 
 
+Calibrations/*txt
+Calibrations/*pdf
+Calibrations/*dat
+
+
+
 *_C*
 *.d
 *.so
