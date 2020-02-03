@@ -9,10 +9,16 @@ void online_plots(TString DB_name, Int_t runnum){
 
 
 
-  
-  corr_select(DB_name, runnum,-1,-1);
+  //  this plots all holes 
+  corr_select(DB_name, runnum,0,0);
 
-  //  columns
+
+  //  this plots all data (everythng with no holes cuts only PID cuts etc)
+  corr_select(DB_name, runnum,1,1);
+
+
+
+  //   columns
   for(Int_t i = 0; i < 27; i++){
     corr_select(DB_name, runnum,i,-1);
   }
@@ -21,7 +27,7 @@ void online_plots(TString DB_name, Int_t runnum){
   for(Int_t i = 0; i < 17; i++){
     corr_select(DB_name, runnum,-1,i);
   }
-
+  
 
   // holes
   for(Int_t i = 0; i < 17; i++){
@@ -31,7 +37,7 @@ void online_plots(TString DB_name, Int_t runnum){
       
     }
   }
-
+  
 
   gSystem->Exec("mkdir /home/johnw/public_html/correlation_plots/" + DB_name);
 
@@ -42,7 +48,7 @@ void online_plots(TString DB_name, Int_t runnum){
   gSystem->Exec("mkdir /home/johnw/public_html/correlation_plots/" + DB_name + "/hole_cuts_used");
 
 
-  TString optics_dir = "/home/johnw/HallA_scripts/APEX_scripts/optics";
+  TString optics_dir ="/home/johnw/HallA_scripts/HallA-APEX-Offline/optics/LHRS/correlations";
 
   gSystem->Exec("cp " + optics_dir + "/Hole_selection_th_ph_4179.png " + optics_dir + "/Hole_selection_FP_4179.png " + optics_dir + "/Hole_selection_th_ph_4181.png " + optics_dir + "/Hole_selection_FP_4181.png" + " /home/johnw/public_html/correlation_plots/" + DB_name + "/hole_cuts_used");
 
@@ -50,9 +56,9 @@ void online_plots(TString DB_name, Int_t runnum){
   gSystem->Exec("mkdir /home/johnw/public_html/correlation_plots/" + DB_name + "/opt_output");
 
 
-  TString opt_output = "/home/johnw/HallA_scripts/APEX_scripts/optics/opt_output/";
+  TString opt_output = "/home/johnw/HallA_scripts/HallA-APEX-Offline/optics/LHRS/opt_output/";
 
-		gSystem->Exec("cp " + opt_output + DB_name + ".Sieve.Opt.png " + opt_output + DB_name + ".Vertex.Opt.png " + opt_output + DB_name + ".VertexRes.Opt.png" + " /home/johnw/public_html/correlation_plots/" + DB_name + "/opt_output/");
+  gSystem->Exec("cp " + opt_output + DB_name + ".Vertex*png " + opt_output + DB_name + ".Sieve*png " + " /home/johnw/public_html/correlation_plots/" + DB_name + "/opt_output/");
 
 
   

@@ -5,8 +5,9 @@
 
 #include "TROOT.h"
 #include "TMath.h"
-#include "TCut.h"
 #include "TVector3.h"
+#include "TCut.h"
+
 
 using namespace std;
 const TString InputID = "GMp_RHRS";
@@ -35,12 +36,15 @@ const Double_t LH2_Thickness_Tip = 0.11*1.e-3;  //Al 7075, aluminum thickness fo
 /* const Double_t MissPointZ =0;//  */
 /* const Double_t MissPointY = 0;// */
 
-// APEX LHRS
-const Double_t MissPointZ = 1.690e-3;
-const Double_t MissPointY = -1.790e-3;
+// APEX LHRS // Hole_pos = [0.010284,-0.00305414,0.795905]
+// Hole_pos = [0.010284,0.00659786,0.795905
 
+/* const Double_t MissPointZ = 1.690e-3; */
+/* const Double_t MissPointY = -1.790e-3; */
 
-TVector3 fPointingOffset;
+const Double_t MissPointZ = 0;
+const Double_t MissPointY = -0;
+
 
 const Double_t BeamShiftX = 0;
 
@@ -58,32 +62,28 @@ const Double_t SieveRadius_c = 0.236*25.4/2.0*1e-3;
 
 // average beam positions for Optics targets runs 4771 & 4774
 //4771
-/* const Double_t BeamX_average = -0.0006361; */
-/* const Double_t BeamY_average = 0.002419; */
+// BeamX_average = -0.0006361;
+// BeamY_average = 0.002419; 
 // 4774
 const Double_t BeamX_average = -0.0006391;
-const Double_t BeamY_average = 0.002405;
+const Double_t BeamY_average = 0.002405;  
 
 
-////////////////////////////////////////////////
-// PID and general track cuts
-///////////////////////////////////////////////
+// average beam directions used as test for correction
+
+const Double_t BeamXDir_average = 0.0001816;
+const Double_t BeamYDir_average = -0.000558;
+const Double_t BeamZDir_average = 5.131;
 
 
-//TCut GeneralSieveCut ="L.tr.n==1 && L.tr.chi2<0.003 && abs(L.gold.th)<0.08 && L.gold.ph>-0.07 && L.gold.ph<0.025 && abs(L.tr.r_x)<0.1 && L.vdc.u1.nclust==1 && L.vdc.v1.nclust==1 && L.vdc.u2.nclust==1 && L.vdc.v2.nclust==1";
-
-// wider L.tr.r_x cut of 0.5
-TCut GeneralSieveCut ="L.tr.n==1 && L.tr.chi2<0.003 && abs(L.gold.th)<0.08 && L.gold.ph>-0.07 && L.gold.ph<0.025 && abs(L.tr.r_x)<0.5 && L.vdc.u1.nclust==1 && L.vdc.v1.nclust==1 && L.vdc.u2.nclust==1 && L.vdc.v2.nclust==1";
-
-TCut PID_cuts = "(L.prl1.e/(L.gold.p*1000))>0.3 && ((L.prl1.e+L.prl2.e)/(L.gold.p*1000))>0.625 && ((L.prl1.e+L.prl2.e)/(L.gold.p*1000))<1.11 &&  L.cer.asum_c >650";
+/* const Double_t BeamXDir_average = 0.0; */
+/* const Double_t BeamYDir_average = 0; */
+/* const Double_t BeamZDir_average = 1; */
 
 
 
 /////////////////////////////////////////////////////////////////////////
 // Sieve Position Inputs
-
-const Int_t NHoles = 225; 
-
 const Double_t YbyCol = .19 * 25.4e-3;
 // 16/1/20
 //const Double_t y_off = -31.23 * tan(0.8 *D2R) * 25.4e-3; 
@@ -102,25 +102,32 @@ const Double_t SieveXbyRow[] = {-4 * XbyRow, -3.5 * XbyRow, -3 * XbyRow, -2.5 * 
 const UInt_t NSieveRow = 17; 
 
 
-// List number of holes in each row
+/*JW: for APEX
 
-const UInt_t NoinEachRow[] = {15, 12, 15, 11, 15, 11, 15, 11, 15, 11, 15, 11, 15, 11, 15, 12, 15};
-
+                      Z       X        Y     Angle
+B.L. Sieve Centre     791.8   81.0    1.4    5.366
+*/
 
 // SieveOff* are in TCS
-const Double_t SieveOffY = 0;// -(3.314-0.8)*1.e-3;
-const Double_t SieveOffX = 0;//-(1.07+1.42)*1.e-3;
+//const Double_t SieveOffY = 0;
+const Double_t SieveOffY = +31.23 * tan(0.8 *D2R) * 25.4e-3; // obtained from technical drawing of set-up (31.23 inches from V2 foil to centre of sieve slit, 0.8 degree angle from centre of sieve slit to largest hole, last number is conversion to metres)
+/* const Double_t SieveOffX = 0; */
+const Double_t SieveOffX = -1.4e-3; // X points down in TCS, hence negative of Y term in 'Hall-like' system where Survey results are taken from
 
 
 // experiment with SieveOff in HCS and using fTCSinHCS to convert between
 
-const Double_t SieveOffX_HCS = 81.0e-3;
-const Double_t SieveOffY_HCS = 1.4e-3;
-const Double_t ZPos_HCS = 791.8e-3;
+/* const Double_t SieveOffX_HCS = 81.0e-3; */
+/* const Double_t SieveOffY_HCS = 1.4e-3; */
+
+
+//Double_t foil_d = 0;
+//const Double_t ZPos_HCS = 791.8e-3;
+/* const Double_t ZPos_HCS = 791.8e-3; */
 
 //const Double_t ZPos =1059.61e-3+3.314e-3/TMath::Tan(-HRSAngle);//1059.61 * 1e-3;
 const Double_t ZPos = 31.23 * 25.4e-3;
- /* const Double_t ZPos = 1157*1e-3;  */
+
 /////////////////////////////////////////////////////////////////////////
 // Vertex Position Inputs
 
@@ -132,6 +139,10 @@ const Double_t targetoffset = 0;
 
 static const UInt_t NFoils = 8;
 const Double_t targetfoils[] = { -0.288,  -0.207, -0.138,  -0.063, 0.087, 0.162, 0.231, 0.312 };
+
+//crazy idea for foils
+//Double_t foil_d = 1.053;
+/* const Double_t targetfoils[] = { -0.288 - foil_d,  -0.207 - foil_d, -0.138 - foil_d,  -0.063 - foil_d, 0.087 - foil_d, 0.162 - foil_d, 0.231 - foil_d, 0.312 - foil_d}; */
 
  ///////////////////////////////////////////////////////////////////////// 
  // Excitation State Inputs 
@@ -221,4 +232,38 @@ L 0 1 0 1   1.7292\n\
 
 /////////////////////////////////////////////////////////////////////////
 
+
+
+TVector3 fPointingOffset;
+
+const UInt_t NoinEachRow[] = {15, 12, 15, 11, 15, 11, 15, 11, 15, 11, 15, 11, 15, 11, 15, 12, 15};
+
+
+const Int_t NHoles = 225; 
+
+
+
+////////////////////////////////////////////////
+// PID and general track cuts
+///////////////////////////////////////////////
+
+
+TCut GeneralSieveCut ="L.tr.n==1 && L.tr.chi2<0.003 && abs(L.gold.th)<0.08 && L.gold.ph>-0.07 && L.gold.ph<0.025 && abs(L.tr.r_x)<0.1 && L.vdc.u1.nclust==1 && L.vdc.v1.nclust==1 && L.vdc.u2.nclust==1 && L.vdc.v2.nclust==1";
+
+TCut PID_cuts = "(L.prl1.e/(L.gold.p*1000))>0.3 && ((L.prl1.e+L.prl2.e)/(L.gold.p*1000))>0.625 && ((L.prl1.e+L.prl2.e)/(L.gold.p*1000))<1.11 &&  L.cer.asum_c >650";
+
+
+
+
 #endif
+
+
+
+
+
+
+
+
+
+
+

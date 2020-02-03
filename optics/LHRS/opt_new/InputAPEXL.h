@@ -36,8 +36,11 @@ const Double_t LH2_Thickness_Tip = 0.11*1.e-3;  //Al 7075, aluminum thickness fo
 // APEX LHRS // Hole_pos = [0.010284,-0.00305414,0.795905]
 // Hole_pos = [0.010284,0.00659786,0.795905
 
-const Double_t MissPointZ = 1.690e-3;
-const Double_t MissPointY = -1.790e-3;
+/* const Double_t MissPointZ = 1.690e-3; */
+/* const Double_t MissPointY = -1.790e-3; */
+
+const Double_t MissPointZ = 0;
+const Double_t MissPointY = -0;
 
 
 const Double_t BeamShiftX = 0;
@@ -63,6 +66,17 @@ const Double_t BeamX_average = -0.0006391;
 const Double_t BeamY_average = 0.002405;  
 
 
+// average beam directions used as test for correction
+
+const Double_t BeamXDir_average = 0.0001816;
+const Double_t BeamYDir_average = -0.000558;
+const Double_t BeamZDir_average = 5.131;
+
+
+/* const Double_t BeamXDir_average = 0.0; */
+/* const Double_t BeamYDir_average = 0; */
+/* const Double_t BeamZDir_average = 1; */
+
 
 
 /////////////////////////////////////////////////////////////////////////
@@ -84,16 +98,29 @@ const Double_t XbyRow = .46 * 25.4e-3;
 const Double_t SieveXbyRow[] = {-4 * XbyRow, -3.5 * XbyRow, -3 * XbyRow, -2.5 * XbyRow, -2 * XbyRow, -1.5 * XbyRow, -1 * XbyRow, -0.5 * XbyRow, 0*XbyRow, 0.5 * XbyRow, 1*XbyRow, 1.5 * XbyRow, 2 * XbyRow, 2.5 * XbyRow, 3 * XbyRow, 3.5 * XbyRow, 4 * XbyRow, 1e36}; // vertical positions of the sieve holes when the column number is odd, column number starts with 0
 const UInt_t NSieveRow = 17; 
 
+
+/*JW: for APEX
+
+                      Z       X        Y     Angle
+B.L. Sieve Centre     791.8   81.0    1.4    5.366
+*/
+
 // SieveOff* are in TCS
-const Double_t SieveOffY = 0;// -(3.314-0.8)*1.e-3;
-const Double_t SieveOffX = 0;//-(1.07+1.42)*1.e-3;
+//const Double_t SieveOffY = 0;
+const Double_t SieveOffY = +31.23 * tan(0.8 *D2R) * 25.4e-3; // obtained from technical drawing of set-up (31.23 inches from V2 foil to centre of sieve slit, 0.8 degree angle from centre of sieve slit to largest hole, last number is conversion to metres)
+/* const Double_t SieveOffX = 0; */
+const Double_t SieveOffX = -1.4e-3; // X points down in TCS, hence negative of Y term in 'Hall-like' system where Survey results are taken from
 
 
 // experiment with SieveOff in HCS and using fTCSinHCS to convert between
 
-const Double_t SieveOffX_HCS = 81.0e-3;
-const Double_t SieveOffY_HCS = 1.4e-3;
-const Double_t ZPos_HCS = 791.8e-3;
+/* const Double_t SieveOffX_HCS = 81.0e-3; */
+/* const Double_t SieveOffY_HCS = 1.4e-3; */
+
+
+//Double_t foil_d = 0;
+//const Double_t ZPos_HCS = 791.8e-3;
+/* const Double_t ZPos_HCS = 791.8e-3; */
 
 //const Double_t ZPos =1059.61e-3+3.314e-3/TMath::Tan(-HRSAngle);//1059.61 * 1e-3;
 const Double_t ZPos = 31.23 * 25.4e-3;
@@ -109,6 +136,10 @@ const Double_t targetoffset = 0;
 
 static const UInt_t NFoils = 8;
 const Double_t targetfoils[] = { -0.288,  -0.207, -0.138,  -0.063, 0.087, 0.162, 0.231, 0.312 };
+
+//crazy idea for foils
+//Double_t foil_d = 1.053;
+/* const Double_t targetfoils[] = { -0.288 - foil_d,  -0.207 - foil_d, -0.138 - foil_d,  -0.063 - foil_d, 0.087 - foil_d, 0.162 - foil_d, 0.231 - foil_d, 0.312 - foil_d}; */
 
  ///////////////////////////////////////////////////////////////////////// 
  // Excitation State Inputs 

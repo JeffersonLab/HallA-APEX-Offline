@@ -18,9 +18,11 @@
 
 
 #include "TString.h"
-#include "../Load_more_rootfiles.C"
-#include "../InputAPEXL.h"
-#include "../APEX_Sieve.h"
+#include "Load_more_rootfiles.C"
+#include "InputAPEXL.h"
+#include "APEX_Sieve.h"
+#include "file_def.h"
+
 //#include "../file_def.h"
 #include "TBenchmark.h"
 #include "TCut.h"
@@ -38,7 +40,7 @@
 //void CalcMatrixElem_APEX(vector<THaMatrixElement>& matrix );
 
 
-void apex_ME_calc(Int_t runnumber, TString db_name){
+void apex_ME_calc(Int_t runnumber, TString db_name, Int_t rast = 1){
   
 
 
@@ -83,6 +85,11 @@ void apex_ME_calc(Int_t runnumber, TString db_name){
   T->SetBranchStatus("L.tr.ph",1);
   T->SetBranchStatus("Lrb.x",1);
   T->SetBranchStatus("Lrb.y",1);
+  T->SetBranchStatus("Lurb.x",1);
+  T->SetBranchStatus("Lurb.y",1);
+  T->SetBranchStatus("Lurb.dir.x",1);
+  T->SetBranchStatus("Lurb.dir.y",1);
+  T->SetBranchStatus("Lurb.dir.z",1);
   T->SetBranchStatus("L.tr.tg_th",1);
   T->SetBranchStatus("L.tr.tg_ph",1);
   T->SetBranchStatus("L.tr.tg_y",1);
@@ -129,18 +136,23 @@ void apex_ME_calc(Int_t runnumber, TString db_name){
   
 
   // cut added due to problems relating to large focal plane or vertex entries
-  TCut FP_cut  = "abs(L.tr.r_x)<1 && abs(L.tr.r_y)<1 && abs(L.tr.r_th)<2 && abs(L.tr.r_ph)<2 && abs(L.tr.vz)<1e+6 && abs(L.tr.tg_th)<10 && abs(L.tr.tg_ph)<10 && abs(L.tr.tg_y)<10 && abs(L.tr.tg_dp)<10 && abs(Lrb.x)<10 && abs(Lrb.y)<10 && abs(L.tr.x)<10 && abs(L.tr.y)<10 && abs(L.tr.th)<10 && abs(L.tr.ph)<10 ";
+  TCut FP_cut  = "abs(L.tr.r_x)<1 && abs(L.tr.r_y)<1 && abs(L.tr.r_th)<2 && abs(L.tr.r_ph)<2 && abs(L.tr.vz)<1e+6 && abs(L.tr.tg_th)<10 && abs(L.tr.tg_ph)<10 && abs(L.tr.tg_y)<10 && abs(L.tr.tg_dp)<10 && abs(Lurb.x)<10 && abs(Lurb.y)<10 && abs(L.tr.x)<10 && abs(L.tr.y)<10 && abs(L.tr.th)<10 && abs(L.tr.ph)<10 ";
 
 
   // TCut GeneralSieveCut ="L.tr.n==1 && L.tr.chi2<0.003 && abs(L.gold.th)<0.05 && L.gold.ph>-0.07 && L.gold.ph<0.025 && abs(L.gold.dp)<0.05 && L.vdc.u1.nclust==1 && L.vdc.v1.nclust==1 && L.vdc.u2.nclust==1 && L.vdc.v2.nclust==1";
 
- TCut GeneralSieveCut ="L.tr.n==1 && L.tr.chi2<0.003 && abs(L.gold.th)<0.05 && L.gold.ph>-0.07 && L.gold.ph<0.025 && abs(L.tr.r_x)<0.1 && L.vdc.u1.nclust==1 && L.vdc.v1.nclust==1 && L.vdc.u2.nclust==1 && L.vdc.v2.nclust==1";
+ // TCut GeneralSieveCut ="L.tr.n==1 && L.tr.chi2<0.003 && abs(L.gold.th)<0.05 && L.gold.ph>-0.07 && L.gold.ph<0.025 && abs(L.tr.r_x)<1 && L.vdc.u1.nclust==1 && L.vdc.v1.nclust==1 && L.vdc.u2.nclust==1 && L.vdc.v2.nclust==1";
 
 
-  TCut PID_cuts = "(L.prl1.e/(L.gold.p*1000))>0.2 && ((L.prl1.e+L.prl2.e)/(L.gold.p*1000))>0.51 &&  L.cer.asum_c >400";
+ //  TCut PID_cuts = "(L.prl1.e/(L.gold.p*1000))>0.2 && ((L.prl1.e+L.prl2.e)/(L.gold.p*1000))>0.51 &&  L.cer.asum_c >400";
 
   
+
+
+
   TString final_cut = (TString) PID_cuts + " && " + (TString) GeneralSieveCut + " && " + (TString) FP_cut;
+
+
 
 
   TTree*  out_T = T->CloneTree(0,final_cut);
@@ -232,10 +244,19 @@ void apex_ME_calc(Int_t runnumber, TString db_name){
   out_T->Branch("reactz",&reactz);
 
   Double_t x_sieve = 0;
+
   Double_t y_sieve = 0;
+  
+
+  Double_t y_sieve_alt = 0;
+  // y_sieve alt comes from using beam info to get y_tgt rather than matrix (could be useful when y_tg matrix elements are thought to be poorly calibrated)
+
   
   out_T->Branch("x_sieve",&x_sieve);
   out_T->Branch("y_sieve",&y_sieve);
+
+  out_T->Branch("y_sieve_alt",&y_sieve_alt);
+
 
 
   Double_t x_tgt = 0;
@@ -283,6 +304,9 @@ void apex_ME_calc(Int_t runnumber, TString db_name){
 
   Double_t Lrb_x = 0;
   Double_t Lrb_y = 0;
+  Double_t Lurb_x = 0;
+  Double_t Lurb_y = 0;
+
  
   Double_t th_tgt = 0;
   Double_t y_tgt = 0;
@@ -305,6 +329,8 @@ void apex_ME_calc(Int_t runnumber, TString db_name){
 
   T->SetBranchAddress("Lrb.x",&Lrb_x);
   T->SetBranchAddress("Lrb.y",&Lrb_y);
+  T->SetBranchAddress("Lurb.x",&Lurb_x);
+  T->SetBranchAddress("Lurb.y",&Lurb_y);
 
 
 
@@ -338,6 +364,8 @@ void apex_ME_calc(Int_t runnumber, TString db_name){
   Double_t theta_track = 0;
 
   //  NEntries = 10;
+
+
 
   for(Int_t i = 0; i<NEntries; i++){
 
@@ -455,7 +483,26 @@ void apex_ME_calc(Int_t runnumber, TString db_name){
     
     const Int_t a = (HRSAngle > 0) ? 1 : -1;
 
-    reactz = - ( y_tgt -a*MissPointZ)*TMath::Cos(TMath::ATan(th_tgt))/TMath::Sin(HRSAngle + TMath::ATan(th_tgt)) + Lrb_x*TMath::Cos(HRSAngle+TMath::ATan(th_tgt))/TMath::Sin(HRSAngle+TMath::ATan(th_tgt));
+
+    TVector3 BeamSpotHCS(0,0,0);
+
+
+    if( rast!= 0){
+
+      reactz = - ( y_tgt -a*MissPointZ)*TMath::Cos(TMath::ATan(ph_tgt))/TMath::Sin(HRSAngle + TMath::ATan(ph_tgt)) + Lrb_x*TMath::Cos(HRSAngle+TMath::ATan(ph_tgt))/TMath::Sin(HRSAngle+TMath::ATan(ph_tgt));
+
+      BeamSpotHCS.SetXYZ(Lrb_x,Lrb_y,reactz);
+
+
+    }
+    else{
+      
+      reactz = - ( y_tgt -a*MissPointZ)*TMath::Cos(TMath::ATan(ph_tgt))/TMath::Sin(HRSAngle + TMath::ATan(ph_tgt)) + Lurb_x*TMath::Cos(HRSAngle+TMath::ATan(ph_tgt))/TMath::Sin(HRSAngle+TMath::ATan(ph_tgt));
+
+      BeamSpotHCS.SetXYZ(Lurb_x,Lurb_y,reactz);
+
+      
+    }
 
 
 
@@ -464,10 +511,9 @@ void apex_ME_calc(Int_t runnumber, TString db_name){
 
     
     //    reactz = -0.205;
+    
 
-    //    TVector3 BeamSpotHCS(Lrb_x,Lrb_y,reactz);
-
-    TVector3 BeamSpotHCS(0,0,-0.205);
+    //    TVector3 BeamSpotHCS(0,0,-0.205);
 
 
 
@@ -491,7 +537,7 @@ void apex_ME_calc(Int_t runnumber, TString db_name){
     //    y_sieve = y_tgt + TMath::Tan(ph_tgt) * (ZPos);
     y_sieve = y_tgt + TMath::Tan(ph_tgt) * (ZPos);
 
-    
+    y_sieve_alt = y_tgt_alt + TMath::Tan(ph_tgt) * (ZPos);
 
 
 
@@ -501,7 +547,9 @@ void apex_ME_calc(Int_t runnumber, TString db_name){
     if(TMath::Abs(th_tgt) < 1e+8 &&  TMath::Abs(y_tgt) < 1e+8 && TMath::Abs(ph_tgt) < 1e+8 && TMath::Abs(dp_tgt) < 1e+8 && theta_track != th_tgt){
 
 
-    //    if(bytes<read_lim){
+    // if(TMath::Abs(th_tgt) < 1e+8 &&  TMath::Abs(y_tgt) < 1e+8 && TMath::Abs(ph_tgt) < 1e+8 && TMath::Abs(dp_tgt) < 1e+8){
+
+      //    if(bytes<read_lim){
      
       
       

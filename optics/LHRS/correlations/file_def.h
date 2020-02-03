@@ -22,10 +22,8 @@ TString file_date = "16_1_2020";
 //TString RootFileName = "apex_4774_27_11_2019.root";
 
 
-//TString RootFileName = "apex_4771_16_1_2020.root";
-
-TString RootFileName = "apex_4774_27_1_2020.root";
-
+TString RootFileName = "apex_4771_16_1_2020.root";
+//TString RootFileName = "apex_4774_16_1_2020.root";
 
 
 // Vertical target runs
@@ -35,21 +33,18 @@ TString RootFileName = "apex_4774_27_1_2020.root";
 
 //TString ROOTFILE_DIR = "/w/work3/home/johnw/Rootfiles/Correlations/17_1_20_TPY_new_offset/%d_replay.root";
 
-TString ROOTFILE_DIR = "/w/work3/home/johnw/Rootfiles/Correlations/30_1_20_TPY/%d_replay.root";
+TString ROOTFILE_DIR = "/w/work3/home/johnw/Rootfiles/apex_%d_27_1_2020.root";
 
-
-//TString ROOTFILE_DIR = "/w/work3/home/johnw/Rootfiles/apex_%d_27_1_2020.root";
-
-
-//TString* SoureRootFile = new TString("/w/work3/home/johnw/Rootfiles/" + RootFileName);
 
 TString* SoureRootFile = new TString("/w/work3/home/johnw/Rootfiles/" + RootFileName);
 
+//TString* SoureRootFile = new TString("/w/work3/home/johnw/Rootfiles/" + RootFileName);
 
-//TString* SoureRootFile = new TString("/w/work3/home/johnw/Rootfiles/apex_4771_2_11_2019.root");
 
-Int_t Run_number = 4774;
-Int_t Run_number_2 = 4774;
+//TString* SoureRootFile = new TString("/w/work3/home/johnw/Rootfiles/apex_4771_27_1_2020.root");
+
+Int_t Run_number = 4771;
+Int_t Run_number_2 = 4771;
 
 
 

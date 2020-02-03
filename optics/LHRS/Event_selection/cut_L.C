@@ -420,7 +420,7 @@ void cut_Vertex(int overwrite = 0, int nfoils = 3, int FoilID = -1, int append =
 	// 	f1->Write();
 
 	//	TH2F* h1 = new TH2F("h1", "ReactZ vs. Target Phi", 400, -0.05, 0.035, 200,-0.4, 0.4);
-	TH2F* h1 = new TH2F("h1", "ReactZ vs. Target Phi", 400, -0.05, 0.105, 200,-0.4, 0.4);
+	TH2F* h1 = new TH2F("h1", "ReactZ vs. Target Phi", 400, -0.05, 0.02, 200,-0.4, 0.4);
 
 	
 	// alternative to cutting on reactz vs target phi plot
@@ -1275,7 +1275,11 @@ void CutSieve_ellipse(int FoilID = 0, int col = 0, int overwrite = 0, int append
   // BeamY_average = 0.002419;    
   
   
-  TVector3 BeamSpotHCS_average(BeamX_average,BeamY_average,targetfoils[FoilID]);
+  //  TVector3 BeamSpotHCS_average(BeamX_average,BeamY_average,targetfoils[FoilID]);
+
+
+  const TVector3 BeamSpotHCS_average(BeamX_average + (targetfoils[nfoil]/BeamZDir_average)*BeamXDir_average, BeamY_average + (targetfoils[nfoil]/BeamZDir_average)*BeamYDir_average, targetfoils[nfoil]);
+
   TVector3 BeamSpotTCS_average = fTCSInHCS.Inverse()*(BeamSpotHCS_average-fPointingOffset);
   
 
@@ -1827,9 +1831,12 @@ void Optics_3_th_ph() {
     //    T->Draw(Form("th_tgt:ph_tgt>>h2_%d",i), GenrealCut + TCut(Form("fcut_L_%d", foil_no)) + TCut(Form("fcut_L_FP_%d", foil_no)), "COLZ");
     //    T->Draw(Form("th_tgt:ph_tgt>>h2_%d",i), GenrealCut + TCut(Form("fcut_L_FP_%d", foil_no)), "COLZ");
 
+
+    // new optimisation
     T->Draw(Form("th_tgt:ph_tgt>>h2_%d",i), GenrealCut + TCut(Form("fcut_L_%d", foil_no)), "COLZ");
 
-      
+    // old optimisation
+    //    T->Draw(Form("L.tr.tg_th:L.tr.tg_ph>>h2_%d,i"), GenrealCut + TCut(Form("fcut_L_%d",foil_no)), "COLZ");
 
     // // also draw red crosses where holes 'should' be
 
@@ -1837,7 +1844,11 @@ void Optics_3_th_ph() {
       
 
       
-    TVector3 BeamSpotHCS_average(BeamX_average,BeamY_average,targetfoils[foil_no]);
+    //    TVector3 BeamSpotHCS_average(BeamX_average,BeamY_average,targetfoils[foil_no]);
+
+    const TVector3 BeamSpotHCS_average(BeamX_average + (targetfoils[nfoil]/BeamZDir_average)*BeamXDir_average, BeamY_average + (targetfoils[nfoil]/BeamZDir_average)*BeamYDir_average, targetfoils[nfoil]);
+
+
     TVector3 BeamSpotTCS_average = fTCSInHCS.Inverse()*(BeamSpotHCS_average-fPointingOffset);
     
   
@@ -1901,10 +1912,10 @@ void Optics_3_th_ph() {
       
 	
       lc1->SetLineColor(color);
-      lc2-> SetLineColor(color);
+      lc2->SetLineColor(color);
       
-	lc1 -> Draw("same");
-	lc2 -> Draw("same");
+      lc1->Draw("same");
+      lc2->Draw("same");
 	
       
     }
