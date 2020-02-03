@@ -19,12 +19,12 @@
 
 #include <iostream>
 #include <cstdlib>
-#include "../file_def.h"
+#include "file_def.h"
 #include "TCutG.h"
 #include "TCut.h"
 
-#include "../InputAPEXL.h"
-#include "../APEX_Sieve.h"
+#include "InputAPEXL.h"
+#include "APEX_Sieve.h"
 
 
 
@@ -48,7 +48,7 @@ void corr_select(TString DB_name, Int_t runnumber = 0, Int_t colin = -1, Int_t r
   
   if( rowin == -1 && colin == -1){
   
-  cout << "Plot all data (A), select a column (C), select a row (R) or select a particular hole (H): " << endl;
+  cout << "Plot all holes (A), Plot all data (E) (E for Everything), select a column (C), select a row (R) or select a particular hole (H): " << endl;
 
   cin >> choice;
   }
@@ -78,20 +78,29 @@ void corr_select(TString DB_name, Int_t runnumber = 0, Int_t colin = -1, Int_t r
   else if(runnumber == 4181){
     FoilID = 1;
   }
+  else if(runnumber == 4180){
+    FoilID = 2;
+  }
 
   // cuts based on foil number
  
   TString CutFileName = *SoureRootFile + ".FullCut.root";
 
-  cout << "CutFileName = " << CutFileName << endl;
+  cout << "~~~~~~~##CutFileName = " << CutFileName << endl;
 
 
-  TFile *f1 = new TFile(CutFileName, "UPDATE");
+  TFile *f1 = new TFile(CutFileName, "READ");
+   //  TFile *f1 = new TFile(CutFileName, "READ"); // changed to read
 
 
   TString foil_cut = Form("fcut_L_%d", FoilID);
 
-  (TCutG*) f1->GetObjectChecked(foil_cut, "TCutG");
+  TCutG* foil_cutG;
+  
+
+  //  (TCutG*) f1->GetObject(foil_cut, "TCutG");
+
+  f1->GetObject(foil_cut, foil_cutG);
 
 
   //  TFile *new_file = new TFile("temp.root","RECREATE");
@@ -111,14 +120,18 @@ void corr_select(TString DB_name, Int_t runnumber = 0, Int_t colin = -1, Int_t r
   else if( rowin >= 0 && colin == -1){
     choice = 'R';
   }
+  else if( rowin == 0 && colin == 0){
+    choice = 'A';  
+  }
+  else if( rowin == 1 && colin == 1){
+    choice = 'E';  
+  }  
   else if( rowin >= 0 && colin >= 0){
     choice = 'H';
   }
-  else if( rowin == -1 && colin == -1){
-    choice = 'A';
-    
-  }
   
+
+  cout << " choice = " << choice << endl;
 
 
   //  if( choice == (Char_t)'A' ){
@@ -196,6 +209,37 @@ void corr_select(TString DB_name, Int_t runnumber = 0, Int_t colin = -1, Int_t r
 	cout << "no holes found, exiting script" << endl;
       }
 
+      
+      break;
+    }    
+  case 'E':
+    {
+      //      Char_t all_choice = {0};
+      cout << "Plotting all data with (no hole or foil cuts)" << endl << endl;
+
+
+      TString final_cut;
+
+      TString hole_string;
+      
+
+      //      TCutG* cutg[NHoles];
+
+      T = Load_new_replay(DB_name,runnumber);
+
+
+
+      final_cut =  (TString) PID_cuts + " && " + (TString) GeneralSieveCut;
+
+      cout << "final cut for all = " << final_cut << endl;
+
+
+
+      T = (TChain*) T->CopyTree(final_cut);
+	
+      
+      corr_plot(DB_name, T, runnumber, 1, 1);
+      
       
       break;
     }    

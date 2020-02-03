@@ -15,7 +15,7 @@
 #include "TRotation.h"
 #include "TMath.h"
 #include <vector>
-#include "../DebugDef.h"
+#include "DebugDef.h"
 #include "THaString.h"
 #include <iostream>
 #include <fstream>

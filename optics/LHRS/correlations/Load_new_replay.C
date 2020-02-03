@@ -18,7 +18,7 @@
 #include <TChain.h>
 #include <TFile.h>
 #include <TSystem.h>
-#include "/home/johnw/HallA_scripts/APEX_scripts/optics/file_def.h"
+#include "file_def.h"
 #include <iostream>
 //#include "Load_new_replay.h"
 

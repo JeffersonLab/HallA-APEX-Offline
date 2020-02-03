@@ -12,12 +12,12 @@
 
 
 //#include "Load_new_replay.C"
-#include "../InputAPEXL.h"
+#include "InputAPEXL.h"
 #include "TStyle.h"
 #include "TH1D.h"
 #include "TH2D.h"
 #include "TCanvas.h"
-#include "/home/johnw/HallA_scripts/APEX_scripts/optics/file_def.h"
+#include "file_def.h"
 #include "TSystem.h"
 #include <iostream>
 
@@ -64,6 +64,8 @@ void corr_plot(TString DB_name, TChain* T, Int_t runnumber = 4179, Int_t col = -
   Double_t dptg_h = 0;
   Double_t dptg_l = 0;
 
+  Double_t zreact_h = 0.5;
+  Double_t zreact_l = -0.5;
 
 
   if(runnumber == 4179){
@@ -691,7 +693,71 @@ void corr_plot(TString DB_name, TChain* T, Int_t runnumber = 4179, Int_t col = -
 
   T->Draw("L.tr.r_th*1000:L.tr.r_ph*1000>>thfp_v_phfp","","colz");
 
+
+
+  //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  // Add ReactZ plotted against target variables
+  //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+  TCanvas *c10 = new TCanvas("c10","LHRS ZReact vs target variables",1000,800); 
+  c10->Divide(2,2); 
+
+  c10->cd(1);
+
+  TH2D* ReactZ_vs_Thtgt = new TH2D("ReactZ_vs_Thtgt","ReactZ_vs_Thtgt",300,thtg_l,thtg_h,300,zreact_l,zreact_h);
+
+  ReactZ_vs_Thtgt->GetYaxis()->SetTitleOffset(1.0);
+  ReactZ_vs_Thtgt->GetXaxis()->SetTitleSize(0.05);
+  ReactZ_vs_Thtgt->GetYaxis()->SetTitleSize(0.05);
+  ReactZ_vs_Thtgt->GetXaxis()->SetTitle("theta (trgt)");
+  ReactZ_vs_Thtgt->GetYaxis()->SetTitle("ReactZ");
+
   
+  T->Draw("reactz:L.tr.tg_th*1000>>ReactZ_vs_Thtgt","","colz");
+
+  c10->cd(2);
+  TH2D* ReactZ_vs_Phtgt = new TH2D("ReactZ_vs_Phtgt","ReactZ_vs_Phtgt",300,zreact_l,zreact_h,300,phtg_l,phtg_h);
+
+  ReactZ_vs_Phtgt->GetYaxis()->SetTitleOffset(1.0);
+  ReactZ_vs_Phtgt->GetXaxis()->SetTitleSize(0.05);
+  ReactZ_vs_Phtgt->GetYaxis()->SetTitleSize(0.05);
+  ReactZ_vs_Phtgt->GetXaxis()->SetTitle("phi (trgt)");
+  ReactZ_vs_Phtgt->GetYaxis()->SetTitle("ReactZ");
+
+  
+  T->Draw("reactz:L.tr.tg_ph*1000>>ReactZ_vs_Phtgt","","colz");
+
+
+  c10->cd(3);
+  TH2D* ReactZ_vs_ytgt = new TH2D("ReactZ_vs_ytgt","ReactZ_vs_ytgt",300,zreact_l,zreact_h,300,ytg_l,ytg_h);
+
+  ReactZ_vs_ytgt->GetYaxis()->SetTitleOffset(1.0);
+  ReactZ_vs_ytgt->GetXaxis()->SetTitleSize(0.05);
+  ReactZ_vs_ytgt->GetYaxis()->SetTitleSize(0.05);
+  ReactZ_vs_ytgt->GetXaxis()->SetTitle("y (trgt)");
+  ReactZ_vs_ytgt->GetYaxis()->SetTitle("ReactZ");
+
+  
+  T->Draw("reactz:L.tr.tg_y>>ReactZ_vs_ytgt","","colz");
+
+
+
+  c10->cd(4);
+  TH2D* ReactZ_vs_dptgt = new TH2D("ReactZ_vs_dptgt","ReactZ_vs_dptgt",300,zreact_l,zreact_h,300,dptg_l,dptg_h);
+
+  ReactZ_vs_dptgt->GetYaxis()->SetTitleOffset(1.0);
+  ReactZ_vs_dptgt->GetXaxis()->SetTitleSize(0.05);
+  ReactZ_vs_dptgt->GetYaxis()->SetTitleSize(0.05);
+  ReactZ_vs_dptgt->GetXaxis()->SetTitle("dp (trgt)");
+  ReactZ_vs_dptgt->GetYaxis()->SetTitle("ReactZ");
+
+  
+  T->Draw("reactz:L.tr.tg_dp>>ReactZ_vs_dptgt","","colz");
+
+  
+
+
 
 
 
@@ -716,6 +782,10 @@ void corr_plot(TString DB_name, TChain* T, Int_t runnumber = 4179, Int_t col = -
     // case for column being selected 
     pdf_suffix = Form("_col_%i",col);
   }
+  else if(row == 1 && col == 1){
+    // case for hole being selected 
+    pdf_suffix = "_all_events";
+  }
   else if(row >= 0 && col >= 0){
     // case for hole being selected 
     pdf_suffix = Form("_hole_row_%i_col_%i",row,col);
@@ -735,7 +805,8 @@ void corr_plot(TString DB_name, TChain* T, Int_t runnumber = 4179, Int_t col = -
   c6->Print("rootfiles/" + DB_name + Form("/Correlation_plots_%i",runnumber) + pdf_suffix + ".pdf");
   c7->Print("rootfiles/" + DB_name + Form("/Correlation_plots_%i",runnumber) + pdf_suffix + ".pdf");
   c8->Print("rootfiles/" + DB_name + Form("/Correlation_plots_%i",runnumber) + pdf_suffix + ".pdf");
-  c9->Print("rootfiles/" + DB_name + Form("/Correlation_plots_%i",runnumber) + pdf_suffix + ".pdf)");
+  c9->Print("rootfiles/" + DB_name + Form("/Correlation_plots_%i",runnumber) + pdf_suffix + ".pdf");
+  c10->Print("rootfiles/" + DB_name + Form("/Correlation_plots_%i",runnumber) + pdf_suffix + ".pdf)");
 
 
   gSystem->Exec("cp " + string(gSystem->pwd()) + "/rootfiles/" + DB_name + Form("/Correlation_plots_%i" + pdf_suffix + ".pdf",runnumber) + " /home/johnw/public_html/correlation_plots/latest.pdf");
@@ -777,6 +848,14 @@ void corr_plot(TString DB_name, TChain* T, Int_t runnumber = 4179, Int_t col = -
     gSystem->Exec("cp " + string(gSystem->pwd()) + "/rootfiles/" + DB_name + Form("/Correlation_plots_%i" + pdf_suffix + ".pdf",runnumber) + " /home/johnw/public_html/correlation_plots/" + DB_name + "/" + Form("%d",runnumber) + "/column_plots" + Form("/Correlation_plots_%i" + pdf_suffix + ".pdf",runnumber));
 
     cout << "Passed column plots " << endl;
+
+  }
+  else if(row == 1 && col == 1){
+
+    gSystem->Exec("mkdir /home/johnw/public_html/correlation_plots/" + DB_name + "/" + Form("%d",runnumber) + "/all_events_plots");
+    
+    
+    gSystem->Exec("cp " + string(gSystem->pwd()) + "/rootfiles/" + DB_name + Form("/Correlation_plots_%i" + pdf_suffix + ".pdf",runnumber) + " /home/johnw/public_html/correlation_plots/" + DB_name + "/" + Form("%d",runnumber) + "/all_events_plots" + Form("/Correlation_plots_%i" + pdf_suffix + ".pdf",runnumber));
 
   }
   else if(row >= 0 && col >= 0){
