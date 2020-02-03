@@ -56,10 +56,10 @@ optics/LHRS/opt_new/DB/*
 optics/LHRS/opt_new/*_C*
 
 
-Calibrations/*txt
-Calibrations/*pdf
-Calibrations/*dat
-Calibrations/PID/plots/Cherenkov_scan.png
+Calibrations/**/*txt
+Calibrations/**/*pdf
+Calibrations/**/*dat
+
 
 
 *_C*
