@@ -58,7 +58,7 @@ optics/LHRS/opt_new/*_C*
 
 Calibrations/**/*txt
 Calibrations/**/*pdf
-Calibrations/**/*dat
+Calibrations/**/*dat*
 Calibrations/**/*png
 Calibrations/**/*#
 
