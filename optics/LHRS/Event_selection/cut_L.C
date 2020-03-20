@@ -1525,7 +1525,7 @@ void CutSieve_ellipse(int FoilID = 0, int col = 0, int overwrite = 0, int append
   
   
   cutcsv<<fixed<<setprecision(1);
-  cout<<fixed<<setprecision(1);
+  cout<<fixed<<setprecision(10);
 
   TDatime* date = new TDatime();
   cutcsv<<date->GetDay()<<"/"<<date->GetMonth()<<"/"<<date->GetYear()<<" (dd/mm/yyyy)"<<endl;
@@ -1533,9 +1533,13 @@ void CutSieve_ellipse(int FoilID = 0, int col = 0, int overwrite = 0, int append
   cutcsv << "Hole ID: col, row, Included in opt, Ellipse ph cen, Expected ph, Ellipse th cen, Expected th, Semi axis ph, Semi axis th, Ellipse Tilt (deg), -  All angles in mrad except ellipse tilt which is positive counterclockwise from vertical axis"<<endl;
   
   TCanvas *c1 = new TCanvas("c1","PlotSieve",1000,1000);
+  
+  TH2F* h2 = new TH2F("h2", "theta_target vs. phi_target", 300, -0.04, 0.04, 300, -0.08, 0.08);
 
-  //  TH2F* h2 = new TH2F("h2", "theta_target vs. phi_target", 300, -0.04, 0.04, 300, -0.08, 0.08);
-  TH2F* h2 = new TH2F("h2", "theta_target vs. phi_target", 300, -0.06, 0.04, 300, -0.08, 0.08);
+
+  h2->GetXaxis()->SetTitle("\\phi_{tg}");
+  h2->GetYaxis()->SetTitle("\\theta_{tg}");
+   //  TH2F* h2 = new TH2F("h2", "theta_target vs. phi_target", 300, -0.06, 0.04, 300, -0.08, 0.08);
   h2->SetMinimum(2);
   
    
@@ -1554,7 +1558,7 @@ void CutSieve_ellipse(int FoilID = 0, int col = 0, int overwrite = 0, int append
     
     
   TH2D* thfp_v_yfp = new TH2D("thfp_v_yfp","thfp_v_yfp",300,-0.05,0.05,300,-35,30);
-    //  TH2D* thfp_v_yfp = new TH2D("thfp_v_yfp","thfp_v_yfp",300,-0.08,0.08,300,-55,50);
+  // TH2D* thfp_v_yfp = new TH2D("thfp_v_yfp","thfp_v_yfp",300,-0.2,0.2,300,-100,100);
   
   thfp_v_yfp->GetYaxis()->SetTitleOffset(1.0);
   thfp_v_yfp->GetXaxis()->SetTitleSize(0.05);
@@ -1646,11 +1650,16 @@ void CutSieve_ellipse(int FoilID = 0, int col = 0, int overwrite = 0, int append
   //  TVector3 BeamSpotHCS_average(BeamX_average,BeamY_average,targetfoils[FoilID]);
 
 
-  const TVector3 BeamSpotHCS_average(BeamX_average + (targetfoils[nfoil]/BeamZDir_average)*BeamXDir_average, BeamY_average + (targetfoils[nfoil]/BeamZDir_average)*BeamYDir_average, targetfoils[nfoil]);
+  const TVector3 BeamSpotHCS_average(BeamX_average + (targetfoils[FoilID]/BeamZDir_average)*BeamXDir_average, BeamY_average + (targetfoils[FoilID]/BeamZDir_average)*BeamYDir_average, targetfoils[FoilID]);
 
   TVector3 BeamSpotTCS_average = fTCSInHCS.Inverse()*(BeamSpotHCS_average-fPointingOffset);
   
 
+  cout << "BeamX_average + (targetfoils[FoilID]/BeamZDir_average)*BeamXDir_average = " << BeamX_average + (targetfoils[FoilID]/BeamZDir_average)*BeamXDir_average << endl;
+  cout << "BeamX_average = " << BeamX_average << ", targetfoils[FoilID] = " << targetfoils[FoilID] << ", BeamZDir_average = " << BeamZDir_average << ", BeamXDir_average = " << BeamXDir_average << ", BeamY_average = " << BeamY_average << ", BeamYDir_average = " << 
+    BeamYDir_average << endl;
+  cout << "BeamSpotHCS_average = [" << BeamSpotHCS_average.X() << ", " << BeamSpotHCS_average.Y() << ", " << BeamSpotHCS_average.Z() << "]" << endl;
+  cout << "BeamSpotTCS_average = [" << BeamSpotTCS_average.X() << ", " << BeamSpotTCS_average.Y() << ", " << BeamSpotTCS_average.Z() << "]" << endl;
   
   const Double_t plotwidth = 0.0015;
   
@@ -1870,6 +1879,12 @@ void CutSieve_ellipse(int FoilID = 0, int col = 0, int overwrite = 0, int append
       cout << "Using line : " << endl;
       cout << line << endl << endl;
       cutcsv<<line<<endl;
+
+      // cutg->SetVarX("L.tr.tg_ph");
+      // cutg->SetVarY("L.tr.tg_th");
+
+      cutg->SetVarX("ph_tgt");
+      cutg->SetVarY("th_tgt");
 
     }
 
