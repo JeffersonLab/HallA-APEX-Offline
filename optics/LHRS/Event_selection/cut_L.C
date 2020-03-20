@@ -1199,13 +1199,13 @@ void CutColumn(int FoilID = 0 /* FoilID*/, int colNo = 0 /*Number of columns*/, 
   //  TH2F* h2 = new TH2F("h2", "y vs. phi (focal plane ", 1000, -0.03, 0.04, 900, -0.04, 0.035);
   TH2F* h2 = new TH2F("h2", "y vs. phi (focal plane) ", 1000, -0.04, 0.04, 900, -0.04, 0.04);
   //  T->Draw("L.tr.y:L.tr.ph>>h2","", "COLZ");
-  T->Draw("L.tr.y:L.tr.ph>>h2", GenrealCut + TCut(Form("fcut_L_%d", FoilID)), "COLZ");
+  T->Draw("L.tr.y:L.tr.ph>>h2", GenrealCut + TCut(Form("fcut_L_%d", FoilID)) + TCut(Form("fcut_L_FP_%d", FoilID)), "COLZ");
   c1->Update();
   
   //	int ncol = 1, colID=1;
   
   // make cuts from the first available column
-  for (int ColID = firstCol; ColID < colNo; ColID++) //column number ColID
+  for (int ColID = firstCol; ColID < colNo + firstCol; ColID++) //column number ColID
     {
       
       
