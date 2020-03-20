@@ -425,8 +425,15 @@ void cut_Vertex(int overwrite = 0, int nfoils = 3, int FoilID = -1, int append =
 	// 	f1->Write();
 
 	//	TH2F* h1 = new TH2F("h1", "ReactZ vs. Target Phi", 400, -0.05, 0.035, 200,-0.4, 0.4);
-	TH2F* h1 = new TH2F("h1", "ReactZ vs. Target Phi", 400, -0.05, 0.02, 200,-0.4, 0.4);
+	TH2F* h1 = new TH2F("h1", Form("Vertex for Foil #%d",FoilID), 400, -0.05, 0.05, 200,-0.4, 0.4);
+	//	h1->CenterTitle();
 
+
+	//	gStyle->SetTitleAlign(13);
+	// 1st number is horizontal placement 1 = left, 
+
+	h1->GetXaxis()->SetTitle("\\phi_{tg} [rad]");
+	h1->GetYaxis()->SetTitle("Reactz [m]");
 	
 	// alternative to cutting on reactz vs target phi plot
 	// -> use ph (FP) vs y (FP) plot instead 
@@ -439,7 +446,7 @@ void cut_Vertex(int overwrite = 0, int nfoils = 3, int FoilID = -1, int append =
 	// 	TH2F* h2 = new TH2F ("h2","theta_target vs. phi_target", 900, -0.06,0.06,900,-0.07,0.07);
 
 	// Draw ReactZ vs. Phi_rotate
-	//	T->Draw("L.tr.vz:L.tr.tg_ph>>h1", GenrealCut, "COLZ"); // need finer delta cut later
+	// T->Draw("L.tr.vz:L.tr.tg_ph>>h1", GenrealCut, "COLZ"); // need finer delta cut later
 
 	// use 'reactz' as calculated in analyzer
 
@@ -462,8 +469,7 @@ void cut_Vertex(int overwrite = 0, int nfoils = 3, int FoilID = -1, int append =
 	// lines added to start from foil other than zeroth
 	int fmin = 0;
 	if(FoilID > -1){
-	  fmin = FoilID;
-	  
+	  fmin = FoilID;	  
 	}
 
 
@@ -506,14 +512,20 @@ void cut_Vertex(int overwrite = 0, int nfoils = 3, int FoilID = -1, int append =
 	    cutg->SetVarX("ph_tgt");
 	    cutg->SetVarY("reactz");
 	    
+
+
+	    // cut on regular analyzer replay variables
+	    
+	    // cutg->SetVarX("L.tr.tg_ph");
+	    // cutg->SetVarY("L.tr.vz");
+
 	    
 	    // alternative to cutting on reactz vs target phi plot
 	    // -> use ph (FP) vs y (FP) plot instead 
 	    
 	    // cutg->SetVarX("L.tr.r_y");
 	    // cutg->SetVarY("L.tr.r_ph");
-	    
-	    
+
 	    
 	    // output cut to disk
 	    // 			f1->cd();
