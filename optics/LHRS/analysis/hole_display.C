@@ -1,5 +1,6 @@
 #include "APEX_Sieve.h"
 #include "InputAPEXL.h"
+#include "../correlations/Load_new_replay.C"
 
 void hole_display(){
 
@@ -17,11 +18,11 @@ void hole_display(){
 
   
 
-  GenrealCut = GeneralSieveCut + PID_cuts + fid_cut + GenrealCut;
+  TCut GenrealCut = GeneralSieveCut + PID_cuts;
 
   TString CutFileName = *SoureRootFile + ".FullCut.root";
 
-  TChain* T = Load_more_rootfiles(Run_number, Run_number_2);
+  TChain* T = Load_new_replay("V1_V2_V3_TPY",Run_number);
 
   gStyle->SetPalette(1);
 
@@ -50,7 +51,7 @@ void hole_display(){
   xpyp->GetZaxis()->SetRangeUser(0,30);
 
   //  TImage* img = TImage::Open("Sieve.png");
-  TImage* img = TImage::Open("LHRS_Sieve_annotated.png");
+  TImage* img = TImage::Open("../diagrams/LHRS_Sieve_annotated.png");
 
   double idx_00 = 0.9035, idy_00 = 0.8735;
   double dx = 0.0505/2, dy = 0.103/2;
