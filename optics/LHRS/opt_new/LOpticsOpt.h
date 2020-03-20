@@ -121,7 +121,8 @@ public:
       kBeamY = 8,	//urb.y or rb.y
       kL_tr_tg_th = 9,	//L.tr.tg_th
       kL_tr_tg_ph = 10,	//L.tr.tg_ph
-      kL_tr_tg_y = 11	        //L.tr.tg_y
+      kL_tr_tg_y = 11,	        //L.tr.tg_y
+      kL_tr_tg_dp = 12	//L.tr.tg_dp
     };
     enum ExtraSieveIdx{
       kRealTh = 40,	//real target th from survey
@@ -132,7 +133,7 @@ public:
       kCalcPh		//calculated ph from matrix
     };
     enum ExtraVertexIdx{
-      kBeamDirX = 12,//urb.dir.y or rb.dir.y
+      kBeamDirX = 13,//urb.dir.y or rb.dir.y
       kBeamDirY,//urb.dir.y or rb.dir.y
       kBeamDirZ,//urb.dir.y or rb.dir.y
       kRealTgY=60,	//Expected Tg_y from Survey and
@@ -145,8 +146,8 @@ public:
       kBeamZ
     };
     enum ExtraDpIdx{
-      kL_tr_tg_dp=71,	//L.tr.tg_dp
-      kL_tr_p,	//L.tr.p
+      //      kL_tr_tg_dp=71,	//L.tr.tg_dp
+      kL_tr_p =71,	//L.tr.p
       kurb_e,	//Beam energy
       kRunNum,	//Run number
       kExtraDataFlag,	//Whether this event is for optimization; 0=used for optimization, 1=for plotting only
