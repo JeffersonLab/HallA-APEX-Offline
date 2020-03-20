@@ -39,12 +39,12 @@
 
 
 
-TCut fid_cut = "abs(L.tr.r_x)<0.1 ";
+//TCut fid_cut = "abs(L.tr.r_x)<0.1 ";
 
 TCut beam_cut = "Lrb.x>0.007 && Lrb.x<0.0016";
 
-//TCut GenrealCut = GeneralSieveCut;
-TCut GenrealCut = GeneralSieveCut + PID_cuts + fid_cut;
+
+TCut GenrealCut = GeneralSieveCut + PID_cuts + FP_cuts;
 
 
 
