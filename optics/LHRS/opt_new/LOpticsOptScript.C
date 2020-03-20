@@ -226,10 +226,13 @@ void DoMinTP(TString SourceDataBase, TString DestDataBase, UInt_t MaxDataPerGrou
     //opt->check_fit_qual_Th();
     //#endif
     
-    TCanvas * c1 = opt->CheckSieve(7);
+    TCanvas * c1 = opt->CheckSieve(NFoils);
     c1->Print(DestDataBase+".Sieve.Opt.png", "png");
     c1->Print(DestDataBase+".Sieve.Opt.eps", "eps");
     
+
+    TCanvas * c2 = opt->Sieve_hole_diff(NFoils);
+
     //    TCanvas * c2 = opt->CheckSieveAccu(-1);
     //    c2->Print(DestDataBase + ".TpAccu.Opt.png", "png");
     //    c2->Print(DestDataBase + ".TpAccu.Opt.eps", "eps");
