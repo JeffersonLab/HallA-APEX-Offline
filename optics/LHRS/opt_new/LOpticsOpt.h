@@ -177,6 +177,7 @@ public:
     void PrepareSieve(void);
     TCanvas* CheckSieve(Int_t PlotFoilID = 0);
     TCanvas* CheckSieveAccu(Int_t PlotFoilID = 0);
+    TCanvas* Sieve_hole_diff(Int_t PlotFoilID = 0);
     Double_t SumSquareDTh(void);
     Double_t SumSquareDPhi(void);
     //void check_fit_qual_Th(void);

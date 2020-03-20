@@ -2009,6 +2009,345 @@ TCanvas * LOpticsOpt::CheckSieveAccu(Int_t PlotFoilID)
     return c1;
 
 }
+
+
+
+TCanvas * LOpticsOpt::Sieve_hole_diff(Int_t PlotFoilID){
+
+  // create plots for each foil of difference between expected and real sieve x and y 
+
+
+   const UInt_t nplot = PlotFoilID;
+
+
+   
+    // theta and phi diffs for each foil
+   Double_t dTh[NFoils] = {0}, dPh[NFoils] = {0};
+
+    // sieve x and y diffs for each foil
+   Double_t dX[NFoils] = {0}, dY[NFoils] = {0};
+
+    enum {
+      kEventID, kRealSieveX, kRealSieveY, kCalcSieveX, kCalcSieveY, kRealSieveTh, kRealSievePh, KCalcSieveTh, kCalcSievePh
+    };
+
+
+    TH1D * HSieveThDiff[NFoils] = {0};
+    TH1D * HSievePhDiff[NFoils] = {0};
+    Double_t th_lim[NFoils] = {0};
+    Double_t ph_lim[NFoils] = {0};
+
+    
+    TH1D * HSieveXDiff[NFoils] = {0};
+    TH1D * HSieveYDiff[NFoils] = {0};
+    Double_t x_lim[NFoils] = {0};
+    Double_t y_lim[NFoils] = {0};
+
+
+    Double_t th_lim_h = 0.08;
+    Double_t th_lim_l = -0.08;
+    Double_t ph_lim_h = 0.00;
+    Double_t ph_lim_l = -0.08;
+
+
+    for (UInt_t idx = 0; idx < NFoils; idx++) {
+      //      x_lim[idx] = 6.5;
+      x_lim[idx] = 16.5;
+        //y_lim[idx] = 1.5 * TMath::Max(TMath::Abs(SieveXbyRowOdd[0]), TMath::Abs(SieveXbyRowEven[NSieveRow - 1]));
+      // y_lim[idx] = 4;
+      y_lim[idx] = 14;
+
+      
+      HSieveThDiff[idx] = new TH1D(Form("Th Diff Sieve_Foil%d", idx), "\\theta Diff for " + Foil_names[idx], 200, th_lim_l, th_lim_h);
+      HSieveThDiff[idx]->SetXTitle("Sieve Th [mrad]");
+      HSievePhDiff[idx] = new TH1D(Form("Ph Diff Sieve_Foil%d", idx), Form("Ph Diff #%d", idx), 200, ph_lim_l, ph_lim_h);
+      HSievePhDiff[idx]->SetXTitle("Sieve Ph [mrad]");
+      
+
+      HSieveXDiff[idx] = new TH1D(Form("X Diff Sieve_Foil%d", idx), "X Diff for " + Foil_names[idx], 150, -x_lim[idx], x_lim[idx]);
+      HSieveXDiff[idx]->SetXTitle("Reconstructed - survey sieve X [mm]");
+      HSieveXDiff[idx]->GetXaxis()->CenterTitle();
+      HSieveYDiff[idx]  = new TH1D(Form("Y Diff Sieve_Foil%d", idx), "Y Diff for " + Foil_names[idx], 200, -y_lim[idx], y_lim[idx]);
+      HSieveYDiff[idx]->SetXTitle("Reconstructed - survey sieve Y [mm]");
+      HSieveYDiff[idx]->GetXaxis()->CenterTitle();
+
+
+      // assert(HSievePlaneDiff[idx]); // assure memory     
+      // assert(HSieveAngleDiff[idx]); // assure memory allocation
+    }
+
+
+    
+
+    // fill difference histograms
+
+    for (UInt_t idx = 0; idx < fNRawData; idx++) {
+      const EventData &eventdata = fRawData[idx];
+    
+
+      const UInt_t FoilID = (UInt_t)eventdata.Data[kFoilID]; //starting 0!
+      // res = res%(NSieveRow*NSieveCol);
+
+      
+
+      const UInt_t Col = (UInt_t)eventdata.Data[kColID]; //starting 0!
+      const UInt_t Row = (UInt_t)eventdata.Data[kRowID]; //starting 0!
+      
+      
+      assert(FoilID < NFoils); //array index check
+      
+      const TVector3 SieveHoleCorrectionTCS = GetSieveHoleCorrectionTCS(FoilID, Col, Row);
+
+      
+      // calculate sieve_x & sieve_y
+      
+      Double_t ProjectionX = eventdata.Data[kRealTgX] + (eventdata.Data[kCalcTh] + eventdata.Data[kRealTgX] * ExtTarCor_ThetaCorr) * (SieveHoleCorrectionTCS.Z());
+      
+      
+      //Double_t ProjectionX = eventdata.Data[kCalcTh];
+      Double_t ProjectionY = eventdata.Data[kRealTgY] + eventdata.Data[kCalcPh] * (SieveHoleCorrectionTCS.Z());
+      
+	
+      //Double_t ProjectionY = eventdata.Data[kCalcPh];
+	
+
+      // calculate theta and phi 'real' positions of holes
+
+      //      TVector3 BeamSpotHCS_average(BeamX_average,BeamY_average,targetfoils[FoilID]);
+      const TVector3 BeamSpotHCS_average(BeamX_average + (targetfoils[FoilID]/BeamZDir_average)*BeamXDir_average, BeamY_average + (targetfoils[FoilID]/BeamZDir_average)*BeamYDir_average, targetfoils[FoilID]);
+    
+      
+      TVector3 BeamSpotTCS_average = fTCSInHCS.Inverse()*(BeamSpotHCS_average-fPointingOffset);
+
+
+
+
+
+      TVector3 MomDirectionTCS_hole = SieveHoleCorrectionTCS - BeamSpotTCS_average;
+      
+      Double_t theta_hole = MomDirectionTCS_hole.X()/MomDirectionTCS_hole.Z();
+      Double_t phi_hole = MomDirectionTCS_hole.Y()/MomDirectionTCS_hole.Z();
+      
+
+      dX[FoilID] = ProjectionX - SieveHoleCorrectionTCS.X();
+      dY[FoilID] = ProjectionY - SieveHoleCorrectionTCS.Y();
+
+      dTh[FoilID] = eventdata.Data[kCalcTh] - theta_hole;
+      dPh[FoilID] = eventdata.Data[kCalcPh] - phi_hole;
+      
+
+      HSieveXDiff[FoilID]->Fill(1000*dX[FoilID]);
+      HSieveYDiff[FoilID]->Fill(1000*dY[FoilID]);
+
+
+    }
+
+    
+    // fit histograms to get widths of holes
+
+    Int_t max_bin;
+    Double_t max, min;
+
+    Double_t width_guess = 3.0; // intial range of first fit
+
+
+    // varaibles to collect output parameters of fit
+    Double_t x_mean,x_wid;
+    Double_t x_means[NFoils],x_widths[NFoils];
+
+    Double_t y_mean,y_wid;
+    Double_t y_means[NFoils],y_widths[NFoils];
+    
+    
+    for (UInt_t idx = 0; idx < NFoils; idx++) {
+
+
+      max_bin = HSieveXDiff[idx]->GetMaximumBin();
+      min = HSieveXDiff[idx]->GetBinCenter(max_bin) - width_guess;
+      max = HSieveXDiff[idx]->GetBinCenter(max_bin) + width_guess;
+      
+      cout << "pre-first-fitting stage" << endl;
+      HSieveXDiff[idx]->Fit("gaus","Q","",min,max);     
+
+      if(HSieveXDiff[idx]->GetFunction("gaus")){
+	cout << "Fit worked!" << endl;
+            
+	TF1* xgaus1 = HSieveXDiff[idx]->GetFunction("gaus");
+      
+	min = xgaus1->GetParameter(1) - 3*xgaus1->GetParameter(2);
+	max = xgaus1->GetParameter(1) + 3*xgaus1->GetParameter(2);
+      
+	HSieveXDiff[idx]->Fit("gaus","Q","",min,max);
+	TF1* xgaus2 = HSieveXDiff[idx]->GetFunction("gaus");
+                 
+	x_mean = xgaus2->GetParameter(1);
+	x_wid = xgaus2->GetParameter(2);                
+	x_means[idx] = x_mean;
+	x_widths[idx] = x_wid; 
+
+      }
+
+
+      max_bin = HSieveYDiff[idx]->GetMaximumBin();
+      min = HSieveYDiff[idx]->GetBinCenter(max_bin) - width_guess;
+      max = HSieveYDiff[idx]->GetBinCenter(max_bin) + width_guess;
+
+      HSieveYDiff[idx]->Fit("gaus","Q","",min,max);
+
+      
+      if(HSieveYDiff[idx]->GetFunction("gaus")){
+	cout << "Y fit worked" << endl;
+
+
+	TF1* ygaus1 = HSieveYDiff[idx]->GetFunction("gaus");
+      
+	min = ygaus1->GetParameter(1) - 3*ygaus1->GetParameter(2);
+	max = ygaus1->GetParameter(1) + 3*ygaus1->GetParameter(2);
+      
+	HSieveYDiff[idx]->Fit("gaus","Q","",min,max);
+	TF1* ygaus2 = HSieveYDiff[idx]->GetFunction("gaus");
+                 
+	y_mean = ygaus2->GetParameter(1);
+	y_wid = ygaus2->GetParameter(2);                
+	y_means[idx] = y_mean;
+	y_widths[idx] = y_wid;
+      } 
+
+
+
+
+    }
+    
+
+    // create canvas for x sieve difference
+    TCanvas * c1;
+    
+    if (nplot <= 1) {
+      c1 = new TCanvas("XDiff", "XDiff", 1000, 1000);
+      c1->Divide(1, 1);
+    } else if (nplot <= 3) {
+      c1 = new TCanvas("XDiff", "XDiff", 1800, 1100);
+      c1->Divide(3, 1);
+    } else if (nplot <= 6) {
+      c1 = new TCanvas("XDiff", "XDiff", 1800, 1100);
+      c1->Divide(3, 2);
+    } else if (nplot <= 9){
+      c1 = new TCanvas("XDiff", "XDiff", 1800, 1100);
+      c1->Divide(3, 3);
+    }
+    else{
+      c1 = new TCanvas("XDiff", "XDiff", 1800, 1100);
+      c1->Divide(4, 3);
+    }
+
+
+    // create canvas for y sieve difference
+    TCanvas * c2;
+    
+    if (nplot <= 1) {
+      c2 = new TCanvas("YDiff", "YDiff", 1000, 1000);
+      c2->Divide(1, 1);
+    } else if (nplot <= 3) {
+      c2 = new TCanvas("YDiff", "YDiff", 1800, 1100);
+      c2->Divide(3, 1);
+    } else if (nplot <= 6) {
+      c2 = new TCanvas("YDiff", "YDiff", 1800, 1100);
+      c2->Divide(3, 2);
+    } else if (nplot <= 9){
+      c2 = new TCanvas("YDiff", "YDiff", 1800, 1100);
+      c2->Divide(3, 3);
+    }
+    else{
+      c2 = new TCanvas("YDiff", "YDiff", 1800, 1100);
+      c2->Divide(4, 3);
+    }
+
+
+
+
+    
+
+    for (UInt_t idx = 0; idx < nplot; idx++) {
+      UInt_t FoilID = idx;
+
+      c1->cd(idx+1);
+     
+      HSieveXDiff[FoilID]->Draw();
+
+      // TPaveText *ttx = new TPaveText(0.6,0.7,0.88,0.82,"NDC");
+      // ttx->AddText(Form("\\Delta = %2.3f mm",  x_means[idx]));
+      // ttx->AddText(Form("\\sigma = %2.3f mm", x_widths[idx]));
+      // ttx->SetShadowColor(0);
+      // ttx->SetFillColor(0);
+      // ttx->Draw("same");
+
+
+      TPaveText *ttx_1 = new TPaveText(0.6,0.75,0.85,0.82,"NDC");
+      ttx_1->AddText("\\sigma = ");
+      ttx_1->AddText(Form("%2.3f mm", x_widths[idx]));
+
+
+      ttx_1->SetShadowColor(0);
+      ttx_1->SetFillColor(0);
+      ttx_1->SetTextSize(0.08);
+      ttx_1->Draw("same");
+
+
+      TPaveText *ttx_2 = new TPaveText(0.25,0.75,0.28,0.82,"NDC");
+
+      ttx_2->AddText("\\Delta = ");
+      ttx_2->AddText(Form("%2.3f mm",  x_means[idx]));
+
+      ttx_2->SetShadowColor(0);
+      ttx_2->SetFillColor(0);
+      ttx_2->SetTextSize(0.08);
+      ttx_2->Draw("same");
+
+
+      c2->cd(idx+1);
+     
+      HSieveYDiff[FoilID]->Draw();
+
+      TPaveText *tty_1 = new TPaveText(0.6,0.75,0.85,0.82,"NDC");
+      //      tty_1->AddText(Form("\\Delta = %2.3f mm",  y_means[idx]));
+      tty_1->AddText("\\sigma = ");
+      tty_1->AddText(Form("%2.3f mm", y_widths[idx]));
+
+
+      tty_1->SetShadowColor(0);
+      tty_1->SetFillColor(0);
+      tty_1->SetTextSize(0.08);
+      tty_1->Draw("same");
+
+
+      TPaveText *tty_2 = new TPaveText(0.25,0.75,0.28,0.82,"NDC");
+
+      //      tty_2->AddText(Form("\\Delta = %2.3f mm",  y_means[idx]));
+      tty_2->AddText("\\Delta = ");
+      tty_2->AddText(Form("%2.3f mm",  y_means[idx]));
+
+      
+      //tty_2->AddText(Form("\\sigma = %2.3f mm", y_widths[idx]));
+      tty_2->SetShadowColor(0);
+      tty_2->SetFillColor(0);
+      tty_2->SetTextSize(0.08);
+      tty_2->Draw("same");
+
+
+      
+    }
+    
+
+
+    return c1;
+
+
+}
+
+
+
+
+
 /*
 void LOpticsOpt::check_fit_qual_Th()
 {
