@@ -555,11 +555,11 @@ void cut_Vertex(int overwrite = 0, int nfoils = 3, int FoilID = -1, int append =
 
 
 
+// version of FP cut for single foil runs
 
+void cut_Vertex_FP_SF(int overwrite = 0, int nfoils = 3, int FoilID = -1, int append = 0) {
 
-
-void cut_Vertex_FP(int overwrite = 0, int nfoils = 3, int FoilID = -1, int append = 0) {
-
+  
 
   cout << "cut being used " << GenrealCut << endl << endl;
 
@@ -570,6 +570,145 @@ void cut_Vertex_FP(int overwrite = 0, int nfoils = 3, int FoilID = -1, int appen
 
   TChain* T = Load_more_rootfiles(Run_number, Run_number_2);
 
+  
+  gSystem->Exec("cp -vf " + CutFileName + " " + CutFileName + ".old");
+
+
+  fstream cutdesc;
+  
+  if(append){
+    cutdesc.open(CutDescFileName, ios_base::out |ios::app);
+  }
+  if(!append){
+    cutdesc.open(CutDescFileName, ios_base::out);
+  }
+
+
+  assert(cutdesc.is_open());
+
+  TFile *f1 = new TFile(CutFileName, "UPDATE");
+  assert(f1);
+
+
+
+  TCanvas* c1 = new TCanvas("c1", "Foil cuts on ph vs y (FP)", 900, 900);
+  gStyle->SetPalette(1, 0);
+  
+
+
+  
+  c1->Divide(2,1);
+  
+  // first plot of vs Y FP with no foil cuts to show general distribution
+
+
+  c1->cd(1);
+
+  
+  TH2F* h1 = new TH2F("h1", "ph vs y (FP) (no foil cut)", 400, -0.05, 0.05, 400,-0.05, 0.04);
+
+  TH2F* h2 = new TH2F("h2", "ph vs y (FP) (with foil cut)", 400, -0.05, 0.05, 400,-0.05, 0.04);
+
+  T->Draw("L.tr.r_ph:L.tr.r_y>>h1", GenrealCut, "COLZ"); // need finer delta cut later
+
+
+
+
+  // second plot showing FP distrib with cut
+
+  c1->cd(2);
+  
+  (TCutG*) gROOT->FindObject(Form("fcut_L_%d", FoilID));
+
+  T->Draw("L.tr.r_ph:L.tr.r_y>>h2", GenrealCut + Form("fcut_L_%d", FoilID), "COLZ"); // need finer delta cut later
+
+
+
+  
+ 		
+ 
+
+  nfoil = nfoils; // Added to process seperate runs with one foil each)
+
+  int fmin = 0;
+  if(FoilID > -1){
+    fmin = FoilID;	  
+  }
+
+
+  for (int i = fmin; i < nfoil + fmin; i++) {
+
+    TCutG* cutg, *tmpcut;
+
+    TVirtualPad *cpad = gPad;
+    
+
+    tmpcut = (TCutG*) gROOT->FindObject(Form("fcut_L_FP_%d", i)); //looking for old cut definition
+
+    
+  if (tmpcut &&  !overwrite) {
+
+
+    tmpcut->SetLineColor(kMagenta);	
+    tmpcut->SetLineWidth(2);	
+
+    cout << Form("fcut_L_FP_%d", i) << " is found, using old one" << endl;
+    tmpcut->Draw("PL");
+      // 		delete tmpcut; //delete old cut
+  } else {
+    
+    cout << "making cut for foil No." << FoilID << ", waiting ..." << endl;
+    
+    
+    cutg = (TCutG*) (cpad->WaitPrimitive("CUTG", "CutG")); // making cut, store to CUTG
+    //    c1->Update();
+
+   cutg->SetLineColor(kMagenta);	
+   cutg->SetLineWidth(2);	
+    
+
+    cout << "done!" << endl;
+    cutg->SetName(Form("fcut_L_FP_%d", i)); //
+    
+    
+    // alternative to cutting on reactz vs target phi plot
+    // -> use ph (FP) vs y (FP) plot instead 
+    
+    cutg->SetVarX("L.tr.r_y");
+    cutg->SetVarY("L.tr.r_ph");
+    
+    cutg->Write("", TObject::kOverwrite); // Overwrite old cut
+    
+  }
+  
+  cout << "log to " << CutDescFileName << endl;
+  cutdesc <<  Form("fcut_L_%d", i) << " && " <<  Form("fcut_L_FP_%d", i) << " && " << (const char *) GenrealCut << endl;
+  }
+  
+  
+  cutdesc.close();
+  f1->Write();
+  cout << " --> " << CutDescFileName << endl;
+  cout << " --> " << CutFileName << endl;
+  
+
+}
+
+
+
+// version of FP cut for multiple foils runs
+
+void cut_Vertex_FP_MF(int overwrite = 0, int nfoils = 3, int FoilID = -1, int append = 0) {
+
+
+  cout << "cut being used " << GenrealCut << endl << endl;
+
+  cout << "open " << *SoureRootFile << endl;
+
+  ReLoadcuts();
+
+
+  TChain* T = Load_more_rootfiles(Run_number, Run_number_2);
 
   
   gSystem->Exec("cp -vf " + CutFileName + " " + CutFileName + ".old");
@@ -597,6 +736,8 @@ void cut_Vertex_FP(int overwrite = 0, int nfoils = 3, int FoilID = -1, int appen
   Int_t first_foil = 0;
   Int_t last_foil = 8;
 
+
+
   if( Run_number == 4771){
     first_foil = 1;
     offset = 1;
@@ -606,6 +747,11 @@ void cut_Vertex_FP(int overwrite = 0, int nfoils = 3, int FoilID = -1, int appen
     first_foil = 0;
     cout << "Run_number == 4774 condition" << endl;
   }
+
+
+  
+
+  
 
 
   for(Int_t i = first_foil; i < last_foil; i++){
@@ -757,6 +903,9 @@ void cut_Vertex_FP(int overwrite = 0, int nfoils = 3, int FoilID = -1, int appen
             
 
 
+
+
+    
     
     
     TCutG* other_foils[3];
@@ -851,6 +1000,28 @@ void cut_Vertex_FP(int overwrite = 0, int nfoils = 3, int FoilID = -1, int appen
 
 
 }
+
+
+
+
+
+void cut_Vertex_FP(int overwrite = 0, int nfoils = 3, int FoilID = -1, int append = 0) {
+
+
+  Bool_t multifoil = IsMultiFoil(Run_number);
+
+  if(multifoil){
+
+    cut_Vertex_FP_MF(overwrite, nfoils, FoilID, append);
+      
+  }
+  else if(!multifoil){
+
+    cut_Vertex_FP_SF(overwrite, nfoils, FoilID, append);
+      }
+
+}
+
 
 
 
