@@ -1187,6 +1187,7 @@ void CutColumn(int FoilID = 0 /* FoilID*/, int colNo = 0 /*Number of columns*/, 
   TFile *f1 = new TFile(CutFileName, "UPDATE");
   assert(f1);
   (TCutG*) f1->GetObjectChecked(Form("fcut_L_%d", FoilID), "TCutG"); //looking for foil cut definition
+  (TCutG*) f1->GetObjectChecked(Form("fcut_L_FP_%d", FoilID), "TCutG"); //looking for foil cut definition
   
 
   fstream cutdesc;
