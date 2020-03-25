@@ -18,6 +18,7 @@
 #include "TEllipse.h"
 #include <iostream>
 #include <fstream>
+#include "InputAPEXL.h"
 
 #include <vector>
 #include <algorithm>
@@ -1325,9 +1326,8 @@ void display_Sieve(int FoilID = 0, int col = 0){
  
  TH2F* h2 = new TH2F("h2", Form("Sieve plot for Foil #%d",FoilID), 300, -0.04, 0.04, 300, -0.08, 0.08);
  
-
- h2->GetXaxis()->SetTitle("\\theta_{tg} [rad]");
- h2->GetYaxis()->SetTitle("\\phi_{tg} [rad]");
+ h2->GetXaxis()->SetTitle("\\phi_{tg} [rad]");
+ h2->GetYaxis()->SetTitle("\\theta_{tg} [rad]");
  //  TH2F* h2 = new TH2F("h2", "theta_target vs. phi_target", 300, -0.06, 0.04, 300, -0.08, 0.08);
  h2->SetMinimum(2);
  
@@ -2251,7 +2251,7 @@ void Optics_3_th_ph() {
       
     //    TVector3 BeamSpotHCS_average(BeamX_average,BeamY_average,targetfoils[foil_no]);
 
-    const TVector3 BeamSpotHCS_average(BeamX_average + (targetfoils[nfoil]/BeamZDir_average)*BeamXDir_average, BeamY_average + (targetfoils[nfoil]/BeamZDir_average)*BeamYDir_average, targetfoils[nfoil]);
+    const TVector3 BeamSpotHCS_average(BeamX_average + (targetfoils[foil_no]/BeamZDir_average)*BeamXDir_average, BeamY_average + (targetfoils[foil_no]/BeamZDir_average)*BeamYDir_average, targetfoils[foil_no]);
 
 
     TVector3 BeamSpotTCS_average = fTCSInHCS.Inverse()*(BeamSpotHCS_average-fPointingOffset);
