@@ -533,7 +533,7 @@ void cut_Vertex(int overwrite = 0, int nfoils = 3, int FoilID = -1, int append =
 	    
 	    // output cut to disk
 	    // 			f1->cd();
-	    cutg->Write("", TObject::kOverwrite); // Overwrite old cut
+	    cutg->Write("", TObject::kWriteDelete); // Overwrite old cut
 	    
 	    // output ps file
 	    
@@ -681,7 +681,7 @@ void cut_Vertex_FP_SF(int overwrite = 0, int nfoils = 3, int FoilID = -1, int ap
     cutg->SetVarX("L.tr.r_y");
     cutg->SetVarY("L.tr.r_ph");
     
-    cutg->Write("", TObject::kOverwrite); // Overwrite old cut
+    cutg->Write("", TObject::kWriteDelete); // Overwrite old cut
     
   }
   
@@ -985,7 +985,7 @@ void cut_Vertex_FP_MF(int overwrite = 0, int nfoils = 3, int FoilID = -1, int ap
       cutg->SetVarX("L.tr.r_y");
       cutg->SetVarY("L.tr.r_ph");
     
-      cutg->Write("", TObject::kOverwrite); // Overwrite old cut
+      cutg->Write("", TObject::kWriteDelete); // Overwrite old cut
 
     }
 	
@@ -1133,7 +1133,7 @@ void cut_Vertex_new(int overwrite = 0, int nfoils = 3, int FoilID = -1) {
 
 			// output cut to disk
 			// 			f1->cd();
-			cutg->Write("", TObject::kOverwrite); // Overwrite old cut
+			cutg->Write("", TObject::kWriteDelete); // Overwrite old cut
 
 			// output ps file
 
@@ -1239,7 +1239,7 @@ void CutColumn(int FoilID = 0 /* FoilID*/, int colNo = 0 /*Number of columns*/, 
 	
 	// output
 	f1->cd();
-	cutg->Write("", TObject::kOverwrite);
+	cutg->Write("", TObject::kWriteDelete);
 	tmpcut = cutg;
 	//			f->cd();
       }
@@ -1874,6 +1874,7 @@ void CutSieve_ellipse(int FoilID = 0, int col = 0, int overwrite = 0, int append
       cutg->SetVarY("th_tgt");
 
 
+      cutg->Write("", TObject::kWriteDelete); // Overwrite old cut
       cout << "done!" << endl;
 	    
     }
@@ -1899,7 +1900,7 @@ void CutSieve_ellipse(int FoilID = 0, int col = 0, int overwrite = 0, int append
     cutg->Draw("PL");
     c1->Update();
 
-    cutg->Write("", TObject::kOverwrite); // Overwrite old cut
+    //    cutg->Write("", TObject::kWriteDelete); // Overwrite old cut
 
 
 
@@ -1943,7 +1944,7 @@ void CutSieve_ellipse(int FoilID = 0, int col = 0, int overwrite = 0, int append
 
       tmpcut_FP->SetVarX("L.tr.r_y[0]");
       tmpcut_FP->SetVarY("L.tr.r_th[0]*1000");
-      tmpcut_FP->Write("",TObject::kOverwrite);
+      //      tmpcut_FP->Write("",TObject::kWriteDelete);
       
 
     }
@@ -1964,7 +1965,7 @@ void CutSieve_ellipse(int FoilID = 0, int col = 0, int overwrite = 0, int append
       cutg_FP->SetVarY("L.tr.r_th[0]*1000");
 
       f1->cd();
-      cutg_FP->Write("",TObject::kOverwrite);
+      cutg_FP->Write("",TObject::kWriteDelete);
       tmpcut_FP = cutg_FP;
       
 
@@ -2685,7 +2686,7 @@ void CutSieve_col(int i = 0 /*Foil ID*/, int cmin = 0 /*Column ID*/, int overwri
 	  
 	  // output
 	  f1->cd();
-	  cutg->Write("", TObject::kOverwrite);
+	  cutg->Write("", TObject::kWriteDelete);
 	  tmpcut = cutg;
 	  //			f->cd();
 	}
@@ -2817,7 +2818,7 @@ void CutSieve(int i = 0 /*Foil ID*/, int cmin = 0 /*Column ID*/, int overwrite =
 	  
 	  // output
 	  f1->cd();
-	  cutg->Write("", TObject::kOverwrite);
+	  cutg->Write("", TObject::kWriteDelete);
 	  tmpcut = cutg;
 	  //			f->cd();
 	}
@@ -2901,7 +2902,7 @@ void cut_L_dp(int overwrite = 0)
 		cutg->SetLineWidth(2);
 		cutg->Draw("PL");
 
-		cutg->Write("",TObject::kOverwrite); // Overwrite old cut
+		cutg->Write("",TObject::kWriteDelete); // Overwrite old cut
 
 		SaveCanvas(c1, *SoureRootFile + Form("L_dp_%d",FoilID), kFALSE);
 	}
@@ -2998,7 +2999,7 @@ void cut_VertexAdv(int overwrite = 0, TCut extracuts = "1") {
 
 			// output cut to disk
 			// 			f1->cd();
-			cutg->Write("", TObject::kOverwrite); // Overwrite old cut
+			cutg->Write("", TObject::kWriteDelete); // Overwrite old cut
 
 			// output ps file
 
