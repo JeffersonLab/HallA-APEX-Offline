@@ -1,0 +1,526 @@
+#include <iostream>
+#include <cassert>
+
+#include "TROOT.h"
+#include "TCanvas.h"
+#include "TMath.h"
+#include "TString.h"
+#include "TVirtualFitter.h"
+//#include "LOpticsOpt.h"
+#include "TStyle.h"
+#include "TSystem.h"
+
+#include "Minuit2/Minuit2Minimizer.h"
+#include "Math/Minimizer.h"
+#include "Math/Factory.h"
+
+//#include "Minuit2/TFitterMinuit.h"
+#define th_ph_optimize true
+#define y_optimize true
+#define dp_optimize false
+
+
+//#include "SaveCanvas.C"
+
+using namespace std;
+
+class LOpticsOpt;
+
+LOpticsOpt * opt;
+UInt_t NPara = 0;
+Double_t OldMatrixArray[10000] = {-99}; //NPara
+Bool_t free_bool[10000] = {kFALSE}; //NPara
+
+UInt_t MaxDataPerGroup = 100;
+
+
+// Inputs for minimiser name and algorithm used
+
+
+//static Int_t y_times = 0;
+
+
+//UInt_t MaxDataPerGroup = 100;
+//TString DataSource = "Sieve1/Sieve.full.f13831";
+//TString DataSource = "Sieve1/Sieve.full.f13831.oldbpm";
+//TString DataSource = "Dp1/Dp.full.f51";
+//TString DataSource = "Dp1/Dp.full.f51.test";
+//TString DataSource = "text_cuts/Vars_with_cuts_4179.dat";
+//TString DataSource = "text_cuts/Vars_with_cuts_4179.dat";
+//TString DataSource = "text_cuts/Vars_with_cuts_4179_only_foil_cuts.dat"; 
+//TString DataSource = "text_cuts/Vars_with_cuts_4179_1_7_2019.dat"; 
+//TString DataSource = "text_cuts/Vars_with_cuts_4179_1_7_2019_dp.dat"; 
+//TString DataSource = "text_cuts/Vars_with_cuts_1_7_2019_dp_all.dat"; 
+// TString DataSource = "text_cuts/Vars_with_cuts_1_7_2019_dp_all_rast.dat"; 
+//TString DataSource = "text_cuts/20_Aug_4179_hole_cuts_4179_rast.dat"; 
+//TString DataSource = "text_cuts/22_Aug_4179_hole_cuts_4179_rast.dat";
+//TString DataSource = "text_cuts/22_Aug_4179_hole_cuts_4179_rast.dat";
+//TString DataSource = "text_cuts/22_Aug_4179-81_Vertex_4179_rast.dat";
+//TString DataSource = "text_cuts/22_Aug_4179_hole_cuts_4179_NOrast.dat";
+//TString DataSource = "text_cuts/22_Aug_4179-81_Vertex_4179.dat";
+//TString DataSource = "text_cuts/5th_Sept_Sieve.dat";
+//TString DataSource = "text_cuts/5th_Sept_Sieve_TP.dat";
+//TString DataSource = "text_cuts/31st_Oct_Sieve.dat";
+//TString DataSource = "text_cuts/test_Nov.dat";
+//TString DataSource = "text_cuts/15th_Oct_Sieve_TP.dat";
+//TString DataSource = "text_cuts/test_FP_cuts_multi.dat";
+//TString DataSource = "text_cuts/Nov_7th_cuts_with_FP.dat";
+//TString DataSource = "text_cuts/test_FP_cuts_multi_less.dat";
+//TString DataSource = "text_cuts/test_FP_cuts_with_beam_cut.dat";
+//TString DataSource = "text_cuts/test_FP_cuts_with_beam_cut_y_slice.dat";
+//TString DataSource = "text_cuts/test_FP_cuts_with_beam_dp_cut.dat";
+// TString DataSource = "text_cuts/test_FP_cuts_with_beam_XFP_cut.dat";
+// TString DataSource = "text_cuts/Updated_Raster_25_11.dat";
+//TString DataSource = "text_cuts/Updated_Raster_26_11_4180.dat";
+//TString DataSource = "text_cuts/Updated_Raster_26_11_test_2.dat";
+//TString DataSource = "text_cuts/Optics_3.dat";
+//TString DataSource = "text_cuts/Optics_3_safer_cuts.dat";
+//TString DataSource = "text_cuts/Optics_3_phi_v_y_cuts.dat";
+//TString DataSource = "text_cuts/4771_3.dat";
+//TString DataSource = "text_cuts/4771.dat";
+//TString DataSource = "text_cuts/4771_10_12_19.dat";
+//TString DataSource = "text_cuts/4771_13_12_19.dat";
+//TString DataSource = "text_cuts/4771_4774_15_12_19.dat";
+//TString DataSource = "text_cuts/4771_4774_6_1_20.dat";
+//TString DataSource = "text_cuts/4771_4774_6_1_20_5th_foil.dat";
+//TString DataSource = "text_cuts/4771_4774_6_1_20_foil5_2_3_only_5.dat";
+//TString DataSource = "text_cuts/4771_4774_6_1_20_foil5_2_3.dat";
+
+//TString DataSource = "text_cuts/4771_4774_9_1_20.dat_looser_cuts";
+
+//TString DataSource = "text_cuts/4771_4774_10_1_20.dat_test";
+//TString DataSource = "text_cuts/4771_4774_10_1_20.dat";
+
+
+//TString DataSource = "text_cuts/4771_4774_9_1_20.dat_looser_cuts_plus_foil6.dat";
+//TString DataSource = "text_cuts/4771_4774_9_1_20.dat_looser_cuts_plus_foil_6_less.dat";
+
+
+TString DataSource = "../Tree2Ascii/text_cuts/4771_4774_9_1_20.dat_looser_cuts_plus_foil6_plus_foil7.dat";
+
+
+
+//typedef void (*PTRFCN)(Int_t &, Double_t *, Double_t &, Double_t*, Int_t);
+
+using PTRFCN = void (*)(Int_t &, Double_t *, Double_t &, Double_t*, Int_t);
+PTRFCN myfcn = NULL;
+
+double myfcn1(const double *par)
+{
+  //compute the sum of squares of dth
+  static UInt_t NCall = 0;
+  NCall++;
+
+  assert(opt);
+  assert(opt->fCurrentMatrixElems);
+  
+  opt->Array2Matrix(par);
+  double f = opt->SumSquareDTh();
+  
+  cout << "For NCall :" << NCall << ", f = " << f << endl;
+
+  return f;
+}
+
+
+// double myfcn1(Int_t &, Double_t *, Double_t &f, Double_t *par, Int_t)
+// {
+//     //compute the sum of squares of dth
+
+//     assert(opt);
+//     assert(opt->fCurrentMatrixElems);
+
+//     opt->Array2Matrix(par);
+//     f = opt->SumSquareDTh();
+
+//     return;
+// }
+
+void myfcn2(Int_t &, Double_t *, Double_t &f, Double_t *par, Int_t)
+{
+    //compute the sum of squares of dph
+
+    assert(opt);
+    assert(opt->fCurrentMatrixElems);
+
+    opt->Array2Matrix(par);
+    f = opt->SumSquareDPhi();
+
+    return;
+}
+
+void myfcn3(Int_t &, Double_t *, Double_t &f, Double_t *par, Int_t)
+{
+    //compute the sum of squares of dtgy
+
+    assert(opt);
+    assert(opt->fCurrentMatrixElems);
+
+    //    y_times++;
+
+    opt->Array2Matrix(par);
+    f = opt->SumSquareDTgY();
+
+    return;
+}
+
+void myfcn4(Int_t &, Double_t *, Double_t &f, Double_t *par, Int_t)
+{
+    //compute the sum of squares of dp
+
+    assert(opt);
+    assert(opt->fCurrentMatrixElems);
+
+    opt->Array2Matrix(par);
+    f = opt->SumSquareDp();
+
+    return;
+}
+
+void DoMinTP(TString SourceDataBase, TString DestDataBase, UInt_t MaxDataPerGroup = 200)
+{
+    // minimize with root
+
+    assert(opt);
+    assert(opt->fCurrentMatrixElems);
+    
+    opt->LoadDataBase(SourceDataBase);
+    NPara = opt->Matrix2Array(OldMatrixArray, free_bool);
+    // opt->LoadRawData(DataSource, (UInt_t) - 1, MaxDataPerGroup);
+    opt->LoadRawData(DataSource);
+    //    opt->LoadRawData(DataSource,100);
+    opt->PrepareSieve();
+
+    opt->Print("");
+
+    
+#if th_ph_optimize  
+
+    
+    ROOT::Math::Minimizer* min = ROOT::Math::Factory::CreateMinimizer("Minuit2", "Migrad");
+
+    min->SetTolerance(0.001);
+    
+    ROOT::Math::Functor f(&myfcn1,NPara); 
+    
+    min->SetFunction(f);
+                                          
+    // TVirtualFitter::SetDefaultFitter("Minuit2"); //default is Minuit
+    // // TVirtualFitter::SetDefaultFitter("Minuit"); 
+
+    // TVirtualFitter *fitter = TVirtualFitter::Fitter(NULL, NPara);
+    // fitter->SetFCN(myfcn);
+
+    for (UInt_t i = 0; i < NPara; i++) {
+      //      cout<<"i:"<<i<<endl;
+        Double_t absold = TMath::Abs(OldMatrixArray[i]);
+        Double_t abslimit = absold > 0 ? absold * 10000 : 10000;
+
+	// fitter->SetParameter(i, Form("TMatrix%03d", i), OldMatrixArray[i], absold > 0 ? absold / 10 : 0.1, -abslimit, abslimit);
+
+	min->SetLimitedVariable(i,  Form("TMatrix%03d", i), OldMatrixArray[i], absold > 0 ? absold / 10 : 0.1, -abslimit, abslimit);
+
+
+	//	fitter->SetParameter(i, Form("TMatrix%03d", i), 0, absold > 0 ? absold / 10 : 0.1, -abslimit, abslimit);
+        // fitter->SetParameter(1,"asdf",0,0,0,0);
+
+        // if (!free_bool[i]) fitter->FixParameter(i);
+
+	if (!free_bool[i]) min->FixVariable(i);
+
+    }
+
+
+    
+    // fitter->Print();
+    // cout << fitter->GetNumberFreeParameters() << " Free  / " << fitter->GetNumberTotalParameters() << " Parameters\n";
+
+    min->PrintLevel();
+
+    
+
+
+    assert(opt->fNRawData > 0);
+    assert(NPara > 0);
+    //    assert(fitter->GetNumberFreeParameters() > 0);
+    //    assert(fitter->GetNumberTotalParameters() == NPara);
+
+    //    Double_t arglist[1] = {0};
+    //    fitter->ExecuteCommand("MIGRAD", arglist, 0);
+
+    min->Minimize();
+    
+#endif                   
+                 
+    opt->Print("");
+    //    opt->SaveDataBase(SourceDataBase);
+    opt->SaveDataBase(DestDataBase); 
+    
+    opt->SumSquareDTh();
+    opt->SumSquareDPhi();
+
+    // JW: commented out following three lines temporarily FIX
+    
+    opt->CheckSieve(-1);
+    //    c1->Print(DestDataBase+".Sieve.Opt.png", "png");
+    //    c1->Print(DestDataBase+".Sieve.Opt.eps", "eps");
+    
+    // TCanvas * c2 = opt->CheckSieveAccu(-1);
+    // c2->Print(DestDataBase + ".TpAccu.Opt.png", "png");
+    // c2->Print(DestDataBase + ".TpAccu.Opt.eps", "eps");
+
+#if th_ph_optimize
+    //    delete fitter;
+    delete min;
+#endif    
+}
+
+void DoMinY(TString SourceDataBase, TString DestDataBase, UInt_t MaxDataPerGroup = 200)
+{
+    // minimize with root
+
+    assert(opt);
+    assert(opt->fCurrentMatrixElems);
+
+    opt->LoadDataBase(SourceDataBase);
+    NPara = opt->Matrix2Array(OldMatrixArray, free_bool);
+    cout<<"NPara:"<<NPara<<endl;
+    // opt->LoadRawData(DataSource, (UInt_t) - 1, MaxDataPerGroup);
+    //    opt->LoadRawData(DataSource,10);
+    opt->LoadRawData(DataSource);
+    opt->PrepareSieve();
+    opt->PrepareVertex();
+
+    opt->Print("");
+
+#if y_optimize                
+    cout << "Check 1 " << endl;
+    //    TVirtualFitter::SetDefaultFitter("Minuit2"); //default is Minuit
+    TVirtualFitter::SetDefaultFitter("Minuit"); //default is Minuit (JW)
+    cout << "Check 2 " << endl;
+    //    TVirtualFitter *fitter = TVirtualFitter::Fitter(NULL, NPara);
+    TVirtualFitter *fitter = TVirtualFitter::Fitter(NULL, NPara);
+    // JW: attempt fo fix line with "NULL"
+    cout << "Check 3 " << endl;
+    //    fitter->SetFCN(myfcn);
+    cout << "Check 4 " << endl;
+
+    fitter->SetFCN(myfcn);
+
+    for (UInt_t i = 0; i < NPara; i++) {
+        Double_t absold = TMath::Abs(OldMatrixArray[i]);
+        Double_t abslimit = absold > 0 ? absold * 10000 : 10000;
+
+        fitter->SetParameter(i, Form("TMatrix%03d", i), OldMatrixArray[i], absold > 0 ? absold / 10 : 0.1, -abslimit, abslimit);
+        // fitter->SetParameter(1,"asdf",0,0,0,0);
+
+        if (!free_bool[i]) fitter->FixParameter(i);
+    }
+
+    //    fitter->SetFCN(myfcn);
+    fitter->Print();
+    cout << fitter->GetNumberFreeParameters() << " Free  / " << fitter->GetNumberTotalParameters() << " Parameters\n";
+    //    cout<<"NPara:"<<NPara<<endl;
+
+    assert(opt->fNRawData > 0);
+    assert(NPara > 0);
+    assert(fitter->GetNumberFreeParameters() > 0);
+    assert(fitter->GetNumberTotalParameters() == NPara);
+    
+    Double_t arglist[1] = {0};
+    fitter->ExecuteCommand("MIGRAD", arglist, 0);
+
+
+#endif
+                               
+    opt->Print("");
+    opt->SaveDataBase(DestDataBase);
+
+    opt->SumSquareDTgY();
+
+    opt->CheckVertex();
+    opt->CheckVertexRes();
+    opt->CheckVertexDiff();
+
+
+
+    // TCanvas *cvert_check_1 = opt->CheckVertex();
+    // TCanvas *cvert_check_res = opt->CheckVertexRes();
+    // TCanvas *cvert_check_diff = opt->CheckVertexDiff();
+    
+    // cvert_check_1->Print(DestDataBase + ".Vertex.Opt.png", "png");
+    // cvert_check_res->Print(DestDataBase + ".VertexRes.Opt.png", "png");
+    // cvert_check_diff->Print(DestDataBase + ".VertexDiff.Opt.png", "png");
+
+
+    
+    
+
+
+#if y_optimize
+    delete fitter;
+#endif
+}
+
+void DoMinDp(TString SourceDataBase, TString DestDataBase, UInt_t MaxDataPerGroup = 200)
+{
+    // minimize with root
+
+    assert(opt);
+    assert(opt->fCurrentMatrixElems);
+
+    cout << "Optimizing for dp\n";
+    opt->fCurrentMatrixElems = &(opt->fDMatrixElems);
+
+    opt->LoadDataBase(SourceDataBase);
+    NPara = opt->Matrix2Array(OldMatrixArray, free_bool);
+    opt->LoadRawData(DataSource, (UInt_t) - 1, MaxDataPerGroup);
+    opt->PrepareDp();
+
+    //compensate bias due to dp event selections
+    // 	opt->fArbitaryDpKinShift[0] = 2.786177e-05;
+    // 	opt->fArbitaryDpKinShift[1] = 8.168538e-05;
+    // 	opt->fArbitaryDpKinShift[2] = 5.299596e-05;
+    // 	opt->fArbitaryDpKinShift[3] = 3.175602e-05;
+    // 	opt->fArbitaryDpKinShift[4] = 9.519830e-05;
+
+    opt->fArbitaryDpKinShift[0] = 0.;
+    opt->fArbitaryDpKinShift[1] = 0.;
+    opt->fArbitaryDpKinShift[2] = 0.;
+    opt->fArbitaryDpKinShift[3] = 0.;
+    opt->fArbitaryDpKinShift[4] = 0.;
+
+    opt->Print("");
+
+#if dp_optimize
+         
+    TVirtualFitter::SetDefaultFitter("Minuit"); //default is Minuit
+    TVirtualFitter *fitter = TVirtualFitter::Fitter(NULL, NPara);
+    fitter->SetFCN(myfcn);
+
+    for (UInt_t i = 0; i < NPara; i++) {
+        Double_t absold = TMath::Abs(OldMatrixArray[i]);
+        Double_t abslimit = absold > 0 ? absold * 10000 : 10000;
+
+        fitter->SetParameter(i, Form("TMatrix%03d", i), OldMatrixArray[i], absold > 0 ? absold / 10 : 0.1, -abslimit, abslimit);
+        // fitter->SetParameter(1,"asdf",0,0,0,0);
+
+        if (!free_bool[i]) fitter->FixParameter(i);
+    }
+
+    fitter->Print();
+    cout << fitter->GetNumberFreeParameters() << " Free  / " << fitter->GetNumberTotalParameters() << " Parameters\n";
+
+    assert(opt->fNRawData > 0);
+    assert(NPara > 0);
+    assert(fitter->GetNumberFreeParameters() > 0);
+    assert(fitter->GetNumberTotalParameters() == NPara);
+
+    Double_t arglist[1] = {0};
+    fitter->ExecuteCommand("MIGRAD", arglist, 0);
+#endif         
+    opt->Print("");
+    opt->SaveDataBase(DestDataBase);
+
+    opt->SumSquareDp();
+
+    TCanvas * c1 = opt->CheckDp();
+    c1->Print(DestDataBase + ".Dp.Opt.png", "png");
+#if dp_optimze
+    delete fitter;
+#endif
+}
+
+void PlotDataBase(TString DatabaseFileName, UInt_t MaxDataPerGroup = 1000)
+{
+    opt = new LOpticsOpt();
+
+    assert(opt);
+
+    gStyle->SetOptStat(0);
+
+    opt->LoadDataBase(DatabaseFileName);
+    opt->Print("");
+
+    opt->LoadRawData(DataSource, (UInt_t) - 1, MaxDataPerGroup);
+
+
+    // JW: commented out following three lines temporarily FIX
+    //    opt->PrepareSieve();
+    //opt->PrepareDp();
+
+    //opt->SumSquareDTh(kTRUE);
+    //opt->SumSquareDPhi(kTRUE);
+    //opttr->SumSquareDp(kTRUE);
+
+
+    // JW: commented out following two lines temporarily FIX
+
+    // TCanvas * c1 = opt->CheckSieve();
+    // c1->Print(DatabaseFileName + ".Sieve.png", "png");
+ 
+
+   //TCanvas * c1 = opt->CheckDpGlobal();
+    //c1->Print(DatabaseFileName + ".Dp.png","png");
+
+    delete opt;
+}
+
+void LOpticsOptScript(TString select, TString SourceDataBase, TString DestDataBase, Bool_t Check = kFALSE)
+{
+    opt = new LOpticsOpt();
+
+    assert(opt);
+    Int_t s = 0;
+    if (select == "theta") s = 1;
+    if (select == "phi") s = 2;
+    if (select == "y") s = 3;
+    if (select == "delta") s = 4;
+
+    gStyle->SetOptStat(0);
+
+    switch (s) {
+    case 1:
+        cout << "Optimizing for Theta\n";
+	//        myfcn = myfcn1;
+        opt->fCurrentMatrixElems = &(opt->fTMatrixElems);
+    	DoMinTP(SourceDataBase, DestDataBase, 500);
+        break;
+    case 2:
+        cout << "Optimizing for Phi\n";
+        myfcn = myfcn2;
+        opt->fCurrentMatrixElems = &(opt->fPMatrixElems);
+    	DoMinTP(SourceDataBase, DestDataBase, 500);
+        break;
+    case 3:
+        cout << "Optimizing for Y\n";
+        myfcn = myfcn3;
+        opt->fCurrentMatrixElems = &(opt->fYMatrixElems);
+    	DoMinY(SourceDataBase, DestDataBase, 20000);
+
+    	//JW: lines added to get execute CheckVertex function of LOpticsOpt.C
+    	// if (Check){
+    	//   cout << "Check function entered" << endl;
+    	//   opt->CheckVertex();
+    	// }
+
+
+        break;
+    case 4:
+        cout << "Optimizing for Delta\n";
+        myfcn = myfcn4;
+        opt->fCurrentMatrixElems = &(opt->fDMatrixElems);
+
+	DoMinDp(SourceDataBase, DestDataBase, 200000);
+        break;
+    default:
+        break;
+    }
+
+    gSystem->Exec(Form("cp -vf %s %s.source", SourceDataBase.Data(), DestDataBase.Data()));
+    //    gSystem->Exec(Form("cp -vf log %s.log", DestDataBase.Data()));
+
+    delete opt;
+
+    return;
+}

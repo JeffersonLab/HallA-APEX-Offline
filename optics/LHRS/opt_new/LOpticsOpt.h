@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 //
-// ROpticsOpt
+// LOpticsOpt
 //
 // HRS optics matrix optimization class
 // Based on THaVDC
@@ -18,8 +18,8 @@
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-#ifndef ROOT_ROpticsOpt
-#define ROOT_ROpticsOpt
+#ifndef ROOT_LOpticsOpt
+#define ROOT_LOpticsOpt
 
 #include <vector>
 
@@ -43,9 +43,10 @@
 //     >=3     above + enable debug extra info
 //     >=4     above + massive info (in a for or while)
 //     >=5     Decode dump
-#define DEBUG_LEVEL 3
+#define DEBUG_LEVEL 0
 #include "DebugDef.h"
-#include "InputR.h"
+#include "InputAPEXL.h"
+#include "hole_opt_select.C"
 
 ///////////////////////////////////////////////////////////////////////////////
 class TCanvas;
@@ -56,10 +57,10 @@ class TVector3;
 
 class THaMatrixElement;
 
-class ROpticsOpt : public THaTrackingDetector {
+class LOpticsOpt : public THaTrackingDetector {
 public:
-    ROpticsOpt(const char* name = "Optimizer", const char* description = "Optimizer for HRS Optics", THaApparatus* a = NULL);
-    virtual ~ROpticsOpt();
+    LOpticsOpt(const char* name = "Optimizer", const char* description = "Optimizer for HRS Optics", THaApparatus* a = NULL);
+    virtual ~LOpticsOpt();
 
     ///////////////////////////////////////////////////////////////////////////
     // Database input/output
@@ -68,15 +69,34 @@ public:
     Int_t LoadDataBase(TString DataBaseName); // Database file -> Memory
     Int_t SaveDataBase(TString DataBaseName); // Memory -> Database file
 
-       
+    virtual void Print(const Option_t* opt) const;
+    //virtual void Print() const;
+    UInt_t Matrix2Array(Double_t Array[], Bool_t FreeParaFlag[] = NULL) // fCurrentMatrixElems -> Array
+    {
+        assert(fCurrentMatrixElems);
+        return Matrix2Array(Array, (*fCurrentMatrixElems), FreeParaFlag);
+    }
+    UInt_t Matrix2Array(Double_t Array[], const std::vector<THaMatrixElement> &Matrix, Bool_t FreeParaFlag[] = NULL);
+
+    UInt_t Array2Matrix(const Double_t Array[]) // Array -> fCurrentMatrixElems
+    {
+        assert(fCurrentMatrixElems);
+        return Array2Matrix(Array, (*fCurrentMatrixElems));
+    }
+    UInt_t Array2Matrix(const Double_t Array[], std::vector<THaMatrixElement> &Matrix);
+
+    ///////////////////////////////////////////////////////////////////////////
+    // Data storage
+    ///////////////////////////////////////////////////////////////////////////
+    
     enum {
-        MaxNEventData = 50, MaxNRawData = 2000000, kNUM_PRECOMP_POW = 10, kMaxDataGroup = 180 * 5 * 5
+        MaxNEventData = 100, MaxNRawData = 2000000, kNUM_PRECOMP_POW = 10, kMaxDataGroup = 180 * 5 * 5
     };
     
     
     
-    //UInt_t LoadRawData(TString DataFileName, UInt_t NLoad = MaxNRawData, UInt_t MaxDataPerGroup = (UInt_t) - 1); // load data to Rawdata[]
-    UInt_t LoadRawData(TTree *t); // load data to Rawdata[]
+    UInt_t LoadRawData(TString DataFileName, UInt_t NLoad = MaxNRawData, UInt_t MaxDataPerGroup = (UInt_t) - 1); // load data to Rawdata[]
+
     
     //typedef struct {
     struct EventData {
@@ -88,63 +108,89 @@ public:
     UInt_t fNRawData;
     UInt_t fNCalibData; // for dp calib only
 
-    enum CommonIdx {
-        kX = 0, // R.tr.r_x
-        kTh = 1, // R.tr.r_th
-        kY = 2, // R.tr.r_y
-        kPhi = 3, // R.tr.r_ph
-        kBeamX = 5, // urb.x or rb.x
-        kBeamY = 6, // urb.y or rb.y
-	kBeamVZ = 7, //R.tr.vz
-	kCutID = 8, // cut ID in order of tree2ascii cut file
+    // JW changed this from having one kCutID to 3 parameters: kFoilID, kColID & kRowID
+    enum CommonIdx{
+      kFoilID = 0,
+      kColID = 1,
+      kRowID = 2,
+      kX = 3,		//L.tr.r_x
+      kTh = 4,	//L.tr.r_th
+      kY = 5,		//L.tr.r_y
+      kPhi = 6,		//L.tr.r_ph
+      kBeamX = 7,	//urb.x or rb.x
+      kBeamY = 8,	//urb.y or rb.y
+      kL_tr_tg_th = 9,	//L.tr.tg_th
+      kL_tr_tg_ph = 10,	//L.tr.tg_ph
+      kL_tr_tg_y = 11	        //L.tr.tg_y
     };
-
-    enum ExtraSieveIdx {
-        kRealTh = 30, // real target th from survey
-        kRealPhi, // real target ph from survey
-        kRealTgX, // real target x from survey, beam
-        kRealTgY, // real target y from survey, beam
-        kRealThMatrix, // expected target th before extended target corrections
-        kCalcTh, // calculated th from matrix
-        kCalcPh, // calculated ph from matrix
-        kSieveX,
-        kSieveY,
-        kSieveZ,
-        kBeamZ
+    enum ExtraSieveIdx{
+      kRealTh = 40,	//real target th from survey
+      kRealPhi,	//real target ph from survey
+      kRealTgX,	//real target x from survey, beam
+      kRealThMatrix,	//expected target th before extended target corrections
+      kCalcTh,		//calculated th from matrix
+      kCalcPh		//calculated ph from matrix
     };
-
-    enum ExtraVertexIdx {
-        kRealReactZ = 10, //expected ReactZ
-        kCalcTgY, //calculated Tg_y
-        kCalcReactZ //calculated ReactZ
+    enum ExtraVertexIdx{
+      kBeamDirX = 12,//urb.dir.y or rb.dir.y
+      kBeamDirY,//urb.dir.y or rb.dir.y
+      kBeamDirZ,//urb.dir.y or rb.dir.y
+      kRealTgY=60,	//Expected Tg_y from Survey and
+      kRealReactZ,	//expected ReactZ
+      kCalcTgY,	//calculated Tg_y
+      kCalcReactZ,	//calculated ReactZ
+      kSieveX,
+      kSieveY,
+      kSieveZ,
+      kBeamZ
     };
-
-    enum ExtraDpIdx {
-        kExtraDataFlag = 15, //Whether this event is for optimization; 0=used for optimization, 1=for plotting only
-        kKineID, //Delta Scan Kinematics ID
-        kCentralp, //Central Momentum
-        kElossDp, //Radiation Loss for this event in unit of dp
-        kScatterAngle, //Scattering Angle
-        kDpKinOffsets, //=dp-dp_kin, based on sieve hole survey
-        kRealDpKin, //expected dp_kin, before radiation correction
-        kRealDpKinMatrix, //real dp kin before extended target corrections
-        kCalcDpKinMatrix, //calculated dp kin before extended target corrections
-        kCalcDpKin, //calculated dp_kin, before radiation correction
-        kRealDpKinExcitations,/*Do not append more index*/ //first index of expected dp_kins for all excitation states
-	kElossTgBefore,
-	kElossTgAfter,
-	kTravelLengthBefore,
-	kTravelLengthAfter
+    enum ExtraDpIdx{
+      kL_tr_tg_dp=71,	//L.tr.tg_dp
+      kL_tr_p,	//L.tr.p
+      kurb_e,	//Beam energy
+      kRunNum,	//Run number
+      kExtraDataFlag,	//Whether this event is for optimization; 0=used for optimization, 1=for plotting only
+      kKineID,		//Delta Scan Kinematics ID
+      kCentralp,	//Central Momentum
+      kRadiLossDp,	//Radiation Loss for this event in unit of dp
+      kScatterAngle,	//Scattering Angle
+      kDpKinOffsets,	//=dp-dp_kin, based on sieve hole survey
+      kRealDpKin,		//expected dp_kin, before radiation correction
+      kRealDpKinMatrix,	//real dp kin before extended target corrections
+      kCalcDpKinMatrix,	//calculated dp kin before extended target corrections
+      kCalcDpKin,	//calculated dp_kin, before radiation correction
+      kRealDpKinExcitations/*Do not append more index*/ //first index of expected dp_kins for all excitation states
     };
+    
 
     ///////////////////////////////////////////////////////////////////////////
     // Optimization related Commands
     ///////////////////////////////////////////////////////////////////////////
-  
+    const TVector3 GetSieveHoleTCS(UInt_t Col, UInt_t Row);
+    const TVector3 GetSieveHoleCorrectionTCS(UInt_t nfoil, UInt_t Col, UInt_t Row);
+
+    Double_t TravelLength(TVector3 ReactionVertex, TVector3 MomDirectionHCS);
+    //    Double_t ElossTarget(TVector3 ReactionVertex, TVector3 MomDirectionHCS);
+    Double_t ElossTargetBefore(TVector3 ReactionVertex, TVector3 MomDirectionHCS);
+    Double_t ElossTargetAfter(TVector3 ReactionVertex, TVector3 MomDirectionHCS);
+    void PrepareSieve(void);
+    TCanvas* CheckSieve(Int_t PlotFoilID = 0);
+    TCanvas* CheckSieveAccu(Int_t PlotFoilID = 0);
+    Double_t SumSquareDTh(void);
+    Double_t SumSquareDPhi(void);
+    //void check_fit_qual_Th(void);
+    //void check_fit_qual_y(void);
     Double_t fArbitaryVertexShift[100]; // compensate bias due to event selections, array of [FoilID]
-    
+    void PrepareVertex(void);
+    TCanvas* CheckVertex(void);
+    Double_t SumSquareDTgY();
+
     Double_t fArbitaryDpKinShift[100]; // compensate bias due to dp event selections, array of [KineID]
-    
+    /* void PrepareDp(void); */
+    /* TCanvas* CheckDp(void); */
+    /* TCanvas* CheckDpGlobal(void); */
+    Double_t SumSquareDp(Bool_t IncludeExtraData = kFALSE);
+
     TRotation fTCSInHCS; // transformations vector from TCS to HCS
     TVector3 fPointingOffset; // Optical point in lab coordinate system
 
@@ -189,12 +235,6 @@ public:
     // Double_t DoPoly(const int n, const std::vector<double> &a, const double x);
     // Double_t PolyInv(const double x1, const double x2, const double xacc, const double y, const int norder, const std::vector<double> &a);
     Double_t CalcTargetVar(const std::vector<THaMatrixElement> &matrix, const double powers[][5]);
-    double calc_tgy(int event);
-    double calc_tgth(int event);
-    double calc_tgph(int event);
-    double calc_tgdp(int event);
-    double sieve_x(int event);
-    double sieve_y(int event);
 
     ///////////////////////////////////////////////////////////////////////////
     // Inherited from THaTrackingDetector
@@ -221,7 +261,7 @@ public:
     };
 
 private:
-    ClassDef(ROpticsOpt, 0) // HRS Optics Optimizer
+    ClassDef(LOpticsOpt, 0) // HRS Optics Optimizer
 };
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -231,7 +271,7 @@ private:
 class THaMatrixElement {
 public:
 
-    THaMatrixElement() : iszero(true), pw(3), order(0), v(0), poly(ROpticsOpt::kPORDER), OptOrder(0)
+    THaMatrixElement() : iszero(true), pw(3), order(0), v(0), poly(LOpticsOpt::kPORDER), OptOrder(0)
     {
     }
     bool match(const THaMatrixElement& rhs) const;
