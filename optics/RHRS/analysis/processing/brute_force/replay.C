@@ -33,9 +33,9 @@ void replay(TString OutputFile, TString DataBase){
   opt->LoadRawData(t);
   opt->LoadDataBase("../" + DataBase,"-50_-30");
   opt->LoadDataBase("../" + DataBase,"-30_-10");
-  opt->LoadDataBase("../" + DataBaseDataBase,"-10_10");
-  opt->LoadDataBase("../" + DataBaseDataBase,"10_30");
-  opt->LoadDataBase("../" + DataBaseDataBase,"30_50");
+  opt->LoadDataBase("../" + DataBase,"-10_10");
+  opt->LoadDataBase("../" + DataBase,"10_30");
+  opt->LoadDataBase("../" + DataBase,"30_50");
   
   //Define all the variables we want our output tree to have
   double R_tr_n;
