@@ -2,10 +2,11 @@ void xpyp_plot(){
 
   //Macro makes plots to analyze the new theta and phi after optimization
   
-  TString order = "5th";
-  TString range = "all";
-  bool before = true; //Are we doing before optimization plots
+  TString order = "5th";    //Optimization order
+  TString range = "full";   //Range in focal plane
+  bool before = false;      //Are we doing before optimization plots
   bool make_plots = false;
+  bool brute_force = true;  //Are we using brute force method
 
   TString rootfiles = "/home/sean/Grad/Research/APEX/Rootfiles/";
   gStyle->SetPalette(1);
@@ -13,38 +14,44 @@ void xpyp_plot(){
   
   if(before) f = new TFile(rootfiles + "apex_4647.root","read");
   else if(range == "all") f = new TFile(rootfiles + "apex_4647_opt_"+order+"_xfp_full.root","read");
+  else if(brute_force) f = new TFile(rootfiles + "apex_4647_opt_"+order+"_xfp_full_brute.root","read");
   else f = new TFile(rootfiles + "apex_4647_opt_"+order+"_xfp_"+range+".root","read");
-  //else f = new TFile(rootfiles + "apex_4647_opt_sieve_plane_"+order+".root","read");
+
+  
   TTree* t;
   f->GetObject("T",t);
   
   TH2D * xpyp = new TH2D("Tg angles", "", 400, -65, 65, 400, -65, 65);
 
+  //Cuts made for all the plots
   TCut GeneralCut;
   //TCut GeneralCut = "R.tr.n==1 && (R.cer.asum_c>500) && R.s0.nthit==1  && abs(R.tr.tg_dp) < 0.01";
-  if(range == "all") GeneralCut = "R.tr.n==1 && (R.cer.asum_c>500)";
+  if(range == "all" || range == "full") GeneralCut = "R.tr.n==1 && (R.cer.asum_c>500)";
   if(range == "-10_10") GeneralCut = "R.tr.n==1 && (R.cer.asum_c>500) && abs(R.tr.r_x) < 0.10";
+  if(range == "-3_3") GeneralCut = "R.tr.n==1 && (R.cer.asum_c>500) && abs(R.tr.r_x) < 0.03";
   if(range == "-45_-25") GeneralCut = "R.tr.n==1 && (R.cer.asum_c>500) && (R.tr.r_x > -0.45 && R.tr.r_x < -0.25)";
   if(range == "25_45") GeneralCut = "R.tr.n==1 && (R.cer.asum_c>500) && (R.tr.r_x > 0.25 && R.tr.r_x < 0.45)";
-  if(range == "full") GeneralCut = "R.tr.n==1 && (R.cer.asum_c>500) && ((abs(R.tr.r_x) < 0.10) || (R.tr.r_x > 0.25 && R.tr.r_x < 0.45) || (R.tr.r_x > -0.45 && R.tr.r_x < -0.25))";
+  if(range == "-50_-30") GeneralCut = "R.tr.n==1 && (R.cer.asum_c>500) && (R.tr.r_x > -0.30 && R.tr.r_x < -0.10)";
+  //if(range == "full") GeneralCut = "R.tr.n==1 && (R.cer.asum_c>500) && ((abs(R.tr.r_x) < 0.10) || (R.tr.r_x > 0.25 && R.tr.r_x < 0.45) || (R.tr.r_x > -0.45 && R.tr.r_x < -0.25))";
   //GeneralCut = "R.tr.n==1 && (R.cer.asum_c>500) && abs(R.tr.r_x) < 0.03";
 
+
+  //Draw tg theta and phi plots
   TCanvas* c = new TCanvas("c","c",1000,1000);
   t->Draw("R.tr.tg_th*1000:R.tr.tg_ph*1000>>Tg angles",GeneralCut,"colz");
-
-  if(range == "full" || range == "all") xpyp->GetZaxis()->SetRangeUser(0,100);
+  if(range == "full" || range == "all") xpyp->GetZaxis()->SetRangeUser(0,150);
   else xpyp->GetZaxis()->SetRangeUser(0,50);
   if(before) xpyp->SetTitle("Tg x' vs y' Before Opt;Tg #phi (mrad);Tg #theta (mrad)");
   else xpyp->SetTitle("Tg x' vs y' "+order+" Order Opt;Tg #phi (mrad);Tg #theta (mrad)");
 
-
+  /////Add labels for the run number and cuts ////
   TPaveText *pt1 = new TPaveText(0.12,0.78,0.32,0.89,"nbNDC");
   pt1->AddText("Run 4647");
   pt1->AddText("Cerenkov signal sum > 500");
   pt1->AddText("Single track");
-  if(range == "-10_10" || range == "full") pt1->AddText("|x_{fp}| < 0.10 m");
-  if(range == "-45_-25" || range == "full") pt1->AddText("-0.45 m < x_{fp} < -0.25 m");
-  if(range == "25_45" || range == "full") pt1->AddText("0.25 m < x_{fp} < 0.45 m");
+  if(range == "-10_10") pt1->AddText("|x_{fp}| < 0.10 m");
+  if(range == "-45_-25") pt1->AddText("-0.45 m < x_{fp} < -0.25 m");
+  if(range == "25_45") pt1->AddText("0.25 m < x_{fp} < 0.45 m");
   pt1->SetFillColor(0);
 
   TText *text = pt1->GetLineWith("Run");
@@ -52,23 +59,31 @@ void xpyp_plot(){
   text->SetTextFont(23);
   text->SetTextSize(23);
   pt1->Draw("same");
-  
+
+  ///// Set Stats to just show number of events/////
   gStyle->SetOptStat(10);
   TPaveStats *s = (TPaveStats*) gPad->GetPrimitive("stats");
   s->SetX2NDC(0.9);
   s->SetY2NDC(0.9);
   s->SetX1NDC(0.72);
   s->SetY1NDC(0.85);
-  
+
+  ///// Calculate and draw expected hole positions /////
   double sieve_ph[27], sieve_th[17];
 
+  //Commented numbers are for old raster calibration
+  double center_ph = 12.5;//8.64
+  double center_th = 3.5;//9.89
+  double space_th = 7.254;
+  double space_ph = 2.99;
+  
   for(int i = 0; i<27; i++){
-    if(i < 25) sieve_ph[i] = (14-i)*2.99 - 8.64;
-    else sieve_ph[i] = sieve_ph[24] - (i-24)*2.99*2;
+    if(i < 25) sieve_ph[i] = (14-i)*space_ph - center_ph;
+    else sieve_ph[i] = sieve_ph[24] - (i-24)*space_ph*2;
   }
   
   for(int j = 0; j<17; j++){
-    sieve_th[j] = (j-8)*7.254 + 9.89;
+    sieve_th[j] = (j-8)*space_th + center_th;
   }
   
   TLine *l[27];
@@ -91,41 +106,31 @@ void xpyp_plot(){
   leg->AddEntry(l[10], "Exp Hole Positions", "l");
   leg->Draw("same");
 
+  ///// Draw labels for column and row number ///////
+  for(int n_col = 4; n_col <=19; n_col++){
+    if(n_col%2 != 0) continue;
+    TText *text = new TText;
+    text -> SetTextFont(1);
+    text -> SetTextSize(0.02);
+    text->SetTextAlign(22);
+    text -> DrawText(sieve_ph[n_col], 67, Form("%d",n_col));
+  }
+
+  for(int n_row = 3; n_row <=13; n_row++){
+    TText *text = new TText;
+    text -> SetTextFont(1);
+    text -> SetTextSize(0.02);
+    text->SetTextAlign(22);
+    text -> DrawText(-60,sieve_th[n_row], Form("%d",n_row));
+  }
+
   if(make_plots){
     if(before) c->SaveAs("plots/tg_th_ph/xpyp_before_opt_xfp_"+range+".gif");
+    else if(brute_force) c->SaveAs("plots/tg_th_ph/xpyp_opt_"+order+"_xfp_full_brute.gif");
     else c->SaveAs("plots/tg_th_ph/xpyp_opt_"+order+"_xfp_"+range+".gif");
   }
   
-  TH1D * y = new TH1D("y", "", 300, -3, 2);
-  
-  TCanvas *c3 = new TCanvas("c3","",800,600);
-  t->Draw("Sieve.y*100>>y",GeneralCut && "(-0.15 < Sieve.x*100) && (0.15 >  Sieve.x*100)","hist");
-  y->Scale(1.0/y->GetBinContent(y->GetMaximumBin()));
-  y->SetTitle(order+" Order Opt y Projection");
-  y->GetXaxis()->SetTitle("Sieve y (cm)");
-  y->GetYaxis()->SetTitle("Entries/Max");
-
-  TPaveText *pt2 = new TPaveText(0.12,0.78,0.32,0.89,"nbNDC");
-  pt2->AddText("Run 4647");
-  pt2->AddText("Cerenkov signal sum > 500");
-  pt2->AddText("Single track");
-  if(range == "-10_10" || range == "full") pt2->AddText("|x_{fp}| < 0.10 m");
-  if(range == "-45_-25" || range == "full") pt2->AddText("-0.45 m < x_{fp} < -0.25 m");
-  if(range == "25_45" || range == "full") pt2->AddText("0.25 m < x_{fp} < 0.45 m");
-  pt2->AddText("-15 cm < x < 15 cm");
-  pt2->SetY1(0.70);
-  pt2->SetX2(0.35);
-  pt2->SetFillColor(0);
-
-  TText *text2 = pt2->GetLineWith("Run");
-  text2->SetTextColor(kRed);
-  text2->SetTextFont(23);
-  text2->SetTextSize(23);
-  
-  pt2->Draw("same");
-  
-  if(make_plots) c3->SaveAs("plots/y_projection_opt_"+order+"_xfp_"+range+".gif");
-  
+  //// Plots for x_fp ///
   /*
   TH1D * x_fp = new TH1D("x_fp", "", 500, -0.7, 0.7);
   
@@ -152,8 +157,8 @@ void xpyp_plot(){
 
   //c2->SaveAs("plots/x_fp.gif");
   */
-  /*
-  TH2D * xy = new TH2D("xy", "", 500, 6, 13, 500, 10, 17);
+  
+  TH2D * xy = new TH2D("xy", "", 500, -3, 0, 500, 1, 4);
 
   TCanvas *c4 = new TCanvas("c4","",800,600);
   t->Draw("Rrb.y*1000:Rrb.x*1000>>xy",GeneralCut,"colz");
@@ -161,9 +166,11 @@ void xpyp_plot(){
   xy->SetTitle("Raster Scan New Calib");
   xy->GetXaxis()->SetTitle("x (mm)");
   xy->GetYaxis()->SetTitle("y (mm)");
-  */
+  
 
 
+
+  ///Positions for sieve plane/////
   double sieve_y[27], sieve_x[17];
 
   for(int i = 0; i<27; i++){
@@ -175,6 +182,10 @@ void xpyp_plot(){
     sieve_x[j] = -(j-8)*0.575 - 0.0155;
   }
 
+
+  
+  //// Same plots but for sieve plane///
+  /*
   TCanvas *c5 = new TCanvas("c5","",1000,1000);
   TH2D * xy_sieve = new TH2D("xy_sieve", "", 400, -5, 5, 400, -6, 4);
   t->Draw("Sieve.x*100:Sieve.y*100>>xy_sieve",GeneralCut,"colz");
@@ -190,12 +201,17 @@ void xpyp_plot(){
   s1->SetX1NDC(0.72);
   s1->SetY1NDC(0.85);
   
-
+  
   TLine* lx1 = new TLine(0.75,-6,0.75,4);
-  TLine* lx2 = new TLine(0.85,-6,0.85,4);
-  TLine* ly1 = new TLine(-5,-0.15,5,-0.15);
-  TLine* ly2 = new TLine(-5,.15,5,0.15);
+  TLine* lx2 = new TLine(0.85,-6,0.85,4);  
+  //TLine* ly1 = new TLine(-5,-0.15,5,-0.15);
+  //TLine* ly2 = new TLine(-5,.15,5,0.15);
 
+  TLine* ly1 = new TLine(-5,-2.5,5,-2.5);
+  TLine* ly2 = new TLine(-5,-2.1,5,-2.1);
+  
+
+  
   lx1->SetLineColor(2);
   lx2->SetLineColor(2);
   ly1->SetLineColor(2);
@@ -214,6 +230,7 @@ void xpyp_plot(){
 
   TLine *l3[27];
   TLine *l4[17];
+  */
   /*
   for(int i=4;i<20;i++){
       l3[i] = new TLine(sieve_y[i], -6, sieve_y[i], 4);
@@ -228,7 +245,7 @@ void xpyp_plot(){
   }  
   */
   
-  
+  /*
   //leg->Draw("same");
   leg2->Draw("same");
   pt1->Draw("same");
@@ -237,4 +254,5 @@ void xpyp_plot(){
     if(before) c5->SaveAs("plots/sieve_xy/xy_before_opt_xfp_"+range+".gif");
     else c5->SaveAs("plots/sieve_xy/xy_opt_"+order+"_xfp_"+range+".gif");
   }
+  */
 }
