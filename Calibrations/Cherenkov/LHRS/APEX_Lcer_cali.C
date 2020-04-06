@@ -81,7 +81,7 @@ void APEX_Lcer_cali()
   myfile << setiosflags(ios::left) << setw(2) << "#" << "   ";
   myfile << setiosflags(ios::left) << setw(5) << "gain" << endl;
 
-  Double_t fscale=100;
+  Double_t fscale=50;
   TCanvas *c2 = new TCanvas("c2","c2",1200,1200);
   c2->Divide(5,2);
   for(i=0;i<10;i++){
@@ -89,17 +89,22 @@ void APEX_Lcer_cali()
     TH1F *tt2 = new TH1F("tt2",Form("Lcera_p_%d",i+1),300,-100,1200);
     T->Draw(Form("L.cer.a_p[%d]>>tt2",i),tritype);
 
-    tt2->GetXaxis()->SetRangeUser(0,110);
+    tt2->GetXaxis()->SetRangeUser(0,200); // 110
     Int_t min_bin_no = tt2->GetMinimumBin();
     Double_t min_bin = tt2->GetXaxis()->GetBinCenter(min_bin_no);
     tt2->GetXaxis()->SetRangeUser(-100,1200);
 
+    cout << "Min bin = " << min_bin << " with bin_no " << min_bin_no << endl;
+    
     TF1 *f1 = new TF1("f1", "gaus",min_bin, min_bin+4*fscale);
     tt2->Fit("f1", "Rq");
 
     min = f1->GetParameter(1) - 1*f1->GetParameter(2);
     max = f1->GetParameter(1) + 1*f1->GetParameter(2);
 
+    cout << "min = " << min << ", max = " << max << endl;
+    cout << "Mean = " << f1->GetParameter(1) << ", width = " << f1->GetParameter(2) << endl;
+    
     tt2->Fit("gaus","Q","",min,max);
     TF1* gaus1 = tt2->GetFunction("gaus");
 
