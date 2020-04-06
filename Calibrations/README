@@ -1,4 +1,0 @@
-Scripts used for calibration of various detector systems
-
-
-- Need to set ROOTFILE_DIR in file_def.h to specify directory where rootfiles are stored 

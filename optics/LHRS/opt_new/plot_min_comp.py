@@ -5,7 +5,7 @@
 # Python Script to plot rms values (for theta, phi, y)
 # for different minimisers and algorithms
 #  John Williamson
-#  21/1/2019
+#  21/1/2020
 #######################################################
 
 

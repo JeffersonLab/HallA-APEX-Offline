@@ -4,5 +4,63 @@ Scripts designed to replay and calculate optics matrix elements as well as plot 
 apex_ME_calc.C: Script recalculates ME for a run (for an input DB) and saves results in a TTree (ME for each event and FP and target parameters (and PID elements necessary)
 
 
-corr_plot.c: Accepts input TTree and plots various FP and target variables.
+
+
+
+
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Loose description of how scripts work (input/ output)
+
+
+all_run_plots()  ->  online_plots(DB_name, runnum) -> corr_select(DB_name, runnum, col, row)
+-> corr_plot(DB_name, Tree, runnumber, col, row);
+
+
+
+void all_run_plots()
+
+- goes through run_info.txt and plots the various combos of DB, cutfiles, runnnumbers and foils. Reads lines from run_info into struct defined in plot_parameters.h. For each line it then runs online_plots.
+
+       - run_info.txt
+       	 contains DB_name, Cut_file_name, run_number and foil_no. 
+	 (used to input various runs and files)
+
+       - plot_parameters.h
+       	 contains Run_spec struct which run_info.txt lines are read in to
+
+
+
+void online_plots(TString DB_name, Int_t runnum)
+
+- online plots takes DB_name and runnum goes through various inputs for corr_plot. Loops over the different combinations of holes, rows and columns available from cuts root file and inputs them to corr_plot.C
+- also
+
+
+void corr_select(TString DB_name, Int_t runnumber = 0, Int_t colin = -1, Int_t r  c7->Print("test_histo.pdf");owin = -1)
+
+- corr_select takes DB_name, runnum, column and row number. Script opens root cut file (currently taken from SoureRootFile) and loads cuts relevant to given column and row numbers. Script then loads root file from DB_name and runnum info and passes the TTree with given cuts to corr_plot.
+
+
+
+
+void corr_plot(TString DB_name, TChain* T, Int_t runnumber = 4179, Int_t col = -1, Int_t row = -1)
+
+- Accepts input TTree and plots various FP and target variables. Also saves these to public_html with name based on DB and runnum.
+
+
+
+
+~~~~~~~~~~~~
+
+Need to re-write how cuts are read in from cut file while tree is loaded form reaply file. Currently ROOT wants to save Tree in Cut file (undesirable).
+
+
+New structure:
+
+all_run_plots.C: takes info from Run_info.txt (DB, cut_file (for graphical cuts) and foil number) and runs run_process.C for these parameters.
+
+run_process.C: This goes through all variations of dp cuts (can be changed to whole range or 'slices' of momentum), hole cuts, column cuts and row cuts as well as no hole cuts all and uses the Corr_plotter class to plot the 2D correlation histograms and then move them to a relevanlty named location. 
 

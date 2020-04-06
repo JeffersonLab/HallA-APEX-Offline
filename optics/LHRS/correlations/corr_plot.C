@@ -20,10 +20,13 @@
 #include "file_def.h"
 #include "TSystem.h"
 #include <iostream>
+#include "plot_parameters.h"
+
+//void corr_plot(TString DB_name, TChain* T, Int_t runnumber = 4179, Int_t col = -1, Int_t row = -1){
+
+//void corr_plot(DB_info DB_run, event_info event = {4179,1,-1,-1}){
 
 void corr_plot(TString DB_name, TChain* T, Int_t runnumber = 4179, Int_t col = -1, Int_t row = -1){
-
-  
 
   gROOT->SetBatch(kTRUE);
 
@@ -68,7 +71,7 @@ void corr_plot(TString DB_name, TChain* T, Int_t runnumber = 4179, Int_t col = -
   Double_t zreact_l = -0.5;
 
 
-  if(runnumber == 4179){
+  // if(runnumber == 4179){
 
     xfp_h = 0.8;
     xfp_l = -0.8;
@@ -82,8 +85,25 @@ void corr_plot(TString DB_name, TChain* T, Int_t runnumber = 4179, Int_t col = -
     phfp_h = 50;
     phfp_l = -50;
 
-    ytg_h = 0.04;
-    ytg_l = 0.00;
+    if(runnumber == 4766){
+      // V1
+      ytg_h = 0.04;
+      ytg_l = 0.00;
+    }
+    else if(runnumber == 4768){
+      // V2
+      ytg_h = 0.02;
+      ytg_l = -0.02;
+    }
+    else if(runnumber == 4769){
+      // V3
+      ytg_h = 0.00;
+      ytg_l = -0.04;
+    }
+    else{
+      ytg_h = 0.05;
+      ytg_l = -0.05;
+    }
 
     thtg_h = 70;
     thtg_l = -50;
@@ -95,10 +115,10 @@ void corr_plot(TString DB_name, TChain* T, Int_t runnumber = 4179, Int_t col = -
     dptg_l = -0.05;
     
 
-  }
+  // }
 
 
-  
+
   // plot theta_target against focal plane parameters
 
   
@@ -107,55 +127,55 @@ void corr_plot(TString DB_name, TChain* T, Int_t runnumber = 4179, Int_t col = -
 
 
   c1->cd(1);
-  TH2D* Thtgt_v_ThFp = new TH2D("Thtgt_v_ThFp","Thtgt_v_ThFp",300,thfp_l,thfp_h,300,thtg_l,thtg_h);
+  TH2D* Thtgt_v_ThFp = new TH2D("Thtgt_v_ThFp","\\theta_{tg} v \\theta_{FP}",300,thfp_l,thfp_h,300,thtg_l,thtg_h);
   
   Thtgt_v_ThFp->GetYaxis()->SetTitleOffset(1.0);
   Thtgt_v_ThFp->GetXaxis()->SetTitleSize(0.05);
   Thtgt_v_ThFp->GetYaxis()->SetTitleSize(0.05);
-  Thtgt_v_ThFp->GetXaxis()->SetTitle("theta (FP)");
-  Thtgt_v_ThFp->GetYaxis()->SetTitle("theta (trgt)");
+  Thtgt_v_ThFp->GetXaxis()->SetTitle("\\theta_{FP}");
+  Thtgt_v_ThFp->GetYaxis()->SetTitle("\\theta_{tg}");
 
   
-  T->Draw("L.tr.tg_th*1000:L.tr.r_th*1000>>Thtgt_v_ThFp","","colz");
+  T->Draw("L.tr.tg_th*1000:L.tr.r_th*1000>>Thtgt_v_ThFp",PID_cuts + GeneralSieveCut,"colz");
 
   
   c1->cd(2);
-  TH2D* Thtgt_v_PhFp = new TH2D("Thtgt_v_PhFp","Thtgt_v_PhFp",300,phfp_l,phfp_h,300,thtg_l,thtg_h);
+  TH2D* Thtgt_v_PhFp = new TH2D("Thtgt_v_PhFp","\\theta_{tg} v \\phi_{FP}",300,phfp_l,phfp_h,300,thtg_l,thtg_h);
   
   Thtgt_v_PhFp->GetYaxis()->SetTitleOffset(1.0);
   Thtgt_v_PhFp->GetXaxis()->SetTitleSize(0.05);
   Thtgt_v_PhFp->GetYaxis()->SetTitleSize(0.05);
-  Thtgt_v_PhFp->GetXaxis()->SetTitle("phi (FP)");
-  Thtgt_v_PhFp->GetYaxis()->SetTitle("theta (trgt)");
+  Thtgt_v_PhFp->GetXaxis()->SetTitle("\\phi_{FP}");
+  Thtgt_v_PhFp->GetYaxis()->SetTitle("\\theta_{tg}");
 
   
-  T->Draw("L.tr.tg_th*1000:L.tr.r_ph*1000>>Thtgt_v_PhFp","","colz");
+  T->Draw("L.tr.tg_th*1000:L.tr.r_ph*1000>>Thtgt_v_PhFp",PID_cuts + GeneralSieveCut,"colz");
 
 
   c1->cd(3);
-  TH2D* Thtgt_v_xFp = new TH2D("Thtgt_v_xFp","Thtgt_v_xFp",300,xfp_l,xfp_h,300,thtg_l,thtg_h);
+  TH2D* Thtgt_v_xFp = new TH2D("Thtgt_v_xFp","\\theta_{tg} v x_{FP}",300,xfp_l,xfp_h,300,thtg_l,thtg_h);
   
   Thtgt_v_xFp->GetYaxis()->SetTitleOffset(1.0);
   Thtgt_v_xFp->GetXaxis()->SetTitleSize(0.05);
   Thtgt_v_xFp->GetYaxis()->SetTitleSize(0.05);
-  Thtgt_v_xFp->GetXaxis()->SetTitle("x (FP)");
-  Thtgt_v_xFp->GetYaxis()->SetTitle("theta (trgt)");
+  Thtgt_v_xFp->GetXaxis()->SetTitle("x_{FP}");
+  Thtgt_v_xFp->GetYaxis()->SetTitle("\\theta_{tg}");
 
   
-  T->Draw("L.tr.tg_th*1000:L.tr.r_x>>Thtgt_v_xFp","","colz");
+  T->Draw("L.tr.tg_th*1000:L.tr.r_x>>Thtgt_v_xFp",PID_cuts + GeneralSieveCut,"colz");
 
 
   c1->cd(4);
-  TH2D* Thtgt_v_yFp = new TH2D("Thtgt_v_yFp","Thtgt_v_yFp",300,yfp_l,yfp_h,300,thtg_l,thtg_h);
+  TH2D* Thtgt_v_yFp = new TH2D("Thtgt_v_yFp","\\theta_{tg} v y_{FP}",300,yfp_l,yfp_h,300,thtg_l,thtg_h);
   
   Thtgt_v_yFp->GetYaxis()->SetTitleOffset(1.0);
   Thtgt_v_yFp->GetXaxis()->SetTitleSize(0.05);
   Thtgt_v_yFp->GetYaxis()->SetTitleSize(0.05);
-  Thtgt_v_yFp->GetXaxis()->SetTitle("y (FP)");
-  Thtgt_v_yFp->GetYaxis()->SetTitle("theta (trgt)");
+  Thtgt_v_yFp->GetXaxis()->SetTitle("y_{FP}");
+  Thtgt_v_yFp->GetYaxis()->SetTitle("\\theta_{tg}");
 
   
-  T->Draw("L.tr.tg_th*1000:L.tr.r_y>>Thtgt_v_yFp","","colz");
+  T->Draw("L.tr.tg_th*1000:L.tr.r_y>>Thtgt_v_yFp",PID_cuts + GeneralSieveCut,"colz");
 
 
   // plot phi_target against focal plane parameters
@@ -165,55 +185,55 @@ void corr_plot(TString DB_name, TChain* T, Int_t runnumber = 4179, Int_t col = -
 
 
   c2->cd(1);
-  TH2D* Phtgt_v_ThFp = new TH2D("Phtgt_v_ThFp","Phtgt_v_ThFp",300,thfp_l,thfp_h,300,phtg_l,phtg_h);
+  TH2D* Phtgt_v_ThFp = new TH2D("Phtgt_v_ThFp","\\phi_{tg} v \\theta_{FP}",300,thfp_l,thfp_h,300,phtg_l,phtg_h);
   
   Phtgt_v_ThFp->GetYaxis()->SetTitleOffset(1.0);
   Phtgt_v_ThFp->GetXaxis()->SetTitleSize(0.05);
   Phtgt_v_ThFp->GetYaxis()->SetTitleSize(0.05);
-  Phtgt_v_ThFp->GetXaxis()->SetTitle("theta (FP)");
-  Phtgt_v_ThFp->GetYaxis()->SetTitle("phi (trgt)");
+  Phtgt_v_ThFp->GetXaxis()->SetTitle("\\theta_{FP}");
+  Phtgt_v_ThFp->GetYaxis()->SetTitle("\\phi_{tg}");
 
   
-  T->Draw("L.tr.tg_ph*1000:L.tr.r_th*1000>>Phtgt_v_ThFp","","colz");
+  T->Draw("L.tr.tg_ph*1000:L.tr.r_th*1000>>Phtgt_v_ThFp",PID_cuts + GeneralSieveCut,"colz");
 
   
   c2->cd(2);
-  TH2D* Phtgt_v_PhFp = new TH2D("Phtgt_v_PhFp","Phtgt_v_PhFp",300,phfp_l,phfp_h,300,phtg_l,phtg_h);
+  TH2D* Phtgt_v_PhFp = new TH2D("Phtgt_v_PhFp","\\phi_{tg} v \\phi_{FP}",300,phfp_l,phfp_h,300,phtg_l,phtg_h);
   
   Phtgt_v_PhFp->GetYaxis()->SetTitleOffset(1.0);
   Phtgt_v_PhFp->GetXaxis()->SetTitleSize(0.05);
   Phtgt_v_PhFp->GetYaxis()->SetTitleSize(0.05);
-  Phtgt_v_PhFp->GetXaxis()->SetTitle("phi (FP)");
-  Phtgt_v_PhFp->GetYaxis()->SetTitle("phi (trgt)");
+  Phtgt_v_PhFp->GetXaxis()->SetTitle("\\phi_{FP}");
+  Phtgt_v_PhFp->GetYaxis()->SetTitle("\\phi_{tg}");
 
   
-  T->Draw("L.tr.tg_ph*1000:L.tr.r_ph*1000>>Phtgt_v_PhFp","","colz");
+  T->Draw("L.tr.tg_ph*1000:L.tr.r_ph*1000>>Phtgt_v_PhFp",PID_cuts + GeneralSieveCut,"colz");
 
 
   c2->cd(3);
-  TH2D* Phtgt_v_xFp = new TH2D("Phtgt_v_xFp","Phtgt_v_xFp",300,xfp_l,xfp_h,300,phtg_l,phtg_h);
+  TH2D* Phtgt_v_xFp = new TH2D("Phtgt_v_xFp","\\phi_{tg} v x_{FP}",300,xfp_l,xfp_h,300,phtg_l,phtg_h);
   
   Phtgt_v_xFp->GetYaxis()->SetTitleOffset(1.0);
   Phtgt_v_xFp->GetXaxis()->SetTitleSize(0.05);
   Phtgt_v_xFp->GetYaxis()->SetTitleSize(0.05);
-  Phtgt_v_xFp->GetXaxis()->SetTitle("x (FP)");
-  Phtgt_v_xFp->GetYaxis()->SetTitle("phi (trgt)");
+  Phtgt_v_xFp->GetXaxis()->SetTitle("x_{FP}");
+  Phtgt_v_xFp->GetYaxis()->SetTitle("\\phi_{tg}");
 
   
-  T->Draw("L.tr.tg_ph*1000:L.tr.r_x>>Phtgt_v_xFp","","colz");
+  T->Draw("L.tr.tg_ph*1000:L.tr.r_x>>Phtgt_v_xFp",PID_cuts + GeneralSieveCut,"colz");
 
 
   c2->cd(4);
-  TH2D* Phtgt_v_yFp = new TH2D("Phtgt_v_yFp","Phtgt_v_yFp",300,yfp_l,yfp_h,300,phtg_l,phtg_h);
+  TH2D* Phtgt_v_yFp = new TH2D("Phtgt_v_yFp","\\phi_{tg} v y_{FP}",300,yfp_l,yfp_h,300,phtg_l,phtg_h);
   
   Phtgt_v_yFp->GetYaxis()->SetTitleOffset(1.0);
   Phtgt_v_yFp->GetXaxis()->SetTitleSize(0.05);
   Phtgt_v_yFp->GetYaxis()->SetTitleSize(0.05);
-  Phtgt_v_yFp->GetXaxis()->SetTitle("y (FP)");
-  Phtgt_v_yFp->GetYaxis()->SetTitle("phi (trgt)");
+  Phtgt_v_yFp->GetXaxis()->SetTitle("y_{FP}");
+  Phtgt_v_yFp->GetYaxis()->SetTitle("\\phi_{tg}");
 
   
-  T->Draw("L.tr.tg_ph*1000:L.tr.r_y>>Phtgt_v_yFp","","colz");
+  T->Draw("L.tr.tg_ph*1000:L.tr.r_y>>Phtgt_v_yFp",PID_cuts + GeneralSieveCut,"colz");
 
 
   // plot y_target against focal plane parameters
@@ -223,55 +243,55 @@ void corr_plot(TString DB_name, TChain* T, Int_t runnumber = 4179, Int_t col = -
 
 
   c3->cd(1);
-  TH2D* ytgt_v_ThFp = new TH2D("ytgt_v_ThFp","ytgt_v_ThFp",300,thfp_l,thfp_h,300,0.00,0.04);
+  TH2D* ytgt_v_ThFp = new TH2D("ytgt_v_ThFp","y_{tg} v \\theta_{FP}",300,thfp_l,thfp_h,300,ytg_l,ytg_h);
   
   ytgt_v_ThFp->GetYaxis()->SetTitleOffset(1.0);
   ytgt_v_ThFp->GetXaxis()->SetTitleSize(0.05);
   ytgt_v_ThFp->GetYaxis()->SetTitleSize(0.05);
-  ytgt_v_ThFp->GetXaxis()->SetTitle("theta (FP)");
-  ytgt_v_ThFp->GetYaxis()->SetTitle("y (trgt)");
+  ytgt_v_ThFp->GetXaxis()->SetTitle("\\theta_{FP}");
+  ytgt_v_ThFp->GetYaxis()->SetTitle("y_{tg}");
 
   
-  T->Draw("L.tr.tg_y:L.tr.r_th*1000>>ytgt_v_ThFp","","colz");
+  T->Draw("L.tr.tg_y:L.tr.r_th*1000>>ytgt_v_ThFp",PID_cuts + GeneralSieveCut,"colz");
 
   
   c3->cd(2);
-  TH2D* ytgt_v_PhFp = new TH2D("ytgt_v_PhFp","ytgt_v_PhFp",300,phfp_l,phfp_h,300,0.0,0.04);
+  TH2D* ytgt_v_PhFp = new TH2D("ytgt_v_PhFp","y_{tg} v \\phi_{FP}",300,phfp_l,phfp_h,300,ytg_l,ytg_h);
   
   ytgt_v_PhFp->GetYaxis()->SetTitleOffset(1.0);
   ytgt_v_PhFp->GetXaxis()->SetTitleSize(0.05);
   ytgt_v_PhFp->GetYaxis()->SetTitleSize(0.05);
-  ytgt_v_PhFp->GetXaxis()->SetTitle("phi (FP)");
-  ytgt_v_PhFp->GetYaxis()->SetTitle("y (trgt)");
+  ytgt_v_PhFp->GetXaxis()->SetTitle("\\phi_{FP}");
+  ytgt_v_PhFp->GetYaxis()->SetTitle("y_{tg}");
 
   
-  T->Draw("L.tr.tg_y:L.tr.r_ph*1000>>ytgt_v_PhFp","","colz");
+  T->Draw("L.tr.tg_y:L.tr.r_ph*1000>>ytgt_v_PhFp",PID_cuts + GeneralSieveCut,"colz");
 
 
   c3->cd(3);
-  TH2D* ytgt_v_xFp = new TH2D("ytgt_v_xFp","ytgt_v_xFp",300,xfp_l,xfp_h,300,0.0,0.04);
+  TH2D* ytgt_v_xFp = new TH2D("ytgt_v_xFp","y_{tg} v x_{FP}",300,xfp_l,xfp_h,300,ytg_l,ytg_h);
   
   ytgt_v_xFp->GetYaxis()->SetTitleOffset(1.0);
   ytgt_v_xFp->GetXaxis()->SetTitleSize(0.05);
   ytgt_v_xFp->GetYaxis()->SetTitleSize(0.05);
-  ytgt_v_xFp->GetXaxis()->SetTitle("x (FP)");
-  ytgt_v_xFp->GetYaxis()->SetTitle("y (trgt)");
+  ytgt_v_xFp->GetXaxis()->SetTitle("x_{FP}");
+  ytgt_v_xFp->GetYaxis()->SetTitle("y_{tg}");
 
   
-  T->Draw("L.tr.tg_y:L.tr.r_x>>ytgt_v_xFp","","colz");
+  T->Draw("L.tr.tg_y:L.tr.r_x>>ytgt_v_xFp",PID_cuts + GeneralSieveCut,"colz");
 
 
   c3->cd(4);
-  TH2D* ytgt_v_yFp = new TH2D("ytgt_v_yFp","ytgt_v_yFp",300,yfp_l,yfp_h,300,0.0,0.04);
+  TH2D* ytgt_v_yFp = new TH2D("ytgt_v_yFp","y_{tg} v y_{FP}",300,yfp_l,yfp_h,300,ytg_l,ytg_h);
   
   ytgt_v_yFp->GetYaxis()->SetTitleOffset(1.0);
   ytgt_v_yFp->GetXaxis()->SetTitleSize(0.05);
   ytgt_v_yFp->GetYaxis()->SetTitleSize(0.05);
-  ytgt_v_yFp->GetXaxis()->SetTitle("y (FP)");
-  ytgt_v_yFp->GetYaxis()->SetTitle("y (trgt)");
+  ytgt_v_yFp->GetXaxis()->SetTitle("y_{FP}");
+  ytgt_v_yFp->GetYaxis()->SetTitle("y_{tg}");
 
   
-  T->Draw("L.tr.tg_y:L.tr.r_y>>ytgt_v_yFp","","colz");
+  T->Draw("L.tr.tg_y:L.tr.r_y>>ytgt_v_yFp",PID_cuts + GeneralSieveCut,"colz");
   
 
   
@@ -284,55 +304,55 @@ void corr_plot(TString DB_name, TChain* T, Int_t runnumber = 4179, Int_t col = -
 
 
   c4->cd(1);
-  TH2D* dptgt_v_ThFp = new TH2D("dptgt_v_ThFp","dptgt_v_ThFp",300,thfp_l,thfp_h,300,-0.05,0.05);
+  TH2D* dptgt_v_ThFp = new TH2D("dptgt_v_ThFp","\\deltap_{tg} v \\theta_{FP}",300,thfp_l,thfp_h,300,-0.05,0.05);
   
   dptgt_v_ThFp->GetYaxis()->SetTitleOffset(1.0);
   dptgt_v_ThFp->GetXaxis()->SetTitleSize(0.05);
   dptgt_v_ThFp->GetYaxis()->SetTitleSize(0.05);
-  dptgt_v_ThFp->GetXaxis()->SetTitle("theta (FP)");
-  dptgt_v_ThFp->GetYaxis()->SetTitle("dp (trgt)");
+  dptgt_v_ThFp->GetXaxis()->SetTitle("\\theta_{FP}");
+  dptgt_v_ThFp->GetYaxis()->SetTitle("\\deltap_{tg}");
 
   
-  T->Draw("L.tr.tg_dp:L.tr.r_th*1000>>dptgt_v_ThFp","","colz");
+  T->Draw("L.tr.tg_dp:L.tr.r_th*1000>>dptgt_v_ThFp",PID_cuts + GeneralSieveCut,"colz");
 
   
   c4->cd(2);
-  TH2D* dptgt_v_PhFp = new TH2D("dptgt_v_PhFp","dptgt_v_PhFp",300,phfp_l,phfp_h,300,-0.05,0.05);
+  TH2D* dptgt_v_PhFp = new TH2D("dptgt_v_PhFp","\\deltap_{tg} v \\phi_{FP}",300,phfp_l,phfp_h,300,-0.05,0.05);
   
   dptgt_v_PhFp->GetYaxis()->SetTitleOffset(1.0);
   dptgt_v_PhFp->GetXaxis()->SetTitleSize(0.05);
   dptgt_v_PhFp->GetYaxis()->SetTitleSize(0.05);
-  dptgt_v_PhFp->GetXaxis()->SetTitle("phi (FP)");
-  dptgt_v_PhFp->GetYaxis()->SetTitle("dp (trgt)");
+  dptgt_v_PhFp->GetXaxis()->SetTitle("\\phi_{FP}");
+  dptgt_v_PhFp->GetYaxis()->SetTitle("\\deltap_{tg}");
 
   
-  T->Draw("L.tr.tg_dp:L.tr.r_ph*1000>>dptgt_v_PhFp","","colz");
+  T->Draw("L.tr.tg_dp:L.tr.r_ph*1000>>dptgt_v_PhFp",PID_cuts + GeneralSieveCut,"colz");
 
 
   c4->cd(3);
-  TH2D* dptgt_v_xFp = new TH2D("dptgt_v_xFp","dptgt_v_xFp",300,xfp_l,xfp_h,300,-0.05,0.05);
+  TH2D* dptgt_v_xFp = new TH2D("dptgt_v_xFp","\\deltap_{tg} v x_{FP}",300,xfp_l,xfp_h,300,-0.05,0.05);
   
   dptgt_v_xFp->GetYaxis()->SetTitleOffset(1.0);
   dptgt_v_xFp->GetXaxis()->SetTitleSize(0.05);
   dptgt_v_xFp->GetYaxis()->SetTitleSize(0.05);
-  dptgt_v_xFp->GetXaxis()->SetTitle("x (FP)");
-  dptgt_v_xFp->GetYaxis()->SetTitle("dp (trgt)");
+  dptgt_v_xFp->GetXaxis()->SetTitle("x_{FP}");
+  dptgt_v_xFp->GetYaxis()->SetTitle("\\deltap_{tg}");
 
   
-  T->Draw("L.tr.tg_dp:L.tr.r_x>>dptgt_v_xFp","","colz");
+  T->Draw("L.tr.tg_dp:L.tr.r_x>>dptgt_v_xFp",PID_cuts + GeneralSieveCut,"colz");
 
 
   c4->cd(4);
-  TH2D* dptgt_v_yFp = new TH2D("dptgt_v_yFp","dptgt_v_yFp",300,-0.05,0.05,300,-0.05,0.05);
+  TH2D* dptgt_v_yFp = new TH2D("dptgt_v_yFp","\\deltap_{tg} v y_{FP}",300,-0.05,0.05,300,-0.05,0.05);
   
   dptgt_v_yFp->GetYaxis()->SetTitleOffset(1.0);
   dptgt_v_yFp->GetXaxis()->SetTitleSize(0.05);
   dptgt_v_yFp->GetYaxis()->SetTitleSize(0.05);
-  dptgt_v_yFp->GetXaxis()->SetTitle("y (FP)");
-  dptgt_v_yFp->GetYaxis()->SetTitle("dp (trgt)");
+  dptgt_v_yFp->GetXaxis()->SetTitle("y_{FP}");
+  dptgt_v_yFp->GetYaxis()->SetTitle("\\deltap_{tg}");
 
   
-  T->Draw("L.tr.tg_dp:L.tr.r_y>>dptgt_v_yFp","","colz");
+  T->Draw("L.tr.tg_dp:L.tr.r_y>>dptgt_v_yFp",PID_cuts + GeneralSieveCut,"colz");
 
 
 
@@ -344,55 +364,55 @@ void corr_plot(TString DB_name, TChain* T, Int_t runnumber = 4179, Int_t col = -
 
 
   /* c5->cd(1); */
-  /* TH2D* xtgt_v_ThFp = new TH2D("xtgt_v_ThFp","xtgt_v_ThFp",100,-50,70,100,-0.05,0.05); */
+  /* TH2D* xtgt_v_ThFp = new TH2D("xtgt_v_ThFp","xtgt_v_\\theta_{FP}",100,-50,70,100,-0.05,0.05); */
   
   /* xtgt_v_ThFp->GetYaxis()->SetTitleOffset(1.0); */
   /* xtgt_v_ThFp->GetXaxis()->SetTitleSize(0.05); */
   /* xtgt_v_ThFp->GetYaxis()->SetTitleSize(0.05); */
   /* xtgt_v_ThFp->GetXaxis()->SetTitle("theta (FP)"); */
-  /* xtgt_v_ThFp->GetYaxis()->SetTitle("dp (trgt)"); */
+  /* xtgt_v_ThFp->GetYaxis()->SetTitle("\\deltap_{tg}"); */
 
   
-  /* T->Draw("L.tr.tg_dp:L.tr.r_th*1000>>xtgt_v_ThFp","","colz"); */
+  /* T->Draw("L.tr.tg_dp:L.tr.r_th*1000>>xtgt_v_ThFp",PID_cuts + GeneralSieveCut,"colz"); */
 
   
   /* c5->cd(2); */
-  /* TH2D* xtgt_v_PhFp = new TH2D("xtgt_v_PhFp","xtgt_v_PhFp",100,phfp_l,phfp_h,100,-0.05,0.05); */
+  /* TH2D* xtgt_v_PhFp = new TH2D("xtgt_v_PhFp","xtgt_v_\\phi_{FP}",100,phfp_l,phfp_h,100,-0.05,0.05); */
   
   /* xtgt_v_PhFp->GetYaxis()->SetTitleOffset(1.0); */
   /* xtgt_v_PhFp->GetXaxis()->SetTitleSize(0.05); */
   /* xtgt_v_PhFp->GetYaxis()->SetTitleSize(0.05); */
-  /* xtgt_v_PhFp->GetXaxis()->SetTitle("phi (FP)"); */
-  /* xtgt_v_PhFp->GetYaxis()->SetTitle("dp (trgt)"); */
+  /* xtgt_v_PhFp->GetXaxis()->SetTitle("\\phi_{FP}"); */
+  /* xtgt_v_PhFp->GetYaxis()->SetTitle("\\deltap_{tg}"); */
 
   
-  /* T->Draw("L.tr.tg_dp:L.tr.r_ph*1000>>xtgt_v_PhFp","","colz"); */
+  /* T->Draw("L.tr.tg_dp:L.tr.r_ph*1000>>xtgt_v_PhFp",PID_cuts + GeneralSieveCut,"colz"); */
 
 
   /* c5->cd(3); */
-  /* TH2D* xtgt_v_xFp = new TH2D("xtgt_v_xFp","xtgt_v_xFp",100,xfp_l,xfp_h,100,-0.05,0.05); */
+  /* TH2D* xtgt_v_xFp = new TH2D("xtgt_v_xFp","xtgt_v_x_{FP}",100,xfp_l,xfp_h,100,-0.05,0.05); */
   
   /* xtgt_v_xFp->GetYaxis()->SetTitleOffset(1.0); */
   /* xtgt_v_xFp->GetXaxis()->SetTitleSize(0.05); */
   /* xtgt_v_xFp->GetYaxis()->SetTitleSize(0.05); */
-  /* xtgt_v_xFp->GetXaxis()->SetTitle("x (FP)"); */
-  /* xtgt_v_xFp->GetYaxis()->SetTitle("dp (trgt)"); */
+  /* xtgt_v_xFp->GetXaxis()->SetTitle("x_{FP}"); */
+  /* xtgt_v_xFp->GetYaxis()->SetTitle("\\deltap_{tg}"); */
 
   
-  /* T->Draw("L.tr.tg_dp:L.tr.r_x>>xtgt_v_xFp","","colz"); */
+  /* T->Draw("L.tr.tg_dp:L.tr.r_x>>xtgt_v_xFp",PID_cuts + GeneralSieveCut,"colz"); */
 
 
   /* c5->cd(4); */
-  /* TH2D* xtgt_v_yFp = new TH2D("xtgt_v_yFp","xtgt_v_yFp",100,-0.05,0.05,100,-0.05,0.05); */
+  /* TH2D* xtgt_v_yFp = new TH2D("xtgt_v_yFp","xtgt_v_y_{FP}",100,-0.05,0.05,100,-0.05,0.05); */
   
   /* xtgt_v_yFp->GetYaxis()->SetTitleOffset(1.0); */
   /* xtgt_v_yFp->GetXaxis()->SetTitleSize(0.05); */
   /* xtgt_v_yFp->GetYaxis()->SetTitleSize(0.05); */
-  /* xtgt_v_yFp->GetXaxis()->SetTitle("y (FP)"); */
-  /* xtgt_v_yFp->GetYaxis()->SetTitle("dp (trgt)"); */
+  /* xtgt_v_yFp->GetXaxis()->SetTitle("y_{FP}"); */
+  /* xtgt_v_yFp->GetYaxis()->SetTitle("\\deltap_{tg}"); */
 
   
-  /* T->Draw("L.tr.tg_dp:L.tr.r_y>>xtgt_v_yFp","","colz"); */
+  /* T->Draw("L.tr.tg_dp:L.tr.r_y>>xtgt_v_yFp",PID_cuts + GeneralSieveCut,"colz"); */
 
 
 
@@ -408,47 +428,47 @@ void corr_plot(TString DB_name, TChain* T, Int_t runnumber = 4179, Int_t col = -
   
 
   c6->cd(1);
-  TH1D* y_tgt = new TH1D("y_tgt","y_tgt",300,-0.02,0.06);
+  TH1D* y_tgt = new TH1D("y_tgt","y_{tg}",300,-0.06,0.06);
 
   y_tgt->GetYaxis()->SetTitleOffset(1.0);
   y_tgt->GetXaxis()->SetTitleSize(0.05);
   y_tgt->GetYaxis()->SetTitleSize(0.05);
-  y_tgt->GetXaxis()->SetTitle("y (trgt)");
+  y_tgt->GetXaxis()->SetTitle("y_{tg}");
   y_tgt->GetYaxis()->SetTitle("Entries");
 
   T->Draw("L.tr.tg_y>>y_tgt");
 
   c6->cd(2);
-  TH1D* theta_tgt = new TH1D("theta_tgt","theta_tgt",300,-70,90);
+  TH1D* theta_tgt = new TH1D("theta_tgt","\\theta_{tg}",300,-70,90);
 
   theta_tgt->GetYaxis()->SetTitleOffset(1.0);
   theta_tgt->GetXaxis()->SetTitleSize(0.05);
   theta_tgt->GetYaxis()->SetTitleSize(0.05);
-  theta_tgt->GetXaxis()->SetTitle("theta (trgt) [mrad]");
+  theta_tgt->GetXaxis()->SetTitle("\\theta_{tg} [mrad]");
   theta_tgt->GetYaxis()->SetTitle("Entries");
 
   T->Draw("L.tr.tg_th*3000>>theta_tgt");
 
 
   c6->cd(3);
-  TH1D* phi_tgt = new TH1D("phi_tgt","phi_tgt",300,-70,60);
+  TH1D* phi_tgt = new TH1D("phi_tgt","\\phi_{tg}",300,-70,60);
 
   phi_tgt->GetYaxis()->SetTitleOffset(1.0);
   phi_tgt->GetXaxis()->SetTitleSize(0.05);
   phi_tgt->GetYaxis()->SetTitleSize(0.05);
-  phi_tgt->GetXaxis()->SetTitle("phi (trgt) [mrad]");
+  phi_tgt->GetXaxis()->SetTitle("\\phi_{tg} [mrad]");
   phi_tgt->GetYaxis()->SetTitle("Entries");
 
   T->Draw("L.tr.tg_ph*1000>>phi_tgt");
 
 
   c6->cd(4);
-  TH1D* dp_tgt = new TH1D("dp_tgt","dp_tgt",300,-0.07,0.07);
+  TH1D* dp_tgt = new TH1D("dp_tgt","\\deltap_{tg}",300,-0.07,0.07);
 
   dp_tgt->GetYaxis()->SetTitleOffset(1.0);
   dp_tgt->GetXaxis()->SetTitleSize(0.05);
   dp_tgt->GetYaxis()->SetTitleSize(0.05);
-  dp_tgt->GetXaxis()->SetTitle("dp (trgt)");
+  dp_tgt->GetXaxis()->SetTitle("\\deltap_{tg}");
   dp_tgt->GetYaxis()->SetTitle("Entries");
 
   T->Draw("L.tr.tg_dp>>dp_tgt");
@@ -462,47 +482,47 @@ void corr_plot(TString DB_name, TChain* T, Int_t runnumber = 4179, Int_t col = -
 
 
   c7->cd(1);
-  TH2D* ytgt_v_thtgt = new TH2D("ytgt_v_thtgt","ytgt_v_thtgt",300,thtg_l,thtg_h,300,ytg_l,ytg_h);
+  TH2D* ytgt_v_thtgt = new TH2D("ytgt_v_thtgt","y_{tg} v \\theta_{tg}",300,thtg_l,thtg_h,300,ytg_l,ytg_h);
   
   ytgt_v_thtgt->GetYaxis()->SetTitleOffset(1.0);
   ytgt_v_thtgt->GetXaxis()->SetTitleSize(0.05);
   ytgt_v_thtgt->GetYaxis()->SetTitleSize(0.05);
-  ytgt_v_thtgt->GetXaxis()->SetTitle("theta (trgt) [mrad]");
-  ytgt_v_thtgt->GetYaxis()->SetTitle("y (trgt)");
+  ytgt_v_thtgt->GetXaxis()->SetTitle("\\theta_{tg} [mrad]");
+  ytgt_v_thtgt->GetYaxis()->SetTitle("y_{tg}");
 
   
-  T->Draw("L.tr.tg_y:L.tr.tg_th*1000>>ytgt_v_thtgt","","colz");
+  T->Draw("L.tr.tg_y:L.tr.tg_th*1000>>ytgt_v_thtgt",PID_cuts + GeneralSieveCut,"colz");
 
 
 
   c7->cd(2);
-  TH2D* ytgt_v_phtgt = new TH2D("ytgt_v_phtgt","ytgt_v_phtgt",300,phtg_l,phtg_h,300,ytg_l,ytg_h);
+  TH2D* ytgt_v_phtgt = new TH2D("ytgt_v_phtgt","y_{tg} v \\phi_{tg}",300,phtg_l,phtg_h,300,ytg_l,ytg_h);
   
   ytgt_v_phtgt->GetYaxis()->SetTitleOffset(1.0);
   ytgt_v_phtgt->GetXaxis()->SetTitleSize(0.05);
   ytgt_v_phtgt->GetYaxis()->SetTitleSize(0.05);
-  ytgt_v_phtgt->GetXaxis()->SetTitle("phi (trgt) [mrad]");
-  ytgt_v_phtgt->GetYaxis()->SetTitle("y (trgt)");
+  ytgt_v_phtgt->GetXaxis()->SetTitle("\\phi_{tg} [mrad]");
+  ytgt_v_phtgt->GetYaxis()->SetTitle("y_{tg}");
 
   
-  T->Draw("L.tr.tg_y:L.tr.tg_ph*1000>>ytgt_v_phtgt","","colz");
+  T->Draw("L.tr.tg_y:L.tr.tg_ph*1000>>ytgt_v_phtgt",PID_cuts + GeneralSieveCut,"colz");
 
 
   c7->cd(3);
-  TH2D* ytgt_v_dptgt = new TH2D("ytgt_v_dptgt","ytgt_v_dptgt",300,dptg_l,dptg_h,300,ytg_l,ytg_h);
+  TH2D* ytgt_v_dptgt = new TH2D("ytgt_v_dptgt","y_{tg} v \\deltap_{tg}",300,dptg_l,dptg_h,300,ytg_l,ytg_h);
   
   ytgt_v_dptgt->GetYaxis()->SetTitleOffset(1.0);
   ytgt_v_dptgt->GetXaxis()->SetTitleSize(0.05);
   ytgt_v_dptgt->GetYaxis()->SetTitleSize(0.05);
-  ytgt_v_dptgt->GetXaxis()->SetTitle("dp (trgt)");
-  ytgt_v_dptgt->GetYaxis()->SetTitle("y (trgt)");
+  ytgt_v_dptgt->GetXaxis()->SetTitle("\\deltap_{tg}");
+  ytgt_v_dptgt->GetYaxis()->SetTitle("y_{tg}");
 
   
-  T->Draw("L.tr.tg_y:L.tr.tg_dp>>ytgt_v_dptgt","","colz");
+  T->Draw("L.tr.tg_y:L.tr.tg_dp>>ytgt_v_dptgt",PID_cuts + GeneralSieveCut,"colz");
 
 
   c7->cd(4);
-  TH2D* thtgt_v_phtgt = new TH2D("thtgt_v_phtgt","thtgt_v_phtgt",300,phtg_l,phtg_h,300,thtg_l,thtg_h);
+  TH2D* thtgt_v_phtgt = new TH2D("thtgt_v_phtgt","\\theta_{tg} v \\phi_{tg}",300,phtg_l,phtg_h,300,thtg_l,thtg_h);
 
 
   thtgt_v_phtgt->GetYaxis()->SetTitleOffset(1.0);
@@ -512,7 +532,7 @@ void corr_plot(TString DB_name, TChain* T, Int_t runnumber = 4179, Int_t col = -
   thtgt_v_phtgt->GetYaxis()->SetTitle("th (trgt) [mrad]");
 
   
-  T->Draw("L.tr.tg_th*1000:L.tr.tg_ph*1000>>thtgt_v_phtgt","","colz");
+  T->Draw("L.tr.tg_th*1000:L.tr.tg_ph*1000>>thtgt_v_phtgt",PID_cuts + GeneralSieveCut,"colz");
 
 
 
@@ -520,17 +540,17 @@ void corr_plot(TString DB_name, TChain* T, Int_t runnumber = 4179, Int_t col = -
   c7->cd(5);
   
 
-  TH2D* thtgt_v_dptgt = new TH2D("thtgt_v_dptgt","thtgt_v_dptgt",300,dptg_l,dptg_h,300,thtg_l,thtg_h);
+  TH2D* thtgt_v_dptgt = new TH2D("thtgt_v_dptgt","\\theta_{tg} v \\deltap_{tg}",300,dptg_l,dptg_h,300,thtg_l,thtg_h);
 
 
   thtgt_v_dptgt->GetYaxis()->SetTitleOffset(1.0);
   thtgt_v_dptgt->GetXaxis()->SetTitleSize(0.05);
   thtgt_v_dptgt->GetYaxis()->SetTitleSize(0.05);
-  thtgt_v_dptgt->GetXaxis()->SetTitle("dp (trgt)");
+  thtgt_v_dptgt->GetXaxis()->SetTitle("\\deltap_{tg}");
   thtgt_v_dptgt->GetYaxis()->SetTitle("th (trgt) [mrad]");
 
   
-  T->Draw("L.tr.tg_th*1000:L.tr.tg_dp>>thtgt_v_dptgt","","colz");
+  T->Draw("L.tr.tg_th*1000:L.tr.tg_dp>>thtgt_v_dptgt",PID_cuts + GeneralSieveCut,"colz");
 
 
 
@@ -538,17 +558,17 @@ void corr_plot(TString DB_name, TChain* T, Int_t runnumber = 4179, Int_t col = -
   c7->cd(6);
   
 
-  TH2D* phtgt_v_dptgt = new TH2D("phtgt_v_dptgt","phtgt_v_dptgt",300,dptg_l,dptg_h,300,phtg_l,phtg_h);
+  TH2D* phtgt_v_dptgt = new TH2D("phtgt_v_dptgt","\\phi_{tg} v \\deltap_{tg}",300,dptg_l,dptg_h,300,phtg_l,phtg_h);
 
 
-  thtgt_v_dptgt->GetYaxis()->SetTitleOffset(1.0);
-  thtgt_v_dptgt->GetXaxis()->SetTitleSize(0.05);
-  thtgt_v_dptgt->GetYaxis()->SetTitleSize(0.05);
-  thtgt_v_dptgt->GetXaxis()->SetTitle("dp (trgt)");
-  thtgt_v_dptgt->GetYaxis()->SetTitle("ph (trgt) [mrad]");
+  phtgt_v_dptgt->GetYaxis()->SetTitleOffset(1.0);
+  phtgt_v_dptgt->GetXaxis()->SetTitleSize(0.05);
+  phtgt_v_dptgt->GetYaxis()->SetTitleSize(0.05);
+  phtgt_v_dptgt->GetXaxis()->SetTitle("\\deltap_{tg}");
+  phtgt_v_dptgt->GetYaxis()->SetTitle("ph (trgt) [mrad]");
 
   
-  T->Draw("L.tr.tg_ph*1000:L.tr.tg_dp>>phtgt_v_dptgt","","colz");
+  T->Draw("L.tr.tg_ph*1000:L.tr.tg_dp>>phtgt_v_dptgt",PID_cuts + GeneralSieveCut,"colz");
 
 
 
@@ -568,48 +588,48 @@ void corr_plot(TString DB_name, TChain* T, Int_t runnumber = 4179, Int_t col = -
   c8->Divide(2,2); 
 
   c8->cd(1);
-  TH1D* x_fp = new TH1D("x_fp","x_fp",300,xfp_l,xfp_h);
+  TH1D* x_fp = new TH1D("x_fp","x_{FP}",300,xfp_l,xfp_h);
   
   x_fp->GetYaxis()->SetTitleOffset(1.0);
   x_fp->GetXaxis()->SetTitleSize(0.05);
   x_fp->GetYaxis()->SetTitleSize(0.05);
-  x_fp->GetXaxis()->SetTitle("x (FP)");
+  x_fp->GetXaxis()->SetTitle("x_{FP}");
   x_fp->GetYaxis()->SetTitle("Entries");
 
   T->Draw("L.tr.r_x>>x_fp");
 
 
   c8->cd(2);
-  TH1D* y_fp = new TH1D("y_fp","y_fp",300,yfp_l,yfp_h);
+  TH1D* y_fp = new TH1D("y_fp","y_{FP}",300,yfp_l,yfp_h);
   
   y_fp->GetYaxis()->SetTitleOffset(1.0);
   y_fp->GetXaxis()->SetTitleSize(0.05);
   y_fp->GetYaxis()->SetTitleSize(0.05);
-  y_fp->GetXaxis()->SetTitle("y (FP)");
+  y_fp->GetXaxis()->SetTitle("y_{FP}");
   y_fp->GetYaxis()->SetTitle("Entries");
 
   T->Draw("L.tr.r_y>>y_fp");
 
 
   c8->cd(3);
-  TH1D* th_fp = new TH1D("th_fp","th_fp",300,thfp_l,thfp_h);
+  TH1D* th_fp = new TH1D("th_fp","\\theta_{FP}",300,thfp_l,thfp_h);
   
   th_fp->GetYaxis()->SetTitleOffset(1.0);
   th_fp->GetXaxis()->SetTitleSize(0.05);
   th_fp->GetYaxis()->SetTitleSize(0.05);
-  th_fp->GetXaxis()->SetTitle("th (FP) [mrad]");
+  th_fp->GetXaxis()->SetTitle("\\theta_{FP} [mrad]");
   th_fp->GetYaxis()->SetTitle("Entries");
 
   T->Draw("L.tr.r_th*1000>>th_fp");
 
 
   c8->cd(4);
-  TH1D* ph_fp = new TH1D("ph_fp","ph_fp",300,phfp_l,phfp_h);
+  TH1D* ph_fp = new TH1D("ph_fp","\\phi_{FP}",300,phfp_l,phfp_h);
   
   ph_fp->GetYaxis()->SetTitleOffset(1.0);
   ph_fp->GetXaxis()->SetTitleSize(0.05);
   ph_fp->GetYaxis()->SetTitleSize(0.05);
-  ph_fp->GetXaxis()->SetTitle("ph (FP) [mrad]");
+  ph_fp->GetXaxis()->SetTitle("\\phi_{FP} [mrad]");
   ph_fp->GetYaxis()->SetTitle("Entries");
 
   T->Draw("L.tr.r_ph*1000>>ph_fp");
@@ -623,75 +643,76 @@ void corr_plot(TString DB_name, TChain* T, Int_t runnumber = 4179, Int_t col = -
 
 
   c9->cd(1);
-  TH2D* yfp_v_xfp  = new TH2D("yfp_v_xfp","yfp_v_xfp",300,xfp_l,xfp_h,300,yfp_l,yfp_h);
+  TH2D* yfp_v_xfp  = new TH2D("yfp_v_xfp","y_{FP} v x_{FP}",300,xfp_l,xfp_h,300,yfp_l,yfp_h);
 
   yfp_v_xfp->GetYaxis()->SetTitleOffset(1.0);
   yfp_v_xfp->GetXaxis()->SetTitleSize(0.05);
   yfp_v_xfp->GetYaxis()->SetTitleSize(0.05);
-  yfp_v_xfp->GetXaxis()->SetTitle("x (FP)");
-  yfp_v_xfp->GetYaxis()->SetTitle("y (FP)");
+  yfp_v_xfp->GetXaxis()->SetTitle("x_{FP}");
+  yfp_v_xfp->GetYaxis()->SetTitle("y_{FP}");
 
-  T->Draw("L.tr.r_y:L.tr.r_x>>yfp_v_xfp","","colz");
+  T->Draw("L.tr.r_y:L.tr.r_x>>yfp_v_xfp",PID_cuts + GeneralSieveCut,"colz");
 
 
 
   c9->cd(2);
-  TH2D* yfp_v_thfp  = new TH2D("thfp_v_yfp","thfp_v_yfp",300,yfp_l,yfp_h,300,thfp_l,thfp_h);
+  TH2D* yfp_v_thfp  = new TH2D("thfp_v_yfp","\\theta_{FP} v y_{FP}",300,yfp_l,yfp_h,300,thfp_l,thfp_h);
 
   yfp_v_thfp->GetYaxis()->SetTitleOffset(1.0);
   yfp_v_thfp->GetXaxis()->SetTitleSize(0.05);
   yfp_v_thfp->GetYaxis()->SetTitleSize(0.05);
-  yfp_v_thfp->GetXaxis()->SetTitle("y (FP)");
-  yfp_v_thfp->GetYaxis()->SetTitle("th (FP) [mrad]");
+  yfp_v_thfp->GetXaxis()->SetTitle("y_{FP}");
+  yfp_v_thfp->GetYaxis()->SetTitle("\\theta_{FP} [mrad]");
 
-  T->Draw("L.tr.r_th*1000:L.tr.r_y>>thfp_v_yfp","","colz");
+  T->Draw("L.tr.r_th*1000:L.tr.r_y>>thfp_v_yfp",PID_cuts + GeneralSieveCut,"colz");
 
 
   c9->cd(3);
-  TH2D* yfp_v_phfp  = new TH2D("phfp_v_yfp","phfp_v_yfp",300,yfp_l,yfp_h,300,phfp_l,phfp_h);
+  TH2D* yfp_v_phfp  = new TH2D("phfp_v_yfp","\\phi_{FP} v y_{FP}",300,yfp_l,yfp_h,300,phfp_l,phfp_h);
 
   yfp_v_phfp->GetYaxis()->SetTitleOffset(1.0);
   yfp_v_phfp->GetXaxis()->SetTitleSize(0.05);
   yfp_v_phfp->GetYaxis()->SetTitleSize(0.05);
-  yfp_v_phfp->GetXaxis()->SetTitle("y (FP)");
-  yfp_v_phfp->GetYaxis()->SetTitle("ph (FP) [mrad]");
+  yfp_v_phfp->GetXaxis()->SetTitle("y_{FP}");
+  yfp_v_phfp->GetYaxis()->SetTitle("\\phi_{FP} [mrad]");
 
-  T->Draw("L.tr.r_ph*1000:L.tr.r_y>>phfp_v_yfp","","colz");
+  T->Draw("L.tr.r_ph*1000:L.tr.r_y>>phfp_v_yfp",PID_cuts + GeneralSieveCut,"colz");
 
 
   c9->cd(4);
-  TH2D* xfp_v_thfp  = new TH2D("xfp_v_thfp","xfp_v_thfp",300,thfp_l,thfp_h,300,xfp_l,xfp_h);
+  TH2D* xfp_v_thfp  = new TH2D("xfp_v_thfp","x_{FP} v \\theta_{FP}",300,thfp_l,thfp_h,300,xfp_l,xfp_h);
 
   xfp_v_thfp->GetYaxis()->SetTitleOffset(1.0);
   xfp_v_thfp->GetXaxis()->SetTitleSize(0.05);
   xfp_v_thfp->GetYaxis()->SetTitleSize(0.05);
-  xfp_v_thfp->GetXaxis()->SetTitle("th (FP) [mrad]");
-  xfp_v_thfp->GetYaxis()->SetTitle("x (FP)");
+  xfp_v_thfp->GetXaxis()->SetTitle("\\theta_{FP} [mrad]");
+  xfp_v_thfp->GetYaxis()->SetTitle("x_{FP}");
 
-  T->Draw("L.tr.r_x:L.tr.r_th*1000>>xfp_v_thfp","","colz");
+  T->Draw("L.tr.r_x:L.tr.r_th*1000>>xfp_v_thfp",PID_cuts + GeneralSieveCut,"colz");
 
 
   c9->cd(5);
-  TH2D* xfp_v_phfp  = new TH2D("xfp_v_phfp","xfp_v_phfp",300,phfp_l,phfp_h,300,xfp_l,xfp_h);
+  TH2D* xfp_v_phfp  = new TH2D("xfp_v_phfp","x_{FP} v \\phi_{FP}",300,phfp_l,phfp_h,300,xfp_l,xfp_h);
 
   xfp_v_phfp->GetYaxis()->SetTitleOffset(1.0);
   xfp_v_phfp->GetXaxis()->SetTitleSize(0.05);
   xfp_v_phfp->GetYaxis()->SetTitleSize(0.05);
-  xfp_v_phfp->GetXaxis()->SetTitle("ph (FP) [mrad]");
-  xfp_v_phfp->GetYaxis()->SetTitle("x (FP)");
+  xfp_v_phfp->GetXaxis()->SetTitle("\\phi_{FP} [mrad]");
+  xfp_v_phfp->GetYaxis()->SetTitle("x_{FP}");
 
-  T->Draw("L.tr.r_x:L.tr.r_ph*1000>>xfp_v_phfp","","colz");
+  T->Draw("L.tr.r_x:L.tr.r_ph*1000>>xfp_v_phfp",PID_cuts + GeneralSieveCut,"colz");
 
 
   c9->cd(6);
-  TH2D* thfp_v_phfp  = new TH2D("thfp_v_phfp","thfp_v_phfp",300,phfp_l,phfp_h,300,thfp_l,thfp_h);
+  TH2D* thfp_v_phfp  = new TH2D("thfp_v_phfp","\\theta_{FP} v \\phi_{FP}",300,phfp_l,phfp_h,300,thfp_l,thfp_h);
 
   thfp_v_phfp->GetYaxis()->SetTitleOffset(1.0);
   thfp_v_phfp->GetXaxis()->SetTitleSize(0.05);
   thfp_v_phfp->GetYaxis()->SetTitleSize(0.05);
-  thfp_v_phfp->GetXaxis()->SetTitle("ph (FP) [mrad]"); thfp_v_phfp->GetYaxis()->SetTitle("th (FP) [mrad]");
+  thfp_v_phfp->GetXaxis()->SetTitle("\\phi_{FP} [mrad]");
+  thfp_v_phfp->GetYaxis()->SetTitle("\\theta_{FP} [mrad]");
 
-  T->Draw("L.tr.r_th*1000:L.tr.r_ph*1000>>thfp_v_phfp","","colz");
+  T->Draw("L.tr.r_th*1000:L.tr.r_ph*1000>>thfp_v_phfp",PID_cuts + GeneralSieveCut,"colz");
 
 
 
@@ -705,55 +726,58 @@ void corr_plot(TString DB_name, TChain* T, Int_t runnumber = 4179, Int_t col = -
 
   c10->cd(1);
 
-  TH2D* ReactZ_vs_Thtgt = new TH2D("ReactZ_vs_Thtgt","ReactZ_vs_Thtgt",300,thtg_l,thtg_h,300,zreact_l,zreact_h);
+  TH2D* ReactZ_vs_Thtgt = new TH2D("ReactZ_vs_Thtgt","ReactZ v \\theta_{tg}",300,thtg_l,thtg_h,300,zreact_l,zreact_h);
 
   ReactZ_vs_Thtgt->GetYaxis()->SetTitleOffset(1.0);
   ReactZ_vs_Thtgt->GetXaxis()->SetTitleSize(0.05);
   ReactZ_vs_Thtgt->GetYaxis()->SetTitleSize(0.05);
-  ReactZ_vs_Thtgt->GetXaxis()->SetTitle("theta (trgt)");
+  ReactZ_vs_Thtgt->GetXaxis()->SetTitle("\\theta_{tg}");
   ReactZ_vs_Thtgt->GetYaxis()->SetTitle("ReactZ");
 
   
-  T->Draw("reactz:L.tr.tg_th*1000>>ReactZ_vs_Thtgt","","colz");
+  T->Draw("reactz:L.tr.tg_th*1000>>ReactZ_vs_Thtgt",PID_cuts + GeneralSieveCut,"colz");
 
   c10->cd(2);
-  TH2D* ReactZ_vs_Phtgt = new TH2D("ReactZ_vs_Phtgt","ReactZ_vs_Phtgt",300,zreact_l,zreact_h,300,phtg_l,phtg_h);
+  //  TH2D* ReactZ_vs_Phtgt = new TH2D("ReactZ_vs_Phtgt","ReactZ v \\phi_{tg}",300,zreact_l,zreact_h,300,phtg_l,phtg_h);
+  TH2D* ReactZ_vs_Phtgt = new TH2D("ReactZ_vs_Phtgt","ReactZ v \\phi_{tg}",300,phtg_l,phtg_h,300,zreact_l,zreact_h);
 
   ReactZ_vs_Phtgt->GetYaxis()->SetTitleOffset(1.0);
   ReactZ_vs_Phtgt->GetXaxis()->SetTitleSize(0.05);
   ReactZ_vs_Phtgt->GetYaxis()->SetTitleSize(0.05);
-  ReactZ_vs_Phtgt->GetXaxis()->SetTitle("phi (trgt)");
+  ReactZ_vs_Phtgt->GetXaxis()->SetTitle("\\phi_{tg}");
   ReactZ_vs_Phtgt->GetYaxis()->SetTitle("ReactZ");
 
   
-  T->Draw("reactz:L.tr.tg_ph*1000>>ReactZ_vs_Phtgt","","colz");
+  T->Draw("reactz:L.tr.tg_ph*1000>>ReactZ_vs_Phtgt",PID_cuts + GeneralSieveCut,"colz");
 
 
   c10->cd(3);
-  TH2D* ReactZ_vs_ytgt = new TH2D("ReactZ_vs_ytgt","ReactZ_vs_ytgt",300,zreact_l,zreact_h,300,ytg_l,ytg_h);
+  //  TH2D* ReactZ_vs_ytgt = new TH2D("ReactZ_vs_ytgt","ReactZ v y_{tg}",300,zreact_l,zreact_h,300,ytg_l,ytg_h);
+  TH2D* ReactZ_vs_ytgt = new TH2D("ReactZ_vs_ytgt","ReactZ v y_{tg}",300,ytg_l,ytg_h,300,zreact_l,zreact_h);
 
   ReactZ_vs_ytgt->GetYaxis()->SetTitleOffset(1.0);
   ReactZ_vs_ytgt->GetXaxis()->SetTitleSize(0.05);
   ReactZ_vs_ytgt->GetYaxis()->SetTitleSize(0.05);
-  ReactZ_vs_ytgt->GetXaxis()->SetTitle("y (trgt)");
+  ReactZ_vs_ytgt->GetXaxis()->SetTitle("y_{tg}");
   ReactZ_vs_ytgt->GetYaxis()->SetTitle("ReactZ");
 
   
-  T->Draw("reactz:L.tr.tg_y>>ReactZ_vs_ytgt","","colz");
+  T->Draw("reactz:L.tr.tg_y>>ReactZ_vs_ytgt",PID_cuts + GeneralSieveCut,"colz");
 
 
 
   c10->cd(4);
-  TH2D* ReactZ_vs_dptgt = new TH2D("ReactZ_vs_dptgt","ReactZ_vs_dptgt",300,zreact_l,zreact_h,300,dptg_l,dptg_h);
+  //  TH2D* ReactZ_vs_dptgt = new TH2D("ReactZ_vs_dptgt","ReactZ v \\deltap_{tg}",300,zreact_l,zreact_h,300,dptg_l,dptg_h);
+  TH2D* ReactZ_vs_dptgt = new TH2D("ReactZ_vs_dptgt","ReactZ v \\deltap_{tg}",300,dptg_l,dptg_h,300,zreact_l,zreact_h);
 
   ReactZ_vs_dptgt->GetYaxis()->SetTitleOffset(1.0);
   ReactZ_vs_dptgt->GetXaxis()->SetTitleSize(0.05);
   ReactZ_vs_dptgt->GetYaxis()->SetTitleSize(0.05);
-  ReactZ_vs_dptgt->GetXaxis()->SetTitle("dp (trgt)");
+  ReactZ_vs_dptgt->GetXaxis()->SetTitle("\\deltap_{tg}");
   ReactZ_vs_dptgt->GetYaxis()->SetTitle("ReactZ");
 
   
-  T->Draw("reactz:L.tr.tg_dp>>ReactZ_vs_dptgt","","colz");
+  T->Draw("reactz:L.tr.tg_dp>>ReactZ_vs_dptgt",PID_cuts + GeneralSieveCut,"colz");
 
   
 
@@ -872,5 +896,25 @@ void corr_plot(TString DB_name, TChain* T, Int_t runnumber = 4179, Int_t col = -
   
 
 
+
+}
+
+
+
+void corr_plot(Run_spec run_info, TChain* T){
+
+
+
+  TString DB_name = run_info.DB_info[DB_NAME];
+  TString Cut_name = run_info.DB_info[CUT_NAME];
+  
+  Int_t runnumber = run_info.event_info[RUN_NO];
+  Int_t foil_no = run_info.event_info[FOIL_NO];
+  Int_t col = run_info.event_info[COL_NO];
+  Int_t row = run_info.event_info[ROW_NO];
+
+
+
+  corr_plot(DB_name, T, runnumber, col, row);
 
 }

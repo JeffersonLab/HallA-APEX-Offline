@@ -29,7 +29,19 @@
 
 
 
-void corr_select(TString DB_name, Int_t runnumber = 0, Int_t colin = -1, Int_t rowin = -1){
+//void corr_select(TString DB_name, Int_t runnumber = 0, Int_t colin = -1, Int_t rowin = -1){
+
+//void corr_select(DB_info DB_run, event_info event = {4179,1,-1,-1}){
+void corr_select(Run_spec run_info){
+
+
+  TString DB_name = run_info.DB_info[DB_NAME];
+  TString Cut_name = run_info.DB_info[CUT_NAME];
+  
+  Int_t runnumber = run_info.event_info[RUN_NO];
+  Int_t foil_no = run_info.event_info[FOIL_NO];
+  Int_t colin = run_info.event_info[COL_NO];
+  Int_t rowin = run_info.event_info[ROW_NO];
 
 
   
@@ -84,7 +96,16 @@ void corr_select(TString DB_name, Int_t runnumber = 0, Int_t colin = -1, Int_t r
 
   // cuts based on foil number
  
-  TString CutFileName = *SoureRootFile + ".FullCut.root";
+
+  
+  //  *SoureRootFile = TString("newfile");
+
+ 
+
+  //  TString CutFileName = *SoureRootFile + ".FullCut.root";
+
+
+  TString CutFileName = Form("/w/work3/home/johnw/Rootfiles/apex_%d",runnumber) +  Cut_name + ".FullCut.root";
 
   cout << "~~~~~~~##CutFileName = " << CutFileName << endl;
 
@@ -93,9 +114,10 @@ void corr_select(TString DB_name, Int_t runnumber = 0, Int_t colin = -1, Int_t r
    //  TFile *f1 = new TFile(CutFileName, "READ"); // changed to read
 
 
-  TString foil_cut = Form("fcut_L_%d", FoilID);
+  TString foil_cut = Form("fcut_L_%d", foil_no);
 
   TCutG* foil_cutG;
+
   
 
   //  (TCutG*) f1->GetObject(foil_cut, "TCutG");
@@ -134,6 +156,8 @@ void corr_select(TString DB_name, Int_t runnumber = 0, Int_t colin = -1, Int_t r
   cout << " choice = " << choice << endl;
 
 
+  //  TString foil_cut = Form("fcut_L_%d", foil_no);
+
   //  if( choice == (Char_t)'A' ){
   switch(choice) {
   case 'A':
@@ -168,25 +192,25 @@ void corr_select(TString DB_name, Int_t runnumber = 0, Int_t colin = -1, Int_t r
       // TCutG* cutg;
 
       for(Int_t row_i = 0; row_i < NSieveRow; row_i++){
-	for(Int_t col_i = 0; col_i < NSieveCol; col_i++){
-	  //	  cout << "(NSieveCol*row_i) + (col_i) = " << (NSieveCol*row_i) + (col_i) << endl;
+  	for(Int_t col_i = 0; col_i < NSieveCol; col_i++){
+  	  //	  cout << "(NSieveCol*row_i) + (col_i) = " << (NSieveCol*row_i) + (col_i) << endl;
 
-	  hole_string = Form("e_hcut_L_%d_%d_%d", FoilID, col_i, row_i);
+  	  hole_string = Form("e_hcut_L_%d_%d_%d", FoilID, col_i, row_i);
 	  
-	  cutg[(NSieveCol*row_i) + (col_i)] = (TCutG*)gROOT->FindObject(hole_string);
-		  //	  if( cutg[Get_Hole(col_i,row_i)] ){
-	  if( cutg[(NSieveCol*row_i) + (col_i)] ){
+  	  cutg[(NSieveCol*row_i) + (col_i)] = (TCutG*)gROOT->FindObject(hole_string);
+  		  //	  if( cutg[Get_Hole(col_i,row_i)] ){
+  	  if( cutg[(NSieveCol*row_i) + (col_i)] ){
 	  
-	    if(first_hole){
-	      final_cut += " ( "  + hole_string;
-	      first_hole = false;
-	  }
-	    else{
-	      final_cut += " || " + hole_string;
-	    }
+  	    if(first_hole){
+  	      final_cut += " ( "  + hole_string;
+  	      first_hole = false;
+  	  }
+  	    else{
+  	      final_cut += " || " + hole_string;
+  	    }
 	  
-	  }	  
-	}
+  	  }	  
+  	}
 	
 
 
@@ -199,14 +223,16 @@ void corr_select(TString DB_name, Int_t runnumber = 0, Int_t colin = -1, Int_t r
 
 
       if(first_hole == false){
-	T = (TChain*) T->CopyTree(final_cut);
+  	T = (TChain*) T->CopyTree(final_cut);
 	
       
-	corr_plot(DB_name, T, runnumber, -1, -1);
+	
+	
+  	corr_plot(DB_name, T, runnumber, -1, -1);
       }
       else{
 	
-	cout << "no holes found, exiting script" << endl;
+  	cout << "no holes found, exiting script" << endl;
       }
 
       
@@ -229,7 +255,7 @@ void corr_select(TString DB_name, Int_t runnumber = 0, Int_t colin = -1, Int_t r
 
 
 
-      final_cut =  (TString) PID_cuts + " && " + (TString) GeneralSieveCut;
+      final_cut =  (TString) PID_cuts + " && " + (TString) GeneralSieveCut + " && " + foil_cut; 
 
       cout << "final cut for all = " << final_cut << endl;
 
@@ -237,8 +263,11 @@ void corr_select(TString DB_name, Int_t runnumber = 0, Int_t colin = -1, Int_t r
 
       T = (TChain*) T->CopyTree(final_cut);
 	
+      cout << "After tree copy" << endl;
+
       
-      corr_plot(DB_name, T, runnumber, 1, 1);
+      //      corr_plot(DB_name, T, runnumber, 1, 1);
+      corr_plot(run_info, T);
       
       
       break;
@@ -249,11 +278,11 @@ void corr_select(TString DB_name, Int_t runnumber = 0, Int_t colin = -1, Int_t r
       Int_t col_no;
 
       if( colin == -1){
-	cout << "Choose column number to plot: " << endl;
-	cin >> col_no;
+  	cout << "Choose column number to plot: " << endl;
+  	cin >> col_no;
       }
       else{
-	col_no = colin;
+  	col_no = colin;
       }
 
 
@@ -275,22 +304,22 @@ void corr_select(TString DB_name, Int_t runnumber = 0, Int_t colin = -1, Int_t r
 
       for(Int_t row_i = 0; row_i < NSieveRow; row_i++){
 
-	hole_string = Form("e_hcut_L_%d_%d_%d", FoilID, col_no, row_i);
+  	hole_string = Form("e_hcut_L_%d_%d_%d", FoilID, col_no, row_i);
 
-	cutg[row_i] = (TCutG*)gROOT->FindObject(hole_string);
+  	cutg[row_i] = (TCutG*)gROOT->FindObject(hole_string);
 
-	if( cutg[row_i] ){
+  	if( cutg[row_i] ){
 
-	  if(first_hole){
+  	  if(first_hole){
 
-	    final_cut += " ( "  + hole_string;
-	    first_hole = false;
-	  }
-	  else{
-	    final_cut += " || " + hole_string;
-	  }
+  	    final_cut += " ( "  + hole_string;
+  	    first_hole = false;
+  	  }
+  	  else{
+  	    final_cut += " || " + hole_string;
+  	  }
 
-	}	  
+  	}	  
       }
 
 
@@ -301,15 +330,15 @@ void corr_select(TString DB_name, Int_t runnumber = 0, Int_t colin = -1, Int_t r
 
 
       if(first_hole == false){
-	cout << "Pre-tree copy entries = " << T->GetEntries() << endl;
-	T = (TChain*) T->CopyTree(final_cut);
-	cout << "Post-tree copy entries = "  << T->GetEntries() << endl;
+  	cout << "Pre-tree copy entries = " << T->GetEntries() << endl;
+  	T = (TChain*) T->CopyTree(final_cut);
+  	cout << "Post-tree copy entries = "  << T->GetEntries() << endl;
       	
-	corr_plot(DB_name, T, runnumber,col_no,-1);	
+  	corr_plot(DB_name, T, runnumber,col_no,-1);	
       }
       else{
 	
-	cout << "no holes found for this column: " << col_no << ", exiting script" << endl;
+  	cout << "no holes found for this column: " << col_no << ", exiting script" << endl;
       }
 
 
@@ -321,11 +350,11 @@ void corr_select(TString DB_name, Int_t runnumber = 0, Int_t colin = -1, Int_t r
       Int_t row_no;
 
       if( rowin == -1){
-	cout << "Choose a row number to plot: " << endl;
-	cin >> row_no;
+  	cout << "Choose a row number to plot: " << endl;
+  	cin >> row_no;
       }
       else{
-	row_no = rowin;
+  	row_no = rowin;
       }
 
       T = Load_new_replay(DB_name, runnumber);
@@ -347,22 +376,22 @@ void corr_select(TString DB_name, Int_t runnumber = 0, Int_t colin = -1, Int_t r
 
       for(Int_t col_i = 0; col_i < NSieveCol; col_i++){
 
-	hole_string = Form("e_hcut_L_%d_%d_%d", FoilID, col_i, row_no);
+  	hole_string = Form("e_hcut_L_%d_%d_%d", FoilID, col_i, row_no);
 
-	cutg[col_i] = (TCutG*)gROOT->FindObject(hole_string);
+  	cutg[col_i] = (TCutG*)gROOT->FindObject(hole_string);
 
-	if( cutg[col_i] ){
+  	if( cutg[col_i] ){
 
-	  if(first_hole){
+  	  if(first_hole){
 
-	    final_cut += "(" + hole_string;
-	    first_hole = false;
-	  }
-	  else{
-	    final_cut += " || " + hole_string;
-	  }
+  	    final_cut += "(" + hole_string;
+  	    first_hole = false;
+  	  }
+  	  else{
+  	    final_cut += " || " + hole_string;
+  	  }
 
-	}	  
+  	}	  
       }
 
 
@@ -373,13 +402,13 @@ void corr_select(TString DB_name, Int_t runnumber = 0, Int_t colin = -1, Int_t r
 
 
       if(first_hole == false){
-	T = (TChain*) T->CopyTree(final_cut);
+  	T = (TChain*) T->CopyTree(final_cut);
       	
-	corr_plot(DB_name, T, runnumber,-1,row_no);
+  	corr_plot(DB_name, T, runnumber,-1,row_no);
       }
       else{
 	
-	cout << "no holes found for this row, exiting script" << endl;
+  	cout << "no holes found for this row, exiting script" << endl;
       }
             
 
@@ -394,15 +423,15 @@ void corr_select(TString DB_name, Int_t runnumber = 0, Int_t colin = -1, Int_t r
 
       
       if( rowin == -1 && colin == -1){
-	cout << "Choose column number of hole to plot: " << endl;
-	cin >> col_no;
-	cout << "Choose row number of hole to plot: " << endl;
-	cin >> row_no;
-	cout << "hole row, column = (" << row_no << "," << col_no << ")" << endl;
+  	cout << "Choose column number of hole to plot: " << endl;
+  	cin >> col_no;
+  	cout << "Choose row number of hole to plot: " << endl;
+  	cin >> row_no;
+  	cout << "hole row, column = (" << row_no << "," << col_no << ")" << endl;
       }
       else{
-	col_no = colin;
-	row_no = rowin;
+  	col_no = colin;
+  	row_no = rowin;
       }
 
       T = Load_new_replay(DB_name, runnumber);
@@ -420,21 +449,21 @@ void corr_select(TString DB_name, Int_t runnumber = 0, Int_t colin = -1, Int_t r
       TCutG* cutg = (TCutG*)gROOT->FindObject(hole_string);
 
       if(cutg){
-	cout << "Found cut :)" << endl;
+  	cout << "Found cut :)" << endl;
 	
 
-	TString combined_cut = hole_string + " && " + foil_cut + " && " + (TString) PID_cuts + " && " + (TString) GeneralSieveCut;
-	cout << "combined cut = " << combined_cut << endl;
+  	TString combined_cut = hole_string + " && " + foil_cut + " && " + (TString) PID_cuts + " && " + (TString) GeneralSieveCut;
+  	cout << "combined cut = " << combined_cut << endl;
 
 	
-	T = (TChain*) T->CopyTree(combined_cut);
+  	T = (TChain*) T->CopyTree(combined_cut);
 
-	corr_plot(DB_name, T, runnumber,col_no,row_no);
+  	corr_plot(DB_name, T, runnumber,col_no,row_no);
 	
 
       }
       else{
-	cout << "didn't find cut :(" << endl;
+  	cout << "didn't find cut :(" << endl;
       }
 
       
