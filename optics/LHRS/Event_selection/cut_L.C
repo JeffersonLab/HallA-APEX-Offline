@@ -1341,7 +1341,8 @@ void display_Sieve(int FoilID = 0, int col = 0){
   
 
 
-#ifdef COLUMN_CUTS 
+#ifdef COLUMN_CUTS
+ (TCutG*) f1->GetObjectChecked(Form("ccut_L_%d_%d",FoilID, col), "TCutG"); //looking for old cut definition
   T->Draw("th_tgt:ph_tgt>>h2", GenrealCut + TCut(Form("fcut_L_%d", FoilID)) + TCut(Form("fcut_L_FP_%d", FoilID)) + TCut(Form("ccut_L_%d_%d", FoilID,col)), "COLZ");
 #endif
 #ifndef COLUMN_CUTS 
@@ -1427,25 +1428,162 @@ void display_Sieve(int FoilID = 0, int col = 0){
 
 
   TCanvas *c2 = new TCanvas("c2","PlotSieve",1000,1000);
- 
+
+
+  
   TH2F* h3 = new TH2F("h3", Form("Sieve plot for Foil #%d",FoilID), 300, -0.04, 0.04, 300, -0.08, 0.08);
  
 
-  h3->GetXaxis()->SetTitle("y_{tg} [m]");
-  h3->GetYaxis()->SetTitle("x_{tg} [m]");
+  h3->GetXaxis()->SetTitle("y_sieve_alt [m]");
+  h3->GetYaxis()->SetTitle("x_sieve [m]");
+
+  // h3->GetXaxis()->SetTitle("y_tg [m]");
+  // h3->GetYaxis()->SetTitle("x_tg [m]");
  //  TH2F* h2 = new TH2F("h2", "theta_target vs. phi_target", 300, -0.06, 0.04, 300, -0.08, 0.08);
   h3->SetMinimum(2);
 
 
 #ifdef COLUMN_CUTS 
-  T->Draw("th_tgt:ph_tgt>>h2", GenrealCut + TCut(Form("fcut_L_%d", FoilID)) + TCut(Form("fcut_L_FP_%d", FoilID)) + TCut(Form("ccut_L_%d_%d", FoilID,col)), "COLZ");
+   T->Draw("x_sieve:y_sieve_alt>>h3", GenrealCut + TCut(Form("fcut_L_%d", FoilID)) + TCut(Form("fcut_L_FP_%d", FoilID)) + TCut(Form("ccut_L_%d_%d", FoilID,col)), "COLZ");
+  // T->Draw("x_tgt:y_tgt>>h3", GenrealCut + TCut(Form("fcut_L_%d", FoilID)) + TCut(Form("fcut_L_FP_%d", FoilID)) + TCut(Form("ccut_L_%d_%d", FoilID,col)), "COLZ");
+#endif
+#ifndef COLUMN_CUTS 
+  T->Draw("x_sieve:y_sieve_alt>>h3", GenrealCut + TCut(Form("fcut_L_FP_%d", FoilID)) + TCut(Form("fcut_L_%d", FoilID)), "COLZ");
+#endif
+
+
+  for(UInt_t Hole = 0; Hole < NHoles; Hole++){
+    
+    Color_t color = kBlack;
+    Int_t width = 1;
+      
+    if (Hole == 112){
+      color = kRed;
+      width = 2;
+    }
+    if( Hole == 160){
+      color = kRed;
+      width = 2;
+    }
+      
+   
+	
+    TVector3 Hole_pos = GetSieveHoleTCS(Hole);
+	
+    Double_t posy = Hole_pos.X();
+    Double_t posx = Hole_pos.Y();
+      
+   	
+    // Saltire-type crosses
+    TLine *lc1 = new TLine(posx-plotwidth,posy-plotwidth,posx+plotwidth,posy+plotwidth);
+    lc1->SetLineWidth(width);
+    TLine *lc2 = new TLine(posx-plotwidth,posy+plotwidth,posx+plotwidth,posy-plotwidth);
+    lc2->SetLineWidth(width);
+	
+ 	
+    lc1->SetLineColor(color);
+    lc2->SetLineColor(color);
+      
+    lc1->Draw("same");
+    lc2->Draw("same");
+      
+  }
+   
+
+  // third plot of y_tg against Zpos*tan (check for correlation)
+
+  TCanvas *c3 = new TCanvas("c3","PlotSieve - Corr",1000,1000);
+  
+  TH2F* h4 = new TH2F("h4", Form("Corr Sieve plot for Foil #%d",FoilID), 300, -0.04, 0.04, 300, -0.08, 0.08);
+
+  h4->GetXaxis()->SetTitle("Z * tan(\\phi_tg) ");
+  h4->GetYaxis()->SetTitle("y_tg []");
+
+ //  TH2F* h2 = new TH2F("h2", "theta_target vs. phi_target", 300, -0.06, 0.04, 300, -0.08, 0.08);
+  h4->SetMinimum(2);
+
+  const Double_t ZPos = 31.23 * 25.4e-3;
+  
+#ifdef COLUMN_CUTS
+ (TCutG*) f1->GetObjectChecked(Form("ccut_L_%d_%d",FoilID, col), "TCutG"); //looking for old cut definition 
+  T->Draw("y_tgt:tan(ph_tgt)*(31.23*25.4e-3)>>h4", GenrealCut + TCut(Form("fcut_L_%d", FoilID)) + TCut(Form("fcut_L_FP_%d", FoilID)) + TCut(Form("ccut_L_%d_%d", FoilID,col)), "COLZ");
 #endif
 #ifndef COLUMN_CUTS 
   T->Draw("th_tgt:ph_tgt>>h2", GenrealCut + TCut(Form("fcut_L_FP_%d", FoilID)) + TCut(Form("fcut_L_%d", FoilID)), "COLZ");
 #endif
 
 
+
+
+  // fourth plot of y-beam vs x-beam
+
+  TCanvas *c4 = new TCanvas("c4","x sieve vs x beam",1000,1000);
   
+  TH2F* h5 = new TH2F("h5", Form("x sieve vs x beam (foil #%d)",FoilID), 300, 0.00, 0.01, 300, -0.08, 0.08);
+
+  h5->GetXaxis()->SetTitle("x_beam [m] ");
+  h5->GetYaxis()->SetTitle("x_sieve [m]");
+
+
+ //  TH2F* h2 = new TH2F("h2", "theta_target vs. phi_target", 300, -0.06, 0.04, 300, -0.08, 0.08);
+  h5->SetMinimum(2);
+
+  
+#ifdef COLUMN_CUTS
+ (TCutG*) f1->GetObjectChecked(Form("ccut_L_%d_%d",FoilID, col), "TCutG"); //looking for old cut definition 
+  T->Draw("x_sieve:Lrb.x>>h5", GenrealCut + TCut(Form("fcut_L_%d", FoilID)) + TCut(Form("fcut_L_FP_%d", FoilID)) + TCut(Form("ccut_L_%d_%d", FoilID,col)), "COLZ");
+#endif
+#ifndef COLUMN_CUTS 
+  T->Draw("th_tgt:ph_tgt>>h2", GenrealCut + TCut(Form("fcut_L_FP_%d", FoilID)) + TCut(Form("fcut_L_%d", FoilID)), "COLZ");
+#endif
+
+
+  // fifth plot of x-sieve vs y_tgt_alt
+
+  TCanvas *c5 = new TCanvas("c5","c5",1000,1000);
+  
+  TH2F* h6 = new TH2F("h6", Form("x-sieve vs y_tgt_alt (foil #%d)",FoilID), 300, -0.04, 0.04, 300, -0.08, 0.08);
+
+  h6->GetXaxis()->SetTitle("y_tgt_alt [m] ");
+  h6->GetYaxis()->SetTitle("x_sieve [m]");
+
+
+ //  TH2F* h2 = new TH2F("h2", "theta_target vs. phi_target", 300, -0.06, 0.04, 300, -0.08, 0.08);
+  h6->SetMinimum(2);
+
+  
+#ifdef COLUMN_CUTS
+ (TCutG*) f1->GetObjectChecked(Form("ccut_L_%d_%d",FoilID, col), "TCutG"); //looking for old cut definition 
+  T->Draw("x_sieve:y_tgt_alt>>h6", GenrealCut + TCut(Form("fcut_L_%d", FoilID)) + TCut(Form("fcut_L_FP_%d", FoilID)) + TCut(Form("ccut_L_%d_%d", FoilID,col)), "COLZ");
+#endif
+#ifndef COLUMN_CUTS 
+  T->Draw("th_tgt:ph_tgt>>h2", GenrealCut + TCut(Form("fcut_L_FP_%d", FoilID)) + TCut(Form("fcut_L_%d", FoilID)), "COLZ");
+#endif
+
+
+
+  // sixth plot of theta_FP vs y_FP 
+
+  TCanvas *c6 = new TCanvas("c6","c6",1000,1000);
+  
+  TH2F* h7 = new TH2F("h7", Form("FP theta vs y (foil #%d)",FoilID), 300, -0.04, 0.04, 300, -0.08, 0.08);
+
+  h7->GetXaxis()->SetTitle("y FP [m] ");
+  h7->GetYaxis()->SetTitle("theta FP [rad]");
+
+
+ //  TH2F* h2 = new TH2F("h2", "theta_target vs. phi_target", 300, -0.06, 0.04, 300, -0.08, 0.08);
+  h7->SetMinimum(2);
+
+  
+#ifdef COLUMN_CUTS
+ (TCutG*) f1->GetObjectChecked(Form("ccut_L_%d_%d",FoilID, col), "TCutG"); //looking for old cut definition 
+  T->Draw("L.tr.r_th:L.tr.r_y>>h7", GenrealCut + TCut(Form("fcut_L_%d", FoilID)) + TCut(Form("fcut_L_FP_%d", FoilID)) + TCut(Form("ccut_L_%d_%d", FoilID,col)), "COLZ");
+#endif
+#ifndef COLUMN_CUTS 
+  T->Draw("th_tgt:ph_tgt>>h2", GenrealCut + TCut(Form("fcut_L_FP_%d", FoilID)) + TCut(Form("fcut_L_%d", FoilID)), "COLZ");
+#endif
+
 
 
 
@@ -1453,6 +1591,38 @@ void display_Sieve(int FoilID = 0, int col = 0){
   c1->Update();
 
   
+
+}
+
+
+void display_Columns(int FoilID = 0){
+
+  // function plots columns for a given foil cutx
+
+
+  ReLoadcuts();
+
+  std::cout << "CutFileName = " << CutFileName << std::endl;
+
+
+  TCanvas * c1 = new TCanvas(Form("PlotColSieve%d", FoilID), "PlotSieve (Columns)",1000, 1000);
+  c1->Update();
+
+  TChain* T = Load_more_rootfiles(Run_number, Run_number_2);
+
+  TFile *f1 = new TFile(CutFileName, "READ");
+  assert(f1);
+  (TCutG*) f1->GetObjectChecked(Form("fcut_L_%d", FoilID), "TCutG"); //looking for foil cut definition
+  (TCutG*) f1->GetObjectChecked(Form("fcut_L_FP_%d", FoilID), "TCutG"); //looking for foil cut definition
+
+
+  // plot of y against phi (focal plane)
+  TH2F* h2 = new TH2F("h2", "y vs. phi (focal plane) ", 1000, -0.04, 0.04, 900, -0.04, 0.04);
+  T->Draw("L.tr.y:L.tr.ph>>h2", GenrealCut + TCut(Form("fcut_L_%d", FoilID)) + TCut(Form("fcut_L_FP_%d", FoilID)), "COLZ");
+  c1->Update();
+
+
+
 
 }
 
