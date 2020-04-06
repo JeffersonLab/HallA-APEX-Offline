@@ -2667,7 +2667,7 @@ Double_t LOpticsOpt::SumSquareDTh()
     
 
     DEBUG_INFO("SumSquareDTh", "#%d : dth = %f,\t rmsth = %f", NCall, dth / fNRawData, TMath::Sqrt(rmsth / fNRawData));
-    printf("SumSquareDTh: #%d : dth = %f,\t rmsth = %f\n", NCall, dth / fNRawData, TMath::Sqrt(rmsth / fNRawData));
+    printf("SumSquareDTh: #%d : dth = %f,\t rmsth = %f\t, orig rmsth = %f\n", NCall, dth / fNRawData, TMath::Sqrt(rmsth / fNRawData), rmsth);
     printf("SumSquareDX: #%d : dx = %f,\t rmsdx = %f\t, orig rmsdx = %f\n", NCall, dx / fNRawData, TMath::Sqrt(rmsdx / fNRawData), rmsdx);
 
     //return rmsth; //Use for opt to angles

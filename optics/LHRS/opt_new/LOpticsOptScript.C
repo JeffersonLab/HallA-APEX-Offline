@@ -34,9 +34,16 @@ UInt_t MaxDataPerGroup = 100;
 //UInt_t MaxDataPerGroup = 100;
 
 //TString DataSource = "../Sieve/xfp_-10_10/Sieve.full.f4647";
-TString DataSource = "../Tree2Ascii/text_cuts/4771_4774_9_1_20.dat_looser_cuts_plus_foil6.dat";
+//TString DataSource = "../Tree2Ascii/text_cuts/4771_4774_9_1_20.dat_looser_cuts_plus_foil6.dat";
+//TString DataSource = "../Tree2Ascii/text_cuts/V1_V2_5_2_2020.dat";
+//TString DataSource = "../Tree2Ascii/text_cuts/V1_V2_V3_17_2_2020.dat";
+//TString DataSource = "../Tree2Ascii/text_cuts/V1_V2_V3_25_2_2020.dat";
 //TString DataSource = "Updated_Raster_26_11.dat";
 
+// Overall_cuts.dat created from combo of 4771_4774_9_1_20.dat_looser_cuts_plus_foil6_plus_foil7.dat and V1_V2_V3_25_2_2020.dat
+
+TString DataSource = "../Tree2Ascii/text_cuts/Overall_cuts.dat";
+//TString DataSource = "../Tree2Ascii/text_cuts/Overall_cuts_allX_FP.dat";
 
 
 // Inputs for minimiser and algorithm used
