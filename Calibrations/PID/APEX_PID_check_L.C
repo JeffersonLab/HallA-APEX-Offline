@@ -236,10 +236,10 @@ void APEX_PID_check_L()
 
   // method of saving aimed to produce better resolution images
 
-  c1->SaveAs("plots/event_selection.pdf");
+  c1->SaveAs("plots/L_event_selection.pdf");
   
   
-  gSystem->Exec("convert -density 700 -trim plots/event_selection.pdf plots/event_selection.png");
+  gSystem->Exec("convert -density 700 -trim plots/L_event_selection.pdf plots/L_event_selection.png");
   
 
 
@@ -305,7 +305,7 @@ void APEX_PID_check_L()
 
   //pion beta plot
 
-  TH2D* Beta_plot_pi = (TH2D*)Beta_plot_e->Clone("Beta_plot_pi");
+  TH1D* Beta_plot_pi = (TH1D*)Beta_plot_e->Clone("Beta_plot_pi");
 
   TCut pi_cut = Form("L.cer.asum_c > %f &&  L.cer.asum_c < %f && ((L.prl1.e+L.prl2.e)/(L.gold.p*1000)) > %f && ((L.prl1.e+L.prl2.e)/(L.gold.p*1000)) < %f",pi_cut_cer_l,pi_cut_cer_h,pi_cut_cal_l,pi_cut_cal_h);
 
@@ -315,7 +315,7 @@ void APEX_PID_check_L()
 
   // no hits beta plot
 
-  TH2D* Beta_plot_zer = (TH2D*)Beta_plot_e->Clone("Beta_plot_zer");
+  TH1D* Beta_plot_zer = (TH1D*)Beta_plot_e->Clone("Beta_plot_zer");
 
   TCut zer_cut = Form("L.cer.asum_c > %f &&  L.cer.asum_c < %f && ((L.prl1.e+L.prl2.e)/(L.gold.p*1000)) > %f && ((L.prl1.e+L.prl2.e)/(L.gold.p*1000)) < %f",zer_cut_cer_l,zer_cut_cer_h,zer_cut_cal_l,zer_cut_cal_h);
 
@@ -325,7 +325,7 @@ void APEX_PID_check_L()
 
   // background beta plot
 
-  TH2D* Beta_plot_bg = (TH2D*)Beta_plot_e->Clone("Beta_plot_bg");
+  TH1D* Beta_plot_bg = (TH1D*)Beta_plot_e->Clone("Beta_plot_bg");
 
   TCut bg_cut = Form("L.cer.asum_c > %f &&  L.cer.asum_c < %f && ((L.prl1.e+L.prl2.e)/(L.gold.p*1000)) > %f && ((L.prl1.e+L.prl2.e)/(L.gold.p*1000)) < %f",bg_cut_cer_l,bg_cut_cer_h,bg_cut_cal_l,bg_cut_cal_h);
 
@@ -379,7 +379,7 @@ void APEX_PID_check_L()
 
   //pion theta plot
 
-  TH2D* Theta_plot_pi = (TH2D*)Theta_plot_e->Clone("Theta_plot_pi");
+  TH1D* Theta_plot_pi = (TH1D*)Theta_plot_e->Clone("Theta_plot_pi");
   Theta_plot_pi->SetLineColor(kBlue);
   T->Draw("L.gold.th>>Theta_plot_pi",pi_cut,"same");
 
@@ -387,7 +387,7 @@ void APEX_PID_check_L()
 
   // no hits theta plot
 
-  TH2D* Theta_plot_zer = (TH2D*)Theta_plot_e->Clone("Theta_plot_zer");
+  TH1D* Theta_plot_zer = (TH1D*)Theta_plot_e->Clone("Theta_plot_zer");
 
 
   Theta_plot_zer->SetLineColor(kBlack);
@@ -396,12 +396,18 @@ void APEX_PID_check_L()
 
   // background theta plot
 
-  TH2D* Theta_plot_bg = (TH2D*)Theta_plot_e->Clone("Theta_plot_bg");
+  TH1D* Theta_plot_bg = (TH1D*)Theta_plot_e->Clone("Theta_plot_bg");
 
   Theta_plot_bg->SetLineColor(kGreen);
   T->Draw("L.gold.th>>Theta_plot_bg",bg_cut,"same");
 
 
+  cout << "Number of Entries in \\theta plots: " << endl;
+  cout << "Electrons " << Theta_plot_e->GetEntries() << endl;
+  cout << "Pions " << Theta_plot_pi->GetEntries() << endl;
+  cout << "Zeros " << Theta_plot_zer->GetEntries() << endl;
+  cout << "Bg " << Theta_plot_bg->GetEntries() << endl;
+  
 
 
 
@@ -450,7 +456,7 @@ void APEX_PID_check_L()
 
   //pion phi plot
 
-  TH2D* Phi_plot_pi = (TH2D*)Phi_plot_e->Clone("Phi_plot_pi");
+  TH1D* Phi_plot_pi = (TH1D*)Phi_plot_e->Clone("Phi_plot_pi");
   Phi_plot_pi->SetLineColor(kBlue);
   T->Draw("L.gold.ph>>Phi_plot_pi",pi_cut,"same");
 
@@ -458,7 +464,7 @@ void APEX_PID_check_L()
 
   // no hits phi plot
 
-  TH2D* Phi_plot_zer = (TH2D*)Phi_plot_e->Clone("Phi_plot_zer");
+  TH1D* Phi_plot_zer = (TH1D*)Phi_plot_e->Clone("Phi_plot_zer");
 
 
   Phi_plot_zer->SetLineColor(kBlack);
@@ -467,7 +473,7 @@ void APEX_PID_check_L()
 
   // background phi plot
 
-  TH2D* Phi_plot_bg = (TH2D*)Phi_plot_e->Clone("Phi_plot_bg");
+  TH1D* Phi_plot_bg = (TH1D*)Phi_plot_e->Clone("Phi_plot_bg");
 
   Phi_plot_bg->SetLineColor(kGreen);
   T->Draw("L.gold.ph>>Phi_plot_bg",bg_cut,"same");
@@ -522,7 +528,7 @@ void APEX_PID_check_L()
 
   //pion dp plot
 
-  TH2D* Dp_plot_pi = (TH2D*)Dp_plot_e->Clone("Dp_plot_pi");
+  TH1D* Dp_plot_pi = (TH1D*)Dp_plot_e->Clone("Dp_plot_pi");
   Dp_plot_pi->SetLineColor(kBlue);
   T->Draw("L.gold.dp>>Dp_plot_pi",pi_cut,"same");
 
@@ -530,7 +536,7 @@ void APEX_PID_check_L()
 
   // no hits dp plot
 
-  TH2D* Dp_plot_zer = (TH2D*)Dp_plot_e->Clone("Dp_plot_zer");
+  TH1D* Dp_plot_zer = (TH1D*)Dp_plot_e->Clone("Dp_plot_zer");
 
 
   Dp_plot_zer->SetLineColor(kBlack);
@@ -539,7 +545,7 @@ void APEX_PID_check_L()
 
   // background dp plot
 
-  TH2D* Dp_plot_bg = (TH2D*)Dp_plot_e->Clone("Dp_plot_bg");
+  TH1D* Dp_plot_bg = (TH1D*)Dp_plot_e->Clone("Dp_plot_bg");
 
   Dp_plot_bg->SetLineColor(kGreen);
   T->Draw("L.gold.dp>>Dp_plot_bg",bg_cut,"same");
@@ -548,10 +554,10 @@ void APEX_PID_check_L()
 
   // save canvas
 
-  c2->SaveAs("plots/track_var_plots.pdf");
+  c2->SaveAs("plots/L_track_var_plots.pdf");
    
   
-  gSystem->Exec("convert -density 700 -trim plots/track_var_plots.pdf plots/track_var_plots.png");
+  gSystem->Exec("convert -density 700 -trim plots/L_track_var_plots.pdf plots/L_track_var_plots.png");
   
 
 
@@ -1221,10 +1227,10 @@ void APEX_PID_check_L()
   // save canvas
 
 
-  c3->SaveAs("plots/Cherenkov_scan.pdf");
+  c3->SaveAs("plots/L_Cherenkov_scan.pdf");
    
   
-  gSystem->Exec("convert -density 700 -trim plots/Cherenkov_scan.pdf plots/Cherenkov_scan.png");
+  gSystem->Exec("convert -density 700 -trim plots/L_Cherenkov_scan.pdf plots/L_Cherenkov_scan.png");
 
 
 
@@ -1729,6 +1735,8 @@ void APEX_PID_check_L()
   // write out level of PRL1 + PRL2 cut
 
   Double_t PRL1_2_cut_l = 0.51;
+  Double_t PRL1_2_cut_h = 1.25;
+  
 
   
   TLine* PRL1_2_fin_cut = new TLine(PRL1_2_cut_l,0,PRL1_2_cut_l,Cal1_2_EP_plot_e->GetMaximum());
@@ -1761,20 +1769,32 @@ void APEX_PID_check_L()
 
   // draw diagonal cut on PRL2 vs PRL1 plot
 
-  TLine* PRL1_2_fin_cut_diag = new TLine(0,PRL1_2_cut_l,PRL1_2_cut_l,0);
+  TLine* PRL1_2_fin_cut_diag_l = new TLine(0,PRL1_2_cut_l,PRL1_2_cut_l,0);
 
   
-  PRL1_2_fin_cut_diag->SetLineColor(kMagenta);
-  PRL1_2_fin_cut_diag->SetLineWidth(2);
-  PRL1_2_fin_cut_diag->Draw("same");
+  PRL1_2_fin_cut_diag_l->SetLineColor(kMagenta);
+  PRL1_2_fin_cut_diag_l->SetLineWidth(2);
+  PRL1_2_fin_cut_diag_l->Draw("same");
+
+  
+  TLine* PRL1_2_fin_cut_diag_h = new TLine(0,PRL1_2_cut_h,PRL1_2_cut_h,0);
+
+  
+  PRL1_2_fin_cut_diag_h->SetLineColor(kMagenta);
+  PRL1_2_fin_cut_diag_h->SetLineWidth(2);
+  PRL1_2_fin_cut_diag_h->Draw("same");
   
   
   PRL1_fin_cut_eff->Draw("same");
 
 
+  c4->SaveAs("plots/L_Calorimeter_scan.pdf");
+     
+  gSystem->Exec("convert -density 700 -trim plots/L_Calorimeter_scan.pdf plots/L_Calorimeter_scan.png");
 
 
-
+  gSystem->Exec("pdfunite plots/L_event_selection.pdf plots/L_track_var_plots.pdf plots/L_Cherenkov_scan.pdf plots/L_Calorimeter_scan.pdf plots/L_PID_plots_combined.pdf");
+  
 
 
   //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1783,7 +1803,7 @@ void APEX_PID_check_L()
 
   cout << "Final cuts are: " << endl;
   cout << "gen_cut: " << gen_cut << endl << endl;
-  cout << "PID cuts " << Form("(L.prl1.e/(L.gold.p*1000)) > %f  && ((L.prl2.e + L.prl1.e)/(L.gold.p*1000)) > %f && L.cer.asum_c > %f",PRL1_cut_l,PRL1_2_cut_l,ch_lr_cut) << endl << endl;
+  cout << "PID cuts " << Form("(L.prl1.e/(L.gold.p*1000)) > %f  && ((L.prl2.e + L.prl1.e)/(L.gold.p*1000)) > %f && ((L.prl2.e + L.prl1.e)/(L.gold.p*1000)) < %f && L.cer.asum_c > %f",PRL1_cut_l,PRL1_2_cut_l,PRL1_2_cut_h,ch_lr_cut) << endl << endl;
   
   
   
