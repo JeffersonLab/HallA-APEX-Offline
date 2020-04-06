@@ -24,7 +24,7 @@
 #include <algorithm>
 
 // COLUMN_CUTS parameter determines whether column cuts are used (loaded in hole cuts function or not)
-#define COLUMN_CUTS 1
+//#define COLUMN_CUTS 1
 
 
 //TCut GeneralSieveCut ="L.tr.n==1 && L.tr.chi2<0.003 && abs(L.tr.x)<0.75 && abs(L.tr.y)<0.55 && abs(L.tr.th)<0.15 && abs(L.tr.ph)<0.045";
@@ -924,19 +924,27 @@ void cut_Vertex_FP_MF(int overwrite = 0, int nfoils = 3, int FoilID = -1, int ap
 
       if((2*j + offset) != i){
 	
-
+	cout << " Begin foil " << 2*j + offset << endl;
 	
 	// cout << "count == " << count << endl;
 	// cout << "Foil Printed: " << 2*j + offset << endl;
-	other_foils[count] =  (TCutG*) gROOT->FindObject(Form("fcut_L_FP_%d", 2*j+offset));
 
-	other_foils[count]->SetLineColor(kRed);
-	// cout << "Foil Printed: " << 2*j + offset << endl;
-	other_foils[count]->Draw("PL same");
-	// cout << "Foil Printed: " << 2*j + offset << endl;
-
-	count++;
+	// test if other foils have FP cut
 	
+	TCutG* tmpcut =  (TCutG*) gROOT->FindObject(Form("fcut_L_FP_%d", 2*j+offset));
+
+	if (tmpcut){
+	  other_foils[count] =  (TCutG*) gROOT->FindObject(Form("fcut_L_FP_%d", 2*j+offset));
+
+	  other_foils[count]->SetLineColor(kRed);
+	// cout << "Foil Printed: " << 2*j + offset << endl;
+	  other_foils[count]->Draw("PL same");
+	// cout << "Foil Printed: " << 2*j + offset << endl;
+
+	}
+	count++;
+
+	cout << " end foil " << 2*j + offset << endl;
       }
       else{
 
@@ -971,7 +979,9 @@ void cut_Vertex_FP_MF(int overwrite = 0, int nfoils = 3, int FoilID = -1, int ap
       tmpcut->Draw("PL");
       // 		delete tmpcut; //delete old cut
     } else {
-      
+
+
+      c2->cd(1);
       cout << "making cut for foil No." << i << ", waiting ..." << endl;
 
       cutg = (TCutG*) (cpad->WaitPrimitive("CUTG", "CutG")); // making cut, store to CUTG
@@ -1080,7 +1090,7 @@ void cut_Vertex_new(int overwrite = 0, int nfoils = 3, int FoilID = -1) {
 	// 	TH2F* h2 = new TH2F ("h2","theta_target vs. phi_target", 900, -0.06,0.06,900,-0.07,0.07);
 
 	// Draw ReactZ vs. Phi_rotate
-	T->Draw("L.tr.vz:L.tr.tg_ph>>h1", GenrealCut, "COLZ"); // need finer delta cut later
+	T->Draw("L.tr.vz:L.tr.tg_ph>>h1", GenrealCut , "COLZ"); // need finer delta cut later
 	c1->Update();
 
 	// Set y target number
@@ -1350,7 +1360,12 @@ void display_Sieve(int FoilID = 0, int col = 0){
 #endif
 
 
-
+  // test of how many events pass each cut
+  cout << "How many pass overall events: " << T->GetEntries() << endl;
+  cout << "How many pass general cut: " << T->GetEntries(GenrealCut) << endl;
+  cout << "How many pass foil cut: " << T->GetEntries(TCut(Form("fcut_L_%d", FoilID))) << endl;
+  cout << "How many pass foil FP cut: " << T->GetEntries(TCut(Form("fcut_L_FP_%d", FoilID))) << endl;
+  cout << "How many pass all cuts: " << T->GetEntries(GenrealCut + TCut(Form("fcut_L_FP_%d", FoilID)) + TCut(Form("fcut_L_%d", FoilID))) << endl;
   
   TRotation fTCSInHCS;
   TVector3 TCSX(0,-1,0);
