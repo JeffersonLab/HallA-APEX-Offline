@@ -56,6 +56,8 @@ optics/LHRS/opt_new/DB/*
 optics/LHRS/opt_new/*_C*
 
 
+optics/LHRS/Offsets_cuts/file_def.h
+
 Calibrations/**/*txt
 Calibrations/**/*pdf
 Calibrations/**/*dat*
@@ -71,3 +73,4 @@ Calibrations/**/*#
 *~
 
 
+/optics/LHRS/Tree2Ascii/SieveTree2Ascii_variations/*

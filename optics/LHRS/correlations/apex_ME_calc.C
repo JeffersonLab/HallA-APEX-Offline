@@ -90,6 +90,9 @@ void apex_ME_calc(Int_t runnumber, TString db_name, Int_t rast = 1){
   T->SetBranchStatus("Lurb.dir.x",1);
   T->SetBranchStatus("Lurb.dir.y",1);
   T->SetBranchStatus("Lurb.dir.z",1);
+  T->SetBranchStatus("Lrb.dir.x",1);
+  T->SetBranchStatus("Lrb.dir.y",1);
+  T->SetBranchStatus("Lrb.dir.z",1);
   T->SetBranchStatus("L.tr.tg_th",1);
   T->SetBranchStatus("L.tr.tg_ph",1);
   T->SetBranchStatus("L.tr.tg_y",1);
@@ -102,7 +105,10 @@ void apex_ME_calc(Int_t runnumber, TString db_name, Int_t rast = 1){
   T->SetBranchStatus("L.tr.r_ph",1);
 
   T->SetBranchStatus("L.tr.vz",1);
+
+  T->SetBranchStatus("L.gold.*",1);
   
+
 
   // branches necessary for cuts on track quality  
 
@@ -138,19 +144,13 @@ void apex_ME_calc(Int_t runnumber, TString db_name, Int_t rast = 1){
   // cut added due to problems relating to large focal plane or vertex entries
   TCut FP_cut  = "abs(L.tr.r_x)<1 && abs(L.tr.r_y)<1 && abs(L.tr.r_th)<2 && abs(L.tr.r_ph)<2 && abs(L.tr.vz)<1e+6 && abs(L.tr.tg_th)<10 && abs(L.tr.tg_ph)<10 && abs(L.tr.tg_y)<10 && abs(L.tr.tg_dp)<10 && abs(Lurb.x)<10 && abs(Lurb.y)<10 && abs(L.tr.x)<10 && abs(L.tr.y)<10 && abs(L.tr.th)<10 && abs(L.tr.ph)<10 ";
 
-
-  // TCut GeneralSieveCut ="L.tr.n==1 && L.tr.chi2<0.003 && abs(L.gold.th)<0.05 && L.gold.ph>-0.07 && L.gold.ph<0.025 && abs(L.gold.dp)<0.05 && L.vdc.u1.nclust==1 && L.vdc.v1.nclust==1 && L.vdc.u2.nclust==1 && L.vdc.v2.nclust==1";
-
- // TCut GeneralSieveCut ="L.tr.n==1 && L.tr.chi2<0.003 && abs(L.gold.th)<0.05 && L.gold.ph>-0.07 && L.gold.ph<0.025 && abs(L.tr.r_x)<1 && L.vdc.u1.nclust==1 && L.vdc.v1.nclust==1 && L.vdc.u2.nclust==1 && L.vdc.v2.nclust==1";
-
-
- //  TCut PID_cuts = "(L.prl1.e/(L.gold.p*1000))>0.2 && ((L.prl1.e+L.prl2.e)/(L.gold.p*1000))>0.51 &&  L.cer.asum_c >400";
-
   
 
 
 
-  TString final_cut = (TString) PID_cuts + " && " + (TString) GeneralSieveCut + " && " + (TString) FP_cut;
+  //  TString final_cut = (TString) PID_cuts + " && " + (TString) GeneralSieveCut + " && " + (TString) FP_cut;
+
+  TString final_cut = "";
 
 
 
@@ -247,7 +247,7 @@ void apex_ME_calc(Int_t runnumber, TString db_name, Int_t rast = 1){
 
   Double_t y_sieve = 0;
   
-
+  Double_t y_tgt_alt = 0;
   Double_t y_sieve_alt = 0;
   // y_sieve alt comes from using beam info to get y_tgt rather than matrix (could be useful when y_tg matrix elements are thought to be poorly calibrated)
 
@@ -255,6 +255,8 @@ void apex_ME_calc(Int_t runnumber, TString db_name, Int_t rast = 1){
   out_T->Branch("x_sieve",&x_sieve);
   out_T->Branch("y_sieve",&y_sieve);
 
+  // create branch for 'y_tgt_alt' this is for the version of y_tgt used for optimisation of th_tgt
+  out_T->Branch("y_tgt_alt",&y_tgt_alt);
   out_T->Branch("y_sieve_alt",&y_sieve_alt);
 
 
@@ -528,7 +530,7 @@ void apex_ME_calc(Int_t runnumber, TString db_name, Int_t rast = 1){
 
     
 
-    Double_t y_tgt_alt = BeamSpotTCS.Y() - BeamSpotTCS.Z() * TMath::Tan(ph_tgt);
+    y_tgt_alt = BeamSpotTCS.Y() - BeamSpotTCS.Z() * TMath::Tan(ph_tgt);
 
     
 

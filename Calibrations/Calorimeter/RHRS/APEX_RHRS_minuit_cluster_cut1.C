@@ -32,10 +32,18 @@ Int_t nColShower;
 char arm[2]; 
 // TChain for data ROOT files
 TChain *T = new TChain("T");
-// vector of pedestal values for shower and prewshower
+
+// vector of pedestal values for shower and preshower
 // should be read in from text file
 vector<Double_t> ped_preShow;		
 vector<Double_t> ped_show;	
+
+// vector of gain values for shower and preshower
+// should be read in from text file
+vector<Double_t> gain_preShow;		
+vector<Double_t> gain_show;	
+
+
 // number of good events (needed for loops)	
 Int_t numGoodEvents = 0;
 
@@ -142,9 +150,14 @@ void getGoodEvents() {
 		// JW: scer is cerenkov sum (again for electron PID)
 		
 		if( n_tr == 1 && n_u1_clust == 1 && n_u2_clust == 1 && n_v1_clust == 1 && n_v2_clust == 1 &&
-		    (Eps + 0.85*Esh) > 450. && (Eps + 0.85*Esh) < 4000. && Eps > 250. && Esh > 200. &&
+		    (Eps + 0.85*Esh) > 500. && (Eps + 0.85*Esh) < 2000. && Eps > 100. && Esh > 100. && scer[0] > 3000. && p[0] > 0. ) {
+
+
+		  // tritium cut levels
+		  // (Eps + 0.85*Esh) > 450. && (Eps + 0.85*Esh) < 4000. && Eps > 250. && Esh > 200. && scer[0] > 3000. && p[0] > 0. ) {
+
 		    //	    	    (evtypebits == 48 || evtypebits == 112) &&
-		    scer[0] > 3000. && p[0] > 0. ) {
+		    // scer[0] > 3000. && p[0] > 0. ) {
 
 
 		  // below are the levels of the tritium cuts
@@ -321,23 +334,59 @@ void APEX_RHRS_minuit_cluster_cut1(Int_t run = 4179) {
 		ped_show.push_back(showPed);
 	}
 
+
+
+	// read input gain files to use as first guess of parameters
+
+	ifstream preshowerGainsFile("ps_gains.dat");
+	ifstream showerGainsFile("sh_gains.dat");
+	Double_t psGain;
+	Double_t shGain;
+
+	Int_t counter = 0;
+
+	while(preshowerGainsFile >> psGain){
+	  gain_preShow.push_back(psGain);
+	}
+
+	while(showerGainsFile >> shGain) { 
+	  gain_show.push_back(shGain);
+	}
+
+
+
+
 	// fill good event vector with good events
 	getGoodEvents();
 
 	// create minimizer and set chi2 as the function to be minimized	
-	TFitter* minimizer = new TFitter(nBlkPreShower + nBlkShower);
+	//	TFitter* minimizer = new TFitter(nBlkPreShower + nBlkShower);
+	TVirtualFitter* minimizer = TVirtualFitter::Fitter(NULL, nBlkPreShower + nBlkShower);
 	minimizer->SetFCN(chi2);
+	//	minimizer->SetFitOption(q);
 
-	// initialize all parameters to 1 
+
+
+	// use input gains (read from old DB entry) as initial guess of gain parameters
 	for(Int_t i = 0; i < nBlkPreShower + nBlkShower; i++) {
-		minimizer->SetParameter(i, Form("alpha%i",i+1), 1.0, 0.05, 0., 10.);
-	}
 
+	  if (i < nBlkPreShower){
+	    minimizer->SetParameter(i, Form("alpha%i",i+1), gain_preShow[i], 0.05, 0., 10.);
+	  }
+	  else{
+	    minimizer->SetParameter(i, Form("alpha%i",i+1), gain_show[i - nBlkPreShower], 0.05, 0., 10.);
+	  }
+	  
+	  
+	  
+	}
+	
 	// complete the minimization
 	cout << "Minimizing..." << endl; 
-	minimizer->ExecuteCommand("MINIMIZE",0,0);
+	//	minimizer->ExecuteCommand("MINIMIZE",0,0);
  	minimizer->ExecuteCommand("MIGRAD",0,0);
-	// JW: think these shoukd return int but allowed not to (root 5 ?)
+	
+	// JW: think these should return int but allowed not to (root 5 ?)
 
 	// write out to file in current directory
 	// the output has been structured with the correct ordering of the block gains

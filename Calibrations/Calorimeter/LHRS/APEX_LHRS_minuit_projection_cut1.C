@@ -33,7 +33,9 @@ Int_t numColPRL2;
 char arm[2]; 
 TChain *T = new TChain("T");
 vector<Double_t> pedestals_PRL1;		// preshower pedestals
+vector<Double_t> gains_PRL1;		// preshower gains read from previous DB
 vector<Double_t> pedestals_PRL2;		// shower pedestals
+vector<Double_t> gains_PRL2;		// shower gains read from previous DB
 Int_t numGoodEvents = 0;
 vector<pair<pair<int, double>, vector<pair<int, double> > > > goodEvents;
 
@@ -138,7 +140,7 @@ void getGoodEvents() {
 		Int_t evtypebits = evtype;
 		
 		if( n_tr == 1 && n_u1_clust == 1 && n_u2_clust == 1 && n_v1_clust == 1 && n_v2_clust == 1 &&
-		    (Eps + 0.85*Esh) > 200. && (Eps + 0.85*Esh) < 4000. && Eps > 150. && Esh > 75. &&
+		    (Eps + 0.85*Esh) > 600. && (Eps + 0.85*Esh) < 1200. && Eps > 400. && Esh > 35. &&
 		    scer[0] > 3000. && p[0] > 0. ) {
 
 		  // 	Tritium cut levels    (Eps + 0.85*Esh) > 1500. && (Eps + 0.85*Esh) < 4000. && Eps > 250. && Esh > 750. &&
@@ -328,6 +330,32 @@ void APEX_LHRS_minuit_projection_cut1(Int_t run = 4179) {
 
 	cout << "Read PRL2 pedestals!\n\n";
 
+
+	// read the gains
+	ifstream preshowerGainsFile("prl1_gains.dat");
+	ifstream showerGainsFile("prl2_gains.dat");
+	Double_t prl1Gain;
+	Double_t prl2Gain;
+
+	Int_t counter = 0;
+
+	while(preshowerGainsFile >> prl1Gain){
+	  gains_PRL1.push_back(prl1Gain);
+	}
+
+	cout << "Read PRL1 gains!\n\n";
+
+	while(showerGainsFile >> prl2Gain) { 
+	  gains_PRL2.push_back(prl2Gain);
+	}
+
+	cout << "Read PRL2 gains!\n\n";
+
+
+
+
+
+
 	getGoodEvents();
 	cout << "completed getGoodEvents() function!" <<endl;
 
@@ -339,17 +367,28 @@ void APEX_LHRS_minuit_projection_cut1(Int_t run = 4179) {
 	TVirtualFitter* minimizer = TVirtualFitter::Fitter(NULL, numBlockPRL1 + numBlockPRL2);
 	minimizer->SetFCN(chi2);
 
+
+
 	for(Int_t i = 0; i < numBlockPRL1 + numBlockPRL2; i++) {
-		minimizer->SetParameter(i, Form("alpha%i",i+1), 1.0, 0.05, 0., 10.);
+	  //		minimizer->SetParameter(i, Form("alpha%i",i+1), 1.0, 0.05, 0., 10.);
+
+	  if (i < numBlockPRL1){
+	    minimizer->SetParameter(i, Form("alpha%i",i+1), gains_PRL1[i], 0.05, 0., 10.);
+	  }
+	  else{
+	    minimizer->SetParameter(i, Form("alpha%i",i+1), gains_PRL2[i-numBlockPRL1], 0.05, 0., 10.);
+	  }
+
+
 	}
 	cout << "Minimizing..." << endl; 
 	//	minimizer->ExecuteCommand("MINIMIZE",0,0);
 	Double_t arglist[1] = {0};
 
- 	minimizer->ExecuteCommand("MIGRAD",arglist,0);
+	minimizer->ExecuteCommand("MIGRAD",arglist,0);
 	
-	ofstream fit_preshower("minuit_projection_cut1.prl1.dat");
-	ofstream fit_shower("minuit_projection_cut1.prl2.dat");
+	ofstream fit_preshower(Form("DB_output/%d_minuit_projection_cut1.prl1.dat",run));
+	ofstream fit_shower(Form("DB_output/%d_minuit_projection_cut1.prl2.dat",run));
 	cout << setprecision(5);
 	fit_preshower << "L.prl1.pedestals =\n";
 	for(int i = 0; i < numBlockPRL1; i++) {
