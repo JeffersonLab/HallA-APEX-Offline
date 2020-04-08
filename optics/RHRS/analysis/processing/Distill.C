@@ -1,9 +1,10 @@
 void Distill(){
 
-  //Macro to take full replayed root file and get only needed variables for optics analysis
+  //Macro to take full root file and get only needed variables
   
   TChain * t = new TChain("T");
-  t->Add("../root/old/apex_4647*.root");
+  TString rootfile = "/home/sean/Grad/Research/APEX/Rootfiles/root/";
+  t->Add(rootfile + "apex_4647*.root");
 
   t->SetBranchStatus("*",0);
   t->SetBranchStatus("R.tr.n",1);
@@ -27,7 +28,7 @@ void Distill(){
   
   t->SetBranchStatus("R.tr.vz",1);
 
-  TFile* f = new TFile("../apex_4647.root","recreate");
+  TFile* f = new TFile(rootfile + "apex_4647_combined.root","recreate");
   TTree* tree = t->CloneTree(0);
   
   tree->CopyEntries(t);
