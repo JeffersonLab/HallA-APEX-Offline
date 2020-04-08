@@ -1,6 +1,4 @@
 
-////Macro calculates the angular resolutions and the mass resolution /////
-
 TString range;
 
 double Avg(vector<double> R){
@@ -212,5 +210,9 @@ void mass_res(){
   hmass->Draw();
 
   cmass->SaveAs("xfp_" + range + "/mass_res.gif");
-  
+
+  cout<<"Phi Offset = "<<ph_off*1000<<" mrad"<<endl;
+  cout<<"Theta Offset = "<<th_off*1000<<" mrad"<<endl;
+  cout<<"Phi Width = "<<ph_wid*1000<<" mrad"<<endl;
+  cout<<"Theta Width = "<<th_wid*1000<<" mrad"<<endl;
 }

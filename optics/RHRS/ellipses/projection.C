@@ -1,6 +1,15 @@
+
+double Avg(double R[3]){
+  double average = 0;
+  
+  for(int i = 0; i<3; i++) average += R[i]/3;
+    
+  return average;
+}
+
 void projection(){
 
-  //Macro takes graphical cuts and makes phi and theta projections from them and writes some results to the csv file containing all the information////
+  //Macro takes graphical cuts and makes phi and theta projections from them and writes some results to the csv file containing all the information
 
   TString range = "full_brute";
   bool opt = true;
@@ -40,7 +49,7 @@ void projection(){
   TCanvas *c2[100] = {NULL};
   
   int n_canvas = 0;
-  for(int n_col = 0; n_col < 27; n_col++){
+  for(int n_col = 0; n_col < 26; n_col++){
     for(int n_row = 0; n_row < 17; n_row++){
       TCutG* g = NULL;
       tcuts->GetObject(Form("hcut_R_1_%d_%d",n_col,n_row), g);
@@ -96,11 +105,18 @@ void projection(){
       
       htemp->Fit("fph","qR");
 
-      
-      double x1 = fph->GetParameter(1) - 1.8*fph->GetParameter(2);
-      double x2 = fph->GetParameter(1) + 1.8*fph->GetParameter(2);
-      double y1 = htemp->GetBinContent(htemp->GetXaxis()->FindBin(x1));
-      double y2 = htemp->GetBinContent(htemp->GetXaxis()->FindBin(x2));
+      double y[3];
+      double x1 = fph->GetParameter(1) - 1.6*fph->GetParameter(2);
+      double x2 = fph->GetParameter(1) + 1.6*fph->GetParameter(2);
+
+      y[0] = htemp->GetBinContent(htemp->GetXaxis()->FindBin(x1));
+      y[1] = htemp->GetBinContent(htemp->GetXaxis()->FindBin(x1) - 1);
+      y[2] = htemp->GetBinContent(htemp->GetXaxis()->FindBin(x1) - 2);
+      double y1 = Avg(y);
+      y[0] = htemp->GetBinContent(htemp->GetXaxis()->FindBin(x2));
+      y[1] = htemp->GetBinContent(htemp->GetXaxis()->FindBin(x2) + 1);
+      y[2] = htemp->GetBinContent(htemp->GetXaxis()->FindBin(x2) + 2);
+      double y2 = Avg(y);
       
       double m = (y2 - y1)/(x2 - x1);
       double b = y1 - m*x1;
@@ -134,11 +150,18 @@ void projection(){
       
       htemp2->Fit("fth","qR");
 
-      x1 = fth->GetParameter(1) - 1.8*fth->GetParameter(2);
-      x2 = fth->GetParameter(1) + 1.8*fth->GetParameter(2);
-      y1 = htemp->GetBinContent(htemp2->GetXaxis()->FindBin(x1));
-      y2 = htemp->GetBinContent(htemp2->GetXaxis()->FindBin(x2));
-      
+      x1 = fth->GetParameter(1) - 1.6*fth->GetParameter(2);
+      x2 = fth->GetParameter(1) + 1.6*fth->GetParameter(2);
+
+      y[0] = htemp2->GetBinContent(htemp2->GetXaxis()->FindBin(x1));
+      y[1] = htemp2->GetBinContent(htemp2->GetXaxis()->FindBin(x1) - 1);
+      y[2] = htemp2->GetBinContent(htemp2->GetXaxis()->FindBin(x1) - 2);
+      y1 = Avg(y);
+      y[0] = htemp2->GetBinContent(htemp2->GetXaxis()->FindBin(x2));
+      y[1] = htemp2->GetBinContent(htemp2->GetXaxis()->FindBin(x2) + 1);
+      y[2] = htemp2->GetBinContent(htemp2->GetXaxis()->FindBin(x2) + 2);
+      y2 = Avg(y);
+
       m = (y2 - y1)/(x2 - x1);
       b = y1 - m*x1;
 
