@@ -1,8 +1,5 @@
 void correlation(){
 
-
-  ////Makes correlation plots between theta and phi target and all the focal plane variables for each hole/////
-  
   gStyle->SetPalette(1);
 
   TString range = "full_brute";
@@ -24,10 +21,15 @@ void correlation(){
   gStyle->SetStatH(0.15);
 
   
-  int n_col = 11;
-  int n_row = 9;
+  int n_col = 10;   //Set column
+  int n_row = 8;   //Set Row
 
-  TCanvas *c[4][2];
+  TCanvas *c[2];
+  c[0] = new TCanvas("c0","",800,600);
+  c[1] = new TCanvas("c1","",800,600);
+  c[0]->Divide(2,2);
+  c[1]->Divide(2,2);
+
   TString var[4] = {"x","y","th","ph"};
   double x_range[4] = {0.5,0.03,0.03,0.03};
   
@@ -61,10 +63,10 @@ void correlation(){
     if(i < 2) fp += " (m)";
     else fp += " (rad)";
     
-    TH2F *htemp = new TH2F(name[i][0],";"+fp+";Target #phi (mrad)",100,-x_range[i],x_range[i],100,sieve_ph[n_col] - 3,sieve_ph[n_col] + 3);
+    TH2F *htemp = new TH2F(name[i][0],";"+fp+";Target #phi (mrad)",100,-x_range[i],x_range[i],100,sieve_ph[n_col] - 4,sieve_ph[n_col] + 4);
 
 
-    c[i][0] = new TCanvas(Form("c%d%d",i,0),"",800,600);
+    c[0]->cd(i+1);
     t->Draw("R.tr.tg_ph*1000:R.tr.r_"+var[i]+">>"+name[i][0], GeneralCut && id_cut,"colz");
     
     htemp->Draw("colz");
@@ -75,7 +77,8 @@ void correlation(){
 
     TH2F *htemp2 = new TH2F(name[i][1],";"+fp+";Target #theta (mrad)",100,-x_range[i],x_range[i],100,sieve_th[n_row] - 10,sieve_th[n_row] + 10);
 
-    c[i][1] = new TCanvas(Form("c%d%d",i,1),"",800,600);
+
+    c[1]->cd(i+1);
     t->Draw("R.tr.tg_th*1000:R.tr.r_"+var[i]+">>" + name[i][1], GeneralCut && id_cut,"colz");
     
     htemp2->Draw("colz");
@@ -85,15 +88,7 @@ void correlation(){
     l2->Draw("same");
   }
 
-  for(int i = 0; i<4; i++){
-    if(i==0) c[i][0]->Print("xfp_" + range + "/correlations/"+Form("correlation_%d_%d",n_col,n_row)+".pdf(","pdf");
-    else c[i][0]->Print("xfp_" + range + "/correlations/"+Form("correlation_%d_%d",n_col,n_row)+".pdf","pdf");
-  }
-
-  for(int i = 0; i<4; i++){
-    if(i==3) c[i][1]->Print("xfp_" + range + "/correlations/"+Form("correlation_%d_%d",n_col,n_row)+".pdf)","pdf");
-    else c[i][1]->Print("xfp_" + range + "/correlations/"+Form("correlation_%d_%d",n_col,n_row)+".pdf","pdf");
-  }
-
-
+  c[0]->Print("xfp_" + range + "/correlations/"+Form("correlation_%d_%d",n_col,n_row)+".pdf(","pdf");
+  c[1]->Print("xfp_" + range + "/correlations/"+Form("correlation_%d_%d",n_col,n_row)+".pdf)","pdf");
+  
 }
