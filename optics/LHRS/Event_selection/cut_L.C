@@ -1311,6 +1311,27 @@ void test_APEX(){
 
 
 
+void display_Foils(){
+
+  // function displays foil tg-phi z plots
+
+  TChain* T = Load_more_rootfiles(Run_number, Run_number_2);
+
+ ReLoadcuts();
+
+ TCanvas *c1 = new TCanvas("c1","PlotFoils",1000,1000);
+ 
+ TH2F* h1 = new TH2F("h1",Form("Vertex plot for run #%d",Run_number), 400, -0.05, 0.05, 200,-0.4, 0.4);
+ //	h1->CenterTitle();
+
+ h1->GetXaxis()->SetTitle("\\phi_{tg} [rad]");
+ h1->GetYaxis()->SetTitle("Reactz [m]");
+	
+ T->Draw("reactz:ph_tgt>>h1", GenrealCut, "COLZ"); // need finer delta cut later
+ 
+}
+
+
 void display_Sieve(int FoilID = 0, int col = 0){
 
   // function plots sieve x-y and theta-phi for a chosen foil
