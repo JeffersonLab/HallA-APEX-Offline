@@ -903,19 +903,27 @@ const TVector3 ROpticsOpt::GetSieveHoleTCS(UInt_t Col, UInt_t Row)
     assert(Col < NSieveCol);
     assert(Row < NSieveRow);
 
-    Double_t XbyRow =0;
     /*
+    Double_t XbyRow =0;
+    
     if((Col%2) == 0){
       XbyRow = SieveXbyRowEven[Row];
     }
     if((Col%2) == 1){
       XbyRow = SieveXbyRowOdd[Row];
     }
+    
     */
 
-    XbyRow = SieveXbyRow[Row];
+    //TVector3 SieveHoleTCS(SieveOffX + SieveXbyRow[Row], SieveOffY + SieveYbyCol[Col], ZPos);  //Old way of calculating without survey information
 
-    TVector3 SieveHoleTCS(SieveOffX + XbyRow, SieveOffY + SieveYbyCol[Col], ZPos);
+    /// Calculate position with survey info ////
+    TVector3 SieveHoleTCS(SieveOffX + SieveXbyRow[Row], SieveOffY + SieveYbyCol[Col], 0);
+
+    SieveHoleTCS.RotateX(yaw - fabs(HRSAngle));
+    SieveHoleTCS.RotateY(pitch - TMath::Pi()/2);
+    SieveHoleTCS.SetZ(SieveHoleTCS.Z() + ZPos);
+    
     /*
     cout<<"Col%2:"<<Col%2<<endl;
     cout<<"Col:"<<Col<<endl;
@@ -1094,7 +1102,6 @@ TCanvas * ROpticsOpt::CheckSieve(Int_t PlotFoilID)
 	//Double_t ProjectionX = eventdata.Data[kCalcTh];
         Double_t ProjectionY = eventdata.Data[kRealTgY] + eventdata.Data[kCalcPh] * (SieveHoleCorrectionTCS.Z());
 	
-	
         //Double_t ProjectionY = eventdata.Data[kCalcPh];
 	
 	HSievePlane[FoilID]->Fill(ProjectionY, ProjectionX);
@@ -1156,7 +1163,7 @@ TCanvas * ROpticsOpt::CheckSieve(Int_t PlotFoilID)
 
 	      const Double_t posx = SieveHoleCorrectionTCS.Y();
 	      const Double_t posy = SieveHoleCorrectionTCS.X();
-
+	      
                 TLine *lh = new TLine(posx - plotwidth, posy, posx + plotwidth, posy);
                 TLine *lv = new TLine(posx, posy - plotwidth, posx, posy + plotwidth);
 
@@ -2028,8 +2035,6 @@ Double_t ROpticsOpt::SumSquareDTh()
 
         // calculate the coordinates at the target
         theta = CalcTargetVar(fTMatrixElems, powers);
-
-	
 	
         dth += theta - eventdata.Data[kRealThMatrix];
         rmsth += (theta - eventdata.Data[kRealThMatrix])*(theta - eventdata.Data[kRealThMatrix]);
@@ -2055,8 +2060,8 @@ Double_t ROpticsOpt::SumSquareDTh()
     // DEBUG_INFO("SumSquareDTh", "#%d : dth = %f,\t rmsth = %f", NCall, dth / fNRawData, TMath::Sqrt(rmsth / fNRawData));
     printf("SumSquareDTh: #%d : dth = %f,\t rmsth = %f\n", NCall, dth / fNRawData, TMath::Sqrt(rmsth / fNRawData));
 
-    //return rmsth; //Use for opt to angles
-    return rmsdx; //Use for opt to sieve plane
+    return rmsth; //Use for opt to angles
+    //return rmsdx; //Use for opt to sieve plane
 }
 
 Double_t ROpticsOpt::SumSquareDPhi()
@@ -2124,8 +2129,8 @@ Double_t ROpticsOpt::SumSquareDPhi()
     // DEBUG_INFO("SumSquareDPhi", "#%d : dphi = %f,\t rmsphi = %f", NCall, dphi / fNRawData, TMath::Sqrt(rmsphi / fNRawData));
     printf("SumSquareDPhi: #%d : dphi = %f,\t rmsphi = %f\n", NCall, dphi / fNRawData, TMath::Sqrt(rmsphi / fNRawData));
 
-    //return rmsphi;  //Use for opt to angles
-    return rmsdy;   //Use for opt to sieve plane
+    return rmsphi;  //Use for opt to angles
+    //return rmsdy;   //Use for opt to sieve plane
 }
 
 void ROpticsOpt::PrepareVertex(void)

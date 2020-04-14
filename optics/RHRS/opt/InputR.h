@@ -44,6 +44,7 @@ const Double_t SieveRadius_c = 0.236*25.4/2.0*1e-3;
 const Double_t BeamX_average[] = {-2.5e-3, -0.0041, 2.5e-3};
 const Double_t BeamY_average = 0.008;
 
+
 /////////////////////////////////////////////////////////////////////////
 // Sieve Position Inputs
 const Double_t YbyCol = .19 * 25.4e-3;
@@ -57,11 +58,18 @@ const Double_t XbyRow = .46 * 25.4e-3;
 const Double_t SieveXbyRow[] = {-4 * XbyRow, -3.5 * XbyRow, -3 * XbyRow, -2.5 * XbyRow, -2 * XbyRow, -1.5 * XbyRow, -1 * XbyRow, -0.5 * XbyRow, 0*XbyRow, 0.5 * XbyRow, 1*XbyRow, 1.5 * XbyRow, 2 * XbyRow, 2.5 * XbyRow, 3 * XbyRow, 3.5 * XbyRow, 4 * XbyRow, 1e36}; // vertical positions of the sieve holes when the column number is odd, column number starts with 0
 const UInt_t NSieveRow = 17; 
 
+//////Sieve Survey Inputs////
+double yaw = 5.372 * D2R;     //Abs value of yaw
+double pitch = 90.019 * D2R;  //Degree of pitch 
+
 // SieveOff* are in TCS
-const Double_t SieveOffY = 0;// -(3.314-0.8)*1.e-3;
-const Double_t SieveOffX = 0;//-(1.07+1.42)*1.e-3;
-//const Double_t ZPos =1059.61e-3+3.314e-3/TMath::Tan(-HRSAngle);//1059.61 * 1e-3;
-const Double_t ZPos = 31.23 * 25.4e-3;
+const Double_t SieveOffY = 2.07*1.e-3;// -(3.314-0.8)*1.e-3;
+const Double_t SieveOffX = -1.65*1.e-3;//-(1.07+1.42)*1.e-3;
+const Double_t SieveOffZ = 1.49*1.e-3;//-(1.07+1.42)*1.e-3;
+
+const Double_t ZPos = 31.23 * 25.4e-3 + SieveOffZ;
+
+
 
 /////////////////////////////////////////////////////////////////////////
 // Vertex Position Inputs
