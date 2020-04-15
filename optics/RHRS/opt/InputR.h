@@ -67,7 +67,7 @@ const Double_t SieveOffY = 2.07*1.e-3;// -(3.314-0.8)*1.e-3;
 const Double_t SieveOffX = -1.65*1.e-3;//-(1.07+1.42)*1.e-3;
 const Double_t SieveOffZ = 1.49*1.e-3;//-(1.07+1.42)*1.e-3;
 
-const Double_t ZPos = 31.23 * 25.4e-3 + SieveOffZ;
+const Double_t ZPos = 31.23 * 25.4e-3;
 
 
 
