@@ -57,7 +57,22 @@ const Double_t SieveRadius_c = 0.236*25.4/2.0*1e-3;
 //const Double_t SieveRadius_c = 0;   
 
 // average beam positions
-//const Double_t BeamX_average[] = {-2.5e-3, -0.0041, 2.5e-3};
+
+// case of Optics Foils + vertical foils
+
+Double_t BeamX_average[] = {-0.0006391,-0.000636,-0.0006391,-0.000636,-0.0006391,-0.000636,-0.0006391,-0.000636,0.002064,-0.0005847,-0.002499};
+
+Double_t BeamY_average[] = {0.002405,0.002419,0.002405,0.002419,0.002405,0.002419,0.002405,0.002419,0.002284,0.002424,0.002498};
+
+Double_t BeamXDir_average[] = {0.0002036,0.0001817,0.0002036,0.0001817,0.0002036,0.0001817,0.0002036,0.0001817,0.002392,0.0002429,-0.001303};
+Double_t BeamYDir_average[] = {-0.0005503,-0.0005584,-0.0005503,-0.0005584,-0.0005503,-0.0005584,-0.0005503,-0.0005584,-0.0006598,-0.000541,-0.0004732};
+
+// Double_t BeamXDir_average[] = {0};
+// Double_t BeamYDir_average[] = {0};
+
+// Double_t BeamX_average[] = {0};
+
+// Double_t BeamY_average[] = {0};
 //const Double_t BeamY_average = 0.008;
 
 
@@ -75,14 +90,14 @@ const Double_t SieveRadius_c = 0.236*25.4/2.0*1e-3;
 /* const Double_t BeamY_average = 0.00251; */
 
 // run 4768
-const Double_t BeamX_average = -0.00268;
-const Double_t BeamY_average = 0.00207;
+// const Double_t BeamX_average = -0.000585;  //-0.00268;
+// const Double_t BeamY_average = 0.002425;
 
  
 // average beam directions used as test for correction
 
-const Double_t BeamXDir_average = 0.0001816;
-const Double_t BeamYDir_average = -0.000558;
+// const Double_t BeamXDir_average =   0.0002428; //0.0001816;
+// const Double_t BeamYDir_average = -0.0005409;
 const Double_t BeamZDir_average = 5.131;
 
 
