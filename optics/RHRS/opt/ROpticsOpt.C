@@ -920,7 +920,7 @@ const TVector3 ROpticsOpt::GetSieveHoleTCS(UInt_t Col, UInt_t Row)
     /// Calculate position with survey info ////
     TVector3 SieveHoleTCS(SieveOffX + SieveXbyRow[Row], SieveOffY + SieveYbyCol[Col], 0);
 
-    SieveHoleTCS.RotateX(yaw - fabs(HRSAngle));
+    SieveHoleTCS.RotateX(-(yaw - HRSAngle));
     SieveHoleTCS.RotateY(pitch - TMath::Pi()/2);
     SieveHoleTCS.SetZ(SieveHoleTCS.Z() + ZPos + SieveOffZ);
     
