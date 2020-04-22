@@ -24,7 +24,8 @@ const Double_t D2R = TMath::Pi() / 180.;
 
 //set as central sieve hole angle
 //const Double_t HRSAngle = -5 * D2R; 
-const Double_t HRSAngle = 5.366 * D2R; 
+//const Double_t HRSAngle = 5.366 * D2R;
+const Double_t HRSAngle = 5.0 * D2R; 
 
 //LH2 target information
 const Double_t LH2_TargetLength = 15*1.e-2; //unit m
@@ -120,8 +121,8 @@ std::map<int, std::pair<int,int>> Beam_info;
 // Sieve Position Inputs
 const Double_t YbyCol = .19 * 25.4e-3;
 // 16/1/20
-//const Double_t y_off = -31.23 * tan(0.8 *D2R) * 25.4e-3; 
-const Double_t y_off = 0; 
+const Double_t y_off = 31.23 * tan(0.8 *D2R) * 25.4e-3; 
+//const Double_t y_off = 0.0; 
 //const Double_t SieveYbyCol[]= {7*YbyCol + y_off, 6.5*YbyCol + y_off, 6*YbyCol + y_off, 5.5*YbyCol + y_off, 5*YbyCol + y_off, 4.5*YbyCol + y_off, 4*YbyCol + y_off, 3.5*YbyCol + y_off, 3*YbyCol + y_off, 2.5*YbyCol + y_off, 2*YbyCol + y_off, 1.5*YbyCol + y_off, 1.0*YbyCol + y_off, 0.5*YbyCol + y_off, 0.0*YbyCol + y_off, -0.5*YbyCol + y_off, -1*YbyCol + y_off, -1.5*YbyCol + y_off, -2*YbyCol + y_off, -2.5*YbyCol + y_off, -3*YbyCol + y_off, -3.5*YbyCol + y_off, -4*YbyCol + y_off, -4.5*YbyCol + y_off, -5*YbyCol + y_off, -6*YbyCol + y_off, -7*YbyCol + y_off, 1e36};
 
 
@@ -144,10 +145,11 @@ B.L. Sieve Centre     791.8   81.0    1.4    5.366
 
 // SieveOff* are in TCS
 //const Double_t SieveOffY = 0;
-const Double_t SieveOffY = +31.23 * tan(0.8 *D2R) * 25.4e-3; // obtained from technical drawing of set-up (31.23 inches from V2 foil to centre of sieve slit, 0.8 degree angle from centre of sieve slit to largest hole, last number is conversion to metres)
+const Double_t SieveOffY = 0.665315e-3; // obtained from technical drawing of set-up (31.23 inches from V2 foil to centre of sieve slit, 0.8 degree angle from centre of sieve slit to largest hole, last number is conversion to metres)
 /* const Double_t SieveOffX = 0; */
-const Double_t SieveOffX = -1.4e-3; // X points down in TCS, hence negative of Y term in 'Hall-like' system where Survey results are taken from
+const Double_t SieveOffX = -1.334e-3; // X points down in TCS, hence negative of Y term in 'Hall-like' system where Survey results are taken from
 
+const Double_t SieveOffZ = 2.6756e-3;
 
 // experiment with SieveOff in HCS and using fTCSinHCS to convert between
 
@@ -325,6 +327,10 @@ std::vector<TString> Multi_foil{"Optics1","Optics3"};
 Double_t dp_split[6][2] = {{-0.05,-0.03},{-0.03,-0.01},{-0.01,0.01},{0.01,0.03},{0.03,0.05},{0,0}};
 
 
+
+//////Sieve Survey Inputs////
+double yaw = 5.366 * D2R;     //Abs value of yaw
+double pitch = 89.988 * D2R;  //Degree of pitch 
 
 #endif
 

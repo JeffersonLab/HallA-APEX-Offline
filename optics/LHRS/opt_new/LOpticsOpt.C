@@ -983,10 +983,12 @@ const TVector3 LOpticsOpt::GetSieveHoleTCS(UInt_t Col, UInt_t Row)
     //    TVector3 SieveHoleTCS( Sieve_offset_TCS.X() + XbyRow, Sieve_offset_TCS.Y() + SieveYbyCol[Col], Sieve_offset_TCS.Z());
 
     
-    TVector3 SieveHoleTCS(SieveOffX + XbyRow, SieveOffY + SieveYbyCol[Col], ZPos);
+    TVector3 SieveHoleTCS(XbyRow, SieveYbyCol[Col], 0);
 
-
-
+    
+    SieveHoleTCS.RotateX(-(yaw - HRSAngle));
+    SieveHoleTCS.RotateY(pitch - TMath::Pi()/2);
+    //    SieveHoleTCS.SetZ(SieveHoleTCS.Z();
     /*
     cout<<"Col%2:"<<Col%2<<endl;
     cout<<"Col:"<<Col<<endl;
@@ -997,6 +999,10 @@ const TVector3 LOpticsOpt::GetSieveHoleTCS(UInt_t Col, UInt_t Row)
     */
 
 
+    SieveHoleTCS.SetXYZ( SieveHoleTCS.X() + SieveOffX,  SieveHoleTCS.Y() + SieveOffY, SieveHoleTCS.Z() ZPos + SieveOffZ);
+		      
+
+		      
     return SieveHoleTCS;
 }
 

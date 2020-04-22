@@ -66,13 +66,19 @@ const TVector3 GetSieveHoleTCS(Int_t Col, Int_t Row) /*const*/
 
   /* TVector3 SieveHoleTCS( SieveXbyRow[Row] + Sieve_offset_TCS.X(), Sieve_offset_TCS.Y() + SieveYbyCol[Col], Sieve_offset_TCS.Z()); */
 
-  TVector3 SieveHoleTCS(SieveOffX + SieveXbyRow[Row], SieveOffY + SieveYbyCol[Col], ZPos);
+    TVector3 SieveHoleTCS(XbyRow, SieveYbyCol[Col], 0);
+
+    
+    SieveHoleTCS.RotateX(-(yaw - HRSAngle));
+    SieveHoleTCS.RotateY(pitch - TMath::Pi()/2);
+    SieveHoleTCS.SetZ(SieveHoleTCS.Z() + ZPos);
+
+
+    SieveHoleTCS.SetXYZ( SieveHoleTCS.X() + SieveOffX,  SieveHoleTCS.Y() + SieveOffY, SieveHoleTCS.Z() + SieveOffZ);
+		      
 
 
   return SieveHoleTCS;
-
-
-
 }
 
 // //_____________________________________________________________________________
