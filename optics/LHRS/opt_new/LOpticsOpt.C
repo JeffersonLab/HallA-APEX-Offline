@@ -983,10 +983,12 @@ const TVector3 LOpticsOpt::GetSieveHoleTCS(UInt_t Col, UInt_t Row)
     //    TVector3 SieveHoleTCS( Sieve_offset_TCS.X() + XbyRow, Sieve_offset_TCS.Y() + SieveYbyCol[Col], Sieve_offset_TCS.Z());
 
     
-    TVector3 SieveHoleTCS(SieveOffX + XbyRow, SieveOffY + SieveYbyCol[Col], ZPos);
+    TVector3 SieveHoleTCS(XbyRow, SieveYbyCol[Col], 0);
 
-
-
+    
+    SieveHoleTCS.RotateX(-(yaw - HRSAngle));
+    SieveHoleTCS.RotateY(pitch - TMath::Pi()/2);
+    //    SieveHoleTCS.SetZ(SieveHoleTCS.Z();
     /*
     cout<<"Col%2:"<<Col%2<<endl;
     cout<<"Col:"<<Col<<endl;
@@ -997,6 +999,10 @@ const TVector3 LOpticsOpt::GetSieveHoleTCS(UInt_t Col, UInt_t Row)
     */
 
 
+    SieveHoleTCS.SetXYZ( SieveHoleTCS.X() + SieveOffX,  SieveHoleTCS.Y() + SieveOffY, SieveHoleTCS.Z() ZPos + SieveOffZ);
+		      
+
+		      
     return SieveHoleTCS;
 }
 
@@ -1020,7 +1026,7 @@ const TVector3 LOpticsOpt::GetSieveHoleCorrectionTCS(UInt_t nfoil, UInt_t Col, U
 
 
     //    const TVector3 BeamSpotHCS_average(BeamX_average, BeamY_average, targetfoils[nfoil]);
-    const TVector3 BeamSpotHCS_average(BeamX_average + (targetfoils[nfoil]/BeamZDir_average)*BeamXDir_average, BeamY_average + (targetfoils[nfoil]/BeamZDir_average)*BeamYDir_average, targetfoils[nfoil]);
+    const TVector3 BeamSpotHCS_average(BeamX_average[nfoil] + (targetfoils[nfoil]/BeamZDir_average)*BeamXDir_average[nfoil], BeamY_average[nfoil] + (targetfoils[nfoil]/BeamZDir_average)*BeamYDir_average[nfoil], targetfoils[nfoil]);
 
 
 
@@ -1085,7 +1091,7 @@ void LOpticsOpt::PrepareSieve(void)
         eventdata.Data[kSieveZ] = SieveHoleCorrectionTCS.Z();
 
 	//	const TVector3 BeamSpotHCS(eventdata.Data[kBeamX], eventdata.Data[kBeamY], targetfoils[FoilID]);
-	const TVector3 BeamSpotHCS( eventdata.Data[kBeamX] + (targetfoils[FoilID]/BeamZDir_average)*BeamXDir_average, eventdata.Data[kBeamY] + (targetfoils[FoilID]/BeamZDir_average)*BeamYDir_average, targetfoils[FoilID]);
+	const TVector3 BeamSpotHCS( eventdata.Data[kBeamX] + (targetfoils[FoilID]/BeamZDir_average)*eventdata.Data[kBeamDirX], eventdata.Data[kBeamY] + (targetfoils[FoilID]/BeamZDir_average)*eventdata.Data[kBeamDirY], targetfoils[FoilID]);
 
 
 
@@ -1224,7 +1230,7 @@ TCanvas * LOpticsOpt::CheckSieve(Int_t PlotFoilID)
       // calculate theta and phi 'real' positions of holes
 
       //      TVector3 BeamSpotHCS_average(BeamX_average,BeamY_average,targetfoils[FoilID]);
-      const TVector3 BeamSpotHCS_average(BeamX_average + (targetfoils[FoilID]/BeamZDir_average)*BeamXDir_average, BeamY_average + (targetfoils[FoilID]/BeamZDir_average)*BeamYDir_average, targetfoils[FoilID]);
+      const TVector3 BeamSpotHCS_average(BeamX_average[FoilID] + (targetfoils[FoilID]/BeamZDir_average)*BeamXDir_average[FoilID], BeamY_average[FoilID] + (targetfoils[FoilID]/BeamZDir_average)*BeamYDir_average[FoilID], targetfoils[FoilID]);
     
       
       TVector3 BeamSpotTCS_average = fTCSInHCS.Inverse()*(BeamSpotHCS_average-fPointingOffset);
@@ -1396,7 +1402,7 @@ TCanvas * LOpticsOpt::CheckSieve(Int_t PlotFoilID)
 	  const TVector3 SieveHoleCorrectionTCS = GetSieveHoleCorrectionTCS(FoilID, Col, Row);
 	  
 	  //	  TVector3 BeamSpotHCS_average(BeamX_average,BeamY_average,targetfoils[FoilID]);
-	  const TVector3 BeamSpotHCS_average(BeamX_average + (targetfoils[FoilID]/BeamZDir_average)*BeamXDir_average, BeamY_average + (targetfoils[FoilID]/BeamZDir_average)*BeamYDir_average, targetfoils[FoilID]);
+	  const TVector3 BeamSpotHCS_average(BeamX_average[FoilID] + (targetfoils[FoilID]/BeamZDir_average)*BeamXDir_average[FoilID], BeamY_average[FoilID] + (targetfoils[FoilID]/BeamZDir_average)*BeamYDir_average[FoilID], targetfoils[FoilID]);
 	      
 	  
 	  TVector3 BeamSpotTCS_average = fTCSInHCS.Inverse()*(BeamSpotHCS_average-fPointingOffset);
@@ -2114,7 +2120,7 @@ TCanvas * LOpticsOpt::Sieve_hole_diff(Int_t PlotFoilID){
       // calculate theta and phi 'real' positions of holes
 
       //      TVector3 BeamSpotHCS_average(BeamX_average,BeamY_average,targetfoils[FoilID]);
-      const TVector3 BeamSpotHCS_average(BeamX_average + (targetfoils[FoilID]/BeamZDir_average)*BeamXDir_average, BeamY_average + (targetfoils[FoilID]/BeamZDir_average)*BeamYDir_average, targetfoils[FoilID]);
+      const TVector3 BeamSpotHCS_average(BeamX_average[FoilID] + (targetfoils[FoilID]/BeamZDir_average)*BeamXDir_average[FoilID], BeamY_average[FoilID] + (targetfoils[FoilID]/BeamZDir_average)*BeamYDir_average[FoilID], targetfoils[FoilID]);
     
       
       TVector3 BeamSpotTCS_average = fTCSInHCS.Inverse()*(BeamSpotHCS_average-fPointingOffset);
@@ -2652,7 +2658,7 @@ Double_t LOpticsOpt::SumSquareDTh()
 
 	const TVector3 SieveHoleCorrectionTCS = GetSieveHoleCorrectionTCS(FoilID, Col, Row);
 	//	const TVector3 BeamSpotHCS(eventdata.Data[kBeamX], eventdata.Data[kBeamY], targetfoils[FoilID]);
-	const TVector3 BeamSpotHCS( eventdata.Data[kBeamX] + (targetfoils[FoilID]/BeamZDir_average)*BeamXDir_average, eventdata.Data[kBeamY] + (targetfoils[FoilID]/BeamZDir_average)*BeamYDir_average, targetfoils[FoilID]);
+	const TVector3 BeamSpotHCS( eventdata.Data[kBeamX] + (targetfoils[FoilID]/BeamZDir_average)*eventdata.Data[kBeamDirX], eventdata.Data[kBeamY] + (targetfoils[FoilID]/BeamZDir_average)*eventdata.Data[kBeamDirY], targetfoils[FoilID]);
 
 	const TVector3 BeamSpotTCS = fTCSInHCS.Inverse()*(BeamSpotHCS - fPointingOffset);
 	const Double_t x_tg = BeamSpotTCS.X() - BeamSpotTCS.Z() * tan(eventdata.Data[kCalcTh]);
@@ -2728,7 +2734,7 @@ Double_t LOpticsOpt::SumSquareDPhi()
 
 	const TVector3 SieveHoleCorrectionTCS = GetSieveHoleCorrectionTCS(FoilID, Col, Row);
 	//	const TVector3 BeamSpotHCS(eventdata.Data[kBeamX], eventdata.Data[kBeamY], targetfoils[FoilID]);
-	const TVector3 BeamSpotHCS( eventdata.Data[kBeamX] + (targetfoils[FoilID]/BeamZDir_average)*BeamXDir_average, eventdata.Data[kBeamY] + (targetfoils[FoilID]/BeamZDir_average)*BeamYDir_average, targetfoils[FoilID]);
+	const TVector3 BeamSpotHCS( eventdata.Data[kBeamX] + (targetfoils[FoilID]/BeamZDir_average)*eventdata.Data[kBeamDirX], eventdata.Data[kBeamY] + (targetfoils[FoilID]/BeamZDir_average)*eventdata.Data[kBeamDirY], targetfoils[FoilID]);
 
 	const TVector3 BeamSpotTCS = fTCSInHCS.Inverse()*(BeamSpotHCS - fPointingOffset);
 	const Double_t y_tg = BeamSpotTCS.Y() - BeamSpotTCS.Z() * tan(eventdata.Data[kCalcPh]);
@@ -2779,7 +2785,7 @@ void LOpticsOpt::PrepareVertex(void)
         eventdata.Data[kSieveZ] = SieveHoleCorrectionTCS.Z();
 
 	//	TVector3 BeamSpotHCS(eventdata.Data[kBeamX], eventdata.Data[kBeamY], targetfoils[FoilID]);
-	const TVector3 BeamSpotHCS( eventdata.Data[kBeamX] + (targetfoils[FoilID]/BeamZDir_average)*BeamXDir_average, eventdata.Data[kBeamY] + (targetfoils[FoilID]/BeamZDir_average)*BeamYDir_average, targetfoils[FoilID]);
+	const TVector3 BeamSpotHCS( eventdata.Data[kBeamX] + (targetfoils[FoilID]/BeamZDir_average)*eventdata.Data[kBeamDirX], eventdata.Data[kBeamY] + (targetfoils[FoilID]/BeamZDir_average)*eventdata.Data[kBeamDirY], targetfoils[FoilID]);
 
 
 	//	TVector3 BeamSpotHCS(BeamX_average, BeamY_average , targetfoils[FoilID]);
@@ -3010,7 +3016,7 @@ TCanvas * LOpticsOpt::CheckVertex()
         eventdata.Data[kSieveZ] = SieveHoleCorrectionTCS.Z();
 
 	//	TVector3 BeamSpotHCS(eventdata.Data[kBeamX], eventdata.Data[kBeamY], targetfoils[FoilID]);
-	const TVector3 BeamSpotHCS( eventdata.Data[kBeamX] + (targetfoils[FoilID]/BeamZDir_average)*BeamXDir_average, eventdata.Data[kBeamY] + (targetfoils[FoilID]/BeamZDir_average)*BeamYDir_average, targetfoils[FoilID]);
+	const TVector3 BeamSpotHCS( eventdata.Data[kBeamX] + (targetfoils[FoilID]/BeamZDir_average)*eventdata.Data[kBeamDirX], eventdata.Data[kBeamY] + (targetfoils[FoilID]/BeamZDir_average)*eventdata.Data[kBeamDirY], targetfoils[FoilID]);
 
 
 	// 	TVector3 BeamSpotHCS(BeamX_average, BeamY_average, targetfoils[FoilID]);
@@ -3304,7 +3310,7 @@ const Double_t ArbitaryVertexShift = 0;
 	Double_t CalcReacZ =0;
         const TVector3 SieveHoleCorrectionTCS = GetSieveHoleCorrectionTCS(FoilID, Col, Row);
 	//	TVector3 BeamSpotHCS(eventdata.Data[kBeamX], eventdata.Data[kBeamY], targetfoils[FoilID]);
-	const TVector3 BeamSpotHCS( eventdata.Data[kBeamX] + (targetfoils[FoilID]/BeamZDir_average)*BeamXDir_average, eventdata.Data[kBeamY] + (targetfoils[FoilID]/BeamZDir_average)*BeamYDir_average, targetfoils[FoilID]);
+	const TVector3 BeamSpotHCS( eventdata.Data[kBeamX] + (targetfoils[FoilID]/BeamZDir_average)*eventdata.Data[kBeamDirX], eventdata.Data[kBeamY] + (targetfoils[FoilID]/BeamZDir_average)*eventdata.Data[kBeamDirY], targetfoils[FoilID]);
 	
 
 	// 	TVector3 BeamSpotHCS(BeamX_average, BeamY_average, targetfoils[FoilID]);

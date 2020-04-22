@@ -66,13 +66,19 @@ const TVector3 GetSieveHoleTCS(Int_t Col, Int_t Row) /*const*/
 
   /* TVector3 SieveHoleTCS( SieveXbyRow[Row] + Sieve_offset_TCS.X(), Sieve_offset_TCS.Y() + SieveYbyCol[Col], Sieve_offset_TCS.Z()); */
 
-  TVector3 SieveHoleTCS(SieveOffX + SieveXbyRow[Row], SieveOffY + SieveYbyCol[Col], ZPos);
+    TVector3 SieveHoleTCS(XbyRow, SieveYbyCol[Col], 0);
+
+    
+    SieveHoleTCS.RotateX(-(yaw - HRSAngle));
+    SieveHoleTCS.RotateY(pitch - TMath::Pi()/2);
+    SieveHoleTCS.SetZ(SieveHoleTCS.Z() + ZPos);
+
+
+    SieveHoleTCS.SetXYZ( SieveHoleTCS.X() + SieveOffX,  SieveHoleTCS.Y() + SieveOffY, SieveHoleTCS.Z() + SieveOffZ);
+		      
 
 
   return SieveHoleTCS;
-
-
-
 }
 
 // //_____________________________________________________________________________
@@ -132,7 +138,7 @@ const TVector3 GetSieveHoleCorrectionTCS(UInt_t nfoil, UInt_t Col, UInt_t Row)
 
 
     //    const TVector3 BeamSpotHCS_average(BeamX_average, BeamY_average, targetfoils[nfoil]);
-    const TVector3 BeamSpotHCS_average(BeamX_average + (targetfoils[nfoil]/BeamZDir_average)*BeamXDir_average, BeamY_average + (targetfoils[nfoil]/BeamZDir_average)*BeamYDir_average, targetfoils[nfoil]);
+    const TVector3 BeamSpotHCS_average(BeamX_average[nfoil] + (targetfoils[nfoil]/BeamZDir_average)*BeamXDir_average[nfoil], BeamY_average[nfoil] + (targetfoils[nfoil]/BeamZDir_average)*BeamYDir_average[nfoil], targetfoils[nfoil]);
 
 
     const Int_t a = (HRSAngle > 0) ? 1 : -1;

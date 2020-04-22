@@ -24,7 +24,8 @@ const Double_t D2R = TMath::Pi() / 180.;
 
 //set as central sieve hole angle
 //const Double_t HRSAngle = -5 * D2R; 
-const Double_t HRSAngle = 5.366 * D2R; 
+//const Double_t HRSAngle = 5.366 * D2R;
+const Double_t HRSAngle = 5.0 * D2R; 
 
 //LH2 target information
 const Double_t LH2_TargetLength = 15*1.e-2; //unit m
@@ -57,7 +58,22 @@ const Double_t SieveRadius_c = 0.236*25.4/2.0*1e-3;
 //const Double_t SieveRadius_c = 0;   
 
 // average beam positions
-//const Double_t BeamX_average[] = {-2.5e-3, -0.0041, 2.5e-3};
+
+// case of Optics Foils + vertical foils
+
+Double_t BeamX_average[] = {-0.0006391,-0.000636,-0.0006391,-0.000636,-0.0006391,-0.000636,-0.0006391,-0.000636,0.002064,-0.0005847,-0.002499};
+
+Double_t BeamY_average[] = {0.002405,0.002419,0.002405,0.002419,0.002405,0.002419,0.002405,0.002419,0.002284,0.002424,0.002498};
+
+Double_t BeamXDir_average[] = {0.0002036,0.0001817,0.0002036,0.0001817,0.0002036,0.0001817,0.0002036,0.0001817,0.002392,0.0002429,-0.001303};
+Double_t BeamYDir_average[] = {-0.0005503,-0.0005584,-0.0005503,-0.0005584,-0.0005503,-0.0005584,-0.0005503,-0.0005584,-0.0006598,-0.000541,-0.0004732};
+
+// Double_t BeamXDir_average[] = {0};
+// Double_t BeamYDir_average[] = {0};
+
+// Double_t BeamX_average[] = {0};
+
+// Double_t BeamY_average[] = {0};
 //const Double_t BeamY_average = 0.008;
 
 
@@ -75,14 +91,14 @@ const Double_t SieveRadius_c = 0.236*25.4/2.0*1e-3;
 /* const Double_t BeamY_average = 0.00251; */
 
 // run 4768
-const Double_t BeamX_average = -0.00268;
-const Double_t BeamY_average = 0.00207;
+// const Double_t BeamX_average = -0.000585;  //-0.00268;
+// const Double_t BeamY_average = 0.002425;
 
  
 // average beam directions used as test for correction
 
-const Double_t BeamXDir_average = 0.0001816;
-const Double_t BeamYDir_average = -0.000558;
+// const Double_t BeamXDir_average =   0.0002428; //0.0001816;
+// const Double_t BeamYDir_average = -0.0005409;
 const Double_t BeamZDir_average = 5.131;
 
 
@@ -105,8 +121,8 @@ std::map<int, std::pair<int,int>> Beam_info;
 // Sieve Position Inputs
 const Double_t YbyCol = .19 * 25.4e-3;
 // 16/1/20
-//const Double_t y_off = -31.23 * tan(0.8 *D2R) * 25.4e-3; 
-const Double_t y_off = 0; 
+const Double_t y_off = 31.23 * tan(0.8 *D2R) * 25.4e-3; 
+//const Double_t y_off = 0.0; 
 //const Double_t SieveYbyCol[]= {7*YbyCol + y_off, 6.5*YbyCol + y_off, 6*YbyCol + y_off, 5.5*YbyCol + y_off, 5*YbyCol + y_off, 4.5*YbyCol + y_off, 4*YbyCol + y_off, 3.5*YbyCol + y_off, 3*YbyCol + y_off, 2.5*YbyCol + y_off, 2*YbyCol + y_off, 1.5*YbyCol + y_off, 1.0*YbyCol + y_off, 0.5*YbyCol + y_off, 0.0*YbyCol + y_off, -0.5*YbyCol + y_off, -1*YbyCol + y_off, -1.5*YbyCol + y_off, -2*YbyCol + y_off, -2.5*YbyCol + y_off, -3*YbyCol + y_off, -3.5*YbyCol + y_off, -4*YbyCol + y_off, -4.5*YbyCol + y_off, -5*YbyCol + y_off, -6*YbyCol + y_off, -7*YbyCol + y_off, 1e36};
 
 
@@ -129,10 +145,11 @@ B.L. Sieve Centre     791.8   81.0    1.4    5.366
 
 // SieveOff* are in TCS
 //const Double_t SieveOffY = 0;
-const Double_t SieveOffY = +31.23 * tan(0.8 *D2R) * 25.4e-3; // obtained from technical drawing of set-up (31.23 inches from V2 foil to centre of sieve slit, 0.8 degree angle from centre of sieve slit to largest hole, last number is conversion to metres)
+const Double_t SieveOffY = 0.665315e-3; // obtained from technical drawing of set-up (31.23 inches from V2 foil to centre of sieve slit, 0.8 degree angle from centre of sieve slit to largest hole, last number is conversion to metres)
 /* const Double_t SieveOffX = 0; */
-const Double_t SieveOffX = -1.4e-3; // X points down in TCS, hence negative of Y term in 'Hall-like' system where Survey results are taken from
+const Double_t SieveOffX = -1.334e-3; // X points down in TCS, hence negative of Y term in 'Hall-like' system where Survey results are taken from
 
+const Double_t SieveOffZ = 2.6756e-3;
 
 // experiment with SieveOff in HCS and using fTCSinHCS to convert between
 
@@ -310,6 +327,10 @@ std::vector<TString> Multi_foil{"Optics1","Optics3"};
 Double_t dp_split[6][2] = {{-0.05,-0.03},{-0.03,-0.01},{-0.01,0.01},{0.01,0.03},{0.03,0.05},{0,0}};
 
 
+
+//////Sieve Survey Inputs////
+double yaw = 5.366 * D2R;     //Abs value of yaw
+double pitch = 89.988 * D2R;  //Degree of pitch 
 
 #endif
 

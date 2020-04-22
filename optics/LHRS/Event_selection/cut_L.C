@@ -1311,6 +1311,27 @@ void test_APEX(){
 
 
 
+void display_Foils(){
+
+  // function displays foil tg-phi z plots
+
+  TChain* T = Load_more_rootfiles(Run_number, Run_number_2);
+
+ ReLoadcuts();
+
+ TCanvas *c1 = new TCanvas("c1","PlotFoils",1000,1000);
+ 
+ TH2F* h1 = new TH2F("h1",Form("Vertex plot for run #%d",Run_number), 400, -0.05, 0.05, 200,-0.4, 0.4);
+ //	h1->CenterTitle();
+
+ h1->GetXaxis()->SetTitle("\\phi_{tg} [rad]");
+ h1->GetYaxis()->SetTitle("Reactz [m]");
+	
+ T->Draw("reactz:ph_tgt>>h1", GenrealCut, "COLZ"); // need finer delta cut later
+ 
+}
+
+
 void display_Sieve(int FoilID = 0, int col = 0){
 
   // function plots sieve x-y and theta-phi for a chosen foil
@@ -1377,13 +1398,13 @@ void display_Sieve(int FoilID = 0, int col = 0){
 
 
 
-  const TVector3 BeamSpotHCS_average(BeamX_average + (targetfoils[FoilID]/BeamZDir_average)*BeamXDir_average, BeamY_average + (targetfoils[FoilID]/BeamZDir_average)*BeamYDir_average, targetfoils[FoilID]);
+  const TVector3 BeamSpotHCS_average(BeamX_average[FoilID] + (targetfoils[FoilID]/BeamZDir_average)*BeamXDir_average[FoilID], BeamY_average[FoilID] + (targetfoils[FoilID]/BeamZDir_average)*BeamYDir_average[FoilID], targetfoils[FoilID]);
 
   TVector3 BeamSpotTCS_average = fTCSInHCS.Inverse()*(BeamSpotHCS_average-fPointingOffset);
   
 
-  cout << "BeamX_average + (targetfoils[FoilID]/BeamZDir_average)*BeamXDir_average = " << BeamX_average + (targetfoils[FoilID]/BeamZDir_average)*BeamXDir_average << endl;
-  cout << "BeamX_average = " << BeamX_average << ", targetfoils[FoilID] = " << targetfoils[FoilID] << ", BeamZDir_average = " << BeamZDir_average << ", BeamXDir_average = " << BeamXDir_average << ", BeamY_average = " << BeamY_average << ", BeamYDir_average = " << 
+  cout << "BeamX_average + (targetfoils[FoilID]/BeamZDir_average)*BeamXDir_average = " << BeamX_average[FoilID] + (targetfoils[FoilID]/BeamZDir_average)*BeamXDir_average[FoilID] << endl;
+  cout << "BeamX_average = " << BeamX_average[FoilID] << ", targetfoils[FoilID] = " << targetfoils[FoilID] << ", BeamZDir_average = " << BeamZDir_average << ", BeamXDir_average = " << BeamXDir_average[FoilID] << ", BeamY_average = " << BeamY_average[FoilID] << ", BeamYDir_average = " << 
     BeamYDir_average << endl;
   cout << "BeamSpotHCS_average = [" << BeamSpotHCS_average.X() << ", " << BeamSpotHCS_average.Y() << ", " << BeamSpotHCS_average.Z() << "]" << endl;
   cout << "BeamSpotTCS_average = [" << BeamSpotTCS_average.X() << ", " << BeamSpotTCS_average.Y() << ", " << BeamSpotTCS_average.Z() << "]" << endl;
@@ -1840,14 +1861,14 @@ void CutSieve_ellipse(int FoilID = 0, int col = 0, int overwrite = 0, int append
   //  TVector3 BeamSpotHCS_average(BeamX_average,BeamY_average,targetfoils[FoilID]);
 
 
-  const TVector3 BeamSpotHCS_average(BeamX_average + (targetfoils[FoilID]/BeamZDir_average)*BeamXDir_average, BeamY_average + (targetfoils[FoilID]/BeamZDir_average)*BeamYDir_average, targetfoils[FoilID]);
+  const TVector3 BeamSpotHCS_average(BeamX_average[FoilID] + (targetfoils[FoilID]/BeamZDir_average)*BeamXDir_average[FoilID], BeamY_average[FoilID] + (targetfoils[FoilID]/BeamZDir_average)*BeamYDir_average[FoilID], targetfoils[FoilID]);
 
   TVector3 BeamSpotTCS_average = fTCSInHCS.Inverse()*(BeamSpotHCS_average-fPointingOffset);
   
 
-  cout << "BeamX_average + (targetfoils[FoilID]/BeamZDir_average)*BeamXDir_average = " << BeamX_average + (targetfoils[FoilID]/BeamZDir_average)*BeamXDir_average << endl;
-  cout << "BeamX_average = " << BeamX_average << ", targetfoils[FoilID] = " << targetfoils[FoilID] << ", BeamZDir_average = " << BeamZDir_average << ", BeamXDir_average = " << BeamXDir_average << ", BeamY_average = " << BeamY_average << ", BeamYDir_average = " << 
-    BeamYDir_average << endl;
+  cout << "BeamX_average + (targetfoils[FoilID]/BeamZDir_average)*BeamXDir_average = " << BeamX_average[FoilID] + (targetfoils[FoilID]/BeamZDir_average)*BeamXDir_average[FoilID] << endl;
+  cout << "BeamX_average = " << BeamX_average[FoilID] << ", targetfoils[FoilID] = " << targetfoils[FoilID] << ", BeamZDir_average = " << BeamZDir_average << ", BeamXDir_average = " << BeamXDir_average[FoilID] << ", BeamY_average = " << BeamY_average[FoilID] << ", BeamYDir_average = " << 
+    BeamYDir_average[FoilID] << endl;
   cout << "BeamSpotHCS_average = [" << BeamSpotHCS_average.X() << ", " << BeamSpotHCS_average.Y() << ", " << BeamSpotHCS_average.Z() << "]" << endl;
   cout << "BeamSpotTCS_average = [" << BeamSpotTCS_average.X() << ", " << BeamSpotTCS_average.Y() << ", " << BeamSpotTCS_average.Z() << "]" << endl;
   
@@ -2436,7 +2457,7 @@ void Optics_3_th_ph() {
       
     //    TVector3 BeamSpotHCS_average(BeamX_average,BeamY_average,targetfoils[foil_no]);
 
-    const TVector3 BeamSpotHCS_average(BeamX_average + (targetfoils[foil_no]/BeamZDir_average)*BeamXDir_average, BeamY_average + (targetfoils[foil_no]/BeamZDir_average)*BeamYDir_average, targetfoils[foil_no]);
+    const TVector3 BeamSpotHCS_average(BeamX_average[foil_no] + (targetfoils[foil_no]/BeamZDir_average)*BeamXDir_average[foil_no], BeamY_average[foil_no] + (targetfoils[foil_no]/BeamZDir_average)*BeamYDir_average[foil_no], targetfoils[foil_no]);
 
 
     TVector3 BeamSpotTCS_average = fTCSInHCS.Inverse()*(BeamSpotHCS_average-fPointingOffset);
