@@ -918,11 +918,15 @@ const TVector3 ROpticsOpt::GetSieveHoleTCS(UInt_t Col, UInt_t Row)
     //TVector3 SieveHoleTCS(SieveOffX + SieveXbyRow[Row], SieveOffY + SieveYbyCol[Col], ZPos);  //Old way of calculating without survey information
 
     /// Calculate position with survey info ////
-    TVector3 SieveHoleTCS(SieveOffX + SieveXbyRow[Row], SieveOffY + SieveYbyCol[Col], 0);
 
+    TVector3 SieveHoleTCS(SieveXbyRow[Row], SieveYbyCol[Col], 0);
+    
     SieveHoleTCS.RotateX(-(yaw - HRSAngle));
     SieveHoleTCS.RotateY(pitch - TMath::Pi()/2);
-    SieveHoleTCS.SetZ(SieveHoleTCS.Z() + ZPos + SieveOffZ);
+
+    SieveHoleTCS.SetXYZ( SieveHoleTCS.X() + SieveOffX,  SieveHoleTCS.Y() + SieveOffY, SieveHoleTCS.Z() + ZPos + SieveOffZ)
+
+
     
     /*
     cout<<"Col%2:"<<Col%2<<endl;
