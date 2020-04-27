@@ -1,10 +1,13 @@
 void xpyp_plot(){
 
   //Macro makes plots to analyze the new theta and phi after optimization
-  
+
+  TString run = "4647";     //Run number
   TString order = "5th";    //Optimization order
+  //example for range is -10_10 for -10 cm < x_fp <10 cm
+  //use "full" for full focal plane range
   TString range = "full";   //Range in focal plane
-  bool before = false;      //Are we doing before optimization plots
+  bool before = true;      //Are we doing before optimization plots
   bool make_plots = false;
   bool brute_force = true;  //Are we using brute force method
 
@@ -12,10 +15,10 @@ void xpyp_plot(){
   gStyle->SetPalette(1);
   TFile* f;
   
-  if(before) f = new TFile(rootfiles + "apex_4647.root","read");
-  else if(range == "all") f = new TFile(rootfiles + "apex_4647_opt_"+order+"_xfp_full.root","read");
-  else if(brute_force) f = new TFile(rootfiles + "apex_4647_opt_"+order+"_xfp_full_brute.root","read");
-  else f = new TFile(rootfiles + "apex_4647_opt_"+order+"_xfp_"+range+".root","read");
+  if(before) f = new TFile(rootfiles + "apex_"+run+".root","read");
+  else if(range == "full" && !brute_force) f = new TFile(rootfiles + "apex_"+run+"_opt_"+order+"_xfp_full.root","read");       //Full x_fp with single matrix
+  else if(range == "full" && brute_force) f = new TFile(rootfiles + "apex_"+run+"_opt_"+order+"_xfp_full_brute.root","read");  //Full x_fp with 5 matrices
+  else f = new TFile(rootfiles + "apex_"+run+"_opt_"+order+"_xfp_"+range+".root","read");
 
   
   TTree* t;
@@ -26,20 +29,17 @@ void xpyp_plot(){
   //Cuts made for all the plots
   TCut GeneralCut;
   //TCut GeneralCut = "R.tr.n==1 && (R.cer.asum_c>500) && R.s0.nthit==1  && abs(R.tr.tg_dp) < 0.01";
-  if(range == "all" || range == "full") GeneralCut = "R.tr.n==1 && (R.cer.asum_c>500)";
+  if(range == "full") GeneralCut = "R.tr.n==1 && (R.cer.asum_c>500)";
   if(range == "-10_10") GeneralCut = "R.tr.n==1 && (R.cer.asum_c>500) && abs(R.tr.r_x) < 0.10";
-  if(range == "-3_3") GeneralCut = "R.tr.n==1 && (R.cer.asum_c>500) && abs(R.tr.r_x) < 0.03";
   if(range == "-45_-25") GeneralCut = "R.tr.n==1 && (R.cer.asum_c>500) && (R.tr.r_x > -0.45 && R.tr.r_x < -0.25)";
   if(range == "25_45") GeneralCut = "R.tr.n==1 && (R.cer.asum_c>500) && (R.tr.r_x > 0.25 && R.tr.r_x < 0.45)";
   if(range == "-50_-30") GeneralCut = "R.tr.n==1 && (R.cer.asum_c>500) && (R.tr.r_x > -0.30 && R.tr.r_x < -0.10)";
-  //if(range == "full") GeneralCut = "R.tr.n==1 && (R.cer.asum_c>500) && ((abs(R.tr.r_x) < 0.10) || (R.tr.r_x > 0.25 && R.tr.r_x < 0.45) || (R.tr.r_x > -0.45 && R.tr.r_x < -0.25))";
-  //GeneralCut = "R.tr.n==1 && (R.cer.asum_c>500) && abs(R.tr.r_x) < 0.03";
 
 
   //Draw tg theta and phi plots
   TCanvas* c = new TCanvas("c","c",1000,1000);
   t->Draw("R.tr.tg_th*1000:R.tr.tg_ph*1000>>Tg angles",GeneralCut,"colz");
-  if(range == "full" || range == "all") xpyp->GetZaxis()->SetRangeUser(0,150);
+  if(range == "full") xpyp->GetZaxis()->SetRangeUser(0,150);
   else xpyp->GetZaxis()->SetRangeUser(0,50);
   if(before) xpyp->SetTitle("Tg x' vs y' Before Opt;Tg #phi (mrad);Tg #theta (mrad)");
   else xpyp->SetTitle("Tg x' vs y' "+order+" Order Opt;Tg #phi (mrad);Tg #theta (mrad)");
@@ -125,9 +125,9 @@ void xpyp_plot(){
   }
 
   if(make_plots){
-    if(before) c->SaveAs("plots/tg_th_ph/xpyp_before_opt_xfp_"+range+".gif");
-    else if(brute_force) c->SaveAs("plots/tg_th_ph/xpyp_opt_"+order+"_xfp_full_brute.gif");
-    else c->SaveAs("plots/tg_th_ph/xpyp_opt_"+order+"_xfp_"+range+".gif");
+    if(before) c->SaveAs("plots/tg_th_ph/"+run+"/xpyp_before_opt_xfp_"+range+".gif");
+    else if(brute_force) c->SaveAs("plots/tg_th_ph/"+run+"/xpyp_opt_"+order+"_xfp_full_brute.gif");
+    else c->SaveAs("plots/tg_th_ph/"+run+"/xpyp_opt_"+order+"_xfp_"+range+".gif");
   }
   
   //// Plots for x_fp ///
@@ -157,13 +157,13 @@ void xpyp_plot(){
 
   //c2->SaveAs("plots/x_fp.gif");
   */
-  
+
   TH2D * xy = new TH2D("xy", "", 500, -3, 0, 500, 1, 4);
 
   TCanvas *c4 = new TCanvas("c4","",800,600);
   t->Draw("Rrb.y*1000:Rrb.x*1000>>xy",GeneralCut,"colz");
 
-  xy->SetTitle("Raster Scan New Calib");
+  xy->SetTitle("Raster Scan Calib");
   xy->GetXaxis()->SetTitle("x (mm)");
   xy->GetYaxis()->SetTitle("y (mm)");
   
@@ -189,7 +189,7 @@ void xpyp_plot(){
   TCanvas *c5 = new TCanvas("c5","",1000,1000);
   TH2D * xy_sieve = new TH2D("xy_sieve", "", 400, -5, 5, 400, -6, 4);
   t->Draw("Sieve.x*100:Sieve.y*100>>xy_sieve",GeneralCut,"colz");
-  if(range == "full" || range == "all") xy_sieve->GetZaxis()->SetRangeUser(0,100);
+  if(range == "full") xy_sieve->GetZaxis()->SetRangeUser(0,100);
   else xy_sieve->GetZaxis()->SetRangeUser(0,50);
   if(before) xy_sieve->SetTitle("Sieve Plane Before Opt;y (cm);x (cm)");
   else xy_sieve->SetTitle("Sieve Plane "+order+" Order Opt;y (cm);x (cm)");
