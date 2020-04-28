@@ -959,14 +959,14 @@ const TVector3 ROpticsOpt::GetSieveHoleCorrectionTCS(UInt_t nfoil, UInt_t Col, U
     const TVector3 SieveHoleTCS = GetSieveHoleTCS(Col, Row);
 
     Z_distance = SieveHoleTCS.Z() - BeamSpotTCS_average.Z();
-    Y_p = SieveHoleTCS.Y() +  .157/2.* 25.4e-3; //  // .157/2. * 25.4e-3 is the sieve hole radius
-    Y_m = SieveHoleTCS.Y() - .157/2. * 25.4e-3;
+    Y_p = SieveHoleTCS.Y() +  SieveRadius/2.* 25.4e-3; // .157/2. * 25.4e-3 is the sieve hole radius
+    Y_m = SieveHoleTCS.Y() - SieveRadius/2. * 25.4e-3;
     Yback_p = Z_distance /(Z_distance + 25.4e-3) * (Y_p-BeamYHCS) + BeamYHCS;
     Yback_m = Z_distance /(Z_distance + 25.4e-3) * (Y_m-BeamYHCS) + BeamYHCS;
     Yreal_p = (Y_p >= Yback_p) ? Yback_p : Y_p;
     Yreal_m = (Y_m >= Yback_m) ? Y_m : Yback_m;
-    X_p = SieveHoleTCS.X() +  .157/2. * 25.4e-3; 
-    X_m = SieveHoleTCS.X() -  .157/2. * 25.4e-3;
+    X_p = SieveHoleTCS.X() +  SieveRadius/2. * 25.4e-3; 
+    X_m = SieveHoleTCS.X() -  SieveRadius/2. * 25.4e-3;
     Xback_p = Z_distance /(Z_distance + 25.4e-3) * (X_p-BeamXHCS) + BeamXHCS;
     Xback_m = Z_distance /(Z_distance + 25.4e-3) * (X_m-BeamXHCS) + BeamXHCS;
     Xreal_p = (X_p >= Xback_p) ? Xback_p : X_p;
@@ -1015,8 +1015,6 @@ void ROpticsOpt::PrepareSieve(void)
 
         eventdata.Data[kRealTh] = MomDirectionTCS.X() / MomDirectionTCS.Z();
         eventdata.Data[kRealPhi] = MomDirectionTCS.Y() / MomDirectionTCS.Z();
- 
-	
 	
         const Double_t x_tg = BeamSpotTCS.X() - BeamSpotTCS.Z() * eventdata.Data[kRealTh];
         const Double_t y_tg = BeamSpotTCS.Y() - BeamSpotTCS.Z() * eventdata.Data[kRealPhi];
@@ -2101,7 +2099,7 @@ Double_t ROpticsOpt::SumSquareDPhi()
 
         // calculate the coordinates at the target
         phi = CalcTargetVar(fPMatrixElems, powers) + CalcTargetVar(fPTAMatrixElems, powers);
-       
+
         dphi += phi - eventdata.Data[kRealPhi];
         rmsphi += (phi - eventdata.Data[kRealPhi])*(phi - eventdata.Data[kRealPhi]);
 
