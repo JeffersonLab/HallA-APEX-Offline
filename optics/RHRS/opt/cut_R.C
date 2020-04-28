@@ -5,6 +5,8 @@
 #include "TCut.h"
 #include "TSpectrum.h"
 
+class ROpticsOpt;
+
 //////////////////////////////////////////////////////////////////////////////
 // Work Directory
 //////////////////////////////////////////////////////////////////////////////
@@ -30,7 +32,7 @@ TString RootFile_Dp_p1;
 TString RootFile_Dp_p2 = "right_gmp_22776.root";
 TString RootFile_Dp_p3;
 string RootFile_Dp_p4 = "right_gmp_22778.root" ;
-string RootFile_cen = "apex_4647_opt_sieve_plane_5th.root" ;
+string RootFile_cen = "apex_4647.root" ;
 string RootFile_up = "apex_4648.root apex_4648_1.root apex_4648_2.root" ;
 string RootFile_dn = "apex_4650.root apex_4650_1.root apex_4650_2.root" ;
 
@@ -492,73 +494,80 @@ void CutDp_Dp(int overwrite = 0)
 //////////////////////////////////////////////////////////////////////////////
 void CutSieve(int FoilID = 0, int col = 6, int overwrite = 0) {
 
-  double sieve_ph[27], sieve_th[17];
-  
-  //Use for angles
-  //Calculate expected positions of rows and columns
-  for(int i = 0; i<27; i++){
-    if(i < 25) sieve_ph[i] = (14-i)*2.99 - 8.64;
-    else sieve_ph[i] = sieve_ph[24] - (i-24)*2.99*2;
-  }
-  
-  for(int j = 0; j<NSieveRow; j++){
-    sieve_th[j] = (j-8)*7.254 + 9.89;
-  }
-  
+  opt = new ROpticsOpt();
 
-  /*
-  //Use for sieve plane
-  //Calculate expected positions of rows and columns
-  for(int i = 0; i<27; i++){
-    if(i < 25) sieve_ph[i] = (14-i)*0.238 - 1.094;
-    else sieve_ph[i] = sieve_ph[24] - (i-24)*0.238*2;
-  }
+  //Defenitions to calculate expected sieve angles
+  TVector3 TCSX(0, -1, 0);
+  TVector3 TCSZ(TMath::Sin(HRSAngle), 0, TMath::Cos(HRSAngle));
+  TVector3 TCSY = TCSZ.Cross(TCSX);
+  TRotation fTCSInHCS;
+  const Int_t a = (HRSAngle > 0) ? 1 : -1;
+  fTCSInHCS.RotateAxes(TCSX, TCSY, TCSZ);
+  TVector3 fPointingOffset;
+  fPointingOffset.SetXYZ(-a*MissPointZ*TMath::Cos(HRSAngle), MissPointY, -MissPointZ * TMath::Sin(HRSAngle));
   
-  for(int j = 0; j<17; j++){
-    sieve_th[j] = -(j-8)*0.575 - 0.0155;
-  }
-  */
-  
+  double sieve_ph[27][17], sieve_th[27][17];  //Expected position of rows and columns
   
   TChain *T = LoadRootFiles();
   
 
-    TString CutFileName = WorkDir + RootFileName + CutSuf;
-    TString TempString(Form(CutDescFileSufSieve.Data(), FoilID, col));
-    TString PlotDir(RootFileName + Form(".hcut_R_%d_%d/", FoilID, col));
-    TString CutDescName = WorkDir + RootFileName + TempString;
-    TString CutDataName = WorkDir + RootFileName + CutDat;
+  TString CutFileName = WorkDir + RootFileName + CutSuf;
+  TString TempString(Form(CutDescFileSufSieve.Data(), FoilID, col));
+  TString PlotDir(RootFileName + Form(".hcut_R_%d_%d/", FoilID, col));
+  TString CutDescName = WorkDir + RootFileName + TempString;
+  TString CutDataName = WorkDir + RootFileName + CutDat;
+  
+  cerr << "cp -vf " + CutFileName + " " + CutFileName + ".old" << endl;
+  gSystem->Exec("cp -vf " + CutFileName + " " + CutFileName + ".old");
+  gSystem->Exec("mkdir -vp " + WorkDir + PlotDir);
+  
+  fstream cutdesc(CutDescName, ios_base::out);
+  assert(cutdesc.is_open());
+  
+  //The following code creates a csv file that has all of the cut information
+  ifstream cutcsvtest;
+  cutcsvtest.open(WorkDir + "apex_4647.root.cuts_full.csv");
 
-    cerr << "cp -vf " + CutFileName + " " + CutFileName + ".old" << endl;
-    gSystem->Exec("cp -vf " + CutFileName + " " + CutFileName + ".old");
-    gSystem->Exec("mkdir -vp " + WorkDir + PlotDir);
+  TDatime* date = new TDatime();  //Get Current date
 
-    fstream cutdesc(CutDescName, ios_base::out);
-    assert(cutdesc.is_open());
-
-    //The following code creates a csv file that has all of the cut information
-    ifstream cutcsvtest;
-    cutcsvtest.open(WorkDir + "apex_4647.root.cuts_full.csv");
-
-    TDatime* date = new TDatime();  //Get Current date
-
-    //If file does not exists then create a new template
-    if(!cutcsvtest.good()){
-
-      ofstream createcsv;
-      createcsv<<fixed<<setprecision(2);
-      createcsv.open(WorkDir + "apex_4647.root.cuts_full.csv");
-      createcsv<<date->GetDay()<<"/"<<date->GetMonth()<<"/"<<date->GetYear()<<" (dd/mm/yyyy)"<<endl;
-      createcsv << "Hole ID (col:row),Hole Exists,Included in opt,Ellipse ph cen,Expected ph,Ellipse th cen,Expected th,Semi axis ph,Semi axis th,Ellipse Tilt (deg),Ellipse ph rms,Ellipse th rms,Statistics,All angles in mrad except ellipse tilt which is positive counterclockwise from vertical axis"<<endl;
-
-      //Add expected positions to csv file
-    for(int i = 0; i < 27; i++)
-      for(int j = 0; j < 17; j++) 
-	createcsv<<i<<":"<<j<<",0,0,0,"<<sieve_ph[i]<<",0,"<<sieve_th[j]<<",0,0,0"<<endl;
+  bool hole_exist = false;  //Bool if hole physically exists in sieve or not
+  
+  //If file does not exists then create a new template
+  if(!cutcsvtest.good()){
     
-      
-      createcsv.close();
+    ofstream createcsv;
+    createcsv<<fixed<<setprecision(2);
+    createcsv.open(WorkDir + "apex_4647.root.cuts_full.csv");
+    createcsv<<date->GetDay()<<"/"<<date->GetMonth()<<"/"<<date->GetYear()<<" (dd/mm/yyyy)"<<endl;
+    createcsv << "Hole ID (col:row),Hole Exists,Included in opt,Ellipse ph cen,Expected ph,Ellipse th cen,Expected th,Semi axis ph,Semi axis th,Ellipse Tilt (deg),Ellipse ph rms,Ellipse th rms,Statistics,All angles in mrad except ellipse tilt which is positive counterclockwise from vertical axis"<<endl;
+
+
+    
+    //Add expected positions to csv file
+    for(int i = 0; i < 27; i++){
+      for(int j = 0; j < 17; j++){
+	TVector3 SieveHoleCorrectionTCS = opt->GetSieveHoleCorrectionTCS(1, i, j);
+	TVector3 BeamSpotHCS(BeamX_average[FoilID], BeamY_average, targetfoils[FoilID]);
+	TVector3 BeamSpotTCS = fTCSInHCS.Inverse()*(BeamSpotHCS - fPointingOffset);        
+	TVector3 MomDirectionTCS = SieveHoleCorrectionTCS - BeamSpotTCS;
+	double theta = MomDirectionTCS.X() / MomDirectionTCS.Z();
+	double phi = MomDirectionTCS.Y() / MomDirectionTCS.Z();
+
+	sieve_ph[i][j] = phi*1000;
+	sieve_th[i][j] = theta*1000;
+	
+	if((i%2==0 && j%2==0) || (i%2==1 && j%2==1)) hole_exist = true;
+	if((i%2==0 && j%2==1) || (i%2==1 && j%2==0)) hole_exist = false;
+	if(i == 13 && (j != 1 || j !=15)) hole_exist = false;
+	if(i == 25 && j%2==0) hole_exist = true;
+	if(i == 25 && j%2==1) hole_exist = false;
+	
+	createcsv<<i<<":"<<j<<","<<hole_exist<<",0,0,"<<phi*1000<<",0,"<<theta*1000<<",0,0,0"<<endl;
+      }
     }
+    
+    createcsv.close();
+  }
     
     cutcsvtest.close();
 
@@ -644,14 +653,13 @@ void CutSieve(int FoilID = 0, int col = 6, int overwrite = 0) {
     string line;
     getline(cutcsvold,line);
     getline(cutcsvold,line);
+    //Write all the lines up to this column
     for(int i = 0; i<col; i++){
       for(int j = 0; j<NSieveRow;j++){
 	getline(cutcsvold,line);
 	cutcsv << line << endl;
       }
     }
-    
-    bool hole_exist = false;
 
     for(int i = 0; i < rmin; i++){
       //check if holes exist or not
@@ -663,8 +671,7 @@ void CutSieve(int FoilID = 0, int col = 6, int overwrite = 0) {
       if(col == 25 && i%2==0) hole_exist = true;
       if(col == 25 && i%2==1) hole_exist = false;
       getline(cutcsvold,line);
-      cutcsv << line << endl;  //Write old file for holes not cut
-      //cutcsv<<col<<":"<<i<<","<<hole_exist<<",0,0,"<<sieve_ph[col]<<",0,"<<sieve_th[i]<<",0,0,0"<<endl;
+      cutcsv<<col<<":"<<i<<","<<hole_exist<<",0,0,"<<sieve_ph[col][i]<<",0,"<<sieve_th[col][i]<<",0,0,0"<<endl;
 	}
     //make cuts for each holes from begin number
     for(int row = rmin; row < rmin + nhol; row++){      
@@ -682,7 +689,7 @@ void CutSieve(int FoilID = 0, int col = 6, int overwrite = 0) {
 	//cutcsv << line << endl;
 
 	//Write variables for current cuts happening 
-	cutcsv<<col<<":"<<row<<","<<hole_exist<<",0,0,"<<sieve_ph[col]<<",0,"<<sieve_th[row]<<",0,0,0"<<endl;
+	cutcsv<<col<<":"<<row<<","<<hole_exist<<",0,0,"<<sieve_ph[col][row]<<",0,"<<sieve_th[col][row]<<",0,0,0"<<endl;
 	
 	continue;
       }
@@ -709,7 +716,7 @@ void CutSieve(int FoilID = 0, int col = 6, int overwrite = 0) {
 
 	    //Write out ellipse values
 	    getline(cutcsvold,line);	 
-	    cutcsv<<col<<";"<<row<<","<<hole_exist<<",1,"<<x1<<","<<sieve_ph[col]<<","<<y1<<","<<sieve_th[row]<<","<<r1<<","<<r2<<","<<theta<<endl;
+	    cutcsv<<col<<";"<<row<<","<<hole_exist<<",1,"<<x1<<","<<sieve_ph[col][row]<<","<<y1<<","<<sieve_th[col][row]<<","<<r1<<","<<r2<<","<<theta<<endl;
 	    
 	    //Write the ellipse into a bunch of points
 	    const Int_t n = 200;
@@ -870,8 +877,7 @@ void CutSieve(int FoilID = 0, int col = 6, int overwrite = 0) {
       if(col == 25 && i%2==0) hole_exist = true;
       if(col == 25 && i%2==1) hole_exist = false;      
       getline(cutcsvold,line);
-      cutcsv<<line<<endl;
-      //cutcsv<<col<<":"<<i<<","<<hole_exist<<",0,0,"<<sieve_ph[col]<<",0,"<<sieve_th[i]<<",0,0,0"<<endl;
+      cutcsv<<col<<":"<<i<<","<<hole_exist<<",0,0,"<<sieve_ph[col][i]<<",0,"<<sieve_th[col][i]<<",0,0,0"<<endl;
     }
     
     gSystem->Exec("rm -f " + WorkDir + PlotDir + RootFileName + Form(".hcut_R_%d_%d_*", FoilID, col) + ".*");

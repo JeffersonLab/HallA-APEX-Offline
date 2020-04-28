@@ -29,20 +29,20 @@ const Double_t LH2_Thickness_Side = 0.18*1.e-3;  //Al 7075, aluminum thickness f
 const Double_t LH2_Thickness_Tip = 0.11*1.e-3;  //Al 7075, aluminum thickness for tip
 
 // MissPoint* are in HCS
-const Double_t MissPointZ =0;// 
-const Double_t MissPointY = 0;//
+const Double_t MissPointZ = 1.69*1e-3; //RHRS offsets 
+const Double_t MissPointY = -1.79*1e-3; 
 
 const Double_t BeamShiftX = 0;
 
-const Double_t SieveRadius = 0.157*25.4/2.0*1e-3;
-const Double_t SieveRadius_c = 0.236*25.4/2.0*1e-3;
+const Double_t SieveRadius = 0.055*25.4/2.0*1e-3;
+const Double_t SieveRadius_c = 0.106*25.4/2.0*1e-3;
 
 //const Double_t SieveRadius = 0;       
 //const Double_t SieveRadius_c = 0;   
 
 // average beam positions
-const Double_t BeamX_average[] = {-2.5e-3, -0.0041, 2.5e-3};
-const Double_t BeamY_average = 0.008;
+const Double_t BeamX_average[] = {-2.5e-3, -0.9656*1e-3, 2.5e-3};
+const Double_t BeamY_average = 2.845*1e-3;
 
 
 /////////////////////////////////////////////////////////////////////////
@@ -59,7 +59,7 @@ const Double_t SieveXbyRow[] = {-4 * XbyRow, -3.5 * XbyRow, -3 * XbyRow, -2.5 * 
 const UInt_t NSieveRow = 17; 
 
 //////Sieve Survey Inputs////
-double yaw = 5.372 * D2R;     //Abs value of yaw
+double yaw = -5.372 * D2R;     //Degree of yaw
 double pitch = 90.019 * D2R;  //Degree of pitch 
 
 // SieveOff* are in TCS
