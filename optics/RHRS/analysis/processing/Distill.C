@@ -2,9 +2,11 @@ void Distill(){
 
   //Macro to take full root file and get only needed variables
   
+  TString run = "4650";
+
   TChain * t = new TChain("T");
-  TString rootfile = "/home/sean/Grad/Research/APEX/Rootfiles/root/";
-  t->Add(rootfile + "apex_4647*.root");
+  TString rootfile = "/lustre19/expphy/volatile/halla/apex/jeffas/apex_root/Rootfiles/";
+  t->Add(rootfile + "apex_"+run+"*.root");
 
   t->SetBranchStatus("*",0);
   t->SetBranchStatus("R.tr.n",1);
@@ -28,7 +30,7 @@ void Distill(){
   
   t->SetBranchStatus("R.tr.vz",1);
 
-  TFile* f = new TFile(rootfile + "apex_4647_combined.root","recreate");
+  TFile* f = new TFile(rootfile + "/Distilled/apex_"+run+".root","recreate");
   TTree* tree = t->CloneTree(0);
   
   tree->CopyEntries(t);
