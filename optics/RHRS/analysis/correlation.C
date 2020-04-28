@@ -1,30 +1,33 @@
 void correlation(){
 
   //Analyzes how the optimized matrix th and phi are correlated with focal plane variables
-  
+
+  TString run = "4647";     //Run number
   TString order = "5th";
   TString range = "-10_10";
   bool before = false; //Are we doing before optimization plots
-  bool make_plots = true;
-
+  bool make_plots = false;
+  bool brute_force = false;
+  
   TString rootfiles = "/home/sean/Grad/Research/APEX/Rootfiles/";
   gStyle->SetPalette(1);
   TFile* f;
-  if (before) f = new TFile(rootfiles + "apex_4647.root","read");
-  //else f = new TFile(rootfiles + "apex_4647_opt_sieve_plane_"+order+".root","read");
-  else if(range == "all") f = new TFile(rootfiles + "apex_4647_opt_"+order+"_xfp_full.root","read");
-  else f = new TFile(rootfiles + "apex_4647_opt_"+order+"_xfp_"+range+".root","read");
+
+  if(before) f = new TFile(rootfiles + "apex_"+run+".root","read");
+  else if(range == "full" && !brute_force) f = new TFile(rootfiles + "apex_"+run+"_opt_"+order+"_xfp_full.root","read");       //Full x_fp with single matrix
+  else if(range == "full" && brute_force) f = new TFile(rootfiles + "apex_"+run+"_opt_"+order+"_xfp_full_brute.root","read");  //Full x_fp with 5 matrices
+  else f = new TFile(rootfiles + "apex_"+run+"_opt_"+order+"_xfp_"+range+".root","read");
+  
   TTree* t;
   f->GetObject("T",t);
 
   
   TCut GeneralCut;
   //TCut GeneralCut = "R.tr.n==1 && (R.cer.asum_c>500) && R.s0.nthit==1  && abs(R.tr.tg_dp) < 0.01";
-  if(range == "all") GeneralCut = "R.tr.n==1 && (R.cer.asum_c>500)";
+  if(range == "full") GeneralCut = "R.tr.n==1 && (R.cer.asum_c>500)";
   if(range == "-10_10") GeneralCut = "R.tr.n==1 && (R.cer.asum_c>500) && abs(R.tr.r_x) < 0.10";
   if(range == "-45_-25") GeneralCut = "R.tr.n==1 && (R.cer.asum_c>500) && (R.tr.r_x > -0.45 && R.tr.r_x < -0.25)";
   if(range == "25_45") GeneralCut = "R.tr.n==1 && (R.cer.asum_c>500) && (R.tr.r_x > 0.25 && R.tr.r_x < 0.45)";
-  if(range == "full") GeneralCut = "R.tr.n==1 && (R.cer.asum_c>500) && ((abs(R.tr.r_x) < 0.10) || (R.tr.r_x > 0.25 && R.tr.r_x < 0.45) || (R.tr.r_x > -0.45 && R.tr.r_x < -0.25))";
   
 
 
@@ -32,9 +35,9 @@ void correlation(){
   pt1->AddText("Run 4647");
   pt1->AddText("Cerenkov signal sum > 500");
   pt1->AddText("Single track");
-  if(range == "-10_10" || range == "full") pt1->AddText("|x_{fp}| < 0.10 m");
-  if(range == "-45_-25" || range == "full") pt1->AddText("-0.45 m < x_{fp} < -0.25 m");
-  if(range == "25_45" || range == "full") pt1->AddText("0.25 m < x_{fp} < 0.45 m");
+  if(range == "-10_10") pt1->AddText("|x_{fp}| < 0.10 m");
+  if(range == "-45_-25") pt1->AddText("-0.45 m < x_{fp} < -0.25 m");
+  if(range == "25_45") pt1->AddText("0.25 m < x_{fp} < 0.45 m");
   //pt1->AddText("-15 cm < sieve x < 15 cm");
   pt1->SetFillColor(0);
 
@@ -47,9 +50,9 @@ void correlation(){
   pt2->AddText("Run 4647");
   pt2->AddText("Cerenkov signal sum > 500");
   pt2->AddText("Single track");
-  if(range == "-10_10" || range == "full") pt2->AddText("|x_{fp}| < 0.10 m");
-  if(range == "-45_-25" || range == "full") pt2->AddText("-0.45 m < x_{fp} < -0.25 m");
-  if(range == "25_45" || range == "full") pt2->AddText("0.25 m < x_{fp} < 0.45 m");
+  if(range == "-10_10") pt2->AddText("|x_{fp}| < 0.10 m");
+  if(range == "-45_-25") pt2->AddText("-0.45 m < x_{fp} < -0.25 m");
+  if(range == "25_45") pt2->AddText("0.25 m < x_{fp} < 0.45 m");
   //pt2->AddText("-75 cm < sieve y < 85 cm");
   pt2->SetFillColor(0);
 
@@ -179,14 +182,14 @@ void correlation(){
   
   
   if(make_plots){
-    if(before) c->SaveAs("plots/correlations/th_tg_before_opt_xfp_"+range+".gif");
-    else c->SaveAs("plots/correlations/th_tg_opt_"+order+"_xfp_"+range+".gif");
+    if(before) c->SaveAs("plots/correlations/"+run+"/th_tg_before_opt_xfp_"+range+".gif");
+    else c->SaveAs("plots/correlations/"+run+"/th_tg_opt_"+order+"_xfp_"+range+".gif");
 
-    if(before) c2->SaveAs("plots/correlations/ph_tg_before_opt_xfp_"+range+".gif");
-    else c2->SaveAs("plots/correlations/ph_tg_opt_"+order+"_xfp_"+range+".gif");
+    if(before) c2->SaveAs("plots/correlations/"+run+"/ph_tg_before_opt_xfp_"+range+".gif");
+    else c2->SaveAs("plots/correlations/"+run+"/ph_tg_opt_"+order+"_xfp_"+range+".gif");
 
-    if(before) c3->SaveAs("plots/correlations/tg_before_opt_raster_"+range+".gif");
-    else c3->SaveAs("plots/correlations/tg_opt_"+order+"_raster_"+range+".gif");
+    if(before) c3->SaveAs("plots/correlations/"+run+"/tg_before_opt_raster_"+range+".gif");
+    else c3->SaveAs("plots/correlations/"+run+"/tg_opt_"+order+"_raster_"+range+".gif");
   }
 
 
