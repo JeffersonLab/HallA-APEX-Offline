@@ -7,7 +7,7 @@ void xpyp_plot(){
   //example for range is -10_10 for -10 cm < x_fp <10 cm
   //use "full" for full focal plane range
   TString range = "full";   //Range in focal plane
-  bool before = true;      //Are we doing before optimization plots
+  bool before = false;      //Are we doing before optimization plots
   bool make_plots = false;
   bool brute_force = true;  //Are we using brute force method
 
@@ -68,24 +68,39 @@ void xpyp_plot(){
   s->SetX1NDC(0.72);
   s->SetY1NDC(0.85);
 
-  ///// Calculate and draw expected hole positions /////
+  ///// Get expected hole positions from csv file and draw /////
   double sieve_ph[27], sieve_th[17];
 
-  //Commented numbers are for old raster calibration
-  double center_ph = 12.5;//8.64
-  double center_th = 3.5;//9.89
-  double space_th = 7.254;
-  double space_ph = 2.99;
+  TString csv = range;
+  if(brute_force) csv = "full_brute";
+  ifstream csv_file("../Sieve/xfp_"+csv+"/apex_"+run+".root.cuts_full.csv");
   
-  for(int i = 0; i<27; i++){
-    if(i < 25) sieve_ph[i] = (14-i)*space_ph - center_ph;
-    else sieve_ph[i] = sieve_ph[24] - (i-24)*space_ph*2;
+  string line;
+
+  getline(csv_file,line);
+  getline(csv_file,line);
+  int col_n = 0, row_n = 0;
+  
+  while (getline(csv_file,line)){
+    if(row_n == 17){
+      col_n++;
+      row_n = 0;
+    }
+    stringstream linestream(line);
+    string cell;
+
+    int n_elem = 1;
+
+    while(getline(linestream,cell,',')){
+      if(n_elem == 5) sieve_ph[col_n] = stod(cell);
+      else if(n_elem == 7) sieve_th[row_n] = stod(cell);
+      n_elem++;
+    }
+    
+    row_n++;
   }
-  
-  for(int j = 0; j<17; j++){
-    sieve_th[j] = (j-8)*space_th + center_th;
-  }
-  
+
+
   TLine *l[27];
   TLine *l2[17];
   
