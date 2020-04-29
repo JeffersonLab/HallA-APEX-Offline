@@ -7,15 +7,15 @@ void xpyp_plot(){
   //example for range is -10_10 for -10 cm < x_fp <10 cm
   //use "full" for full focal plane range
   TString range = "full";   //Range in focal plane
-  bool before = false;      //Are we doing before optimization plots
-  bool make_plots = false;
+  bool before = true;      //Are we doing before optimization plots
+  bool make_plots = true;
   bool brute_force = true;  //Are we using brute force method
 
   TString rootfiles = "/home/sean/Grad/Research/APEX/Rootfiles/";
   gStyle->SetPalette(1);
   TFile* f;
   
-  if(before) f = new TFile(rootfiles + "apex_"+run+".root","read");
+  if(before) f = new TFile(rootfiles + "/apex_"+run+".root","read");
   else if(range == "full" && !brute_force) f = new TFile(rootfiles + "apex_"+run+"_opt_"+order+"_xfp_full.root","read");       //Full x_fp with single matrix
   else if(range == "full" && brute_force) f = new TFile(rootfiles + "apex_"+run+"_opt_"+order+"_xfp_full_brute.root","read");  //Full x_fp with 5 matrices
   else f = new TFile(rootfiles + "apex_"+run+"_opt_"+order+"_xfp_"+range+".root","read");
@@ -46,7 +46,7 @@ void xpyp_plot(){
 
   /////Add labels for the run number and cuts ////
   TPaveText *pt1 = new TPaveText(0.12,0.78,0.32,0.89,"nbNDC");
-  pt1->AddText("Run 4647");
+  pt1->AddText("Run "+run);
   pt1->AddText("Cerenkov signal sum > 500");
   pt1->AddText("Single track");
   if(range == "-10_10") pt1->AddText("|x_{fp}| < 0.10 m");
@@ -173,6 +173,8 @@ void xpyp_plot(){
   //c2->SaveAs("plots/x_fp.gif");
   */
 
+
+  gStyle->SetOptStat(1);
   TH2D * xy = new TH2D("xy", "", 500, -3, 0, 500, 1, 4);
 
   TCanvas *c4 = new TCanvas("c4","",800,600);
@@ -181,93 +183,9 @@ void xpyp_plot(){
   xy->SetTitle("Raster Scan Calib");
   xy->GetXaxis()->SetTitle("x (mm)");
   xy->GetYaxis()->SetTitle("y (mm)");
-  
-
-
-
-  ///Positions for sieve plane/////
-  double sieve_y[27], sieve_x[17];
-
-  for(int i = 0; i<27; i++){
-    if(i < 25) sieve_y[i] = (14-i)*0.238 - 1.094;
-    else sieve_y[i] = sieve_y[24] - (i-24)*0.238*2;
-  }
-  
-  for(int j = 0; j<17; j++){
-    sieve_x[j] = -(j-8)*0.575 - 0.0155;
-  }
-
-
-  
-  //// Same plots but for sieve plane///
-  /*
-  TCanvas *c5 = new TCanvas("c5","",1000,1000);
-  TH2D * xy_sieve = new TH2D("xy_sieve", "", 400, -5, 5, 400, -6, 4);
-  t->Draw("Sieve.x*100:Sieve.y*100>>xy_sieve",GeneralCut,"colz");
-  if(range == "full") xy_sieve->GetZaxis()->SetRangeUser(0,100);
-  else xy_sieve->GetZaxis()->SetRangeUser(0,50);
-  if(before) xy_sieve->SetTitle("Sieve Plane Before Opt;y (cm);x (cm)");
-  else xy_sieve->SetTitle("Sieve Plane "+order+" Order Opt;y (cm);x (cm)");
-
-  gStyle->SetOptStat(10);
-  TPaveStats *s1 = (TPaveStats*) gPad->GetPrimitive("stats");
-  s1->SetX2NDC(0.9);
-  s1->SetY2NDC(0.9);
-  s1->SetX1NDC(0.72);
-  s1->SetY1NDC(0.85);
-  
-  
-  TLine* lx1 = new TLine(0.75,-6,0.75,4);
-  TLine* lx2 = new TLine(0.85,-6,0.85,4);  
-  //TLine* ly1 = new TLine(-5,-0.15,5,-0.15);
-  //TLine* ly2 = new TLine(-5,.15,5,0.15);
-
-  TLine* ly1 = new TLine(-5,-2.5,5,-2.5);
-  TLine* ly2 = new TLine(-5,-2.1,5,-2.1);
-  
-
-  
-  lx1->SetLineColor(2);
-  lx2->SetLineColor(2);
-  ly1->SetLineColor(2);
-  ly2->SetLineColor(2);
-  
-
-  lx1->Draw("same");
-  lx2->Draw("same");
-  ly1->Draw("same");
-  ly2->Draw("same");
-
-  TLegend *leg2 = new TLegend (0.72, 0.8, 0.9, 0.85);
-  leg2->AddEntry(lx1, "Column and Row Cuts", "l");
-  leg2->Draw("same");
-
-
-  TLine *l3[27];
-  TLine *l4[17];
-  */
-  /*
-  for(int i=4;i<20;i++){
-      l3[i] = new TLine(sieve_y[i], -6, sieve_y[i], 4);
-      l3[i]->SetLineColor(2);
-      l3[i]->Draw("same");
-    }
- 
-  for(int i=3;i<14;i++){
-    l4[i] = new TLine(-5, sieve_x[i], 5, sieve_x[i]);
-    l4[i]->SetLineColor(2);
-    l4[i]->Draw("same");
-  }  
-  */
-  
-  /*
-  //leg->Draw("same");
-  leg2->Draw("same");
   pt1->Draw("same");
 
-  if(make_plots){
-    if(before) c5->SaveAs("plots/sieve_xy/xy_before_opt_xfp_"+range+".gif");
-    else c5->SaveAs("plots/sieve_xy/xy_opt_"+order+"_xfp_"+range+".gif");
-  }
-  */
+
+
+
 }
