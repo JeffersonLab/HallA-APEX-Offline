@@ -29,6 +29,11 @@ void Distill(){
   t->SetBranchStatus("R.tr.r_ph",1);
   
   t->SetBranchStatus("R.tr.vz",1);
+  t->SetBranchStatus("Rrb.BPMA.x",1);
+  t->SetBranchStatus("Rrb.BPMA.y",1);
+  t->SetBranchStatus("Rrb.BPMB.x",1);
+  t->SetBranchStatus("Rrb.BPMB.y",1);
+  
 
   TFile* f = new TFile(rootfile + "/Distilled/apex_"+run+".root","recreate");
   TTree* tree = t->CloneTree(0);

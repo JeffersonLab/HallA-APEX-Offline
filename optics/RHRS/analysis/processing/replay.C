@@ -17,7 +17,7 @@ void replay(TString OutputFile, TString DataBase){
   //Simplified replay code. Takes some functions for ROpticsOpt class and uses them to calculate new target variables with different matrix.
 
 
-  TString rootfiles = "/home/sean/Grad/Research/APEX/Rootfiles/";
+  TString rootfiles = "/lustre19/expphy/volatile/halla/apex/jeffas/apex_root/Rootfiles/";
   TFile* f_old = new TFile(rootfiles + "apex_4647.root","open");
   TTree* t;
   f_old->GetObject("T",t);
@@ -44,6 +44,10 @@ void replay(TString OutputFile, TString DataBase){
   double R_s0_nthit;
   double beam_x[100];
   double beam_y[100];
+  double BPMA_x[100];
+  double BPMA_y[100];
+  double BPMB_x[100];
+  double BPMB_y[100];
   double R_tr_x_rot[100];
   double R_tr_y_rot[100];
   double R_tr_th_rot[100];
@@ -55,6 +59,7 @@ void replay(TString OutputFile, TString DataBase){
   double R_tr_tg_dp[100];
   double sieve_x[100];
   double sieve_y[100];
+
   
   t->SetBranchStatus("*",0);
   t->SetBranchStatus("R.tr.n",1);
@@ -72,6 +77,10 @@ void replay(TString OutputFile, TString DataBase){
   t->SetBranchStatus("R.tr.r_th",1);
   t->SetBranchStatus("R.tr.r_ph",1);
   t->SetBranchStatus("R.tr.vz",1);
+  t->SetBranchStatus("Rrb.BPMA.x",1);
+  t->SetBranchStatus("Rrb.BPMA.y",1);
+  t->SetBranchStatus("Rrb.BPMB.x",1);
+  t->SetBranchStatus("Rrb.BPMB.y",1);
   
   t->SetBranchAddress("R.tr.n",&R_tr_n);
   t->SetBranchAddress("R.tr.x",R_tr_x_fp);
@@ -88,6 +97,11 @@ void replay(TString OutputFile, TString DataBase){
   t->SetBranchAddress("R.tr.r_th",R_tr_th_rot);
   t->SetBranchAddress("R.tr.r_ph",R_tr_ph_rot);
   t->SetBranchAddress("R.tr.vz",R_tr_vz);
+  t->SetBranchAddress("Rrb.BPMA.x",BPMA_x);
+  t->SetBranchAddress("Rrb.BPMA.y",BPMA_y);
+  t->SetBranchAddress("Rrb.BPMB.x",BPMB_x);
+  t->SetBranchAddress("Rrb.BPMB.y",BPMB_y);
+
 
   t_new->Branch("R.tr.n",&R_tr_n);
   t_new->Branch("R.tr.x",R_tr_x_fp);
@@ -110,6 +124,11 @@ void replay(TString OutputFile, TString DataBase){
   t_new->Branch("R.tr.tg_dp",R_tr_tg_dp);
   t_new->Branch("Sieve.x",sieve_x);
   t_new->Branch("Sieve.y",sieve_y);
+  t->Branch("Rrb.BPMA.x",BPMA_x);
+  t->Branch("Rrb.BPMA.y",BPMA_y);
+  t->Branch("Rrb.BPMB.x",BPMB_x);
+  t->Branch("Rrb.BPMB.y",BPMB_y);
+
 
 
   //Calculate target variables
