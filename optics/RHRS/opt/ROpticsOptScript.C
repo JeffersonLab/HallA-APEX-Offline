@@ -7,7 +7,7 @@
 #include "TString.h"
 #include "TVirtualFitter.h"
 
-#define th_ph_optimize true
+#define th_ph_optimize false
 #define draw_plots true
 #define y_optimize true
 #define dp_optimize false
@@ -27,7 +27,9 @@ Bool_t freed[10000] = {kFALSE}; //NPara
 UInt_t MaxDataPerGroup = 100;
 //UInt_t MaxDataPerGroup = 100;
 
-TString DataSource = "../Sieve/xfp_-10_10/Sieve.full.f4647";
+TString run = "4647";
+TString range = "-10_10";
+TString DataSource = "../Sieve/"+run+"/xfp_"+range+"/Sieve.full.f"+run;
 
 
 typedef void (*PTRFCN)(Int_t &, Double_t *, Double_t &, Double_t*, Int_t);
