@@ -10,7 +10,7 @@ class ROpticsOpt;
 //////////////////////////////////////////////////////////////////////////////
 // Work Directory
 //////////////////////////////////////////////////////////////////////////////
-TString WorkDir = "/home/sean/Grad/Research/APEX/optimization/Sieve/test/";
+TString WorkDir = "/home/sean/Grad/Research/APEX/optimization/Sieve/4648/xfp_-50_-30/";
 
 
 
@@ -32,9 +32,9 @@ TString RootFile_Dp_p1;
 TString RootFile_Dp_p2 = "right_gmp_22776.root";
 TString RootFile_Dp_p3;
 string RootFile_Dp_p4 = "right_gmp_22778.root" ;
-string RootFile_cen = "apex_4647.root" ;
-string RootFile_up = "apex_4648.root apex_4648_1.root apex_4648_2.root" ;
-string RootFile_dn = "apex_4650.root apex_4650_1.root apex_4650_2.root" ;
+string RootFile_cen = "apex_4647.root";
+string RootFile_up = "apex_4648.root";
+string RootFile_dn = "apex_4650.root";
 
  
 TString RootFile_Sieve = "right_gmp_22828.root right_gmp_22829.root right_gmp_22830.root right_gmp_22831.root right_gmp_22832.root right_gmp_22833.root right_gmp_22834.root";
@@ -42,7 +42,7 @@ TString RootFile_Sieve = "right_gmp_22828.root right_gmp_22829.root right_gmp_22
 
 string RootFile_Dp = RootFile_Dp_p4;
 
-string RootFile_test = RootFile_cen;
+string RootFile_test = RootFile_up;
 
 //TString RootFile_Vertex = RootFile_Sieve;
 
@@ -70,8 +70,8 @@ UInt_t PlotCut = 0;
 //TCut GeneralSieveCut = "abs(R.tr.tg_th)<0.15 && abs(R.tr.tg_ph)<0.15&& R.vdc.u1.nclust==1&& R.vdc.v1.nclust==1&& R.vdc.u2.nclust==1&& R.vdc.v2.nclust==1"; // && urb.y<0.006
 
 //TCut GeneralCut = "R.tr.n==1&&(R.sh.e+R.ps.e)/(1000*R.tr.p)>0.6&&(R.cer.asum_c>600) ";
-TCut GeneralCut = "R.tr.n==1 && (R.cer.asum_c>500) && abs(R.tr.r_x) < 0.10";
-//TCut GeneralCut = "R.tr.n==1 && (R.cer.asum_c>500) && (R.tr.r_x > -0.45 && R.tr.r_x < -0.25)";
+//TCut GeneralCut = "R.tr.n==1 && (R.cer.asum_c>500) && abs(R.tr.r_x) < 0.10";
+TCut GeneralCut = "R.tr.n==1 && (R.cer.asum_c>500) && (R.tr.r_x > -0.50 && R.tr.r_x < -0.30)";
 //TCut GeneralCut = "R.tr.n==1 && (R.cer.asum_c>500) && (R.tr.r_x > 0.25 && R.tr.r_x < 0.45)";
 
 //////////////////////////////////////////////////////////////////////////////                    
@@ -547,7 +547,7 @@ void CutSieve(int FoilID = 0, int col = 6, int overwrite = 0) {
     for(int i = 0; i < 27; i++){
       for(int j = 0; j < 17; j++){
 	TVector3 SieveHoleCorrectionTCS = opt->GetSieveHoleCorrectionTCS(1, i, j);
-	TVector3 BeamSpotHCS(BeamX_average[FoilID], BeamY_average, targetfoils[FoilID]);
+	TVector3 BeamSpotHCS(BeamX_average[FoilID], BeamY_average[FoilID], targetfoils[FoilID]);
 	TVector3 BeamSpotTCS = fTCSInHCS.Inverse()*(BeamSpotHCS - fPointingOffset);        
 	TVector3 MomDirectionTCS = SieveHoleCorrectionTCS - BeamSpotTCS;
 	double theta = MomDirectionTCS.X() / MomDirectionTCS.Z();
