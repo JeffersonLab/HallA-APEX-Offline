@@ -91,7 +91,6 @@ TString CutSuf = ".FullCut.root";
 TString CutDescFileSufVertex = ".VertexCut.cut";
 TString CutDescFileSufDp = ".DpCut.cut";
 TString CutDescFileSufSieve = ".SieveCut.%d_%d.cut";
-TString CutDat = ".cuts.csv";
 
 
 
@@ -515,7 +514,7 @@ void CutSieve(int FoilID = 0, int col = 6, int overwrite = 0) {
   TString TempString(Form(CutDescFileSufSieve.Data(), FoilID, col));
   TString PlotDir(RootFileName + Form(".hcut_R_%d_%d/", FoilID, col));
   TString CutDescName = WorkDir + RootFileName + TempString;
-  TString CutDataName = WorkDir + RootFileName + CutDat;
+  TString CutDataName = WorkDir + RootFileName + ".cuts.csv";
   
   cerr << "cp -vf " + CutFileName + " " + CutFileName + ".old" << endl;
   gSystem->Exec("cp -vf " + CutFileName + " " + CutFileName + ".old");
@@ -526,7 +525,7 @@ void CutSieve(int FoilID = 0, int col = 6, int overwrite = 0) {
   
   //The following code creates a csv file that has all of the cut information
   ifstream cutcsvtest;
-  cutcsvtest.open(WorkDir + "apex_4647.root.cuts_full.csv");
+  cutcsvtest.open(WorkDir + RootFileName + ".cuts_full.csv");
 
   TDatime* date = new TDatime();  //Get Current date
 
@@ -537,7 +536,7 @@ void CutSieve(int FoilID = 0, int col = 6, int overwrite = 0) {
     
     ofstream createcsv;
     createcsv<<fixed<<setprecision(2);
-    createcsv.open(WorkDir + "apex_4647.root.cuts_full.csv");
+    createcsv.open(WorkDir + RootFileName + ".cuts_full.csv");
     createcsv<<date->GetDay()<<"/"<<date->GetMonth()<<"/"<<date->GetYear()<<" (dd/mm/yyyy)"<<endl;
     createcsv << "Hole ID (col:row),Hole Exists,Included in opt,Ellipse ph cen,Expected ph,Ellipse th cen,Expected th,Semi axis ph,Semi axis th,Ellipse Tilt (deg),Ellipse ph rms,Ellipse th rms,Statistics,All angles in mrad except ellipse tilt which is positive counterclockwise from vertical axis"<<endl;
 
@@ -573,7 +572,7 @@ void CutSieve(int FoilID = 0, int col = 6, int overwrite = 0) {
 
     //Open old file
     ifstream cutcsvold;
-    cutcsvold.open(WorkDir + "apex_4647.root.cuts_full.csv");
+    cutcsvold.open(WorkDir + RootFileName + ".cuts_full.csv");
 
     //Open file where new variables will be written
     ofstream cutcsv;
@@ -867,7 +866,6 @@ void CutSieve(int FoilID = 0, int col = 6, int overwrite = 0) {
         cutdesc << (const char*)GeneralCut << endl;
     }
 
-    //    for(int i = rmin + nhol; i < 7; i++)
     for(int i = rmin + nhol; i < NSieveRow; i++){
       //cutdesc << "fEvtHdr.fRun==0" << endl;
       cutdesc << "R.tr.n > 1000" << endl;
@@ -897,7 +895,7 @@ void CutSieve(int FoilID = 0, int col = 6, int overwrite = 0) {
     
     //Copy file to new template
     ofstream dest;
-    dest.open(WorkDir + "apex_4647.root.cuts_full.csv");
+    dest.open(WorkDir + RootFileName + ".cuts_full.csv");
     ifstream src;
     src.open(CutDataName);
 
