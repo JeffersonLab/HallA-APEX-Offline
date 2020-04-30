@@ -2,7 +2,7 @@ void Distill(){
 
   //Macro to take full root file and get only needed variables
   
-  TString run = "4650";
+  TString run = "4647";
 
   TChain * t = new TChain("T");
   TString rootfile = "/lustre19/expphy/volatile/halla/apex/jeffas/apex_root/Rootfiles/";
@@ -23,6 +23,8 @@ void Distill(){
   t->SetBranchStatus("R.tr.tg_dp",1);
   t->SetBranchStatus("Rrb.x",1);
   t->SetBranchStatus("Rrb.y",1);
+  t->SetBranchStatus("Rurb.x",1);
+  t->SetBranchStatus("Rurb.y",1);
   t->SetBranchStatus("R.tr.r_x",1);
   t->SetBranchStatus("R.tr.r_y",1);
   t->SetBranchStatus("R.tr.r_th",1);
