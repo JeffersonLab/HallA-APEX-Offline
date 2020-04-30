@@ -7,7 +7,7 @@ void xpyp_plot(){
   //example for range is -10_10 for -10 cm < x_fp <10 cm
   //use "full" for full focal plane range
   TString range = "full";   //Range in focal plane
-  bool before = true;      //Are we doing before optimization plots
+  bool before = false;      //Are we doing before optimization plots
   bool make_plots = true;
   bool brute_force = true;  //Are we using brute force method
 
@@ -73,7 +73,7 @@ void xpyp_plot(){
 
   TString csv = range;
   if(brute_force) csv = "full_brute";
-  ifstream csv_file("../Sieve/xfp_"+csv+"/apex_"+run+".root.cuts_full.csv");
+  ifstream csv_file("../Sieve/"+run+"/xfp_"+csv+"/apex_"+run+".root.cuts_full.csv");
   
   string line;
 
@@ -108,18 +108,18 @@ void xpyp_plot(){
   for(int i=4;i<20;i++){
       l[i] = new TLine(sieve_ph[i], -65, sieve_ph[i], 65);
       l[i]->SetLineColor(2);
-      l[i]->Draw("same");
+      if(!before) l[i]->Draw("same");
     }
  
   for(int i=3;i<14;i++){
     l2[i] = new TLine(-65, sieve_th[i], 65, sieve_th[i]);
     l2[i]->SetLineColor(2);
-    l2[i]->Draw("same");
+    if(!before) l2[i]->Draw("same");
   }  
   
   TLegend *leg = new TLegend (0.72, 0.8, 0.9, 0.85);
   leg->AddEntry(l[10], "Exp Hole Positions", "l");
-  leg->Draw("same");
+  if(!before) leg->Draw("same");
 
   ///// Draw labels for column and row number ///////
   for(int n_col = 4; n_col <=19; n_col++){
@@ -128,7 +128,7 @@ void xpyp_plot(){
     text -> SetTextFont(1);
     text -> SetTextSize(0.02);
     text->SetTextAlign(22);
-    text -> DrawText(sieve_ph[n_col], 67, Form("%d",n_col));
+    if(!before) text -> DrawText(sieve_ph[n_col], 67, Form("%d",n_col));
   }
 
   for(int n_row = 3; n_row <=13; n_row++){
@@ -136,7 +136,7 @@ void xpyp_plot(){
     text -> SetTextFont(1);
     text -> SetTextSize(0.02);
     text->SetTextAlign(22);
-    text -> DrawText(-60,sieve_th[n_row], Form("%d",n_row));
+    if(!before) text -> DrawText(-60,sieve_th[n_row], Form("%d",n_row));
   }
 
   if(make_plots){
@@ -175,7 +175,7 @@ void xpyp_plot(){
 
 
   gStyle->SetOptStat(1);
-  TH2D * xy = new TH2D("xy", "", 500, -3, 0, 500, 1, 4);
+  TH2D * xy = new TH2D("xy", "", 500, -3.5, 3.5, 500, 1, 4);
 
   TCanvas *c4 = new TCanvas("c4","",800,600);
   t->Draw("Rrb.y*1000:Rrb.x*1000>>xy",GeneralCut,"colz");
@@ -185,7 +185,6 @@ void xpyp_plot(){
   xy->GetYaxis()->SetTitle("y (mm)");
   pt1->Draw("same");
 
-
-
+  if(make_plots) c4->SaveAs("plots/raster/"+run+"/"+run+"raster.gif");
 
 }
