@@ -29,8 +29,8 @@ const Double_t LH2_Thickness_Side = 0.18*1.e-3;  //Al 7075, aluminum thickness f
 const Double_t LH2_Thickness_Tip = 0.11*1.e-3;  //Al 7075, aluminum thickness for tip
 
 // MissPoint* are in HCS
-const Double_t MissPointZ = 1.69*1e-3; //RHRS offsets 
-const Double_t MissPointY = -1.79*1e-3; 
+const Double_t MissPointZ = 0;//1.69*1e-3 //RHRS offsets 
+const Double_t MissPointY = 0;//-1.79*1e-3 
 
 const Double_t BeamShiftX = 0;
 
@@ -41,8 +41,8 @@ const Double_t SieveRadius_c = 0.106*25.4/2.0*1e-3;
 //const Double_t SieveRadius_c = 0;   
 
 // average beam positions
-const Double_t BeamX_average[] = {-2.5e-3, -0.9656*1e-3, 2.5e-3};
-const Double_t BeamY_average = 2.845*1e-3;
+const Double_t BeamX_average[] = {1.76e-3, -0.9646e-3, -2.137e-3};
+const Double_t BeamY_average[] = {2.726e-3, 2.845*1e-3, 2.879e-3};
 
 
 /////////////////////////////////////////////////////////////////////////
@@ -76,9 +76,9 @@ const Double_t ZPos = 31.23 * 25.4e-3;
 
 //static const UInt_t NFoils = 9; 
 static const UInt_t NFoils = 3; 
-const Double_t targetoffset = 0;
+const Double_t targetoffset = -5*1e-3;
 //const Double_t targetfoils[] = {-10e-2+targetoffset, targetoffset-7.5e-2, targetoffset-5e-2, targetoffset-2.e-2, targetoffset+0.0, targetoffset+2.e-2, targetoffset+5e-2, targetoffset+7.5e-2,10e-2+targetoffset, 1e36};
-const Double_t targetfoils[] = {-0.2, 0.0, 0.2, 1e36};
+const Double_t targetfoils[] = {-0.2 + targetoffset, 0.0 + targetoffset, 0.2 + targetoffset, 1e36};
 
  ///////////////////////////////////////////////////////////////////////// 
  // Excitation State Inputs 

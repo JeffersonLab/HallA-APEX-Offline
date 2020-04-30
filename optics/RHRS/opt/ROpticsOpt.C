@@ -955,7 +955,7 @@ const TVector3 ROpticsOpt::GetSieveHoleCorrectionTCS(UInt_t nfoil, UInt_t Col, U
     //    Double_t SieveX_Correction[NFoils][NSieveCol][NSieveRow] ={{{0}}};
 
     //const TVector3 BeamSpotHCS_average(BeamX_average, BeamY_average, targetfoils[nfoil]);
-    const TVector3 BeamSpotHCS_average(BeamX_average[nfoil], BeamY_average, targetfoils[nfoil]);
+    const TVector3 BeamSpotHCS_average(BeamX_average[nfoil], BeamY_average[nfoil], targetfoils[nfoil]);
     const TVector3 BeamSpotTCS_average = fTCSInHCS.Inverse()*(BeamSpotHCS_average - fPointingOffset);        
     BeamXHCS= BeamSpotTCS_average.X();
     BeamYHCS= BeamSpotTCS_average.Y();
