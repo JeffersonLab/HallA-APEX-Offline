@@ -10,7 +10,7 @@ class ROpticsOpt;
 //////////////////////////////////////////////////////////////////////////////
 // Work Directory
 //////////////////////////////////////////////////////////////////////////////
-TString WorkDir = "/home/sean/Grad/Research/APEX/optimization/Sieve/4648/xfp_-50_-30/";
+TString WorkDir = "../Sieve/4648/xfp_-50_-30/";
 
 
 
@@ -112,14 +112,14 @@ TChain* LoadRootFiles()
   if(SourceRootFile == RootFile_up){
     dplowlimit=-0.05;dpuplimit=0.06;
     vzlowlimit=-0.1;vzuplimit=0.25;
-    phlowlimit=-0.01;phuplimit=0.035;
-    thlowlimit=-0.08;thuplimit=0.05;
+    phlowlimit=-0.065;phuplimit=0.065;
+    thlowlimit=-0.065;thuplimit=0.065;
   }
   if(SourceRootFile == RootFile_dn){
     dplowlimit=-0.05;dpuplimit=0.06;
     vzlowlimit=-0.6;vzuplimit=0.0;
-    phlowlimit=-0.04;phuplimit=0.01;
-    thlowlimit=-0.08;thuplimit=0.07;
+    phlowlimit=-0.065;phuplimit=0.065;
+    thlowlimit=-0.065;thuplimit=0.065;
   }
   if(SourceRootFile == RootFile_Dp_m4){
     dplowlimit=-0.05;dpuplimit=-0.01;
@@ -697,7 +697,7 @@ void CutSieve(int FoilID = 0, int col = 6, int overwrite = 0) {
 	TCutG* cutg = (TCutG*)gROOT->FindObject(Form("hcut_R_%d_%d_%d", FoilID, col, row));
 
 	//Create an ellipse that we will use to make our cuts
-	TEllipse* Ellipse = new TEllipse(0,0,.02,.04,0,360,0);
+	TEllipse* Ellipse = new TEllipse(0,0,2,4,0,360,0);
 	Ellipse->SetFillStyle(0);
 	Ellipse->SetLineWidth(3);
 	Ellipse->Draw("same");
