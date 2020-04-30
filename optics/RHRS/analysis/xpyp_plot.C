@@ -2,20 +2,20 @@ void xpyp_plot(){
 
   //Macro makes plots to analyze the new theta and phi after optimization
 
-  TString run = "4647";     //Run number
+  TString run = "4652";     //Run number
   TString order = "5th";    //Optimization order
   //example for range is -10_10 for -10 cm < x_fp <10 cm
   //use "full" for full focal plane range
   TString range = "full";   //Range in focal plane
-  bool before = false;      //Are we doing before optimization plots
-  bool make_plots = true;
+  bool before = true;      //Are we doing before optimization plots
+  bool make_plots = false;
   bool brute_force = true;  //Are we using brute force method
 
   TString rootfiles = "/home/sean/Grad/Research/APEX/Rootfiles/";
   gStyle->SetPalette(1);
   TFile* f;
   
-  if(before) f = new TFile(rootfiles + "/apex_"+run+".root","read");
+  if(before) f = new TFile(rootfiles + "apex_"+run+".root","read");
   else if(range == "full" && !brute_force) f = new TFile(rootfiles + "apex_"+run+"_opt_"+order+"_xfp_full.root","read");       //Full x_fp with single matrix
   else if(range == "full" && brute_force) f = new TFile(rootfiles + "apex_"+run+"_opt_"+order+"_xfp_full_brute.root","read");  //Full x_fp with 5 matrices
   else f = new TFile(rootfiles + "apex_"+run+"_opt_"+order+"_xfp_"+range+".root","read");
@@ -178,8 +178,9 @@ void xpyp_plot(){
   TH2D * xy = new TH2D("xy", "", 500, -3.5, 3.5, 500, 1, 4);
 
   TCanvas *c4 = new TCanvas("c4","",800,600);
-  t->Draw("Rrb.y*1000:Rrb.x*1000>>xy",GeneralCut,"colz");
-
+  if(run == "4652" || run = "4653") t->Draw("Rurb.y*1000:Rurb.x*1000>>xy",GeneralCut,"colz");
+  else t->Draw("Rrb.y*1000:Rrb.x*1000>>xy",GeneralCut,"colz");
+  
   xy->SetTitle("Raster Scan Calib");
   xy->GetXaxis()->SetTitle("x (mm)");
   xy->GetYaxis()->SetTitle("y (mm)");
