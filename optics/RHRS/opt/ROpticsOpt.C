@@ -924,7 +924,7 @@ const TVector3 ROpticsOpt::GetSieveHoleTCS(UInt_t Col, UInt_t Row)
     SieveHoleTCS.RotateX(-(yaw - HRSAngle));
     SieveHoleTCS.RotateY(pitch - TMath::Pi()/2);
 
-    SieveHoleTCS.SetXYZ( SieveHoleTCS.X() + SieveOffX,  SieveHoleTCS.Y() + SieveOffY, SieveHoleTCS.Z() + ZPos + SieveOffZ)
+    SieveHoleTCS.SetXYZ( SieveHoleTCS.X() + SieveOffX,  SieveHoleTCS.Y() + SieveOffY, SieveHoleTCS.Z() + ZPos + SieveOffZ);
 
 
     
