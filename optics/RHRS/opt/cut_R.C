@@ -511,7 +511,7 @@ void CutSieve(int FoilID = 0, int col = 6, int overwrite = 0) {
   //Get arrays with expected positions
     for(int i = 0; i < 27; i++){
       for(int j = 0; j < 17; j++){
-	TVector3 SieveHoleCorrectionTCS = opt->GetSieveHoleCorrectionTCS(1, i, j);
+	TVector3 SieveHoleCorrectionTCS = opt->GetSieveHoleCorrectionTCS(FoilID, i, j);
 	TVector3 BeamSpotHCS(BeamX_average[FoilID], BeamY_average[FoilID], targetfoils[FoilID]);
 	TVector3 BeamSpotTCS = fTCSInHCS.Inverse()*(BeamSpotHCS - fPointingOffset);        
 	TVector3 MomDirectionTCS = SieveHoleCorrectionTCS - BeamSpotTCS;
