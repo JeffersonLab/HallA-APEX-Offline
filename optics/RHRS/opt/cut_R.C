@@ -10,7 +10,7 @@ class ROpticsOpt;
 //////////////////////////////////////////////////////////////////////////////
 // Work Directory
 //////////////////////////////////////////////////////////////////////////////
-TString WorkDir = "../Sieve/4648/xfp_-50_-30/";
+TString WorkDir = "../Sieve/4648/xfp_-10_10/";
 
 
 
@@ -35,6 +35,8 @@ string RootFile_Dp_p4 = "right_gmp_22778.root" ;
 string RootFile_cen = "apex_4647.root";
 string RootFile_up = "apex_4648.root";
 string RootFile_dn = "apex_4650.root";
+string RootFile_opt3 = "apex_4652.root";
+string RootFile_opt1 = "apex_4653.root";
 
  
 TString RootFile_Sieve = "right_gmp_22828.root right_gmp_22829.root right_gmp_22830.root right_gmp_22831.root right_gmp_22832.root right_gmp_22833.root right_gmp_22834.root";
@@ -70,8 +72,8 @@ UInt_t PlotCut = 0;
 //TCut GeneralSieveCut = "abs(R.tr.tg_th)<0.15 && abs(R.tr.tg_ph)<0.15&& R.vdc.u1.nclust==1&& R.vdc.v1.nclust==1&& R.vdc.u2.nclust==1&& R.vdc.v2.nclust==1"; // && urb.y<0.006
 
 //TCut GeneralCut = "R.tr.n==1&&(R.sh.e+R.ps.e)/(1000*R.tr.p)>0.6&&(R.cer.asum_c>600) ";
-//TCut GeneralCut = "R.tr.n==1 && (R.cer.asum_c>500) && abs(R.tr.r_x) < 0.10";
-TCut GeneralCut = "R.tr.n==1 && (R.cer.asum_c>500) && (R.tr.r_x > -0.50 && R.tr.r_x < -0.30)";
+TCut GeneralCut = "R.tr.n==1 && (R.cer.asum_c>500) && abs(R.tr.r_x) < 0.10";
+//TCut GeneralCut = "R.tr.n==1 && (R.cer.asum_c>500) && (R.tr.r_x > -0.30 && R.tr.r_x < -0.10)";
 //TCut GeneralCut = "R.tr.n==1 && (R.cer.asum_c>500) && (R.tr.r_x > 0.25 && R.tr.r_x < 0.45)";
 
 //////////////////////////////////////////////////////////////////////////////                    
@@ -114,45 +116,19 @@ TChain* LoadRootFiles()
     phlowlimit=-0.065;phuplimit=0.065;
     thlowlimit=-0.065;thuplimit=0.065;
   }
-  if(SourceRootFile == RootFile_dn){
+  if(SourceRootFile == RootFile_opt3){
     dplowlimit=-0.05;dpuplimit=0.06;
-    vzlowlimit=-0.6;vzuplimit=0.0;
+    vzlowlimit=-0.35;vzuplimit=0.35;
     phlowlimit=-0.065;phuplimit=0.065;
     thlowlimit=-0.065;thuplimit=0.065;
   }
-  if(SourceRootFile == RootFile_Dp_m4){
-    dplowlimit=-0.05;dpuplimit=-0.01;
+   if(SourceRootFile == RootFile_opt1){
+    dplowlimit=-0.05;dpuplimit=0.06;
+    vzlowlimit=-0.35;vzuplimit=0.035;
+    phlowlimit=-0.065;phuplimit=0.065;
+    thlowlimit=-0.065;thuplimit=0.065;
   }
-  if(SourceRootFile == RootFile_Dp_m3){
-    dplowlimit=-0.04;dpuplimit=-0.025;
-    xlowlimit=-0.14-0.40;xuplimit=0.06-0.40;
-  }
-  if(SourceRootFile == RootFile_Dp_m2){
-    dplowlimit=-0.05;dpuplimit=0.01;
-    //        xlowlimit=-0.14-0.24;xuplimit=0.06-0.24;                                       
-  }
-  if(SourceRootFile == RootFile_Dp_m1){
-    dplowlimit=-0.02;dpuplimit=-0.005;
-    xlowlimit=-0.14-0.14;xuplimit=0.06-0.14;
-  }
-  if(SourceRootFile == RootFile_Dp_0){
-    dplowlimit=-0.04;dpuplimit=0.03;
-  }
-  if(SourceRootFile == RootFile_Dp_p1){
-    dplowlimit=0.00;dpuplimit=0.015;
-    xlowlimit=-0.14+0.13;xuplimit=0.06+0.13;
-  }
-  if(SourceRootFile == RootFile_Dp_p2){
-    dplowlimit=-0.02;dpuplimit=0.04;
-    //        xlowlimit=-0.14+0.26;xuplimit=0.06+0.26;                                       
-  }
-  if(SourceRootFile == RootFile_Dp_p3){
-    dplowlimit=0.02;dpuplimit=0.035;
-    xlowlimit=-0.14+0.38;xuplimit=0.06+0.38;
-  }
-  if(SourceRootFile == RootFile_Dp_p4){
-    dplowlimit=0.0;dpuplimit=0.055;
-  }
+  
 
   //char s[1000] = SourceRootFile.Data();
   char s[1000];
@@ -530,6 +506,22 @@ void CutSieve(int FoilID = 0, int col = 6, int overwrite = 0) {
   TDatime* date = new TDatime();  //Get Current date
 
   bool hole_exist = false;  //Bool if hole physically exists in sieve or not
+
+
+  //Get arrays with expected positions
+    for(int i = 0; i < 27; i++){
+      for(int j = 0; j < 17; j++){
+	TVector3 SieveHoleCorrectionTCS = opt->GetSieveHoleCorrectionTCS(1, i, j);
+	TVector3 BeamSpotHCS(BeamX_average[FoilID], BeamY_average[FoilID], targetfoils[FoilID]);
+	TVector3 BeamSpotTCS = fTCSInHCS.Inverse()*(BeamSpotHCS - fPointingOffset);        
+	TVector3 MomDirectionTCS = SieveHoleCorrectionTCS - BeamSpotTCS;
+	double theta = MomDirectionTCS.X() / MomDirectionTCS.Z();
+	double phi = MomDirectionTCS.Y() / MomDirectionTCS.Z();
+
+	sieve_ph[i][j] = phi*1000;
+	sieve_th[i][j] = theta*1000;
+      }
+    }
   
   //If file does not exists then create a new template
   if(!cutcsvtest.good()){
@@ -544,24 +536,14 @@ void CutSieve(int FoilID = 0, int col = 6, int overwrite = 0) {
     
     //Add expected positions to csv file
     for(int i = 0; i < 27; i++){
-      for(int j = 0; j < 17; j++){
-	TVector3 SieveHoleCorrectionTCS = opt->GetSieveHoleCorrectionTCS(1, i, j);
-	TVector3 BeamSpotHCS(BeamX_average[FoilID], BeamY_average[FoilID], targetfoils[FoilID]);
-	TVector3 BeamSpotTCS = fTCSInHCS.Inverse()*(BeamSpotHCS - fPointingOffset);        
-	TVector3 MomDirectionTCS = SieveHoleCorrectionTCS - BeamSpotTCS;
-	double theta = MomDirectionTCS.X() / MomDirectionTCS.Z();
-	double phi = MomDirectionTCS.Y() / MomDirectionTCS.Z();
-
-	sieve_ph[i][j] = phi*1000;
-	sieve_th[i][j] = theta*1000;
-	
+      for(int j = 0; j < 17; j++){	
 	if((i%2==0 && j%2==0) || (i%2==1 && j%2==1)) hole_exist = true;
 	if((i%2==0 && j%2==1) || (i%2==1 && j%2==0)) hole_exist = false;
 	if(i == 13 && (j != 1 || j !=15)) hole_exist = false;
 	if(i == 25 && j%2==0) hole_exist = true;
 	if(i == 25 && j%2==1) hole_exist = false;
 	
-	createcsv<<i<<":"<<j<<","<<hole_exist<<",0,0,"<<phi*1000<<",0,"<<theta*1000<<",0,0,0"<<endl;
+	createcsv<<i<<":"<<j<<","<<hole_exist<<",0,0,"<<sieve_ph[i][j]<<",0,"<<sieve_th[i][j]<<",0,0,0"<<endl;
       }
     }
     
