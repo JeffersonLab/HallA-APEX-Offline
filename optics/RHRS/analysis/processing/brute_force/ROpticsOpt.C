@@ -673,8 +673,7 @@ double ROpticsOpt::calc_tgth(int event){
     fRMatrixElems = fRMatrixElems_50_30;
     fFPMatrixElems = fFPMatrixElems_50_30;
   }
-
-  if(x_fp > -0.30 && x_fp < -0.10){
+  else if(x_fp > -0.30 && x_fp < -0.10){
     fTMatrixElems = fTMatrixElems_30_10;
     fDMatrixElems = fDMatrixElems_30_10;
     fPMatrixElems = fPMatrixElems_30_10;
@@ -684,8 +683,7 @@ double ROpticsOpt::calc_tgth(int event){
     fRMatrixElems = fRMatrixElems_30_10;
     fFPMatrixElems = fFPMatrixElems_30_10;
   }
-
-  if(x_fp > -0.10 && x_fp < 0.10){
+  else if(x_fp > -0.10 && x_fp < 0.10){
     fTMatrixElems = fTMatrixElems_10_10;
     fDMatrixElems = fDMatrixElems_10_10;
     fPMatrixElems = fPMatrixElems_10_10;
@@ -695,8 +693,7 @@ double ROpticsOpt::calc_tgth(int event){
     fRMatrixElems = fRMatrixElems_10_10;
     fFPMatrixElems = fFPMatrixElems_10_10;
   }
-
-  if(x_fp > 0.10 && x_fp < 0.30){
+  else if(x_fp > 0.10 && x_fp < 0.30){
     fTMatrixElems = fTMatrixElems_10_30;
     fDMatrixElems = fDMatrixElems_10_30;
     fPMatrixElems = fPMatrixElems_10_30;
@@ -706,8 +703,7 @@ double ROpticsOpt::calc_tgth(int event){
     fRMatrixElems = fRMatrixElems_10_30;
     fFPMatrixElems = fFPMatrixElems_10_30;
   }
-
-  if(x_fp > 0.30 && x_fp < 0.50){
+  else{
     fTMatrixElems = fTMatrixElems_30_50;
     fDMatrixElems = fDMatrixElems_30_50;
     fPMatrixElems = fPMatrixElems_30_50;
@@ -763,8 +759,7 @@ double ROpticsOpt::calc_tgph(int event){
     fRMatrixElems = fRMatrixElems_50_30;
     fFPMatrixElems = fFPMatrixElems_50_30;
   }
-
-  if(x_fp > -0.30 && x_fp < -0.10){
+  else if(x_fp > -0.30 && x_fp < -0.10){
     fTMatrixElems = fTMatrixElems_30_10;
     fDMatrixElems = fDMatrixElems_30_10;
     fPMatrixElems = fPMatrixElems_30_10;
@@ -785,8 +780,7 @@ double ROpticsOpt::calc_tgph(int event){
     fRMatrixElems = fRMatrixElems_10_10;
     fFPMatrixElems = fFPMatrixElems_10_10;
   }
-
-  if(x_fp > 0.10 && x_fp < 0.30){
+  else if(x_fp > 0.10 && x_fp < 0.30){
     fTMatrixElems = fTMatrixElems_10_30;
     fDMatrixElems = fDMatrixElems_10_30;
     fPMatrixElems = fPMatrixElems_10_30;
@@ -796,8 +790,7 @@ double ROpticsOpt::calc_tgph(int event){
     fRMatrixElems = fRMatrixElems_10_30;
     fFPMatrixElems = fFPMatrixElems_10_30;
   }
-
-  if(x_fp > 0.30 && x_fp < 0.50){
+  else {
     fTMatrixElems = fTMatrixElems_30_50;
     fDMatrixElems = fDMatrixElems_30_50;
     fPMatrixElems = fPMatrixElems_30_50;
@@ -810,10 +803,10 @@ double ROpticsOpt::calc_tgph(int event){
 
   // calculate the matrices we need
   // CalcMatrix(x_fp, fDMatrixElems);
-  CalcMatrix(x_fp, fTMatrixElems);
+  //CalcMatrix(x_fp, fTMatrixElems);
   // CalcMatrix(x_fp, fYMatrixElems);
   // CalcMatrix(x_fp, fYTAMatrixElems);
-  // CalcMatrix(x_fp, fPMatrixElems);
+  CalcMatrix(x_fp, fPMatrixElems);
   CalcMatrix(x_fp, fPTAMatrixElems);
     
   // calculate the coordinates at the target
@@ -854,8 +847,7 @@ double ROpticsOpt::calc_tgdp(int event){
     fRMatrixElems = fRMatrixElems_50_30;
     fFPMatrixElems = fFPMatrixElems_50_30;
   }
-
-  if(x_fp > -0.30 && x_fp < -0.10){
+  else if(x_fp > -0.30 && x_fp < -0.10){
     fTMatrixElems = fTMatrixElems_30_10;
     fDMatrixElems = fDMatrixElems_30_10;
     fPMatrixElems = fPMatrixElems_30_10;
@@ -865,8 +857,7 @@ double ROpticsOpt::calc_tgdp(int event){
     fRMatrixElems = fRMatrixElems_30_10;
     fFPMatrixElems = fFPMatrixElems_30_10;
   }
-
-  if(x_fp > -0.10 && x_fp < 0.10){
+  else if(x_fp > -0.10 && x_fp < 0.10){
     fTMatrixElems = fTMatrixElems_10_10;
     fDMatrixElems = fDMatrixElems_10_10;
     fPMatrixElems = fPMatrixElems_10_10;
@@ -876,8 +867,7 @@ double ROpticsOpt::calc_tgdp(int event){
     fRMatrixElems = fRMatrixElems_10_10;
     fFPMatrixElems = fFPMatrixElems_10_10;
   }
-
-  if(x_fp > 0.10 && x_fp < 0.30){
+  else if(x_fp > 0.10 && x_fp < 0.30){
     fTMatrixElems = fTMatrixElems_10_30;
     fDMatrixElems = fDMatrixElems_10_30;
     fPMatrixElems = fPMatrixElems_10_30;
@@ -887,8 +877,7 @@ double ROpticsOpt::calc_tgdp(int event){
     fRMatrixElems = fRMatrixElems_10_30;
     fFPMatrixElems = fFPMatrixElems_10_30;
   }
-
-  if(x_fp > 0.30 && x_fp < 0.50){
+  else {
     fTMatrixElems = fTMatrixElems_30_50;
     fDMatrixElems = fDMatrixElems_30_50;
     fPMatrixElems = fPMatrixElems_30_50;
