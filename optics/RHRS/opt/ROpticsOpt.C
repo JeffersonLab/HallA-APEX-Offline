@@ -1001,8 +1001,7 @@ void ROpticsOpt::PrepareSieve(void)
         res = res % (NSieveRow * NSieveCol);
         const UInt_t Col = res / (NSieveRow); //starting 0!
         const UInt_t Row = res % (NSieveRow); //starting 0!
-	
-	
+		
         assert(FoilID < NFoils); //check array index size
 	const TVector3 SieveHoleCorrectionTCS = GetSieveHoleCorrectionTCS(FoilID, Col, Row);
         eventdata.Data[kSieveX] = SieveHoleCorrectionTCS.X();
@@ -1019,6 +1018,7 @@ void ROpticsOpt::PrepareSieve(void)
 
         eventdata.Data[kRealTh] = MomDirectionTCS.X() / MomDirectionTCS.Z();
         eventdata.Data[kRealPhi] = MomDirectionTCS.Y() / MomDirectionTCS.Z();
+
 	
         const Double_t x_tg = BeamSpotTCS.X() - BeamSpotTCS.Z() * eventdata.Data[kRealTh];
         const Double_t y_tg = BeamSpotTCS.Y() - BeamSpotTCS.Z() * eventdata.Data[kRealPhi];
@@ -1105,7 +1105,6 @@ TCanvas * ROpticsOpt::CheckSieve(Int_t PlotFoilID)
         Double_t ProjectionY = eventdata.Data[kRealTgY] + eventdata.Data[kCalcPh] * (SieveHoleCorrectionTCS.Z());
 	
         //Double_t ProjectionY = eventdata.Data[kCalcPh];
-	
 	HSievePlane[FoilID]->Fill(ProjectionY, ProjectionX);
 	/*
 	if(FoilID==1 && Row==6) {
@@ -1132,7 +1131,7 @@ TCanvas * ROpticsOpt::CheckSieve(Int_t PlotFoilID)
 
     TCanvas * c1 = new TCanvas("SieveCheck", "SieveCheck", 1800, 1100);
     
-    if (nplot <= 1) {
+    if (nplot <= 2) {
         c1 = new TCanvas("SieveCheck", "SieveCheck", 1000, 1000);
         c1->Divide(1, 1);
     } else if (nplot <= 3) {
@@ -1147,15 +1146,17 @@ TCanvas * ROpticsOpt::CheckSieve(Int_t PlotFoilID)
     }
     
     for (UInt_t idx = 0; idx < nplot; idx++) {
-        UInt_t FoilID = idx;
+      UInt_t FoilID = idx;
         if (PlotFoilID >= 0)
             FoilID = PlotFoilID;
-	idx = FoilID;  //Added this line, does not work with >1 foil
+	if(nplot <= 2) idx = FoilID;        //Added this line, does not work with > 2 foil
         c1->cd(idx + 1);
         assert(HSievePlane[idx]); //pointer check
 
         HSievePlane[idx]->Draw("COLZ");
 
+	
+	
         // Draw Sieve
 	const Double_t plotwidth = 0.004;
         for (UInt_t Row = 0; Row < NSieveRow; Row++) {
@@ -1184,6 +1185,7 @@ TCanvas * ROpticsOpt::CheckSieve(Int_t PlotFoilID)
                 lv -> Draw();
            }
         }
+	
 
         // Draw arrows
         for (UInt_t Col = 0; Col < NSieveCol; Col++) {
@@ -1198,7 +1200,7 @@ TCanvas * ROpticsOpt::CheckSieve(Int_t PlotFoilID)
             }
         }
     }
-
+    
     return c1;
 }
 
@@ -2307,9 +2309,9 @@ TCanvas * ROpticsOpt::CheckVertex()
     ///////////////////////////check z direction
     TH1D * HTgZ[NFoils] = {0};         // z position from calculated y, calculated y is from matrix
     TH1D * HTgZReal[NFoils] = {0};     //real z postion
-    const Double_t ZRange = 15*10e-3; 
-    TH1F* Check_Tong=new TH1F("Check_Tong","React",600,-0.12,0.12);
-    TH1F* Check_Tong2=new TH1F("Check_Tong","React",600,-0.12,0.12);
+    const Double_t ZRange = 30*10e-3; 
+    TH1F* Check_Tong=new TH1F("Check_Tong","React",600,-0.40,0.40);
+    TH1F* Check_Tong2=new TH1F("Check_Tong","React",600,-0.40,0.40);
     Check_Tong2->SetLineColor(2);
     Check_Tong2->SetFillColor(2);
     Check_Tong->SetLineWidth(2);

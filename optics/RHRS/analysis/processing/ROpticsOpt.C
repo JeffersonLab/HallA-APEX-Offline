@@ -519,6 +519,21 @@ double ROpticsOpt::calc_tgdp(int event){
 
 }
 
+
+double ROpticsOpt::calc_vz(int event, double y, double ph){
+
+  EventData &eventdata = fRawData[event];
+  TVector3 BeamSpotHCS(eventdata.Data[kBeamX], eventdata.Data[kBeamY], 0);
+  
+  const Int_t a = (HRSAngle > 0) ? 1 : -1;
+  double CalcReacZ = - ( y -a*MissPointZ)*TMath::Cos(TMath::ATan(ph))/TMath::Sin(HRSAngle + TMath::ATan(ph)) + BeamSpotHCS.X()*TMath::Cos(HRSAngle+TMath::ATan(ph))/TMath::Sin(HRSAngle+TMath::ATan(ph));
+  
+   
+  return CalcReacZ; 
+
+}
+
+
 double ROpticsOpt::sieve_x(int event){
   EventData &eventdata = fRawData[event];
 

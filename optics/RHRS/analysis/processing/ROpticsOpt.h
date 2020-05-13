@@ -70,7 +70,7 @@ public:
 
        
     enum {
-        MaxNEventData = 50, MaxNRawData = 2000000, kNUM_PRECOMP_POW = 10, kMaxDataGroup = 180 * 5 * 5
+        MaxNEventData = 50, MaxNRawData = 4000000, kNUM_PRECOMP_POW = 10, kMaxDataGroup = 180 * 5 * 5
     };
     
     
@@ -193,6 +193,7 @@ public:
     double calc_tgth(int event);
     double calc_tgph(int event);
     double calc_tgdp(int event);
+    double calc_vz(int event, double y, double ph);
     double sieve_x(int event);
     double sieve_y(int event);
 
