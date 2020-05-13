@@ -28,7 +28,7 @@ void replay(TString run){
   TFile* f_new = new TFile(rootfiles + "apex_" + run + "_opt_5th_xfp_full_V_wires.root","recreate");
   TTree* t_new = new TTree("T","");
 
-  run = "Opt3";       //Set equal to run if not using multiple wires
+  run = "V_wires";       //Set equal to run if not using multiple wires
   //Load focal plane data with new matrix
   opt = new ROpticsOpt();
   
@@ -50,6 +50,8 @@ void replay(TString run){
   double R_s0_nthit;
   double beam_x[100];
   double beam_y[100];
+  double ubeam_x[100];
+  double ubeam_y[100];
   double R_tr_x_rot[100];
   double R_tr_y_rot[100];
   double R_tr_th_rot[100];
@@ -61,6 +63,10 @@ void replay(TString run){
   double R_tr_tg_dp[100];
   double sieve_x[100];
   double sieve_y[100];
+  double BPMA_x[100];
+  double BPMA_y[100];
+  double BPMB_x[100];
+  double BPMB_y[100];
   
   t->SetBranchStatus("*",0);
   t->SetBranchStatus("R.tr.n",1);
@@ -73,11 +79,17 @@ void replay(TString run){
   t->SetBranchStatus("R.s0.nthit",1);
   t->SetBranchStatus("Rrb.x",1);
   t->SetBranchStatus("Rrb.y",1);
+  t->SetBranchStatus("Rurb.y",1);
+  t->SetBranchStatus("Rurb.y",1);
   t->SetBranchStatus("R.tr.r_x",1);
   t->SetBranchStatus("R.tr.r_y",1);
   t->SetBranchStatus("R.tr.r_th",1);
   t->SetBranchStatus("R.tr.r_ph",1);
   t->SetBranchStatus("R.tr.vz",1);
+  t->SetBranchStatus("Rrb.BPMA.x",1);
+  t->SetBranchStatus("Rrb.BPMA.y",1);
+  t->SetBranchStatus("Rrb.BPMB.x",1);
+  t->SetBranchStatus("Rrb.BPMB.y",1);
   
   t->SetBranchAddress("R.tr.n",&R_tr_n);
   t->SetBranchAddress("R.tr.x",R_tr_x_fp);
@@ -94,6 +106,10 @@ void replay(TString run){
   t->SetBranchAddress("R.tr.r_th",R_tr_th_rot);
   t->SetBranchAddress("R.tr.r_ph",R_tr_ph_rot);
   t->SetBranchAddress("R.tr.vz",R_tr_vz);
+  t->SetBranchAddress("Rrb.BPMA.x",BPMA_x);
+  t->SetBranchAddress("Rrb.BPMA.y",BPMA_y);
+  t->SetBranchAddress("Rrb.BPMB.x",BPMB_x);
+  t->SetBranchAddress("Rrb.BPMB.y",BPMB_y);
 
   t_new->Branch("R.tr.n",&R_tr_n);
   t_new->Branch("R.tr.x",R_tr_x_fp);
@@ -105,6 +121,8 @@ void replay(TString run){
   t_new->Branch("R.s0.nthit",&R_s0_nthit);
   t_new->Branch("Rrb.x",beam_x);
   t_new->Branch("Rrb.y",beam_y);
+  t_new->Branch("Rurb.x",ubeam_x);
+  t_new->Branch("Rurb.y",ubeam_y);
   t_new->Branch("R.tr.r_x",R_tr_x_rot);
   t_new->Branch("R.tr.r_y",R_tr_y_rot);
   t_new->Branch("R.tr.r_th",R_tr_th_rot);
@@ -130,7 +148,7 @@ void replay(TString run){
     R_tr_vz[0] = opt->calc_vz(i, R_tr_tg_y[0], R_tr_tg_ph[0]);
     sieve_x[0] = opt->sieve_x(i);
     sieve_y[0] = opt->sieve_y(i);
-    
+
     t_new->Fill();
 
     if(i%10000 == 0) cout<<std::setprecision(2)<<i*1.0/entries*100<<"%"<<endl;
