@@ -70,7 +70,7 @@ public:
 
        
     enum {
-        MaxNEventData = 50, MaxNRawData = 2000000, kNUM_PRECOMP_POW = 10, kMaxDataGroup = 180 * 5 * 5
+        MaxNEventData = 50, MaxNRawData = 4000000, kNUM_PRECOMP_POW = 10, kMaxDataGroup = 180 * 5 * 5
     };
     
     

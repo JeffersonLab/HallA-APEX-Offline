@@ -6,10 +6,11 @@ void y_tg_plot(){
   //example for range is -10_10 for -10 cm < x_fp <10 cm
   //use "full" for full focal plane range
   TString range = "full";   //Range in focal plane
+  TString target = "Opt3";
   bool before = true;      //Are we doing before optimization plots
   bool make_plots = true;
-  bool V_wires = true;
-
+  bool carbon_foils = true;
+  
   TString rootfiles = "/home/sean/Grad/Research/APEX/Rootfiles/";
   gStyle->SetPalette(1);
   TFile* f;
@@ -17,17 +18,21 @@ void y_tg_plot(){
 
   TChain* t = new TChain("T");
   
-  if(before) {
+  if(before && !carbon_foils) {
     t->Add(rootfiles + "apex_4647.root");
     t->Add(rootfiles + "apex_4648.root");
     t->Add(rootfiles + "apex_4650.root");
   }
-  else {
+  if(!before && !carbon_foils) {
     t->Add(rootfiles + "apex_4647_opt_5th_xfp_full_V_wires.root");
     t->Add(rootfiles + "apex_4648_opt_5th_xfp_full_V_wires.root");
     t->Add(rootfiles + "apex_4650_opt_5th_xfp_full_V_wires.root");
   }
-  
+  if(before && carbon_foils) t->Add(rootfiles + "apex_4652.root");
+ 
+  if(!before && carbon_foils) t->Add(rootfiles + "apex_4652_opt_5th_xfp_full_V_wires.root");
+
+      
   
 
   //Cuts made for all the plots
@@ -77,8 +82,8 @@ void y_tg_plot(){
 
   
   if(make_plots){
-    if(before) c->SaveAs("plots/vertex/y_tg_before_opt_xfp_"+range+".gif");
-    else c->SaveAs("plots/vertex/y_tg_opt_"+order+"_xfp_"+range+".gif");
+    if(before) c->SaveAs("plots/vertex/"+target+"/y_tg_before_opt_xfp_"+range+".gif");
+    else c->SaveAs("plots/vertex/"+target+"/y_tg_opt_"+order+"_xfp_"+range+".gif");
   }
 
   
@@ -94,7 +99,7 @@ void y_tg_plot(){
 
 
   if(make_plots){
-    if(before) c2->SaveAs("plots/vertex/z_r_before_opt_xfp_"+range+".gif");
-    else c2->SaveAs("plots/vertex/z_r_opt_"+order+"_xfp_"+range+".gif");
+    if(before) c2->SaveAs("plots/vertex/"+target+"/z_r_before_opt_xfp_"+range+".gif");
+    else c2->SaveAs("plots/vertex/"+target+"/z_r_opt_"+order+"_xfp_"+range+".gif");
   }
 }

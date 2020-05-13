@@ -18,25 +18,26 @@ void replay(TString run){
 
 
   TString rootfiles = "/home/sean/Grad/Research/APEX/Rootfiles/";
-  TFile* f_old = new TFile(rootfiles + "apex_" + run + ".root","open");
-  TTree* t;
-  f_old->GetObject("T",t);
 
+  TChain *t = new TChain("T");
+  
+  t->Add(rootfiles + "apex_" + run + ".root");
+ 
   int entries = t->GetEntries();
-
+  
   TFile* f_new = new TFile(rootfiles + "apex_" + run + "_opt_5th_xfp_full_V_wires.root","recreate");
   TTree* t_new = new TTree("T","");
-  
-  run = "V_wires";   //Remove this line if not using multiple wires
+
+  TString run2 = "V_wires";       //Set equal to run if not using multiple wires
   //Load focal plane data with new matrix
   opt = new ROpticsOpt();
   
   opt->LoadRawData(t);
-  opt->LoadDataBase("../DB/" + run + "/db_R.vdc.dat_y_5th_xfp","-50_-30");
-  opt->LoadDataBase("../DB/" + run + "/db_R.vdc.dat_y_5th_xfp","-30_-10");
-  opt->LoadDataBase("../DB/" + run + "/db_R.vdc.dat_y_5th_xfp","-10_10");
-  opt->LoadDataBase("../DB/" + run + "/db_R.vdc.dat_y_5th_xfp","10_30");
-  opt->LoadDataBase("../DB/" + run + "/db_R.vdc.dat_y_5th_xfp","30_50");
+  opt->LoadDataBase("../DB/" + run2 + "/db_R.vdc.dat_y_5th_xfp","-50_-30");
+  opt->LoadDataBase("../DB/" + run2 + "/db_R.vdc.dat_y_5th_xfp","-30_-10");
+  opt->LoadDataBase("../DB/" + run2 + "/db_R.vdc.dat_y_5th_xfp","-10_10");
+  opt->LoadDataBase("../DB/" + run2 + "/db_R.vdc.dat_y_5th_xfp","10_30");
+  opt->LoadDataBase("../DB/" + run2 + "/db_R.vdc.dat_y_5th_xfp","30_50");
    
   //Define all the variables we want our output tree to have
   double R_tr_n;
@@ -121,7 +122,7 @@ void replay(TString run){
   for(int i=0; i<entries; i++){
   
     t->GetEntry(i);
-
+    
     R_tr_tg_y[0] = opt->calc_tgy(i);
     R_tr_tg_th[0] = opt->calc_tgth(i);
     R_tr_tg_ph[0] = opt->calc_tgph(i);
@@ -136,8 +137,6 @@ void replay(TString run){
   }
 
   f_new->Write();
-  
-  
 
 }
 

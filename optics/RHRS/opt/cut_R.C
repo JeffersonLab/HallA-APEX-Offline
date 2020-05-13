@@ -35,8 +35,9 @@ string RootFile_Dp_p4 = "right_gmp_22778.root" ;
 string RootFile_cen = "apex_4647.root";
 string RootFile_up = "apex_4648.root";
 string RootFile_dn = "apex_4650.root";
-string RootFile_opt3 = "apex_4652.root";
-string RootFile_opt1 = "apex_4653.root";
+//string RootFile_opt3 = "apex_4652.root";
+string RootFile_opt3 = "apex_4652_opt_5th_xfp_full_V_wires.root";
+string RootFile_opt1 = "apex_4653.root apex_4653.root";
 
  
 TString RootFile_Sieve = "right_gmp_22828.root right_gmp_22829.root right_gmp_22830.root right_gmp_22831.root right_gmp_22832.root right_gmp_22833.root right_gmp_22834.root";

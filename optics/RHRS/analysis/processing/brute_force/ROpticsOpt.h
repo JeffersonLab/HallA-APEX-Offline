@@ -52,6 +52,7 @@ class TCanvas;
 class THaTrack;
 class TClonesArray;
 class TTree;
+class TChain;
 class TVector3;
 
 class THaMatrixElement;
@@ -70,13 +71,13 @@ public:
 
        
     enum {
-        MaxNEventData = 50, MaxNRawData = 2000000, kNUM_PRECOMP_POW = 10, kMaxDataGroup = 180 * 5 * 5
+        MaxNEventData = 50, MaxNRawData = 4000000, kNUM_PRECOMP_POW = 10, kMaxDataGroup = 180 * 5 * 5
     };
     
     
     
     //UInt_t LoadRawData(TString DataFileName, UInt_t NLoad = MaxNRawData, UInt_t MaxDataPerGroup = (UInt_t) - 1); // load data to Rawdata[]
-    UInt_t LoadRawData(TTree *t); // load data to Rawdata[]
+    UInt_t LoadRawData(TChain *t); // load data to Rawdata[]
     
     //typedef struct {
     struct EventData {

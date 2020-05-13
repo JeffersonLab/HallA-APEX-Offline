@@ -2,31 +2,32 @@ void xpyp_plot(){
 
   //Macro makes plots to analyze the new theta and phi after optimization
 
-  TString run = "4657";     //Run number
+  TString run = "4652";     //Run number
   TString order = "5th";    //Optimization order
   //example for range is -10_10 for -10 cm < x_fp <10 cm
   //use "full" for full focal plane range
-  TString range = "30_50";   //Range in focal plane
-  bool before = true;      //Are we doing before optimization plots
-  bool make_plots = true;
+  TString range = "full";   //Range in focal plane
+  bool before = false;      //Are we doing before optimization plots
+  bool make_plots = false;
   bool brute_force = true;  //Are we using brute force method
-  bool V_wires = false;  //Are we using multiple wires
+  bool V_wires = true;  //Are we using multiple wires
 
   TString rootfiles = "/home/sean/Grad/Research/APEX/Rootfiles/";
   gStyle->SetPalette(1);
-  TFile* f;
+
+  TChain *t = new TChain("T");
+  TString name;
 
   
-  if(before) f = new TFile(rootfiles + "apex_"+run+".root","read");
-  else if(range == "full" && !brute_force) f = new TFile(rootfiles + "apex_"+run+"_opt_"+order+"_xfp_full.root","read");       //Full x_fp with single matrix
-  else if(range == "full" && brute_force && !V_wires) f = new TFile(rootfiles + "apex_"+run+"_opt_"+order+"_xfp_full_brute.root","read");  //Full x_fp with 5 matrices
-  else if(range == "full" && brute_force && V_wires) f = new TFile(rootfiles + "apex_"+run+"_opt_"+order+"_xfp_full_V_wires.root","read");  //Full x_fp with 5 matrices
-  else f = new TFile(rootfiles + "apex_"+run+"_opt_"+order+"_xfp_"+range+".root","read");
+  if(before) name = rootfiles + "apex_"+run;
+  else if(range == "full" && !brute_force) name = rootfiles + "apex_"+run+"_opt_"+order+"_xfp_full";       //Full x_fp with single matrix
+  else if(range == "full" && brute_force && !V_wires) name = rootfiles + "apex_"+run+"_opt_"+order+"_xfp_full_brute";  //Full x_fp with 5 matrices
+  else if(range == "full" && brute_force && V_wires) name = rootfiles + "apex_"+run+"_opt_"+order+"_xfp_full_V_wires";  //Full x_fp with 5 matrices
+  else name = rootfiles + "apex_"+run+"_opt_"+order+"_xfp_"+range;
   
+  t->Add(name + ".root");
   
-  TTree* t;
-  f->GetObject("T",t);
-  
+    
   TH2D * xpyp = new TH2D("Tg angles", "", 400, -65, 65, 400, -65, 65);
 
   //Cuts made for all the plots
@@ -45,8 +46,8 @@ void xpyp_plot(){
   //Draw tg theta and phi plots
   TCanvas* c = new TCanvas("c","c",1000,1000);
   t->Draw("R.tr.tg_th*1000:R.tr.tg_ph*1000>>Tg angles",GeneralCut,"colz");
-  //if(range == "full") xpyp->GetZaxis()->SetRangeUser(0,150);
-  //else xpyp->GetZaxis()->SetRangeUser(0,50);
+  if(range == "full") xpyp->GetZaxis()->SetRangeUser(0,150);
+  else xpyp->GetZaxis()->SetRangeUser(0,50);
   if(before) xpyp->SetTitle("Tg x' vs y' Before Opt;Tg #phi (mrad);Tg #theta (mrad)");
   else xpyp->SetTitle("Tg x' vs y' "+order+" Order Opt;Tg #phi (mrad);Tg #theta (mrad)");
 
