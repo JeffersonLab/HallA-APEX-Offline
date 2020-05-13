@@ -448,6 +448,8 @@ UInt_t ROpticsOpt::LoadRawData(TTree* t)
   double R_tr_ph_rot[100];
   double R_x[100];
   double R_y[100];
+  double Ru_x[100];
+  double Ru_y[100];
   
   t->SetBranchStatus("*",0);
  
@@ -457,6 +459,8 @@ UInt_t ROpticsOpt::LoadRawData(TTree* t)
   t->SetBranchStatus("R.tr.r_ph",1);
   t->SetBranchStatus("Rrb.x",1);
   t->SetBranchStatus("Rrb.y",1);
+  t->SetBranchStatus("Rurb.x",1);
+  t->SetBranchStatus("Rurb.y",1);
 
   t->SetBranchAddress("R.tr.r_x",R_tr_x_rot);
   t->SetBranchAddress("R.tr.r_y",R_tr_y_rot);
@@ -464,19 +468,21 @@ UInt_t ROpticsOpt::LoadRawData(TTree* t)
   t->SetBranchAddress("R.tr.r_ph",R_tr_ph_rot);
   t->SetBranchAddress("Rrb.x",R_x);
   t->SetBranchAddress("Rrb.y",R_y);
+  t->SetBranchAddress("Rurb.x",Ru_x);
+  t->SetBranchAddress("Rurb.y",Ru_y);
 
-  
   for(UInt_t NRead = 0; NRead<entries; NRead++){
     Double_t * eventdata = fRawData[NRead].Data;
 
+    if(NRead%100000 == 0) cout<<NRead<<endl;
     t->GetEntry(NRead);
 
     eventdata[0] = R_tr_x_rot[0];
     eventdata[1] = R_tr_th_rot[0];
     eventdata[2] = R_tr_y_rot[0];
     eventdata[3] = R_tr_ph_rot[0];
-    eventdata[4] = R_x[0];
-    eventdata[5] = R_y[0];
+    eventdata[4] = Ru_x[0];
+    eventdata[5] = Ru_y[0];
   
 
  
@@ -578,8 +584,7 @@ double ROpticsOpt::calc_tgy(int event){
     fRMatrixElems = fRMatrixElems_50_30;
     fFPMatrixElems = fFPMatrixElems_50_30;
   }
-
-  if(x_fp > -0.30 && x_fp < -0.10){
+  else if(x_fp > -0.30 && x_fp < -0.10){
     fTMatrixElems = fTMatrixElems_30_10;
     fDMatrixElems = fDMatrixElems_30_10;
     fPMatrixElems = fPMatrixElems_30_10;
@@ -589,8 +594,7 @@ double ROpticsOpt::calc_tgy(int event){
     fRMatrixElems = fRMatrixElems_30_10;
     fFPMatrixElems = fFPMatrixElems_30_10;
   }
-
-  if(x_fp > -0.10 && x_fp < 0.10){
+  else if(x_fp > -0.10 && x_fp < 0.10){
     fTMatrixElems = fTMatrixElems_10_10;
     fDMatrixElems = fDMatrixElems_10_10;
     fPMatrixElems = fPMatrixElems_10_10;
@@ -600,8 +604,7 @@ double ROpticsOpt::calc_tgy(int event){
     fRMatrixElems = fRMatrixElems_10_10;
     fFPMatrixElems = fFPMatrixElems_10_10;
   }
-
-  if(x_fp > 0.10 && x_fp < 0.30){
+  else if(x_fp > 0.10 && x_fp < 0.30){
     fTMatrixElems = fTMatrixElems_10_30;
     fDMatrixElems = fDMatrixElems_10_30;
     fPMatrixElems = fPMatrixElems_10_30;
@@ -611,17 +614,16 @@ double ROpticsOpt::calc_tgy(int event){
     fRMatrixElems = fRMatrixElems_10_30;
     fFPMatrixElems = fFPMatrixElems_10_30;
   }
-
-  if(x_fp > 0.30 && x_fp < 0.50){
-    fTMatrixElems = fTMatrixElems_30_50;
-    fDMatrixElems = fDMatrixElems_30_50;
-    fPMatrixElems = fPMatrixElems_30_50;
-    fPTAMatrixElems = fPTAMatrixElems_30_50;
-    fYMatrixElems = fYMatrixElems_30_50;
-    fYTAMatrixElems = fYTAMatrixElems_30_50;
-    fRMatrixElems = fRMatrixElems_30_50;
-    fFPMatrixElems = fFPMatrixElems_30_50;
-  }
+  else {
+      fTMatrixElems = fTMatrixElems_30_50;
+      fDMatrixElems = fDMatrixElems_30_50;
+      fPMatrixElems = fPMatrixElems_30_50;
+      fPTAMatrixElems = fPTAMatrixElems_30_50;
+      fYMatrixElems = fYMatrixElems_30_50;
+      fYTAMatrixElems = fYTAMatrixElems_30_50;
+      fRMatrixElems = fRMatrixElems_30_50;
+      fFPMatrixElems = fFPMatrixElems_30_50;
+    }
   
   // calculate the matrices we need
   // CalcMatrix(x_fp, fDMatrixElems);
@@ -634,6 +636,7 @@ double ROpticsOpt::calc_tgy(int event){
   // calculate the coordinates at the target
   tg_y = CalcTargetVar(fYMatrixElems, powers) + CalcTargetVar(fYTAMatrixElems, powers);
 
+  //if(tg_y > 0 && tg_y < 0.0002) cout<<tg_y*1000<<" "<<x_fp*1000<<endl;
   
   return tg_y;
   
@@ -803,15 +806,15 @@ double ROpticsOpt::calc_tgph(int event){
     fRMatrixElems = fRMatrixElems_30_50;
     fFPMatrixElems = fFPMatrixElems_30_50;
   }
-  
+
   // calculate the matrices we need
   // CalcMatrix(x_fp, fDMatrixElems);
-  //CalcMatrix(x_fp, fTMatrixElems);
+  CalcMatrix(x_fp, fTMatrixElems);
   // CalcMatrix(x_fp, fYMatrixElems);
   // CalcMatrix(x_fp, fYTAMatrixElems);
-  CalcMatrix(x_fp, fPMatrixElems);
+  // CalcMatrix(x_fp, fPMatrixElems);
   CalcMatrix(x_fp, fPTAMatrixElems);
-  
+    
   // calculate the coordinates at the target
   phi = CalcTargetVar(fPMatrixElems, powers) + CalcTargetVar(fPTAMatrixElems, powers);
   
@@ -909,6 +912,22 @@ double ROpticsOpt::calc_tgdp(int event){
   return dp; 
 
 }
+
+
+double ROpticsOpt::calc_vz(int event, double y, double ph){
+
+  EventData &eventdata = fRawData[event];
+  TVector3 BeamSpotHCS(eventdata.Data[kBeamX], eventdata.Data[kBeamY], 0);
+  
+  const Int_t a = (HRSAngle > 0) ? 1 : -1;
+  double CalcReacZ = - ( y -a*MissPointZ)*TMath::Cos(TMath::ATan(ph))/TMath::Sin(HRSAngle + TMath::ATan(ph)) + BeamSpotHCS.X()*TMath::Cos(HRSAngle+TMath::ATan(ph))/TMath::Sin(HRSAngle+TMath::ATan(ph));
+  
+   
+  return CalcReacZ; 
+
+}
+
+
 
 double ROpticsOpt::sieve_x(int event){
 

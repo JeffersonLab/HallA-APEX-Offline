@@ -10,7 +10,7 @@ class ROpticsOpt;
 //////////////////////////////////////////////////////////////////////////////
 // Work Directory
 //////////////////////////////////////////////////////////////////////////////
-TString WorkDir = "../Sieve/4648/xfp_-10_10/";
+TString WorkDir = "../Sieve/4652/xfp_-50_-30/";
 
 
 
@@ -44,7 +44,7 @@ TString RootFile_Sieve = "right_gmp_22828.root right_gmp_22829.root right_gmp_22
 
 string RootFile_Dp = RootFile_Dp_p4;
 
-string RootFile_test = RootFile_up;
+string RootFile_test = RootFile_opt3;
 
 //TString RootFile_Vertex = RootFile_Sieve;
 
@@ -72,9 +72,8 @@ UInt_t PlotCut = 0;
 //TCut GeneralSieveCut = "abs(R.tr.tg_th)<0.15 && abs(R.tr.tg_ph)<0.15&& R.vdc.u1.nclust==1&& R.vdc.v1.nclust==1&& R.vdc.u2.nclust==1&& R.vdc.v2.nclust==1"; // && urb.y<0.006
 
 //TCut GeneralCut = "R.tr.n==1&&(R.sh.e+R.ps.e)/(1000*R.tr.p)>0.6&&(R.cer.asum_c>600) ";
-TCut GeneralCut = "R.tr.n==1 && (R.cer.asum_c>500) && abs(R.tr.r_x) < 0.10";
-//TCut GeneralCut = "R.tr.n==1 && (R.cer.asum_c>500) && (R.tr.r_x > -0.30 && R.tr.r_x < -0.10)";
-//TCut GeneralCut = "R.tr.n==1 && (R.cer.asum_c>500) && (R.tr.r_x > 0.25 && R.tr.r_x < 0.45)";
+//TCut GeneralCut = "R.tr.n==1 && (R.cer.asum_c>500) && abs(R.tr.r_x) < 0.10";
+TCut GeneralCut = "R.tr.n==1 && (R.cer.asum_c>500) && (R.tr.r_x > -0.50 && R.tr.r_x < -0.30)";
 
 //////////////////////////////////////////////////////////////////////////////                    
 // Settings                                                                                      
@@ -111,6 +110,12 @@ TChain* LoadRootFiles()
     thlowlimit=-0.065;thuplimit=0.065;
   }
   if(SourceRootFile == RootFile_up){
+    dplowlimit=-0.05;dpuplimit=0.06;
+    vzlowlimit=-0.1;vzuplimit=0.25;
+    phlowlimit=-0.065;phuplimit=0.065;
+    thlowlimit=-0.065;thuplimit=0.065;
+  }
+  if(SourceRootFile == RootFile_dn){
     dplowlimit=-0.05;dpuplimit=0.06;
     vzlowlimit=-0.1;vzuplimit=0.25;
     phlowlimit=-0.065;phuplimit=0.065;

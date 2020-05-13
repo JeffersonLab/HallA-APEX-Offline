@@ -3,25 +3,31 @@
 PROG=./tree2ascii
 
 ROOTFILES="/home/sean/Grad/Research/APEX/Rootfiles"
-DIR="../Sieve/xfp_-10_10"
-RUN="4647"
+
+RUN="4650"
+RANGE="30_50"
+
+DIR="../Sieve/"$RUN"/xfp_"$RANGE
+
 
 IdOffSet=459
 rm $DIR/Sieve.0.f$RUN
 mv -f $DIR/Sieve.full.f$RUN  $DIR/Sieve.full.f$RUN.old
 
-   if [[ "$i" == "4647" ]];then
+   if [[ "$RUN" == "4647" ]];then
 	j=1
     fi
-    if [[ "$i" == "4648" ]];then
+    if [[ "$RUN" == "4648" ]];then
 	j=0
     fi
-    if [[ "$i" == "4650" ]];then
+    if [[ "$RUN" == "4650" ]];then
 	j=2
     fi	
 
+declare -i Id
 Id=$IdOffSet*$j
 
+echo $Id
 
 #$PROG   -pv -d SieveVars.def -O $Id \
 #        -s $DIR/apex_$RUN.root.SieveCut.ncut \ 

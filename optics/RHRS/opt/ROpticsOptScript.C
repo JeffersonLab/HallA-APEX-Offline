@@ -7,7 +7,7 @@
 #include "TString.h"
 #include "TVirtualFitter.h"
 
-#define th_ph_optimize false
+#define th_ph_optimize true
 #define draw_plots true
 #define y_optimize true
 #define dp_optimize false
@@ -27,8 +27,8 @@ Bool_t freed[10000] = {kFALSE}; //NPara
 UInt_t MaxDataPerGroup = 100;
 //UInt_t MaxDataPerGroup = 100;
 
-TString run = "4647";
-TString range = "-10_10";
+TString run = "V_wires";     //Don't forget to change CheckSieve(#) as well
+TString range = "30_50";
 TString DataSource = "../Sieve/"+run+"/xfp_"+range+"/Sieve.full.f"+run;
 
 
@@ -143,9 +143,9 @@ void DoMinTP(TString SourceDataBase, TString DestDataBase, UInt_t MaxDataPerGrou
     //opt->check_fit_qual_Th();
     //#endif
     
-    TCanvas * c1 = opt->CheckSieve(1);
+    TCanvas * c1 = opt->CheckSieve(3);
     c1->Print(DestDataBase+".Sieve.Opt.png", "png");
-    c1->Print(DestDataBase+".Sieve.Opt.eps", "eps");
+    //c1->Print(DestDataBase+".Sieve.Opt.eps", "eps");
     
     //    TCanvas * c2 = opt->CheckSieveAccu(-1);
     //    c2->Print(DestDataBase + ".TpAccu.Opt.png", "png");
@@ -315,8 +315,11 @@ void ROpticsOptScript(TString select, TString SourceDataBase, TString DestDataBa
 {
     opt = new ROpticsOpt();
 
-    DestDataBase = "DB/" + DestDataBase;
-    SourceDataBase = "DB/" + SourceDataBase;
+    TString extra_dir = "";
+    if(select != "phi") extra_dir = run + "/";
+    
+    SourceDataBase = "DB/" + extra_dir + SourceDataBase;
+    DestDataBase = "DB/" + run + "/" + DestDataBase;
     
     Int_t s = 0;
     if (select == "theta") s = 1;

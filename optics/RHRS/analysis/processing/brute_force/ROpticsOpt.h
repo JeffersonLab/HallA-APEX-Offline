@@ -238,6 +238,7 @@ public:
     double calc_tgth(int event);
     double calc_tgph(int event);
     double calc_tgdp(int event);
+    double calc_vz(int event, double y, double ph);
     double sieve_x(int event);
     double sieve_y(int event);
 

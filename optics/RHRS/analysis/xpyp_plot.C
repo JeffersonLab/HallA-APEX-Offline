@@ -2,24 +2,27 @@ void xpyp_plot(){
 
   //Macro makes plots to analyze the new theta and phi after optimization
 
-  TString run = "4652";     //Run number
+  TString run = "4657";     //Run number
   TString order = "5th";    //Optimization order
   //example for range is -10_10 for -10 cm < x_fp <10 cm
   //use "full" for full focal plane range
-  TString range = "full";   //Range in focal plane
+  TString range = "30_50";   //Range in focal plane
   bool before = true;      //Are we doing before optimization plots
-  bool make_plots = false;
+  bool make_plots = true;
   bool brute_force = true;  //Are we using brute force method
+  bool V_wires = false;  //Are we using multiple wires
 
   TString rootfiles = "/home/sean/Grad/Research/APEX/Rootfiles/";
   gStyle->SetPalette(1);
   TFile* f;
+
   
   if(before) f = new TFile(rootfiles + "apex_"+run+".root","read");
   else if(range == "full" && !brute_force) f = new TFile(rootfiles + "apex_"+run+"_opt_"+order+"_xfp_full.root","read");       //Full x_fp with single matrix
-  else if(range == "full" && brute_force) f = new TFile(rootfiles + "apex_"+run+"_opt_"+order+"_xfp_full_brute.root","read");  //Full x_fp with 5 matrices
+  else if(range == "full" && brute_force && !V_wires) f = new TFile(rootfiles + "apex_"+run+"_opt_"+order+"_xfp_full_brute.root","read");  //Full x_fp with 5 matrices
+  else if(range == "full" && brute_force && V_wires) f = new TFile(rootfiles + "apex_"+run+"_opt_"+order+"_xfp_full_V_wires.root","read");  //Full x_fp with 5 matrices
   else f = new TFile(rootfiles + "apex_"+run+"_opt_"+order+"_xfp_"+range+".root","read");
-
+  
   
   TTree* t;
   f->GetObject("T",t);
@@ -33,14 +36,17 @@ void xpyp_plot(){
   if(range == "-10_10") GeneralCut = "R.tr.n==1 && (R.cer.asum_c>500) && abs(R.tr.r_x) < 0.10";
   if(range == "-45_-25") GeneralCut = "R.tr.n==1 && (R.cer.asum_c>500) && (R.tr.r_x > -0.45 && R.tr.r_x < -0.25)";
   if(range == "25_45") GeneralCut = "R.tr.n==1 && (R.cer.asum_c>500) && (R.tr.r_x > 0.25 && R.tr.r_x < 0.45)";
-  if(range == "-50_-30") GeneralCut = "R.tr.n==1 && (R.cer.asum_c>500) && (R.tr.r_x > -0.30 && R.tr.r_x < -0.10)";
+  if(range == "-50_-30") GeneralCut = "R.tr.n==1 && (R.cer.asum_c>500) && (R.tr.r_x > -0.50 && R.tr.r_x < -0.30)";
+  if(range == "-30_-10") GeneralCut = "R.tr.n==1 && (R.cer.asum_c>500) && (R.tr.r_x > -0.30 && R.tr.r_x < -0.10)";
+  if(range == "30_50") GeneralCut = "R.tr.n==1 && (R.cer.asum_c>500) && (R.tr.r_x > 0.30 && R.tr.r_x < 0.50)";
+  if(range == "10_30") GeneralCut = "R.tr.n==1 && (R.cer.asum_c>500) && (R.tr.r_x > 0.10 && R.tr.r_x < 0.30)";
 
 
   //Draw tg theta and phi plots
   TCanvas* c = new TCanvas("c","c",1000,1000);
   t->Draw("R.tr.tg_th*1000:R.tr.tg_ph*1000>>Tg angles",GeneralCut,"colz");
-  if(range == "full") xpyp->GetZaxis()->SetRangeUser(0,150);
-  else xpyp->GetZaxis()->SetRangeUser(0,50);
+  //if(range == "full") xpyp->GetZaxis()->SetRangeUser(0,150);
+  //else xpyp->GetZaxis()->SetRangeUser(0,50);
   if(before) xpyp->SetTitle("Tg x' vs y' Before Opt;Tg #phi (mrad);Tg #theta (mrad)");
   else xpyp->SetTitle("Tg x' vs y' "+order+" Order Opt;Tg #phi (mrad);Tg #theta (mrad)");
 
@@ -71,9 +77,7 @@ void xpyp_plot(){
   ///// Get expected hole positions from csv file and draw /////
   double sieve_ph[27], sieve_th[17];
 
-  TString csv = range;
-  if(brute_force) csv = "full_brute";
-  ifstream csv_file("../Sieve/"+run+"/xfp_"+csv+"/apex_"+run+".root.cuts_full.csv");
+  ifstream csv_file("../Sieve/"+run+"/xfp_-50_-30/apex_"+run+".root.cuts_full.csv");
   
   string line;
 
@@ -103,15 +107,40 @@ void xpyp_plot(){
 
   TLine *l[27];
   TLine *l2[17];
+
+  int row_min = 0;
+  int row_max = 0;
+  int col_min = 0;
+  int col_max = 0;
+
+  if(run == "4647"){
+    row_min = 3;
+    row_max = 13;
+    col_min = 4;
+    col_max = 19;
+  }
+
+  if(run == "4648"){
+    row_min = 2;
+    row_max = 14;
+    col_min = 6;
+    col_max = 24;
+  }
+
+  if(run == "4650"){
+    row_min = 4;
+    row_max = 12;
+    col_min = 2;
+    col_max = 11;
+  }
   
-  
-  for(int i=4;i<20;i++){
+  for(int i=col_min;i<=col_max;i++){
       l[i] = new TLine(sieve_ph[i], -65, sieve_ph[i], 65);
       l[i]->SetLineColor(2);
       if(!before) l[i]->Draw("same");
     }
  
-  for(int i=3;i<14;i++){
+  for(int i=row_min;i<=row_max;i++){
     l2[i] = new TLine(-65, sieve_th[i], 65, sieve_th[i]);
     l2[i]->SetLineColor(2);
     if(!before) l2[i]->Draw("same");
@@ -122,7 +151,7 @@ void xpyp_plot(){
   if(!before) leg->Draw("same");
 
   ///// Draw labels for column and row number ///////
-  for(int n_col = 4; n_col <=19; n_col++){
+  for(int n_col = col_min; n_col <=col_max; n_col++){
     if(n_col%2 != 0) continue;
     TText *text = new TText;
     text -> SetTextFont(1);
@@ -131,7 +160,7 @@ void xpyp_plot(){
     if(!before) text -> DrawText(sieve_ph[n_col], 67, Form("%d",n_col));
   }
 
-  for(int n_row = 3; n_row <=13; n_row++){
+  for(int n_row = row_min; n_row <=row_max; n_row++){
     TText *text = new TText;
     text -> SetTextFont(1);
     text -> SetTextSize(0.02);
@@ -141,6 +170,7 @@ void xpyp_plot(){
 
   if(make_plots){
     if(before) c->SaveAs("plots/tg_th_ph/"+run+"/xpyp_before_opt_xfp_"+range+".gif");
+    else if(V_wires) c->SaveAs("plots/tg_th_ph/"+run+"/xpyp_opt_"+order+"_xfp_full_V_wires.gif");
     else if(brute_force) c->SaveAs("plots/tg_th_ph/"+run+"/xpyp_opt_"+order+"_xfp_full_brute.gif");
     else c->SaveAs("plots/tg_th_ph/"+run+"/xpyp_opt_"+order+"_xfp_"+range+".gif");
   }
@@ -175,10 +205,12 @@ void xpyp_plot(){
 
 
   gStyle->SetOptStat(1);
-  TH2D * xy = new TH2D("xy", "", 500, -3.5, 3.5, 500, 1, 4);
+  //TH2D * xy = new TH2D("xy", "", 500, -3.5, 3.5, 500, 1, 4);
+
+  TH2D * xy = new TH2D("xy", "", 500, -4, 0, 500, -2, 8);
 
   TCanvas *c4 = new TCanvas("c4","",800,600);
-  if(run == "4652" || run = "4653") t->Draw("Rurb.y*1000:Rurb.x*1000>>xy",GeneralCut,"colz");
+  if(run == "4652" || run == "4653") t->Draw("Rurb.y*1000:Rurb.x*1000>>xy",GeneralCut,"colz");
   else t->Draw("Rrb.y*1000:Rrb.x*1000>>xy",GeneralCut,"colz");
   
   xy->SetTitle("Raster Scan Calib");
@@ -186,6 +218,6 @@ void xpyp_plot(){
   xy->GetYaxis()->SetTitle("y (mm)");
   pt1->Draw("same");
 
-  if(make_plots) c4->SaveAs("plots/raster/"+run+"/"+run+"raster.gif");
+  if(make_plots) c4->SaveAs("plots/raster/"+run+"_raster.gif");
 
 }

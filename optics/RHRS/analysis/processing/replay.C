@@ -17,8 +17,8 @@ void replay(TString OutputFile, TString DataBase){
   //Simplified replay code. Takes some functions for ROpticsOpt class and uses them to calculate new target variables with different matrix.
 
 
-  TString rootfiles = "/lustre19/expphy/volatile/halla/apex/jeffas/apex_root/Rootfiles/";
-  TFile* f_old = new TFile(rootfiles + "apex_4647.root","open");
+  TString rootfiles = "/home/sean/Grad/Research/APEX/Rootfiles/";
+  TFile* f_old = new TFile(rootfiles + "apex_4650.root","open");
   TTree* t;
   f_old->GetObject("T",t);
 
@@ -140,6 +140,7 @@ void replay(TString OutputFile, TString DataBase){
     R_tr_tg_th[0] = opt->calc_tgth(i);
     R_tr_tg_ph[0] = opt->calc_tgph(i);
     R_tr_tg_dp[0] = opt->calc_tgdp(i);
+    R_tr_vz[0] = opt->calc_vz(i, R_tr_tg_y[0], R_tr_tg_ph[0]);
     sieve_x[0] = opt->sieve_x(i);
     sieve_y[0] = opt->sieve_y(i);
 
