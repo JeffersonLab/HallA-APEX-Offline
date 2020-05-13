@@ -44,6 +44,8 @@ void replay(TString OutputFile, TString DataBase){
   double R_s0_nthit;
   double beam_x[100];
   double beam_y[100];
+  double ubeam_x[100];
+  double ubeam_y[100];
   double BPMA_x[100];
   double BPMA_y[100];
   double BPMB_x[100];
@@ -72,6 +74,8 @@ void replay(TString OutputFile, TString DataBase){
   t->SetBranchStatus("R.s0.nthit",1);
   t->SetBranchStatus("Rrb.x",1);
   t->SetBranchStatus("Rrb.y",1);
+  t->SetBranchStatus("Rurb.x",1);
+  t->SetBranchStatus("Rurb.y",1);
   t->SetBranchStatus("R.tr.r_x",1);
   t->SetBranchStatus("R.tr.r_y",1);
   t->SetBranchStatus("R.tr.r_th",1);
@@ -92,6 +96,8 @@ void replay(TString OutputFile, TString DataBase){
   t->SetBranchAddress("R.s0.nthit",&R_s0_nthit);
   t->SetBranchAddress("Rrb.x",beam_x);
   t->SetBranchAddress("Rrb.y",beam_y);
+  t->SetBranchAddress("Rurb.x",ubeam_x);
+  t->SetBranchAddress("Rurb.y",ubeam_y);
   t->SetBranchAddress("R.tr.r_x",R_tr_x_rot);
   t->SetBranchAddress("R.tr.r_y",R_tr_y_rot);
   t->SetBranchAddress("R.tr.r_th",R_tr_th_rot);
@@ -113,6 +119,8 @@ void replay(TString OutputFile, TString DataBase){
   t_new->Branch("R.s0.nthit",&R_s0_nthit);
   t_new->Branch("Rrb.x",beam_x);
   t_new->Branch("Rrb.y",beam_y);
+  t_new->Branch("Rurb.x",ubeam_x);
+  t_new->Branch("Rurb.y",ubeam_y);
   t_new->Branch("R.tr.r_x",R_tr_x_rot);
   t_new->Branch("R.tr.r_y",R_tr_y_rot);
   t_new->Branch("R.tr.r_th",R_tr_th_rot);
