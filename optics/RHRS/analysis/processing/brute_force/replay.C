@@ -28,16 +28,16 @@ void replay(TString run){
   TFile* f_new = new TFile(rootfiles + "apex_" + run + "_opt_5th_xfp_full_V_wires.root","recreate");
   TTree* t_new = new TTree("T","");
 
-  TString run2 = "V_wires";       //Set equal to run if not using multiple wires
+  run = "Opt3";       //Set equal to run if not using multiple wires
   //Load focal plane data with new matrix
   opt = new ROpticsOpt();
   
   opt->LoadRawData(t);
-  opt->LoadDataBase("../DB/" + run2 + "/db_R.vdc.dat_y_5th_xfp","-50_-30");
-  opt->LoadDataBase("../DB/" + run2 + "/db_R.vdc.dat_y_5th_xfp","-30_-10");
-  opt->LoadDataBase("../DB/" + run2 + "/db_R.vdc.dat_y_5th_xfp","-10_10");
-  opt->LoadDataBase("../DB/" + run2 + "/db_R.vdc.dat_y_5th_xfp","10_30");
-  opt->LoadDataBase("../DB/" + run2 + "/db_R.vdc.dat_y_5th_xfp","30_50");
+  opt->LoadDataBase("../DB/" + run + "/db_R.vdc.dat_y_5th_xfp","-50_-30");
+  opt->LoadDataBase("../DB/" + run + "/db_R.vdc.dat_y_5th_xfp","-30_-10");
+  opt->LoadDataBase("../DB/" + run + "/db_R.vdc.dat_y_5th_xfp","-10_10");
+  opt->LoadDataBase("../DB/" + run + "/db_R.vdc.dat_y_5th_xfp","10_30");
+  opt->LoadDataBase("../DB/" + run + "/db_R.vdc.dat_y_5th_xfp","30_50");
    
   //Define all the variables we want our output tree to have
   double R_tr_n;

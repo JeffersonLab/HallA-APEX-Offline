@@ -25,6 +25,7 @@
 
 #include "TROOT.h"
 #include "TTree.h"
+#include "TChain.h"
 #include "TFile.h"
 #include "TDatime.h"
 #include "TGraphErrors.h"
@@ -437,7 +438,7 @@ Int_t ROpticsOpt::LoadDataBase(TString DataBaseName,TString xfp_range)
 
 
 
-UInt_t ROpticsOpt::LoadRawData(TTree* t)
+UInt_t ROpticsOpt::LoadRawData(TChain* t)
 {
 
   int entries = t->GetEntries();
@@ -474,15 +475,15 @@ UInt_t ROpticsOpt::LoadRawData(TTree* t)
   for(UInt_t NRead = 0; NRead<entries; NRead++){
     Double_t * eventdata = fRawData[NRead].Data;
 
-    if(NRead%100000 == 0) cout<<NRead<<endl;
     t->GetEntry(NRead);
 
+        
     eventdata[0] = R_tr_x_rot[0];
     eventdata[1] = R_tr_th_rot[0];
     eventdata[2] = R_tr_y_rot[0];
     eventdata[3] = R_tr_ph_rot[0];
-    eventdata[4] = Ru_x[0];
-    eventdata[5] = Ru_y[0];
+    eventdata[4] = R_x[0];
+    eventdata[5] = R_y[0];
   
 
  
