@@ -141,7 +141,10 @@ public:
     ///////////////////////////////////////////////////////////////////////////
     // Optimization related Commands
     ///////////////////////////////////////////////////////////////////////////
-  
+
+    const TVector3 GetSieveHoleTCS(UInt_t Col, UInt_t Row);
+    const TVector3 GetSieveHoleCorrectionTCS(UInt_t nfoil, UInt_t Col, UInt_t Row);
+    
     Double_t fArbitaryVertexShift[100]; // compensate bias due to event selections, array of [FoilID]
     
     Double_t fArbitaryDpKinShift[100]; // compensate bias due to dp event selections, array of [KineID]
@@ -239,7 +242,7 @@ public:
     double calc_tgth(int event);
     double calc_tgph(int event);
     double calc_tgdp(int event);
-    double calc_vz(int event, double y, double ph);
+    double calc_vz(int event, double y);
     double sieve_x(int event);
     double sieve_y(int event);
 
