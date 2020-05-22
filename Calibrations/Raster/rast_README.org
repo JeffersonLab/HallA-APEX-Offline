@@ -1,0 +1,11 @@
+
+Directory contains scripts related to the calibration of both the LHRS and RHRS raster.
+
+
+APEX_raster_calib_unrast.C: this performs calibration, comparing unrasered beam position to raster current to calcualte calibration parameters.
+
+
+arm_compare.C: This script compares left and righ -arm raster beam positions (they should be ~ identical).
+
+
+raster_calib_check.C: Produces plots to check raster calibration.

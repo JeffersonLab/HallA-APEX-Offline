@@ -111,7 +111,7 @@ void raster_calib_check(){
   Double_t rbavg[6],urbavg[6],rbrms[6],urbrms[6];
 
   c2->cd(1);
-  rb[0] = new TH1F("rb[0]","X position of beam at BPMA",1000,-10,10);
+  rb[0] = new TH1F("rb[0]",arm_name + Form(" run %d",run_number) + ": X position of beam at BPMA",1000,-10,10);
   urb[0] = new TH1F("urb[0]","",1000,-10,10);
   rb[0]->SetLineColor(2);
   urb[0]->SetLineColor(4);
@@ -156,7 +156,7 @@ void raster_calib_check(){
   tex->Draw();
 
   c2->cd(2);
-  rb[1] = new TH1F("rb[1]","Y position of beam at BPMA",1000,-10,10);
+  rb[1] = new TH1F("rb[1]",arm_name + Form(" run %d",run_number) + ": Y position of beam at BPMA",1000,-10,10);
   urb[1] = new TH1F("urb[1]","",1000,-10,10);
   rb[1]->SetLineColor(2);
   urb[1]->SetLineColor(4);
@@ -201,7 +201,7 @@ void raster_calib_check(){
   tex->Draw();
   
   c2->cd(3);
-  rb[2] = new TH1F("rb[2]","X position of beam at BPMB",1000,-10,10);
+  rb[2] = new TH1F("rb[2]",arm_name + Form(" run %d",run_number) +  ": X position of beam at BPMB",1000,-10,10);
   urb[2] = new TH1F("urb[2]","",1000,-10,10);
   rb[2]->SetLineColor(2);
   urb[2]->SetLineColor(4);
@@ -246,7 +246,7 @@ void raster_calib_check(){
   tex->Draw();
 
   c2->cd(4);
-  rb[3] = new TH1F("rb[3]","Y position of beam at BPMB",1000,-10,10);
+  rb[3] = new TH1F("rb[3]",arm_name + Form(" run %d",run_number) + ": Y position of beam at BPMB",1000,-10,10);
   urb[3] = new TH1F("urb[3]","",1000,-10,10);
   rb[3]->SetLineColor(2);
   urb[3]->SetLineColor(4);
@@ -291,7 +291,7 @@ void raster_calib_check(){
   tex->Draw();
   
   c2->cd(5);
-  rb[4] = new TH1F("rb[4]","X position of beam at target",1000,-10,10);
+  rb[4] = new TH1F("rb[4]",arm_name + Form(" run %d",run_number) + ": X position of beam at target",1000,-10,10);
   urb[4] = new TH1F("urb[4]","",1000,-10,10);
   rb[4]->SetLineColor(2);
   urb[4]->SetLineColor(4);
@@ -336,7 +336,7 @@ void raster_calib_check(){
   tex->Draw();
 
   c2->cd(6);
-  rb[5] = new TH1F("rb[5]","Y position of beam at target",1000,-10,10);
+  rb[5] = new TH1F("rb[5]",arm_name + Form(" run %d",run_number) + ": Y position of beam at target",1000,-10,10);
   urb[5] = new TH1F("urb[5]","",1000,-10,10);
   rb[5]->SetLineColor(2);
   urb[5]->SetLineColor(4);
@@ -379,4 +379,11 @@ void raster_calib_check(){
   tex->SetTextSize(0.03);
   tex->SetTextColor(4);
   tex->Draw();
+
+
+  //  c2->SaveAs(Form("record/%s_Raster_plots_run_%d.pdf",arm_name, run_number));
+
+  c2->SaveAs("record/" + arm_name + Form("_Raster_plots_run_%d.pdf",run_number));
+
+  
 }
