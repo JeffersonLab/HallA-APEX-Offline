@@ -7,6 +7,7 @@
 
   gROOT->LoadMacro("ROpticsOpt.C+");
   gROOT->LoadMacro("replay.C");
+  gROOT->LoadMacro("Distill.C");
   //gROOT->LoadMacro("proj.C");
   
   gStyle->SetPalette(1);
