@@ -4,8 +4,8 @@ PROG=./tree2ascii
 
 ROOTFILES="/home/sean/Grad/Research/APEX/Rootfiles"
 
-RUN="4650"
-RANGE="30_50"
+RUN="4647"
+RANGE="-50_-30"
 
 DIR="../Sieve/"$RUN"/xfp_"$RANGE
 

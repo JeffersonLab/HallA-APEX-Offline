@@ -75,7 +75,7 @@ const Double_t ZPos = 31.23 * 25.4e-3;
 // Vertex Position Inputs
 
 //static const UInt_t NFoils = 9; 
-static const UInt_t NFoils = 3; 
+static const UInt_t NFoils = 3;
 const Double_t targetoffset = -5*1e-3;
 //const Double_t targetfoils[] = {-10e-2+targetoffset, targetoffset-7.5e-2, targetoffset-5e-2, targetoffset-2.e-2, targetoffset+0.0, targetoffset+2.e-2, targetoffset+5e-2, targetoffset+7.5e-2,10e-2+targetoffset, 1e36};
 const Double_t targetfoils[] = {-0.2 + targetoffset, 0.0 + targetoffset, 0.2 + targetoffset, 1e36};

@@ -27,9 +27,9 @@ Bool_t freed[10000] = {kFALSE}; //NPara
 UInt_t MaxDataPerGroup = 100;
 //UInt_t MaxDataPerGroup = 100;
 
-TString run = "V_wires";     //Don't forget to change CheckSieve(#) as well
-TString range = "30_50";
-TString DataSource = "../Sieve/"+run+"/xfp_"+range+"/Sieve.full.f"+run;
+TString run;     //Don't forget to change CheckSieve(#) as well
+TString range;
+TString DataSource;
 
 
 typedef void (*PTRFCN)(Int_t &, Double_t *, Double_t &, Double_t*, Int_t);
@@ -93,7 +93,7 @@ void DoMinTP(TString SourceDataBase, TString DestDataBase, UInt_t MaxDataPerGrou
 
     assert(opt);
     assert(opt->fCurrentMatrixElems);
-    
+
     opt->LoadDataBase(SourceDataBase);
     NPara = opt->Matrix2Array(OldMatrixArray, freed);
     
@@ -143,7 +143,7 @@ void DoMinTP(TString SourceDataBase, TString DestDataBase, UInt_t MaxDataPerGrou
     //opt->check_fit_qual_Th();
     //#endif
     
-    TCanvas * c1 = opt->CheckSieve(3);
+    TCanvas * c1 = opt->CheckSieve(1);
     c1->Print(DestDataBase+".Sieve.Opt.png", "png");
     //c1->Print(DestDataBase+".Sieve.Opt.eps", "eps");
     
@@ -311,12 +311,16 @@ void PlotDataBase(TString DatabaseFileName, UInt_t MaxDataPerGroup = 1000)
     delete opt;
 }
 
-void ROpticsOptScript(TString select, TString SourceDataBase, TString DestDataBase)
+void ROpticsOptScript(TString run, TString range,TString select, TString SourceDataBase, TString DestDataBase)
 {
+  
+  DataSource = "../Sieve/"+run+"/xfp_"+range+"/Sieve.full.f"+run;
+  
     opt = new ROpticsOpt();
 
     TString extra_dir = "";
     if(select != "phi") extra_dir = run + "/";
+    
     
     SourceDataBase = "DB/" + extra_dir + SourceDataBase;
     DestDataBase = "DB/" + run + "/" + DestDataBase;

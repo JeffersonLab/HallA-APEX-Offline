@@ -10,7 +10,7 @@ class ROpticsOpt;
 //////////////////////////////////////////////////////////////////////////////
 // Work Directory
 //////////////////////////////////////////////////////////////////////////////
-TString WorkDir = "../Sieve/4652/xfp_-50_-30/";
+TString WorkDir = "../Sieve/4652/xfp_30_50/";
 
 
 
@@ -37,7 +37,8 @@ string RootFile_up = "apex_4648.root";
 string RootFile_dn = "apex_4650.root";
 //string RootFile_opt3 = "apex_4652.root";
 string RootFile_opt3 = "apex_4652_opt_5th_xfp_full_V_wires.root";
-string RootFile_opt1 = "apex_4653.root apex_4653.root";
+//string RootFile_opt1 = "apex_4653.root";
+string RootFile_opt1 = "apex_4653_opt_5th_xfp_full_V_wires.root";
 
  
 TString RootFile_Sieve = "right_gmp_22828.root right_gmp_22829.root right_gmp_22830.root right_gmp_22831.root right_gmp_22832.root right_gmp_22833.root right_gmp_22834.root";
@@ -74,7 +75,7 @@ UInt_t PlotCut = 0;
 
 //TCut GeneralCut = "R.tr.n==1&&(R.sh.e+R.ps.e)/(1000*R.tr.p)>0.6&&(R.cer.asum_c>600) ";
 //TCut GeneralCut = "R.tr.n==1 && (R.cer.asum_c>500) && abs(R.tr.r_x) < 0.10";
-TCut GeneralCut = "R.tr.n==1 && (R.cer.asum_c>500) && (R.tr.r_x > -0.50 && R.tr.r_x < -0.30)";
+TCut GeneralCut = "R.tr.n==1 && (R.cer.asum_c>500) && (R.tr.r_x > 0.30 && R.tr.r_x < 0.50)";
 
 //////////////////////////////////////////////////////////////////////////////                    
 // Settings                                                                                      
@@ -86,7 +87,7 @@ Float_t thlowlimit = -0.07, thuplimit = 0.06;
 Float_t phlowlimit = -0.03, phuplimit = 0.03;
 Float_t vzlowlimit = -0.2, vzuplimit = 0.15;
 
-int nFoil = 1;
+int nFoil = 4;
 
 TString RootFileName;
 TString CutSuf = ".FullCut.root";
@@ -124,13 +125,13 @@ TChain* LoadRootFiles()
   }
   if(SourceRootFile == RootFile_opt3){
     dplowlimit=-0.05;dpuplimit=0.06;
-    vzlowlimit=-0.35;vzuplimit=0.35;
+    vzlowlimit=-0.6;vzuplimit=0.35;
     phlowlimit=-0.065;phuplimit=0.065;
     thlowlimit=-0.065;thuplimit=0.065;
   }
    if(SourceRootFile == RootFile_opt1){
     dplowlimit=-0.05;dpuplimit=0.06;
-    vzlowlimit=-0.35;vzuplimit=0.035;
+    vzlowlimit=-0.6;vzuplimit=0.35;
     phlowlimit=-0.065;phuplimit=0.065;
     thlowlimit=-0.065;thuplimit=0.065;
   }
@@ -194,17 +195,17 @@ void CutVertex(int overwrite = 0) {
     assert(f1);
 
     // Define Canvas
-    TCanvas* c3 = new TCanvas("c3", "ReactZ Cuts", 900, 900);
-    TH2F* h3 = new TH2F("h3", "Tg_Z vs. Tg ph", 400, phlowlimit, phuplimit, 400, vzlowlimit, vzuplimit);
+    TCanvas* c3 = new TCanvas("c3", "ReactZ Cuts", 1000, 800);
+    TH2F* h3 = new TH2F("h3", "Tg_Z vs. Tg ph", 400, phlowlimit*1000, phuplimit*1000, 400, vzlowlimit*1000, vzuplimit*1000);
     //    TH2F* h3 = new TH2F("h3", "Tg_ph vs. R.tr.vz",  400, vzlowlimit, vzuplimit, 400, phlowlimit, phuplimit);
     assert(h3);
 
     // Choose the foil you want to make cut
     //nFoil
-    for (int FoilID = 1; FoilID < 2; FoilID++) {
+    for (int FoilID = 0; FoilID < nFoil; FoilID++) {
         TCut DrawCut = GeneralCut;
 
-	T->Draw("R.tr.vz:R.tr.tg_ph>>h3", DrawCut, "COLZ");
+	T->Draw("R.tr.vz*1000:R.tr.tg_ph*1000>>h3", DrawCut, "COLZ");
 	//	T->Draw("R.tr.tg_ph:R.tr.vz>>h3", DrawCut, "COLZ");
 	c3->Update();
         
