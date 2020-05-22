@@ -121,15 +121,19 @@ void APEX_raster_calib_unrast(){
 
   
   if(arm == "Lrb"){
-    lim_1 = 25000;
-    lim_2 = 35000;
+    // lim_1 = 25000;
+    // lim_2 = 35000;
+    lim_1 = 20000;
+    lim_2 = 40000;
   }
   else if (arm == "Rrb"){
     lim_1 = 18000;
     lim_2 = 28000;
     if (run > 4500){
-      lim_1 = 35000;
-      lim_2 = 50000;
+      // lim_1 = 35000;
+      // lim_2 = 50000;
+      lim_1 = 25000;
+      lim_2 = 55000;
       
     }
   }
