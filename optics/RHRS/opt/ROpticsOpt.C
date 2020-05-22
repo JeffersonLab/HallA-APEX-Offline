@@ -2109,6 +2109,7 @@ Double_t ROpticsOpt::SumSquareDPhi()
         dphi += phi - eventdata.Data[kRealPhi];
         rmsphi += (phi - eventdata.Data[kRealPhi])*(phi - eventdata.Data[kRealPhi]);
 
+
         DEBUG_MASSINFO("SumSquareDPhi", "D_Phi = %f = \t%f - \t%f", phi - eventdata.Data[kRealPhi], phi, eventdata.Data[kRealPhi]);
 
         //save the results
@@ -2294,7 +2295,7 @@ TCanvas * ROpticsOpt::CheckVertex()
 	c1->cd(idx+1)->Update();
 	MaxPlot = c1->cd(idx + 1) ->GetUymax();
         TLine *l = new TLine(ymean, 0, ymean, MaxPlot);
-        l->SetLineColor(kBlue);
+	l->SetLineColor(kBlue);
         l->SetLineWidth(2);
 	l->Draw();
 
@@ -2425,7 +2426,7 @@ TCanvas * ROpticsOpt::CheckVertex()
 	c2->cd(idx+1)->Update();
 	MaxPlot = c2->cd(idx + 1) ->GetUymax();
         TLine *l1 = new TLine(targetfoils[idx], 0, targetfoils[idx], MaxPlot);
-        l1->SetLineColor(kBlue);
+	l1->SetLineColor(kBlue);
         l1->SetLineWidth(2);
 	l1->Draw();
        

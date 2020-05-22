@@ -12,20 +12,22 @@ class ROpticsOpt;
 
 ROpticsOpt * opt;
 
-void replay(TString run){
+void replay(TString run,TString order){
 
   //Simplified replay code. Takes some functions for ROpticsOpt class and uses them to calculate new target variables with different matrix.
 
+  //REMEMBER to change to unraster beam in ROpticsOpt.C script for certain runs
 
   TString rootfiles = "/home/sean/Grad/Research/APEX/Rootfiles/";
 
   TChain *t = new TChain("T");
   
   t->Add(rootfiles + "apex_" + run + ".root");
+
  
   int entries = t->GetEntries();
   
-  TFile* f_new = new TFile(rootfiles + "apex_" + run + "_opt_5th_xfp_full_V_wires.root","recreate");
+  TFile* f_new = new TFile(rootfiles + "apex_" + run + "_opt_"+order+"_xfp_full_V_wires.root","recreate");
   TTree* t_new = new TTree("T","");
 
   run = "V_wires";       //Set equal to run if not using multiple wires
@@ -33,11 +35,11 @@ void replay(TString run){
   opt = new ROpticsOpt();
   
   opt->LoadRawData(t);
-  opt->LoadDataBase("../DB/" + run + "/db_R.vdc.dat_y_5th_xfp","-50_-30");
-  opt->LoadDataBase("../DB/" + run + "/db_R.vdc.dat_y_5th_xfp","-30_-10");
-  opt->LoadDataBase("../DB/" + run + "/db_R.vdc.dat_y_5th_xfp","-10_10");
-  opt->LoadDataBase("../DB/" + run + "/db_R.vdc.dat_y_5th_xfp","10_30");
-  opt->LoadDataBase("../DB/" + run + "/db_R.vdc.dat_y_5th_xfp","30_50");
+  opt->LoadDataBase("../DB/" + run + "/db_R.vdc.dat_y_"+order+"_xfp","-50_-30");
+  opt->LoadDataBase("../DB/" + run + "/db_R.vdc.dat_y_"+order+"_xfp","-30_-10");
+  opt->LoadDataBase("../DB/" + run + "/db_R.vdc.dat_y_"+order+"_xfp","-10_10");
+  opt->LoadDataBase("../DB/" + run + "/db_R.vdc.dat_y_"+order+"_xfp","10_30");
+  opt->LoadDataBase("../DB/" + run + "/db_R.vdc.dat_y_"+order+"_xfp","30_50");
    
   //Define all the variables we want our output tree to have
   double R_tr_n;
@@ -145,10 +147,10 @@ void replay(TString run){
     R_tr_tg_th[0] = opt->calc_tgth(i);
     R_tr_tg_ph[0] = opt->calc_tgph(i);
     R_tr_tg_dp[0] = opt->calc_tgdp(i);
-    R_tr_vz[0] = opt->calc_vz(i, R_tr_tg_y[0], R_tr_tg_ph[0]);
+    R_tr_vz[0] = opt->calc_vz(i, R_tr_tg_y[0]);
     sieve_x[0] = opt->sieve_x(i);
     sieve_y[0] = opt->sieve_y(i);
-
+    
     t_new->Fill();
 
     if(i%10000 == 0) cout<<std::setprecision(2)<<i*1.0/entries*100<<"%"<<endl;
