@@ -1,0 +1,9 @@
+
+
+
+Need to add file_def.h to this directory with a string, ROOTFILE_DIR, that has the relevant local directory for root files.
+
+
+Sub-directories contain calibration and relateed scripts for different detectors and systems. They may also contain READMEs where suited.
+
+
