@@ -8,6 +8,7 @@
 #include "TVector3.h"
 #include "TCut.h"
 #include <map>
+#include <iostream>
 
 
 using namespace std;
@@ -50,8 +51,8 @@ const Double_t MissPointY = -0;
 
 const Double_t BeamShiftX = 0;
 
-const Double_t SieveRadius = 0.157*25.4/2.0*1e-3;
-const Double_t SieveRadius_c = 0.236*25.4/2.0*1e-3;
+const Double_t SieveRadius = 0.055*25.4/2.0*1e-3;
+const Double_t SieveRadius_c = 0.106*25.4/2.0*1e-3;
 
 //const Double_t SieveRadius = 0;       
 
