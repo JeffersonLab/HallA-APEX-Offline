@@ -333,6 +333,29 @@ Double_t dp_split[6][2] = {{-0.05,-0.03},{-0.03,-0.01},{-0.01,0.01},{0.01,0.03},
 double yaw = 5.366 * D2R;     //Abs value of yaw
 double pitch = 89.988 * D2R;  //Degree of pitch 
 
+TString get_Beamcut(Int_t runnumber){
+
+  TString beam_cut = "";
+
+  if(runnumber == 4766){
+    // V1
+    cout << "V1 wire beam cut!" << endl;
+    beam_cut = "0.0017<Lrb.x && Lrb.x<0.0024";
+  }
+  else if(runnumber == 4768){
+    // V2
+    cout << "V2 wire beam cut!" << endl;
+    beam_cut = "-0.001<Lrb.x && Lrb.x<-0.0003";
+  }
+  else if(runnumber == 4769){
+    // V3
+    cout << "V3 wire beam cut!" << endl;
+    beam_cut = "-0.0029<Lrb.x && Lrb.x<-0.00225";
+  }
+
+  return beam_cut;
+}
+
 #endif
 
 

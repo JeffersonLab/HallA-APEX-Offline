@@ -108,6 +108,9 @@ void ReLoadcuts(){
   CutDescFileNameDp = *SoureRootFile + ".DpCut.cut";
 
   CutDescFileNameCol = *SoureRootFile + ".ColCut.cut";
+
+
+  GenrealCut += get_Beamcut(Run_number);
   
 }
 
