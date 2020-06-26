@@ -186,8 +186,48 @@ const Double_t targetoffset = 0;
 // scheme where foils Optics foils are numbered 0-7 and Vertical foils 8-10
 
 static const UInt_t NFoils = 11;
+// z-corrections for foils from survey
 
-const Double_t targetfoils[] = { -0.3,  -0.219, -0.15,  -0.075, 0.075, 0.15, 0.219, 0.3, -0.2, 0, 0.2, 1e36};
+// general foil z-correction to nearest mm
+
+static const Double_t foil_zcorr = -5e-3;
+// static const Double_t foil_zcorr = 0;
+
+// W_wires correction from survey
+static const Double_t foil_zcorr_W = -5.01e-3;
+
+// Optics_up
+static const Double_t foil_zcorr_up = -5.06e-3;
+
+// Optics_middle/down (middle and down have same offset in survey)
+static const Double_t foil_zcorr_down = -5.01e-3;
+
+
+// x-corrections for foils from survey
+
+// W_wires correction from survey
+static const Double_t foil_xcorr_W = -0.01e-3;
+
+// Optics_up
+static const Double_t foil_xcorr_up = -0.07e-3;
+
+// Optics_middle/down (middle and down have same offset in survey)
+static const Double_t foil_xcorr_down = -0.04e-3;
+
+
+//const Double_t targetfoils[] = { -0.3,  -0.219, -0.15,  -0.075, 0.075, 0.15, 0.219, 0.3, -0.2, 0, 0.2, 1e36};
+
+// foil z-positions
+const Double_t targetfoils[] = { -0.3 + foil_zcorr,  -0.219 + foil_zcorr, -0.15 + foil_zcorr,  -0.075 + foil_zcorr, 0.075 + foil_zcorr, 0.15 + foil_zcorr, 0.219 + foil_zcorr, 0.3 + foil_zcorr, -0.2 + foil_zcorr, 0 + foil_zcorr, 0.2 + foil_zcorr, 1e36};
+
+// foil x-positions
+const Double_t orig_targetfoilsX[] = { 0, 0, 0, 0, 0, 0, 0, 0, 0.0025 + foil_xcorr_W, 0 + foil_xcorr_W, -0.0025 + foil_xcorr_W, 1e36};
+
+const Double_t targetfoilsX[] = { 0, 0, 0, 0, 0, 0, 0, 0, 2.124e-3, -0.019e-3, -2.162e-3, 1e36};
+
+
+
+
 
 
 std::vector<TString> Foil_names;
@@ -332,6 +372,13 @@ Double_t dp_split[6][2] = {{-0.05,-0.03},{-0.03,-0.01},{-0.01,0.01},{0.01,0.03},
 //////Sieve Survey Inputs////
 double yaw = 5.366 * D2R;     //Abs value of yaw
 double pitch = 89.988 * D2R;  //Degree of pitch 
+
+
+double target_yaw =  0.1022 * D2R;
+double target_pitch = -0.0219 * D2R;  //Degree of pitch 
+
+
+// function that gets beam cut from run number
 
 TString get_Beamcut(Int_t runnumber){
 
