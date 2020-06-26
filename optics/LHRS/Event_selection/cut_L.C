@@ -19,6 +19,7 @@
 #include <iostream>
 #include <fstream>
 #include "InputAPEXL.h"
+#include "TPaveText.h"
 
 #include <vector>
 #include <algorithm>
@@ -433,7 +434,7 @@ void cut_Vertex(int overwrite = 0, int nfoils = 3, int FoilID = -1, int append =
 	// 	f1->Write();
 
 	//	TH2F* h1 = new TH2F("h1", "ReactZ vs. Target Phi", 400, -0.05, 0.035, 200,-0.4, 0.4);
-	TH2F* h1 = new TH2F("h1", Form("Vertex for Foil #%d",FoilID), 400, -0.05, 0.05, 200,-0.4, 0.4);
+	TH2F* h1 = new TH2F("h1", Form("Vertex for Foil #%d",FoilID), 400, -0.05, 0.05, 200,-1.2, 0.7);
 	//	h1->CenterTitle();
 
 
