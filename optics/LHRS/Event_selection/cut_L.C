@@ -3405,69 +3405,67 @@ void cut_VertexAdv(int overwrite = 0, TCut extracuts = "1") {
 
 
 
-bool Contains(const std::vector<int> &list, int x){
+// bool Contains(const std::vector<int> &list, int x){
 
-  return std::find(list.begin(), list.end(), x) != list.end();
+//   return std::find(list.begin(), list.end(), x) != list.end();
 
-}
+// }
 
-bool Contains(const std::vector<TString> &list, TString x){
+// bool Contains(const std::vector<TString> &list, TString x){
 
-  return std::find(list.begin(), list.end(), x) != list.end();
+//   return std::find(list.begin(), list.end(), x) != list.end();
 
-}
-
-
-TString Return_target(Int_t runnumber){
-
-  TString run_type; 
+// }
 
 
-  if( Contains(V1_runs,runnumber)){
-    run_type = "V1";
-  }
-  else if( Contains(V2_runs,runnumber)){
-    run_type = "V2";
-  }
-  else if( Contains(V3_runs,runnumber)){
-    run_type = "V3";
-  }
-  else if( Contains(Opt1_runs,runnumber)){
-    run_type = "Optics1";
-  }
-  else if( Contains(Opt3_runs,runnumber)){
-    run_type = "Optics3";
-  }
+// TString Return_target(Int_t runnumber){
+
+//   TString run_type; 
+
+
+//   if( Contains(V1_runs,runnumber)){
+//     run_type = "V1";
+//   }
+//   else if( Contains(V2_runs,runnumber)){
+//     run_type = "V2";
+//   }
+//   else if( Contains(V3_runs,runnumber)){
+//     run_type = "V3";
+//   }
+//   else if( Contains(Opt1_runs,runnumber)){
+//     run_type = "Optics1";
+//   }
+//   else if( Contains(Opt3_runs,runnumber)){
+//     run_type = "Optics3";
+//   }
+    
+//   return run_type;
   
+// }
 
+// Bool_t IsMultiFoil(Int_t runnumber){
+
+//   Bool_t ismultifoil;
   
-  return run_type;
-  
-}
+//   TString run_type = Return_target(runnumber);
 
-Bool_t IsMultiFoil(Int_t runnumber){
-
-  Bool_t ismultifoil;
-  
-  TString run_type = Return_target(runnumber);
-
-  if( Contains(Multi_foil,run_type)){
-    ismultifoil = true;
-  }
-  else if(Contains(Single_foil,run_type)){
-    ismultifoil = false;
-  }
-  else{
-    cout << "Chosen run_number not recognised as single or multifoil: defaulted to single foil" << endl;
-    ismultifoil = true;
-  }
+//   if( Contains(Multi_foil,run_type)){
+//     ismultifoil = true;
+//   }
+//   else if(Contains(Single_foil,run_type)){
+//     ismultifoil = false;
+//   }
+//   else{
+//     cout << "Chosen run_number not recognised as single or multifoil: defaulted to single foil" << endl;
+//     ismultifoil = true;
+//   }
     
 
-  return ismultifoil;
+//   return ismultifoil;
   
 
 
-}
+// }
 
 
 

@@ -356,6 +356,101 @@ TString get_Beamcut(Int_t runnumber){
   return beam_cut;
 }
 
+
+
+
+// functions that can return run type (Foil) from run number
+
+bool Contains(const std::vector<int> &list, int x){
+
+  return std::find(list.begin(), list.end(), x) != list.end();
+
+}
+
+bool Contains(const std::vector<TString> &list, TString x){
+
+  return std::find(list.begin(), list.end(), x) != list.end();
+
+}
+
+
+
+TString Return_target(Int_t runnumber){
+
+  TString run_type; 
+
+
+  if( Contains(V1_runs,runnumber)){
+    run_type = "V1";
+  }
+  else if( Contains(V2_runs,runnumber)){
+    run_type = "V2";
+  }
+  else if( Contains(V3_runs,runnumber)){
+    run_type = "V3";
+  }
+  else if( Contains(Opt1_runs,runnumber)){
+    run_type = "Optics1";
+  }
+  else if( Contains(Opt3_runs,runnumber)){
+    run_type = "Optics3";
+  }
+    
+  return run_type;
+  
+}
+
+
+Int_t GetFoilID(Int_t runnumber){
+
+  Int_t FoilID = -1;
+  
+  TString run_type = Return_target(runnumber);
+
+  if(run_type == "V1"){
+    FoilID = 8;
+  }
+  else if( run_type == "V2"){
+    FoilID = 9;
+  }
+  else if( run_type == "V3"){
+    FoilID = 10;
+  }
+  else{
+    cout << "Not a single foil run" << endl;
+  }
+
+  return FoilID;
+}
+
+
+Bool_t IsMultiFoil(Int_t runnumber){
+
+  Bool_t ismultifoil;
+  
+  TString run_type = Return_target(runnumber);
+
+  if( Contains(Multi_foil,run_type)){
+    ismultifoil = true;
+  }
+  else if(Contains(Single_foil,run_type)){
+    ismultifoil = false;
+  }
+  else{
+    cout << "Chosen run_number not recognised as single or multifoil: defaulted to single foil" << endl;
+    ismultifoil = true;
+  }
+    
+
+  return ismultifoil;
+  
+
+
+}
+
+
+
+
 #endif
 
 
