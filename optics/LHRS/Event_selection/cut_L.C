@@ -1695,10 +1695,10 @@ void CutSieve_ellipse(int FoilID = 0, int col = 0, int overwrite = 0, int append
   gSystem->Exec("cp -vf " + CutFileName + " " + CutFileName + ".old");
   TFile *f1 = new TFile(CutFileName, "UPDATE");
   assert(f1);
-  (TCutG*) f1->GetObjectChecked(Form("fcut_L_%d", FoilID), "TCutG"); //looking for old cut definition
+  //  (TCutG*) f1->GetObjectChecked(Form("fcut_L_%d", FoilID), "TCutG"); //looking for old cut definition
 
   // line added to extract previous FP vertex cut if existing
-  (TCutG*) f1->GetObjectChecked(Form("fcut_L_FP_%d", FoilID), "TCutG"); //looking for old cut definition
+  //  (TCutG*) f1->GetObjectChecked(Form("fcut_L_FP_%d", FoilID), "TCutG"); //looking for old cut definition
 
 
   // line to extract column cut if used  
@@ -1767,19 +1767,19 @@ void CutSieve_ellipse(int FoilID = 0, int col = 0, int overwrite = 0, int append
   
   
   
-  TCanvas* c2 = new TCanvas("c2","FP sieve",1000,1000);
+  //  TCanvas* c2 = new TCanvas("c2","FP sieve",1000,1000);
   
   //    c2->Divide(2,1);
     
     
-  TH2D* thfp_v_yfp = new TH2D("thfp_v_yfp","thfp_v_yfp",300,-0.05,0.05,300,-35,30);
-  // TH2D* thfp_v_yfp = new TH2D("thfp_v_yfp","thfp_v_yfp",300,-0.2,0.2,300,-100,100);
+  // TH2D* thfp_v_yfp = new TH2D("thfp_v_yfp","thfp_v_yfp",300,-0.05,0.05,300,-35,30);
+  // // TH2D* thfp_v_yfp = new TH2D("thfp_v_yfp","thfp_v_yfp",300,-0.2,0.2,300,-100,100);
   
-  thfp_v_yfp->GetYaxis()->SetTitleOffset(1.0);
-  thfp_v_yfp->GetXaxis()->SetTitleSize(0.05);
-  thfp_v_yfp->GetYaxis()->SetTitleSize(0.05);
-  thfp_v_yfp->GetXaxis()->SetTitle("y (FP) [m]");
-  thfp_v_yfp->GetYaxis()->SetTitle("th (FP) [mrad]");
+  // thfp_v_yfp->GetYaxis()->SetTitleOffset(1.0);
+  // thfp_v_yfp->GetXaxis()->SetTitleSize(0.05);
+  // thfp_v_yfp->GetYaxis()->SetTitleSize(0.05);
+  // thfp_v_yfp->GetXaxis()->SetTitle("y (FP) [m]");
+  // thfp_v_yfp->GetYaxis()->SetTitle("th (FP) [mrad]");
   
    
    
@@ -1811,7 +1811,8 @@ void CutSieve_ellipse(int FoilID = 0, int col = 0, int overwrite = 0, int append
   T->Draw("th_tgt:ph_tgt>>h2", GenrealCut + TCut(Form("fcut_L_%d", FoilID)) + TCut(Form("fcut_L_FP_%d", FoilID)) + TCut(Form("ccut_L_%d_%d", FoilID,col)), "COLZ");
 #endif
 #ifndef COLUMN_CUTS 
-  T->Draw("th_tgt:ph_tgt>>h2", GenrealCut + TCut(Form("fcut_L_FP_%d", FoilID)) + TCut(Form("fcut_L_%d", FoilID)), "COLZ");
+    // T->Draw("x_sieve:y_sieve>>h2", GenrealCut, "COLZ");
+  T->Draw("th_tgt:ph_tgt>>h2", GenrealCut, "COLZ");
 #endif
 
 
@@ -1987,17 +1988,35 @@ void CutSieve_ellipse(int FoilID = 0, int col = 0, int overwrite = 0, int append
     if (k < 0)
       continue;
 
-    while(cur_hole < Get_Hole(col,k)){
-      //      cout << " Current hole = " << cur_hole << ", Get_hole = " << Get_Hole(col,k) << endl;
-      getline(cutcsvold,line);	 
-      //      cout << " current line (cvs) is " << endl;
-      cout << line << endl << endl;
+    // while(cur_hole < Get_Hole(col,k)){
+    //   cout << " Current hole = " << cur_hole << ", Get_hole("<<col<<","<<k << ") = " << Get_Hole(col,k) << endl;
+    //   getline(cutcsvold,line);	 
+    //   cout << " current line (cvs) is: " << endl;
+    //   cout << line << endl << endl;
       
-      cur_hole++;
-      cutcsv<<line<<endl;
+    //   cur_hole++;
+    //   cutcsv<<line<<endl;
       
-    }
+    // }
 
+    Int_t hole_no;
+    vector<int> col_row;
+    
+    for(Int_t ii = 0; ii<col; ii++){
+      for(Int_t jj = 0; jj<NSieveRow; jj++){
+
+	hole_no = Get_Hole(ii,jj);
+	col_row = Get_Col_Row(hole_no);
+	
+	if(col_row[0] == ii && col_row[1] == jj){	
+	  getline(cutcsvold,line);		
+	  cutcsv << line << endl;
+	  cout << "next csv line for hole " << hole_no << ", col =  " << ii << ", row = " << jj << endl;
+	  cout << line << endl;
+	}
+	
+      }
+    }
 	
   
   
@@ -2022,7 +2041,17 @@ void CutSieve_ellipse(int FoilID = 0, int col = 0, int overwrite = 0, int append
       if(cutg)cutg->Delete();
 
       //    TEllipse* Ellipse = new TEllipse(0,0,0.0006,0.0014,0,360,0);
-      TEllipse* Ellipse = new TEllipse(-0.02,0,0.0006,0.0014,0,360,0);
+      //      TEllipse* Ellipse = new TEllipse(-0.02,0,0.0006,0.0014,0,360,0);
+      //      TEllipse* Ellipse = new TEllipse(0.005,0,0.0008,0.0014,0,360,0);
+      TVector3 Hole_pos = GetSieveHoleCorrectionTCS(FoilID,col, k);
+            
+      TVector3 MomDirectionTCS_hole = Hole_pos - BeamSpotTCS_average;
+      
+      Double_t theta_hole = MomDirectionTCS_hole.X()/MomDirectionTCS_hole.Z();
+      Double_t phi_hole = MomDirectionTCS_hole.Y()/MomDirectionTCS_hole.Z();
+      
+      
+      TEllipse* Ellipse = new TEllipse(phi_hole,theta_hole,0.0008,0.0014,0.,360.,0);    
       Ellipse->SetFillStyle(0);
       Ellipse->SetLineWidth(5);
       Ellipse->Draw("same");
@@ -2079,22 +2108,37 @@ void CutSieve_ellipse(int FoilID = 0, int col = 0, int overwrite = 0, int append
       // cutg->SetVarX("L.tr.tg_ph");
       // cutg->SetVarY("L.tr.tg_th");
 
-      // alternative use theta an dphi -target from newer replay
+      // alternative use theta and phi-target from newer replay
 
       cutg->SetVarX("ph_tgt");
       cutg->SetVarY("th_tgt");
+
+      // cutg->SetVarX("y_sieve");
+      // cutg->SetVarY("x_sieve");
 
 
       cutg->Write("", TObject::kWriteDelete); // Overwrite old cut
       cout << "done!" << endl;
 	    
-    }
+    }    
     else {
       cout << Form("e_hcut_L_%d_%d_%d", FoilID, col, k) << " is found, using old one" << endl;
+
       
-      cout << "Using line : " << endl;
-      cout << line << endl << endl;
+      
+      cout << "Using line : " << endl;      
+      cout << line << endl << endl;      
       cutcsv<<line<<endl;
+      
+
+      // Double_t x1 = Ellipse->GetX1(); Double_t y1 = Ellipse->GetY1();
+      // Double_t r1 = Ellipse->GetR1(); Double_t r2 = Ellipse->GetR2();
+      // Double_t theta = Ellipse->GetTheta();
+      // cutcsv<<cur_hole<<","<<col<<","<<k<<","<<1<<","<<x1*1000<<","<<sieve_ph[col]<<","<<y1*1000<<","<<sieve_th[k]<<","<<r1*1000<<","<<r2*1000<<","<<theta<<endl;
+      // cout << "Entering into cs file: " << endl;
+    
+      // cout<<cur_hole<<","<<col<<","<<k<<","<<1<<","<<x1*1000<<","<<sieve_ph[col]<<","<<y1*1000<<","<<sieve_th[k]<<","<<r1*1000<<","<<r2*1000<<","<<theta<<endl;
+
 
       // cutg->SetVarX("L.tr.tg_ph");
       // cutg->SetVarY("L.tr.tg_th");
@@ -2127,90 +2171,91 @@ void CutSieve_ellipse(int FoilID = 0, int col = 0, int overwrite = 0, int append
     // T->Draw("L.tr.r_th*1000:L.tr.r_y>>thfp_v_yfp",GenrealCut + TCut(Form("fcut_L_%d", FoilID)),"colz");
 
 
-    c2->cd();
+//     c2->cd();
 
-       // T->Draw("L.tr.r_th*1000:L.tr.r_y>>thfp_v_yfp",GenrealCut + TCut(Form("fcut_L_%d", FoilID)) + TCut(Form("fcut_L_FP_%d", FoilID)) + TCut(Form("e_hcut_L_%d_%d_%d", FoilID, col, k)),"colz");
-
-
-#ifdef COLUMN_CUTS 
-    T->Draw("L.tr.r_th*1000:L.tr.r_y>>thfp_v_yfp",GenrealCut + TCut(Form("fcut_L_%d", FoilID)) + TCut(Form("fcut_L_FP_%d", FoilID)) + TCut(Form("e_hcut_L_%d_%d_%d", FoilID, col, k)) + TCut(Form("ccut_L_%d_%d", FoilID,col)),"colz");
-#endif
-#ifndef COLUMN_CUTS 
-    T->Draw("L.tr.r_th*1000:L.tr.r_y>>thfp_v_yfp",GenrealCut + TCut(Form("fcut_L_%d", FoilID)) + TCut(Form("fcut_L_FP_%d", FoilID)) + TCut(Form("e_hcut_L_%d_%d_%d", FoilID, col, k)),"colz");
-#endif
-
-    c2->Update();
+//        // T->Draw("L.tr.r_th*1000:L.tr.r_y>>thfp_v_yfp",GenrealCut + TCut(Form("fcut_L_%d", FoilID)) + TCut(Form("fcut_L_FP_%d", FoilID)) + TCut(Form("e_hcut_L_%d_%d_%d", FoilID, col, k)),"colz");
 
 
-    //    TVirtualPad *cpad = gPad;
+// #ifdef COLUMN_CUTS 
+//     T->Draw("L.tr.r_th*1000:L.tr.r_y>>thfp_v_yfp",GenrealCut + TCut(Form("fcut_L_%d", FoilID)) + TCut(Form("fcut_L_FP_%d", FoilID)) + TCut(Form("e_hcut_L_%d_%d_%d", FoilID, col, k)) + TCut(Form("ccut_L_%d_%d", FoilID,col)),"colz");
+// #endif
+// #ifndef COLUMN_CUTS 
+//     T->Draw("L.tr.r_th*1000:L.tr.r_y>>thfp_v_yfp",GenrealCut + TCut(Form("fcut_L_%d", FoilID)) + TCut(Form("fcut_L_FP_%d", FoilID)) + TCut(Form("e_hcut_L_%d_%d_%d", FoilID, col, k)),"colz");
+// #endif
+
+//     c2->Update();
+
+
+//     //    TVirtualPad *cpad = gPad;
     
-    TCutG* tmpcut_FP = (TCutG*) gROOT->FindObject(Form("FPhcut_L_%d_%d_%d",FoilID, col, k));
+//     TCutG* tmpcut_FP = (TCutG*) gROOT->FindObject(Form("FPhcut_L_%d_%d_%d",FoilID, col, k));
 
     
-    if (tmpcut_FP && !overwrite) {
+//     if (tmpcut_FP && !overwrite) {
       
-      cout << Form("FPhcut_L_%d_%d_%d",FoilID, col, k)
-	   << " is found, using old one" << endl;
-      tmpcut_FP->Draw("PL");
+//       cout << Form("FPhcut_L_%d_%d_%d",FoilID, col, k)
+// 	   << " is found, using old one" << endl;
+//       tmpcut_FP->Draw("PL");
 
-      tmpcut_FP->SetVarX("L.tr.r_y[0]");
-      tmpcut_FP->SetVarY("L.tr.r_th[0]*1000");
-      //      tmpcut_FP->Write("",TObject::kWriteDelete);
-      
-
-    }
-    else{
-
-      cout << "Looking for FP hole cut... " << endl;
-
-      c2->cd();
-
-      TCutG* cutg_FP = (TCutG*) (gPad->WaitPrimitive("CUTG", "CutG"));
-
-      c2->Update();
-
-      cutg_FP->SetName(Form("FPhcut_L_%d_%d_%d",FoilID, col, k));
-
-      
-      cutg_FP->SetVarX("L.tr.r_y[0]");
-      cutg_FP->SetVarY("L.tr.r_th[0]*1000");
-
-      f1->cd();
-      cutg_FP->Write("",TObject::kWriteDelete);
-      tmpcut_FP = cutg_FP;
+//       tmpcut_FP->SetVarX("L.tr.r_y[0]");
+//       tmpcut_FP->SetVarY("L.tr.r_th[0]*1000");
+//       //      tmpcut_FP->Write("",TObject::kWriteDelete);
       
 
-    }
+//     }
+//     else{
+
+//       cout << "Looking for FP hole cut... " << endl;
+
+//       c2->cd();
+
+//       TCutG* cutg_FP = (TCutG*) (gPad->WaitPrimitive("CUTG", "CutG"));
+
+//       c2->Update();
+
+//       cutg_FP->SetName(Form("FPhcut_L_%d_%d_%d",FoilID, col, k));
+
+      
+//       cutg_FP->SetVarX("L.tr.r_y[0]");
+//       cutg_FP->SetVarY("L.tr.r_th[0]*1000");
+
+//       f1->cd();
+//       cutg_FP->Write("",TObject::kWriteDelete);
+//       tmpcut_FP = cutg_FP;
+      
+
+//     }
 
 
 
-    tmpcut_FP =  (TCutG*) f1->GetObjectChecked(Form("FPhcut_L_%d_%d_%d",FoilID, col, k), "TCutG");
-    assert(tmpcut_FP);
-    tmpcut_FP->SetLineWidth(2);
-    tmpcut_FP->SetLineColor(kMagenta);
-    tmpcut_FP->Draw("PL");
-    c2->Update();
+//     tmpcut_FP =  (TCutG*) f1->GetObjectChecked(Form("FPhcut_L_%d_%d_%d",FoilID, col, k), "TCutG");
+//     assert(tmpcut_FP);
+//     tmpcut_FP->SetLineWidth(2);
+//     tmpcut_FP->SetLineColor(kMagenta);
+//     tmpcut_FP->Draw("PL");
+//     c2->Update();
  
     
     
 
 
-
+  
 
     // Log cuts names to text file   
 #ifdef COLUMN_CUTS 
 	    cutdesc << Form("FPhcut_L_%d_%d_%d",FoilID, col, k) << " && " << Form("e_hcut_L_%d_%d_%d", FoilID, col, k) << " && " << Form("fcut_L_%d", FoilID) << " && " << Form("ccut_L_%d_%d", FoilID,col)  <<  " && " << Form("fcut_L_%d", FoilID) << " && " << Form("fcut_L_FP_%d", FoilID) << "&&" << (const char *) GenrealCut << endl;
 #endif
 #ifndef COLUMN_CUTS 
-	    cutdesc << Form("FPhcut_L_%d_%d_%d",FoilID, col, k) << " && " << Form("e_hcut_L_%d_%d_%d", FoilID, col, k) << " && " << Form("fcut_L_%d", FoilID) << " && " << Form("fcut_L_%d", FoilID) << " && " << Form("fcut_L_FP_%d", FoilID) << " && " << (const char *) GenrealCut << endl;
+	    //	    cutdesc << Form("FPhcut_L_%d_%d_%d",FoilID, col, k) << " && " << Form("e_hcut_L_%d_%d_%d", FoilID, col, k) << " && " << Form("fcut_L_%d", FoilID) << " && " << Form("fcut_L_%d", FoilID) << " && " << Form("fcut_L_FP_%d", FoilID) << " && " << (const char *) GenrealCut << endl;
+	    cutdesc <<Form("e_hcut_L_%d_%d_%d", FoilID, col, k) << "&&" << (const char *) GenrealCut << endl;
 #endif
 
 
 
 
     //    cutdesc << Form("e_hcut_L_%d_%d_%d", FoilID, col, k) << " && " << Form("fcut_L_%d", FoilID) << " && " << (const char *) GenrealCut << endl;
-    
   }
+
 
 
  
@@ -2218,9 +2263,8 @@ void CutSieve_ellipse(int FoilID = 0, int col = 0, int overwrite = 0, int append
   while(!cutcsvold.eof()){
     getline(cutcsvold,line);
     cutcsv<<line<<endl;
-  }
-
-
+  } 
+  cout << "Reached here! " << endl;
        
   f1->Write();
   f1->ls();
