@@ -897,14 +897,22 @@ UInt_t LOpticsOpt::LoadRawData(TString DataFileName, UInt_t NLoad, UInt_t MaxDat
 
 
 	hole_opt_select();
-	// ignore prescibed holes 
+	//ignore prescibed holes
+
+	if(!hole_select[foilid][colid][rowid]){
+	  continue;
+	}	   
 	if(!foil_select[foilid]){		
 	  continue;
 	}
-	if(!col_select[colid]){		
+	
+	if(!col_select[foilid][colid]){		
 	  continue;
 	}
-
+	if(!row_select[foilid][rowid]){		
+	  continue;
+	}
+	
 
 
 
