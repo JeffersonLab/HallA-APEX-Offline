@@ -62,6 +62,8 @@
 
 #include "LOpticsOpt.h"
 
+//#include "APEX_Sieve.h"
+
 #ifdef WITH_DEBUG
 #include <iostream>
 #endif
@@ -114,7 +116,7 @@ THaTrackingDetector(name, description, apparatus)
     // vertical foils
     if(NFoils == 3){     
       for(UInt_t i = 0; i<NFoils; i++){
-	TString foil(Form("V%d",i));
+	TString foil(Form("V%d",i+1));
 	Foil_names.push_back(foil);
       }      
     }
@@ -1007,7 +1009,7 @@ const TVector3 LOpticsOpt::GetSieveHoleTCS(UInt_t Col, UInt_t Row)
     */
 
 
-    SieveHoleTCS.SetXYZ( SieveHoleTCS.X() + SieveOffX,  SieveHoleTCS.Y() + SieveOffY, SieveHoleTCS.Z() ZPos + SieveOffZ);
+    SieveHoleTCS.SetXYZ( SieveHoleTCS.X() + SieveOffX,  SieveHoleTCS.Y() + SieveOffY, SieveHoleTCS.Z() + ZPos + SieveOffZ);
 		      
 
 		      
@@ -1579,7 +1581,9 @@ TCanvas * LOpticsOpt::CheckSieve(Int_t PlotFoilID)
 
     }
 
+    //    c1->cd(12);
 
+    c2->SetEditable(false);
     
     return c1;
 }
@@ -3110,16 +3114,20 @@ TCanvas * LOpticsOpt::CheckVertex()
     Check_Tong->SetXTitle("Target Z [m]");
     for (UInt_t idx = 0; idx < NFoils; idx++) {
       HTgZ[idx] = new TH1D(Form("Target_Z%d", idx),Foil_names[idx], 500, -ZRange+Z_offset, ZRange+Z_offset);
-        HTgZReal[idx] = new TH1D(Form("Target_Z%d", idx), Form("Target Z for Foil Target #%d", idx), 500, -ZRange+Z_offset, ZRange+Z_offset);
-
-        HTgZ[idx]->GetXaxis()->SetTitle("Z vertex [m]");
-	HTgZ[idx]->GetXaxis()->CenterTitle();
-        assert(HTgZ[idx]); // assure memory allocation
-	assert(HTgZReal[idx]);
+      HTgZReal[idx] = new TH1D(Form("Target_Z%d", idx), Form("Target Z for Foil Target #%d", idx), 500, -ZRange+Z_offset, ZRange+Z_offset);
+      HTgZfromTgY[idx] = new TH1D(Form("Target_Z%d", idx), Form("Target Z for Foil Target #%d", idx), 500, -ZRange+Z_offset, ZRange+Z_offset);
+	
+      
+      HTgZ[idx]->GetXaxis()->SetTitle("Z vertex [m]");
+      HTgZ[idx]->GetXaxis()->CenterTitle();
+      assert(HTgZ[idx]); // assure memory allocation
+      assert(HTgZReal[idx]);
     }
 
     Double_t dtg_z = 0;
     Double_t dtg_z_rms = 0;
+
+    Double_t Z_from_tgy; // variable to get 'real' reactz from 'real' tg_y
 
     for (UInt_t idx = 0; idx < fNRawData; idx++) {
         EventData &eventdata = fRawData[idx];
@@ -3789,7 +3797,7 @@ const Double_t ArbitaryVertexShift = 0;
 //     t0->SetShadowColor(0);
 //     t0->AddText("DpKin_{Real} = #frac{P_{#theta_{HRS}} - P_{Central}}{P_{Central}}");
 //     t0->AddText("DpKin = dp - #frac{(P_{#theta} - P_{Loss}) - P_{#theta_{HRS}} }{ P_{Central} }");
-//     t0->AddText("DpKin - DpKin_{Real} = dp - #frac{(P_{#theta} - P_{Loss}) - P_{Central}}{P_{Central}}");
+//     t0->AddText("DpKin - ti_{Real} = dp - #frac{(P_{#theta} - P_{Loss}) - P_{Central}}{P_{Central}}");
 //     t0->Draw();
 
 //     Info("CheckDp", "New set of arbitary dp shifts:");
