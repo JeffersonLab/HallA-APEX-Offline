@@ -342,9 +342,13 @@ TCut GeneralSieveCut = "L.tr.n==1 && L.tr.chi2<0.003 && L.vdc.u1.nclust==1 && L.
 // TCut GeneralSieveCut = "L.tr.n==1 && L.tr.chi2<0.003 && abs(L.gold.th)<0.08 && L.gold.ph>-0.07 && L.gold.ph<0.025 && abs(L.tr.r_x)<0.5 && L.vdc.u1.nclust==1 && L.vdc.v1.nclust==1 && L.vdc.u2.nclust==1 && L.vdc.v2.nclust==1"; 
 
 
-TCut FP_cuts = "L.tr.r_x>-0.6 && L.tr.r_x<0.56 && L.tr.r_y>-0.04 && L.tr.r_y<0.037 && L.tr.r_th>-0.029 && L.tr.r_th<0.02 && L.tr.r_ph>-0.05 && L.tr.r_ph<0.04 && abs(L.tr.tg_dp)<0.01";
+TCut FP_cuts = "L.tr.r_x>-0.6 && L.tr.r_x<0.56 && L.tr.r_y>-0.04 && L.tr.r_y<0.037 && L.tr.r_th>-0.029 && L.tr.r_th<0.02 && L.tr.r_ph>-0.05 && L.tr.r_ph<0.04 && abs(L.tr.r_x)<0.1";
+
+// TCut FP_cuts = "L.tr.r_x>-0.6 && L.tr.r_x<0.56 && L.tr.r_y>-0.04 && L.tr.r_y<0.037 && L.tr.r_th>-0.029 && L.tr.r_th<0.02 && L.tr.r_ph>-0.05 && L.tr.r_ph<0.04";
 
 TCut PID_cuts = "(L.prl1.e/(L.gold.p*1000))>0.3 && ((L.prl1.e+L.prl2.e)/(L.gold.p*1000))>0.625 && ((L.prl1.e+L.prl2.e)/(L.gold.p*1000))<1.11 &&  L.cer.asum_c >650";
+
+// && Lrb.x>-0.0029 && Lrb.x<-0.0022";
 
 
 // list of runs for LHRS optics based on target
@@ -354,7 +358,7 @@ std::vector<int> V1_runs{4179,4766,4767};
 
 std::vector<int> V2_runs{4181,4768};
 
-std::vector<int> V3_runs{4180,4769};
+std::vector<int> V3_runs{4180,4769,4770};
 
 std::vector<int> Opt1_runs{4771,4772};
 
