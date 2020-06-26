@@ -1067,6 +1067,130 @@ const TVector3 LOpticsOpt::GetSieveHoleCorrectionTCS(UInt_t nfoil, UInt_t Col, U
 }
 
 
+void LOpticsOpt::SieveCheck(Int_t FoilID){
+
+TRotation fTCSInHCS;
+
+   TVector3 TCSX(0,-1,0);
+  TVector3 TCSZ(TMath::Sin(HRSAngle),0,TMath::Cos(HRSAngle));
+  TVector3 TCSY = TCSZ.Cross(TCSX);
+  fTCSInHCS.RotateAxes(TCSX,TCSY,TCSZ);
+
+  //  TVector3 fPointingOffset;
+  fPointingOffset.SetXYZ(-MissPointZ*TMath::Sin(HRSAngle)*TMath::Cos(HRSAngle),(Double_t)MissPointY,MissPointZ*TMath::Sin(HRSAngle)*TMath::Sin(HRSAngle));
+
+
+  cout << "fPointingOffset [= " << fPointingOffset.X() << "," << fPointingOffset.Y() << "," << fPointingOffset.Z() << "]" << endl;
+
+  //TVector3 BeamSpotHCS_average(BeamX_average,BeamY_average,targetfoils[FoilID]);
+  TVector3 BeamSpotHCS_average(BeamX_average[FoilID], BeamY_average[FoilID], targetfoils[FoilID]);
+  TVector3 BeamSpotTCS_average = fTCSInHCS.Inverse()*(BeamSpotHCS_average-fPointingOffset);
+
+
+  // vector gather all row, column values so they can be sorted later
+
+  // corrected values
+  vector<Double_t> Col_cor_vals;
+  vector<Double_t> Row_cor_vals;
+
+  Double_t Hole_cor_x;
+  Double_t Hole_cor_y;
+
+  
+  // uncorrected values
+  vector<Double_t> Col_vals;
+  vector<Double_t> Row_vals;
+
+  Double_t Hole_x;
+  Double_t Hole_y;
+
+
+  cout << "targetfoils[" << FoilID << "] = " <<  targetfoils[FoilID] << endl;
+  
+  for( Int_t row = 0; row<NSieveRow; row++){
+
+    
+    for( Int_t col = 0; col<NSieveCol; col++){
+
+
+      //      Int_t Hole = Get_Hole(col, row);
+      
+
+      // ROpticsOpt *opt = new ROpticsOpt();
+
+      //      TVector3 Hole_pos = opt->GetSieveHoleTCS(col,row);
+
+
+      TVector3 Hole_pos_nocorrect = GetSieveHoleTCS(col,row);
+
+      TVector3 Hole_pos = GetSieveHoleCorrectionTCS(FoilID,col,row);
+      
+      TVector3 MomDirectionTCS_hole = Hole_pos - BeamSpotTCS_average;
+      
+      Double_t theta_hole = MomDirectionTCS_hole.X()/MomDirectionTCS_hole.Z();
+      Double_t phi_hole = MomDirectionTCS_hole.Y()/MomDirectionTCS_hole.Z();
+      
+      cout << "For row " << row << ", column " << col << " theta = " << theta_hole << ", phi = " << phi_hole << ", Hole_pos_nocorrect.Y() = " << Hole_pos_nocorrect.Y() << ", Hole_pos.Y() = " << Hole_pos.Y() << endl;
+
+      //<< ", BeamSpotTCS_average = " << BeamSpotTCS_average.Y() << endl;
+
+      Hole_cor_x = Hole_pos.X();
+      Hole_cor_y = Hole_pos.Y();
+
+      Hole_x = Hole_pos_nocorrect.X();
+      Hole_y = Hole_pos_nocorrect.Y();
+
+
+      if(row == (NSieveRow - 1)){
+	Col_vals.push_back(Hole_y);
+	Col_cor_vals.push_back(Hole_cor_y);
+      }
+      
+    }
+
+    Row_vals.push_back(Hole_x);
+    Row_cor_vals.push_back(Hole_cor_x);
+    
+  }
+
+  cout << "wefg" << endl;
+
+  // print rows and columns in ascending ord
+  sort(Row_vals.begin(),Row_vals.end());
+  sort(Col_vals.begin(),Col_vals.end());
+
+  sort(Row_cor_vals.begin(),Row_cor_vals.end());
+  sort(Col_cor_vals.begin(),Col_cor_vals.end());
+
+
+  cout << "Rows (x_values):" << endl;
+  for(auto const& value: Row_vals){
+    cout << value << " "; 
+  }
+  cout << endl;
+
+  cout << "Rows corrected (x_values):" << endl;
+  for(auto const& value: Row_cor_vals){
+    cout << value << " "; 
+  }
+  cout << endl << endl;
+
+  
+  cout << "Cols (y_values):" << endl;
+  for(auto const& value: Col_vals){
+    cout << value << " "; 
+  }
+  cout << endl;
+
+  cout << "Cols corrected (y_values):" << endl;
+  for(auto const& value: Col_cor_vals){
+    cout << value << " "; 
+  }
+  cout << endl;
+  
+}
+
+
 void LOpticsOpt::PrepareSieve(void)
 {
     // Calculate kRealTh, kRealPhi

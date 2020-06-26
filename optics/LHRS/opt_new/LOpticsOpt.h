@@ -167,8 +167,10 @@ public:
     ///////////////////////////////////////////////////////////////////////////
     // Optimization related Commands
     ///////////////////////////////////////////////////////////////////////////
-    const TVector3 GetSieveHoleTCS(UInt_t Col, UInt_t Row);
-    const TVector3 GetSieveHoleCorrectionTCS(UInt_t nfoil, UInt_t Col, UInt_t Row);
+  const TVector3 GetSieveHoleTCS(UInt_t Col, UInt_t Row);
+  const TVector3 GetSieveHoleCorrectionTCS(UInt_t nfoil, UInt_t Col, UInt_t Row);
+
+  void SieveCheck(Int_t FoilID);
 
     Double_t TravelLength(TVector3 ReactionVertex, TVector3 MomDirectionHCS);
     //    Double_t ElossTarget(TVector3 ReactionVertex, TVector3 MomDirectionHCS);
