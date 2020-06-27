@@ -1327,7 +1327,11 @@ TCanvas * LOpticsOpt::CheckSieve(Int_t PlotFoilID)
       assert(HSieveAngle[idx]); // assure memory allocation
     }
     
+    Int_t PlotID; // useful for case when only Vertical foils are used
+                    // (FoilID based on scheme with optics and vertical foils where optics foils
+                    // are 0-7 and vertical foils 8-10) so they can have PlotID 0,1,2
 
+    
     for (UInt_t idx = 0; idx < fNRawData; idx++) {
       const EventData &eventdata = fRawData[idx];
       
@@ -1348,6 +1352,14 @@ TCanvas * LOpticsOpt::CheckSieve(Int_t PlotFoilID)
       
       const TVector3 SieveHoleCorrectionTCS = GetSieveHoleCorrectionTCS(FoilID, Col, Row);
 
+
+      PlotID = FoilID; // useful for case when only Vertical foils are used
+                    // (FoilID based on scheme with optics and vertical foils where optics foils
+                    // are 0-7 and vertical foils 8-10) so they can have PlotID 0,1,2
+      if(NFoils<11){
+
+	PlotID -= 8;
+      }
       
       // calculate sieve_x & sieve_y
       
@@ -1435,7 +1447,10 @@ TCanvas * LOpticsOpt::CheckSieve(Int_t PlotFoilID)
 
    
     for (UInt_t idx = 0; idx < nplot; idx++) {
-        UInt_t FoilID = idx;
+
+      const EventData &eventdata = fRawData[idx];
+      UInt_t FoilID = (UInt_t)eventdata.Data[kFoilID]; //starting 0!
+      // UInt_t FoilID = idx;
         // if (PlotFoilID >= 0)
 	//   FoilID = PlotFoilID;
 	//	idx = FoilID;  //Added this line, does not work with >1 foil
@@ -1478,9 +1493,9 @@ TCanvas * LOpticsOpt::CheckSieve(Int_t PlotFoilID)
         // Draw arrows
         for (UInt_t Col = 0; Col < NSieveCol; Col++) {
 	  for (UInt_t Row = 0; Row < NSieveRow; Row++) {
-	    if (SieveEventID[FoilID][Col][Row][kEventID] > 0) {
-	      assert(SieveEventID[FoilID][Col][Row][kEventID] < fNRawData); //array index bondary check
-	      TArrow * ar2 = new TArrow(SieveEventID[FoilID][Col][Row][kCalcSieveY], SieveEventID[FoilID][Col][Row][kCalcSieveX], SieveEventID[FoilID][Col][Row][kRealSieveY], SieveEventID[FoilID][Col][Row][kRealSieveX], 0.008, "|>");
+	    if (SieveEventID[idx][Col][Row][kEventID] > 0) {
+	      assert(SieveEventID[idx][Col][Row][kEventID] < fNRawData); //array index bondary check
+	      TArrow * ar2 = new TArrow(SieveEventID[idx][Col][Row][kCalcSieveY], SieveEventID[idx][Col][Row][kCalcSieveX], SieveEventID[idx][Col][Row][kRealSieveY], SieveEventID[idx][Col][Row][kRealSieveX], 0.008, "|>");
 	      ar2->SetAngle(40);
 	      ar2->SetLineColor(kMagenta);
 	      ar2->SetFillColor(kMagenta);
@@ -1518,7 +1533,13 @@ TCanvas * LOpticsOpt::CheckSieve(Int_t PlotFoilID)
 
    
     for (UInt_t idx = 0; idx < nplot; idx++) {
-      UInt_t FoilID = idx;
+
+      PlotID = idx;
+      
+      if (NFoils <11){
+	PlotID += 8;
+      }
+      
       // if (PlotFoilID >= 0)
       // 	FoilID = PlotFoilID;
       //	idx = FoilID;  //Added this line, does not work with >1 foil
@@ -2219,6 +2240,9 @@ TCanvas * LOpticsOpt::Sieve_hole_diff(Int_t PlotFoilID){
     }
 
 
+    Int_t PlotID; // useful for case when only Vertical foils are used
+                    // (FoilID based on scheme with optics and vertical foils where optics foils
+                    // are 0-7 and vertical foils 8-10) so they can have PlotID 0,1,2
     
 
     // fill difference histograms
@@ -2227,8 +2251,9 @@ TCanvas * LOpticsOpt::Sieve_hole_diff(Int_t PlotFoilID){
       const EventData &eventdata = fRawData[idx];
     
 
-      const UInt_t FoilID = (UInt_t)eventdata.Data[kFoilID]; //starting 0!
+      UInt_t FoilID = (UInt_t)eventdata.Data[kFoilID]; //starting 0!
       // res = res%(NSieveRow*NSieveCol);
+
 
       
 
@@ -2239,6 +2264,14 @@ TCanvas * LOpticsOpt::Sieve_hole_diff(Int_t PlotFoilID){
       assert(FoilID < NFoils); //array index check
       
       const TVector3 SieveHoleCorrectionTCS = GetSieveHoleCorrectionTCS(FoilID, Col, Row);
+
+      PlotID = FoilID; // useful for case when only Vertical foils are used
+                    // (FoilID based on scheme with optics and vertical foils where optics foils
+                    // are 0-7 and vertical foils 8-10) so they can have PlotID 0,1,2
+      if(NFoils<11){
+
+	PlotID -= 8;
+      }
 
       
       // calculate sieve_x & sieve_y
@@ -2271,15 +2304,15 @@ TCanvas * LOpticsOpt::Sieve_hole_diff(Int_t PlotFoilID){
       Double_t phi_hole = MomDirectionTCS_hole.Y()/MomDirectionTCS_hole.Z();
       
 
-      dX[FoilID] = ProjectionX - SieveHoleCorrectionTCS.X();
-      dY[FoilID] = ProjectionY - SieveHoleCorrectionTCS.Y();
+      dX[PlotID] = ProjectionX - SieveHoleCorrectionTCS.X();
+      dY[PlotID] = ProjectionY - SieveHoleCorrectionTCS.Y();
 
-      dTh[FoilID] = eventdata.Data[kCalcTh] - theta_hole;
-      dPh[FoilID] = eventdata.Data[kCalcPh] - phi_hole;
+      dTh[PlotID] = eventdata.Data[kCalcTh] - theta_hole;
+      dPh[PlotID] = eventdata.Data[kCalcPh] - phi_hole;
       
 
-      HSieveXDiff[FoilID]->Fill(1000*dX[FoilID]);
-      HSieveYDiff[FoilID]->Fill(1000*dY[FoilID]);
+      HSieveXDiff[PlotID]->Fill(1000*dX[PlotID]);
+      HSieveYDiff[PlotID]->Fill(1000*dY[PlotID]);
 
 
     }
@@ -2410,11 +2443,14 @@ TCanvas * LOpticsOpt::Sieve_hole_diff(Int_t PlotFoilID){
     
 
     for (UInt_t idx = 0; idx < nplot; idx++) {
-      UInt_t FoilID = idx;
+
+      const EventData &eventdata = fRawData[idx];
+      UInt_t FoilID = (UInt_t)eventdata.Data[kFoilID]; //starting 0!
+      //      UInt_t FoilID = idx;
 
       c1->cd(idx+1);
      
-      HSieveXDiff[FoilID]->Draw();
+      HSieveXDiff[idx]->Draw();
 
       // TPaveText *ttx = new TPaveText(0.6,0.7,0.88,0.82,"NDC");
       // ttx->AddText(Form("\\Delta = %2.3f mm",  x_means[idx]));
@@ -2448,7 +2484,7 @@ TCanvas * LOpticsOpt::Sieve_hole_diff(Int_t PlotFoilID){
 
       c2->cd(idx+1);
      
-      HSieveYDiff[FoilID]->Draw();
+      HSieveYDiff[idx]->Draw();
 
       TPaveText *tty_1 = new TPaveText(0.6,0.75,0.85,0.82,"NDC");
       //      tty_1->AddText(Form("\\Delta = %2.3f mm",  y_means[idx]));
@@ -2949,11 +2985,14 @@ void LOpticsOpt::PrepareVertex(void)
 
 TCanvas * LOpticsOpt::CheckVertex()
 {
-    // Visualize Vertex spectrum
+  // Visualize Vertex spectrum
   // gStyle->SetOptTitle();
     
     DEBUG_INFO("CheckVertex", "Entry Point");
 
+    Int_t PlotID;
+    
+    
     const UInt_t nplot = NFoils;
     TH1D * HTgY[NFoils] = {0};
     TH1D * HTgYReal[NFoils] = {0};
@@ -2999,18 +3038,23 @@ TCanvas * LOpticsOpt::CheckVertex()
         // const UInt_t Row = res % (NSieveRow); //starting 0!
 
 	const UInt_t FoilID = (UInt_t)eventdata.Data[kFoilID]; //starting 0!
+	PlotID = FoilID;	
+	
+	if(NFoils<11){
+	  PlotID -= 8;
+      }
 	// res = res%(NSieveRow*NSieveCol);
 	const UInt_t Col = (UInt_t)eventdata.Data[kColID]; //starting 0!
 	const UInt_t Row = (UInt_t)eventdata.Data[kRowID]; //starting 0!
 
 
-	HTgY[FoilID]->Fill(eventdata.Data[kCalcTgY]);
-	HTgYReal[FoilID]->Fill(eventdata.Data[kRealTgY]);
+	HTgY[PlotID]->Fill(eventdata.Data[kCalcTgY]);
+	HTgYReal[PlotID]->Fill(eventdata.Data[kRealTgY]);
 
-	HTgYHole[FoilID][Col][Row]->Fill(eventdata.Data[kCalcTgY]);
-	HTgYHoleReal[FoilID][Col][Row]->Fill(eventdata.Data[kRealTgY]);
-	EventHole[FoilID][Col][Row]++;
-
+	HTgYHole[PlotID][Col][Row]->Fill(eventdata.Data[kCalcTgY]);
+	HTgYHoleReal[PlotID][Col][Row]->Fill(eventdata.Data[kRealTgY]);
+	EventHole[PlotID][Col][Row]++;
+	
 	dtg_y += eventdata.Data[kCalcTgY] - eventdata.Data[kRealTgY];
 	dtg_y_rms += (eventdata.Data[kCalcTgY] - eventdata.Data[kRealTgY])*(eventdata.Data[kCalcTgY] - eventdata.Data[kRealTgY]);
     }
@@ -3145,7 +3189,13 @@ TCanvas * LOpticsOpt::CheckVertex()
 	// res = res%(NSieveRow*NSieveCol);
 	const UInt_t Col = (UInt_t)eventdata.Data[kColID]; //starting 0!
 	const UInt_t Row = (UInt_t)eventdata.Data[kRowID]; //starting 0!
-	
+
+
+	PlotID = FoilID;
+
+	if(NFoils<11){
+	  PlotID -= 8;
+	}
 
 	//calculate ReactZ with CalcTgY
 	eventdata.Data[kRealReactZ] = targetfoils[FoilID];
@@ -3237,17 +3287,45 @@ TCanvas * LOpticsOpt::CheckVertex()
 	//	cout<<"mean:"<<mean<<endl;
 	c2->cd(idx+1)->Update();
 	MaxPlot = c2->cd(idx + 1) ->GetUymax();
-        TLine *l1 = new TLine(targetfoils[idx], 0, targetfoils[idx], MaxPlot);
-        l1->SetLineColor(kBlue);
+
+
+	TLine *l1;
+	
+	if(NFoils <11)
+	  {
+	    // case in which only vertical foils are displayed
+	    l1 = new TLine(targetfoils[idx+8], 0, targetfoils[idx+8], MaxPlot);
+	  }
+	else
+	  {
+	    l1 = new TLine(targetfoils[idx], 0, targetfoils[idx], MaxPlot);
+	  }
+	
+        l1->SetLineColor(kOrange);
         l1->SetLineWidth(2);
 	l1->Draw("same");
        
 	TPaveText *tt = new TPaveText(0.6,0.6,0.88,0.82,"NDC");
-	tt->AddText(Form("\\Delta = %2.1f mm", 1000 * (f1->GetParameter(1) - targetfoils[idx])));
+
+	if(NFoils <11)
+	  {
+	    // case in which only vertical foils are displayed
+	    tt->AddText(Form("\\Delta = %2.1f mm", 1000 * (f1->GetParameter(1) - targetfoils[idx+8])));
+	  }
+	else
+	  {
+	    tt->AddText(Form("\\Delta = %2.1f mm", 1000 * (f1->GetParameter(1) - targetfoils[idx])));	    
+	  }
+
 	tt->AddText(Form("\\sigma = %2.1f mm", 1000 * (f1->GetParameter(2))));
 	tt->SetShadowColor(0);
 	tt->SetFillColor(0);
-	tt->Draw("same");	
+	tt->Draw("same");
+
+	HTgZfromTgY[idx]->SetLineColor(kGreen+2);
+	HTgZfromTgY[idx]->Draw("same");
+	
+	
 
        // c_Tong->cd()->Update();
      }
