@@ -8,6 +8,7 @@
 #include "TVector3.h"
 #include "TCut.h"
 #include <map>
+#include <iostream>
 
 
 using namespace std;
@@ -50,8 +51,8 @@ const Double_t MissPointY = -0;
 
 const Double_t BeamShiftX = 0;
 
-const Double_t SieveRadius = 0.157*25.4/2.0*1e-3;
-const Double_t SieveRadius_c = 0.236*25.4/2.0*1e-3;
+const Double_t SieveRadius = 0.055*25.4/2.0*1e-3;
+const Double_t SieveRadius_c = 0.106*25.4/2.0*1e-3;
 
 //const Double_t SieveRadius = 0;       
 
@@ -185,8 +186,48 @@ const Double_t targetoffset = 0;
 // scheme where foils Optics foils are numbered 0-7 and Vertical foils 8-10
 
 static const UInt_t NFoils = 11;
+// z-corrections for foils from survey
 
-const Double_t targetfoils[] = { -0.3,  -0.219, -0.15,  -0.075, 0.075, 0.15, 0.219, 0.3, -0.2, 0, 0.2, 1e36};
+// general foil z-correction to nearest mm
+
+static const Double_t foil_zcorr = -5e-3;
+// static const Double_t foil_zcorr = 0;
+
+// W_wires correction from survey
+static const Double_t foil_zcorr_W = -5.01e-3;
+
+// Optics_up
+static const Double_t foil_zcorr_up = -5.06e-3;
+
+// Optics_middle/down (middle and down have same offset in survey)
+static const Double_t foil_zcorr_down = -5.01e-3;
+
+
+// x-corrections for foils from survey
+
+// W_wires correction from survey
+static const Double_t foil_xcorr_W = -0.01e-3;
+
+// Optics_up
+static const Double_t foil_xcorr_up = -0.07e-3;
+
+// Optics_middle/down (middle and down have same offset in survey)
+static const Double_t foil_xcorr_down = -0.04e-3;
+
+
+//const Double_t targetfoils[] = { -0.3,  -0.219, -0.15,  -0.075, 0.075, 0.15, 0.219, 0.3, -0.2, 0, 0.2, 1e36};
+
+// foil z-positions
+const Double_t targetfoils[] = { -0.3 + foil_zcorr,  -0.219 + foil_zcorr, -0.15 + foil_zcorr,  -0.075 + foil_zcorr, 0.075 + foil_zcorr, 0.15 + foil_zcorr, 0.219 + foil_zcorr, 0.3 + foil_zcorr, -0.2 + foil_zcorr, 0 + foil_zcorr, 0.2 + foil_zcorr, 1e36};
+
+// foil x-positions
+const Double_t orig_targetfoilsX[] = { 0, 0, 0, 0, 0, 0, 0, 0, 0.0025 + foil_xcorr_W, 0 + foil_xcorr_W, -0.0025 + foil_xcorr_W, 1e36};
+
+const Double_t targetfoilsX[] = { 0, 0, 0, 0, 0, 0, 0, 0, 2.124e-3, -0.019e-3, -2.162e-3, 1e36};
+
+
+
+
 
 
 std::vector<TString> Foil_names;
@@ -301,9 +342,13 @@ TCut GeneralSieveCut = "L.tr.n==1 && L.tr.chi2<0.003 && L.vdc.u1.nclust==1 && L.
 // TCut GeneralSieveCut = "L.tr.n==1 && L.tr.chi2<0.003 && abs(L.gold.th)<0.08 && L.gold.ph>-0.07 && L.gold.ph<0.025 && abs(L.tr.r_x)<0.5 && L.vdc.u1.nclust==1 && L.vdc.v1.nclust==1 && L.vdc.u2.nclust==1 && L.vdc.v2.nclust==1"; 
 
 
-TCut FP_cuts = "L.tr.r_x>-0.6 && L.tr.r_x<0.56 && L.tr.r_y>-0.04 && L.tr.r_y<0.037 && L.tr.r_th>-0.029 && L.tr.r_th<0.02 && L.tr.r_ph>-0.05 && L.tr.r_ph<0.04 && abs(L.tr.tg_dp)<0.01";
+TCut FP_cuts = "L.tr.r_x>-0.6 && L.tr.r_x<0.56 && L.tr.r_y>-0.04 && L.tr.r_y<0.037 && L.tr.r_th>-0.029 && L.tr.r_th<0.02 && L.tr.r_ph>-0.05 && L.tr.r_ph<0.04 && abs(L.tr.r_x)<0.1";
+
+// TCut FP_cuts = "L.tr.r_x>-0.6 && L.tr.r_x<0.56 && L.tr.r_y>-0.04 && L.tr.r_y<0.037 && L.tr.r_th>-0.029 && L.tr.r_th<0.02 && L.tr.r_ph>-0.05 && L.tr.r_ph<0.04";
 
 TCut PID_cuts = "(L.prl1.e/(L.gold.p*1000))>0.3 && ((L.prl1.e+L.prl2.e)/(L.gold.p*1000))>0.625 && ((L.prl1.e+L.prl2.e)/(L.gold.p*1000))<1.11 &&  L.cer.asum_c >650";
+
+// && Lrb.x>-0.0029 && Lrb.x<-0.0022";
 
 
 // list of runs for LHRS optics based on target
@@ -313,7 +358,7 @@ std::vector<int> V1_runs{4179,4766,4767};
 
 std::vector<int> V2_runs{4181,4768};
 
-std::vector<int> V3_runs{4180,4769};
+std::vector<int> V3_runs{4180,4769,4770};
 
 std::vector<int> Opt1_runs{4771,4772};
 
@@ -331,6 +376,131 @@ Double_t dp_split[6][2] = {{-0.05,-0.03},{-0.03,-0.01},{-0.01,0.01},{0.01,0.03},
 //////Sieve Survey Inputs////
 double yaw = 5.366 * D2R;     //Abs value of yaw
 double pitch = 89.988 * D2R;  //Degree of pitch 
+
+
+double target_yaw =  0.1022 * D2R;
+double target_pitch = -0.0219 * D2R;  //Degree of pitch 
+
+
+// function that gets beam cut from run number
+
+TString get_Beamcut(Int_t runnumber){
+
+  TString beam_cut = "";
+
+  if(runnumber == 4766){
+    // V1
+    cout << "V1 wire beam cut!" << endl;
+    beam_cut = "0.0017<Lrb.x && Lrb.x<0.0024";
+  }
+  else if(runnumber == 4768){
+    // V2
+    cout << "V2 wire beam cut!" << endl;
+    beam_cut = "-0.001<Lrb.x && Lrb.x<-0.0003";
+  }
+  else if(runnumber == 4769){
+    // V3
+    cout << "V3 wire beam cut!" << endl;
+    beam_cut = "-0.0029<Lrb.x && Lrb.x<-0.00225";
+  }
+
+  return beam_cut;
+}
+
+
+
+
+// functions that can return run type (Foil) from run number
+
+bool Contains(const std::vector<int> &list, int x){
+
+  return std::find(list.begin(), list.end(), x) != list.end();
+
+}
+
+bool Contains(const std::vector<TString> &list, TString x){
+
+  return std::find(list.begin(), list.end(), x) != list.end();
+
+}
+
+
+
+TString Return_target(Int_t runnumber){
+
+  TString run_type; 
+
+
+  if( Contains(V1_runs,runnumber)){
+    run_type = "V1";
+  }
+  else if( Contains(V2_runs,runnumber)){
+    run_type = "V2";
+  }
+  else if( Contains(V3_runs,runnumber)){
+    run_type = "V3";
+  }
+  else if( Contains(Opt1_runs,runnumber)){
+    run_type = "Optics1";
+  }
+  else if( Contains(Opt3_runs,runnumber)){
+    run_type = "Optics3";
+  }
+    
+  return run_type;
+  
+}
+
+
+Int_t GetFoilID(Int_t runnumber){
+
+  Int_t FoilID = -1;
+  
+  TString run_type = Return_target(runnumber);
+
+  if(run_type == "V1"){
+    FoilID = 8;
+  }
+  else if( run_type == "V2"){
+    FoilID = 9;
+  }
+  else if( run_type == "V3"){
+    FoilID = 10;
+  }
+  else{
+    cout << "Not a single foil run" << endl;
+  }
+
+  return FoilID;
+}
+
+
+Bool_t IsMultiFoil(Int_t runnumber){
+
+  Bool_t ismultifoil;
+  
+  TString run_type = Return_target(runnumber);
+
+  if( Contains(Multi_foil,run_type)){
+    ismultifoil = true;
+  }
+  else if(Contains(Single_foil,run_type)){
+    ismultifoil = false;
+  }
+  else{
+    cout << "Chosen run_number not recognised as single or multifoil: defaulted to single foil" << endl;
+    ismultifoil = true;
+  }
+    
+
+  return ismultifoil;
+  
+
+
+}
+
+
+
 
 #endif
 

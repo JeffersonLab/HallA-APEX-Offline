@@ -62,6 +62,8 @@
 
 #include "LOpticsOpt.h"
 
+//#include "APEX_Sieve.h"
+
 #ifdef WITH_DEBUG
 #include <iostream>
 #endif
@@ -114,7 +116,7 @@ THaTrackingDetector(name, description, apparatus)
     // vertical foils
     if(NFoils == 3){     
       for(UInt_t i = 0; i<NFoils; i++){
-	TString foil(Form("V%d",i));
+	TString foil(Form("V%d",i+1));
 	Foil_names.push_back(foil);
       }      
     }
@@ -897,14 +899,22 @@ UInt_t LOpticsOpt::LoadRawData(TString DataFileName, UInt_t NLoad, UInt_t MaxDat
 
 
 	hole_opt_select();
-	// ignore prescibed holes 
+	//ignore prescibed holes
+
+	if(!hole_select[foilid][colid][rowid]){
+	  continue;
+	}	   
 	if(!foil_select[foilid]){		
 	  continue;
 	}
-	if(!col_select[colid]){		
+	
+	if(!col_select[foilid][colid]){		
 	  continue;
 	}
-
+	if(!row_select[foilid][rowid]){		
+	  continue;
+	}
+	
 
 
 
@@ -999,7 +1009,7 @@ const TVector3 LOpticsOpt::GetSieveHoleTCS(UInt_t Col, UInt_t Row)
     */
 
 
-    SieveHoleTCS.SetXYZ( SieveHoleTCS.X() + SieveOffX,  SieveHoleTCS.Y() + SieveOffY, SieveHoleTCS.Z() ZPos + SieveOffZ);
+    SieveHoleTCS.SetXYZ( SieveHoleTCS.X() + SieveOffX,  SieveHoleTCS.Y() + SieveOffY, SieveHoleTCS.Z() + ZPos + SieveOffZ);
 		      
 
 		      
@@ -1021,8 +1031,8 @@ const TVector3 LOpticsOpt::GetSieveHoleCorrectionTCS(UInt_t nfoil, UInt_t Col, U
     //    Double_t SieveY_Correction[NFoils][NSieveCol][NSieveRow] ={{{0}}};
     //    Double_t SieveX_Correction[NFoils][NSieveCol][NSieveRow] ={{{0}}};
 
-    //const TVector3 BeamSpotH CS_average(BeamX_average, BeamY_average, targetfoils[nfoil]);
-    //    const TVector3 BeamSpotHCS_average(BeamX_average[nfoil], BeamY_average, targetfoils[nfoil]);
+    //const TVector3 BeamSpotH CS_average(BeamX_average, BeamY_average, targetfoils[nfoil]); 
+   //    const TVector3 BeamSpotHCS_average(BeamX_average[nfoil], BeamY_average, targetfoils[nfoil]);
 
 
     //    const TVector3 BeamSpotHCS_average(BeamX_average, BeamY_average, targetfoils[nfoil]);
@@ -1038,14 +1048,14 @@ const TVector3 LOpticsOpt::GetSieveHoleCorrectionTCS(UInt_t nfoil, UInt_t Col, U
     const TVector3 SieveHoleTCS = GetSieveHoleTCS(Col, Row);
 
     Z_distance = SieveHoleTCS.Z() - BeamSpotTCS_average.Z();
-    Y_p = SieveHoleTCS.Y() +  .157/2.* 25.4e-3; //  // .157/2. * 25.4e-3 is the sieve hole radius
-    Y_m = SieveHoleTCS.Y() - .157/2. * 25.4e-3;
+    Y_p = SieveHoleTCS.Y() +  SieveRadius/2.* 25.4e-3; //  // .157/2. * 25.4e-3 is the sieve hole radius
+    Y_m = SieveHoleTCS.Y() - SieveRadius/2. * 25.4e-3;
     Yback_p = Z_distance /(Z_distance + 25.4e-3) * (Y_p-BeamYHCS) + BeamYHCS;
     Yback_m = Z_distance /(Z_distance + 25.4e-3) * (Y_m-BeamYHCS) + BeamYHCS;
     Yreal_p = (Y_p >= Yback_p) ? Yback_p : Y_p;
     Yreal_m = (Y_m >= Yback_m) ? Y_m : Yback_m;
-    X_p = SieveHoleTCS.X() +  .157/2. * 25.4e-3; 
-    X_m = SieveHoleTCS.X() -  .157/2. * 25.4e-3;
+    X_p = SieveHoleTCS.X() +  SieveRadius/2. * 25.4e-3; 
+    X_m = SieveHoleTCS.X() -  SieveRadius/2. * 25.4e-3;
     Xback_p = Z_distance /(Z_distance + 25.4e-3) * (X_p-BeamXHCS) + BeamXHCS;
     Xback_m = Z_distance /(Z_distance + 25.4e-3) * (X_m-BeamXHCS) + BeamXHCS;
     Xreal_p = (X_p >= Xback_p) ? Xback_p : X_p;
@@ -1056,6 +1066,130 @@ const TVector3 LOpticsOpt::GetSieveHoleCorrectionTCS(UInt_t nfoil, UInt_t Col, U
     return SieveHoleCorrectionTCS;
 
    
+}
+
+
+void LOpticsOpt::SieveCheck(Int_t FoilID){
+
+TRotation fTCSInHCS;
+
+   TVector3 TCSX(0,-1,0);
+  TVector3 TCSZ(TMath::Sin(HRSAngle),0,TMath::Cos(HRSAngle));
+  TVector3 TCSY = TCSZ.Cross(TCSX);
+  fTCSInHCS.RotateAxes(TCSX,TCSY,TCSZ);
+
+  //  TVector3 fPointingOffset;
+  fPointingOffset.SetXYZ(-MissPointZ*TMath::Sin(HRSAngle)*TMath::Cos(HRSAngle),(Double_t)MissPointY,MissPointZ*TMath::Sin(HRSAngle)*TMath::Sin(HRSAngle));
+
+
+  cout << "fPointingOffset [= " << fPointingOffset.X() << "," << fPointingOffset.Y() << "," << fPointingOffset.Z() << "]" << endl;
+
+  //TVector3 BeamSpotHCS_average(BeamX_average,BeamY_average,targetfoils[FoilID]);
+  TVector3 BeamSpotHCS_average(BeamX_average[FoilID], BeamY_average[FoilID], targetfoils[FoilID]);
+  TVector3 BeamSpotTCS_average = fTCSInHCS.Inverse()*(BeamSpotHCS_average-fPointingOffset);
+
+
+  // vector gather all row, column values so they can be sorted later
+
+  // corrected values
+  vector<Double_t> Col_cor_vals;
+  vector<Double_t> Row_cor_vals;
+
+  Double_t Hole_cor_x;
+  Double_t Hole_cor_y;
+
+  
+  // uncorrected values
+  vector<Double_t> Col_vals;
+  vector<Double_t> Row_vals;
+
+  Double_t Hole_x;
+  Double_t Hole_y;
+
+
+  cout << "targetfoils[" << FoilID << "] = " <<  targetfoils[FoilID] << endl;
+  
+  for( Int_t row = 0; row<NSieveRow; row++){
+
+    
+    for( Int_t col = 0; col<NSieveCol; col++){
+
+
+      //      Int_t Hole = Get_Hole(col, row);
+      
+
+      // ROpticsOpt *opt = new ROpticsOpt();
+
+      //      TVector3 Hole_pos = opt->GetSieveHoleTCS(col,row);
+
+
+      TVector3 Hole_pos_nocorrect = GetSieveHoleTCS(col,row);
+
+      TVector3 Hole_pos = GetSieveHoleCorrectionTCS(FoilID,col,row);
+      
+      TVector3 MomDirectionTCS_hole = Hole_pos - BeamSpotTCS_average;
+      
+      Double_t theta_hole = MomDirectionTCS_hole.X()/MomDirectionTCS_hole.Z();
+      Double_t phi_hole = MomDirectionTCS_hole.Y()/MomDirectionTCS_hole.Z();
+      
+      cout << "For row " << row << ", column " << col << " theta = " << theta_hole << ", phi = " << phi_hole << ", Hole_pos_nocorrect.Y() = " << Hole_pos_nocorrect.Y() << ", Hole_pos.Y() = " << Hole_pos.Y() << endl;
+
+      //<< ", BeamSpotTCS_average = " << BeamSpotTCS_average.Y() << endl;
+
+      Hole_cor_x = Hole_pos.X();
+      Hole_cor_y = Hole_pos.Y();
+
+      Hole_x = Hole_pos_nocorrect.X();
+      Hole_y = Hole_pos_nocorrect.Y();
+
+
+      if(row == (NSieveRow - 1)){
+	Col_vals.push_back(Hole_y);
+	Col_cor_vals.push_back(Hole_cor_y);
+      }
+      
+    }
+
+    Row_vals.push_back(Hole_x);
+    Row_cor_vals.push_back(Hole_cor_x);
+    
+  }
+
+  cout << "wefg" << endl;
+
+  // print rows and columns in ascending ord
+  sort(Row_vals.begin(),Row_vals.end());
+  sort(Col_vals.begin(),Col_vals.end());
+
+  sort(Row_cor_vals.begin(),Row_cor_vals.end());
+  sort(Col_cor_vals.begin(),Col_cor_vals.end());
+
+
+  cout << "Rows (x_values):" << endl;
+  for(auto const& value: Row_vals){
+    cout << value << " "; 
+  }
+  cout << endl;
+
+  cout << "Rows corrected (x_values):" << endl;
+  for(auto const& value: Row_cor_vals){
+    cout << value << " "; 
+  }
+  cout << endl << endl;
+
+  
+  cout << "Cols (y_values):" << endl;
+  for(auto const& value: Col_vals){
+    cout << value << " "; 
+  }
+  cout << endl;
+
+  cout << "Cols corrected (y_values):" << endl;
+  for(auto const& value: Col_cor_vals){
+    cout << value << " "; 
+  }
+  cout << endl;
+  
 }
 
 
@@ -1193,7 +1327,11 @@ TCanvas * LOpticsOpt::CheckSieve(Int_t PlotFoilID)
       assert(HSieveAngle[idx]); // assure memory allocation
     }
     
+    Int_t PlotID; // useful for case when only Vertical foils are used
+                    // (FoilID based on scheme with optics and vertical foils where optics foils
+                    // are 0-7 and vertical foils 8-10) so they can have PlotID 0,1,2
 
+    
     for (UInt_t idx = 0; idx < fNRawData; idx++) {
       const EventData &eventdata = fRawData[idx];
       
@@ -1214,6 +1352,14 @@ TCanvas * LOpticsOpt::CheckSieve(Int_t PlotFoilID)
       
       const TVector3 SieveHoleCorrectionTCS = GetSieveHoleCorrectionTCS(FoilID, Col, Row);
 
+
+      PlotID = FoilID; // useful for case when only Vertical foils are used
+                    // (FoilID based on scheme with optics and vertical foils where optics foils
+                    // are 0-7 and vertical foils 8-10) so they can have PlotID 0,1,2
+      if(NFoils<11){
+
+	PlotID -= 8;
+      }
       
       // calculate sieve_x & sieve_y
       
@@ -1301,7 +1447,10 @@ TCanvas * LOpticsOpt::CheckSieve(Int_t PlotFoilID)
 
    
     for (UInt_t idx = 0; idx < nplot; idx++) {
-        UInt_t FoilID = idx;
+
+      const EventData &eventdata = fRawData[idx];
+      UInt_t FoilID = (UInt_t)eventdata.Data[kFoilID]; //starting 0!
+      // UInt_t FoilID = idx;
         // if (PlotFoilID >= 0)
 	//   FoilID = PlotFoilID;
 	//	idx = FoilID;  //Added this line, does not work with >1 foil
@@ -1344,9 +1493,9 @@ TCanvas * LOpticsOpt::CheckSieve(Int_t PlotFoilID)
         // Draw arrows
         for (UInt_t Col = 0; Col < NSieveCol; Col++) {
 	  for (UInt_t Row = 0; Row < NSieveRow; Row++) {
-	    if (SieveEventID[FoilID][Col][Row][kEventID] > 0) {
-	      assert(SieveEventID[FoilID][Col][Row][kEventID] < fNRawData); //array index bondary check
-	      TArrow * ar2 = new TArrow(SieveEventID[FoilID][Col][Row][kCalcSieveY], SieveEventID[FoilID][Col][Row][kCalcSieveX], SieveEventID[FoilID][Col][Row][kRealSieveY], SieveEventID[FoilID][Col][Row][kRealSieveX], 0.008, "|>");
+	    if (SieveEventID[idx][Col][Row][kEventID] > 0) {
+	      assert(SieveEventID[idx][Col][Row][kEventID] < fNRawData); //array index bondary check
+	      TArrow * ar2 = new TArrow(SieveEventID[idx][Col][Row][kCalcSieveY], SieveEventID[idx][Col][Row][kCalcSieveX], SieveEventID[idx][Col][Row][kRealSieveY], SieveEventID[idx][Col][Row][kRealSieveX], 0.008, "|>");
 	      ar2->SetAngle(40);
 	      ar2->SetLineColor(kMagenta);
 	      ar2->SetFillColor(kMagenta);
@@ -1384,7 +1533,13 @@ TCanvas * LOpticsOpt::CheckSieve(Int_t PlotFoilID)
 
    
     for (UInt_t idx = 0; idx < nplot; idx++) {
-      UInt_t FoilID = idx;
+
+      PlotID = idx;
+      
+      if (NFoils <11){
+	PlotID += 8;
+      }
+      
       // if (PlotFoilID >= 0)
       // 	FoilID = PlotFoilID;
       //	idx = FoilID;  //Added this line, does not work with >1 foil
@@ -1398,11 +1553,11 @@ TCanvas * LOpticsOpt::CheckSieve(Int_t PlotFoilID)
       for (UInt_t Row = 0; Row < NSieveRow; Row++) {
 	for (UInt_t Col = 0; Col < NSieveCol; Col++) {
 	  
+
+	  const TVector3 SieveHoleCorrectionTCS = GetSieveHoleCorrectionTCS(PlotID, Col, Row);
 	  
-	  const TVector3 SieveHoleCorrectionTCS = GetSieveHoleCorrectionTCS(FoilID, Col, Row);
-	  
-	  //	  TVector3 BeamSpotHCS_average(BeamX_average,BeamY_average,targetfoils[FoilID]);
-	  const TVector3 BeamSpotHCS_average(BeamX_average[FoilID] + (targetfoils[FoilID]/BeamZDir_average)*BeamXDir_average[FoilID], BeamY_average[FoilID] + (targetfoils[FoilID]/BeamZDir_average)*BeamYDir_average[FoilID], targetfoils[FoilID]);
+	  //	  TVector3 BeamSpotHCS_average(BeamX_average,BeamY_average,targetfoils[PlotID]);
+	  const TVector3 BeamSpotHCS_average(BeamX_average[PlotID] + (targetfoils[PlotID]/BeamZDir_average)*BeamXDir_average[PlotID], BeamY_average[PlotID] + (targetfoils[PlotID]/BeamZDir_average)*BeamYDir_average[PlotID], targetfoils[PlotID]);
 	      
 	  
 	  TVector3 BeamSpotTCS_average = fTCSInHCS.Inverse()*(BeamSpotHCS_average-fPointingOffset);
@@ -1447,7 +1602,9 @@ TCanvas * LOpticsOpt::CheckSieve(Int_t PlotFoilID)
 
     }
 
+    //    c1->cd(12);
 
+    c2->SetEditable(false);
     
     return c1;
 }
@@ -2083,6 +2240,9 @@ TCanvas * LOpticsOpt::Sieve_hole_diff(Int_t PlotFoilID){
     }
 
 
+    Int_t PlotID; // useful for case when only Vertical foils are used
+                    // (FoilID based on scheme with optics and vertical foils where optics foils
+                    // are 0-7 and vertical foils 8-10) so they can have PlotID 0,1,2
     
 
     // fill difference histograms
@@ -2091,8 +2251,9 @@ TCanvas * LOpticsOpt::Sieve_hole_diff(Int_t PlotFoilID){
       const EventData &eventdata = fRawData[idx];
     
 
-      const UInt_t FoilID = (UInt_t)eventdata.Data[kFoilID]; //starting 0!
+      UInt_t FoilID = (UInt_t)eventdata.Data[kFoilID]; //starting 0!
       // res = res%(NSieveRow*NSieveCol);
+
 
       
 
@@ -2103,6 +2264,14 @@ TCanvas * LOpticsOpt::Sieve_hole_diff(Int_t PlotFoilID){
       assert(FoilID < NFoils); //array index check
       
       const TVector3 SieveHoleCorrectionTCS = GetSieveHoleCorrectionTCS(FoilID, Col, Row);
+
+      PlotID = FoilID; // useful for case when only Vertical foils are used
+                    // (FoilID based on scheme with optics and vertical foils where optics foils
+                    // are 0-7 and vertical foils 8-10) so they can have PlotID 0,1,2
+      if(NFoils<11){
+
+	PlotID -= 8;
+      }
 
       
       // calculate sieve_x & sieve_y
@@ -2135,15 +2304,15 @@ TCanvas * LOpticsOpt::Sieve_hole_diff(Int_t PlotFoilID){
       Double_t phi_hole = MomDirectionTCS_hole.Y()/MomDirectionTCS_hole.Z();
       
 
-      dX[FoilID] = ProjectionX - SieveHoleCorrectionTCS.X();
-      dY[FoilID] = ProjectionY - SieveHoleCorrectionTCS.Y();
+      dX[PlotID] = ProjectionX - SieveHoleCorrectionTCS.X();
+      dY[PlotID] = ProjectionY - SieveHoleCorrectionTCS.Y();
 
-      dTh[FoilID] = eventdata.Data[kCalcTh] - theta_hole;
-      dPh[FoilID] = eventdata.Data[kCalcPh] - phi_hole;
+      dTh[PlotID] = eventdata.Data[kCalcTh] - theta_hole;
+      dPh[PlotID] = eventdata.Data[kCalcPh] - phi_hole;
       
 
-      HSieveXDiff[FoilID]->Fill(1000*dX[FoilID]);
-      HSieveYDiff[FoilID]->Fill(1000*dY[FoilID]);
+      HSieveXDiff[PlotID]->Fill(1000*dX[PlotID]);
+      HSieveYDiff[PlotID]->Fill(1000*dY[PlotID]);
 
 
     }
@@ -2274,11 +2443,14 @@ TCanvas * LOpticsOpt::Sieve_hole_diff(Int_t PlotFoilID){
     
 
     for (UInt_t idx = 0; idx < nplot; idx++) {
-      UInt_t FoilID = idx;
+
+      const EventData &eventdata = fRawData[idx];
+      UInt_t FoilID = (UInt_t)eventdata.Data[kFoilID]; //starting 0!
+      //      UInt_t FoilID = idx;
 
       c1->cd(idx+1);
      
-      HSieveXDiff[FoilID]->Draw();
+      HSieveXDiff[idx]->Draw();
 
       // TPaveText *ttx = new TPaveText(0.6,0.7,0.88,0.82,"NDC");
       // ttx->AddText(Form("\\Delta = %2.3f mm",  x_means[idx]));
@@ -2312,7 +2484,7 @@ TCanvas * LOpticsOpt::Sieve_hole_diff(Int_t PlotFoilID){
 
       c2->cd(idx+1);
      
-      HSieveYDiff[FoilID]->Draw();
+      HSieveYDiff[idx]->Draw();
 
       TPaveText *tty_1 = new TPaveText(0.6,0.75,0.85,0.82,"NDC");
       //      tty_1->AddText(Form("\\Delta = %2.3f mm",  y_means[idx]));
@@ -2680,7 +2852,7 @@ Double_t LOpticsOpt::SumSquareDTh()
     return rmsdx; //Use for opt to sieve plane
 }
 
-Double_t LOpticsOpt::SumSquareDPhi()
+ std::pair<Double_t,Double_t> LOpticsOpt::SumSquareDPhi()
 {
     // return square sum of diff between calculated tg_ph and expected tg_ph
 
@@ -2722,7 +2894,8 @@ Double_t LOpticsOpt::SumSquareDPhi()
         CalcMatrix(x_fp, fPTAMatrixElems);
 
         // calculate the coordinates at the target
-        phi = CalcTargetVar(fPMatrixElems, powers) + CalcTargetVar(fPTAMatrixElems, powers);
+	//        phi = CalcTargetVar(fPMatrixElems, powers) + CalcTargetVar(fPTAMatrixElems, powers);
+	phi = CalcTargetVar(fPMatrixElems, powers);
        
         dphi += phi - eventdata.Data[kRealPhi];
         rmsphi += (phi - eventdata.Data[kRealPhi])*(phi - eventdata.Data[kRealPhi]);
@@ -2761,7 +2934,8 @@ Double_t LOpticsOpt::SumSquareDPhi()
     printf("SumSquareDY: #%d : dy = %f,\t rmsdy = %f,\t overall rmsdy = %f\n", NCall, dy / fNRawData, TMath::Sqrt(rmsdy / fNRawData), rmsdy);
 
     //return rmsphi;  //Use for opt to angles
-    return rmsdy;   //Use for opt to sieve plane
+    // return rmsdy;   //Use for opt to sieve plane
+    return std::make_pair(rmsphi,rmsdy);   //Use for opt to sieve plane
 }
 
 void LOpticsOpt::PrepareVertex(void)
@@ -2813,11 +2987,14 @@ void LOpticsOpt::PrepareVertex(void)
 
 TCanvas * LOpticsOpt::CheckVertex()
 {
-    // Visualize Vertex spectrum
+  // Visualize Vertex spectrum
   // gStyle->SetOptTitle();
     
     DEBUG_INFO("CheckVertex", "Entry Point");
 
+    Int_t PlotID;
+    
+    
     const UInt_t nplot = NFoils;
     TH1D * HTgY[NFoils] = {0};
     TH1D * HTgYReal[NFoils] = {0};
@@ -2863,18 +3040,23 @@ TCanvas * LOpticsOpt::CheckVertex()
         // const UInt_t Row = res % (NSieveRow); //starting 0!
 
 	const UInt_t FoilID = (UInt_t)eventdata.Data[kFoilID]; //starting 0!
+	PlotID = FoilID;	
+	
+	if(NFoils<11){
+	  PlotID -= 8;
+      }
 	// res = res%(NSieveRow*NSieveCol);
 	const UInt_t Col = (UInt_t)eventdata.Data[kColID]; //starting 0!
 	const UInt_t Row = (UInt_t)eventdata.Data[kRowID]; //starting 0!
 
 
-	HTgY[FoilID]->Fill(eventdata.Data[kCalcTgY]);
-	HTgYReal[FoilID]->Fill(eventdata.Data[kRealTgY]);
+	HTgY[PlotID]->Fill(eventdata.Data[kCalcTgY]);
+	HTgYReal[PlotID]->Fill(eventdata.Data[kRealTgY]);
 
-	HTgYHole[FoilID][Col][Row]->Fill(eventdata.Data[kCalcTgY]);
-	HTgYHoleReal[FoilID][Col][Row]->Fill(eventdata.Data[kRealTgY]);
-	EventHole[FoilID][Col][Row]++;
-
+	HTgYHole[PlotID][Col][Row]->Fill(eventdata.Data[kCalcTgY]);
+	HTgYHoleReal[PlotID][Col][Row]->Fill(eventdata.Data[kRealTgY]);
+	EventHole[PlotID][Col][Row]++;
+	
 	dtg_y += eventdata.Data[kCalcTgY] - eventdata.Data[kRealTgY];
 	dtg_y_rms += (eventdata.Data[kCalcTgY] - eventdata.Data[kRealTgY])*(eventdata.Data[kCalcTgY] - eventdata.Data[kRealTgY]);
     }
@@ -2963,6 +3145,7 @@ TCanvas * LOpticsOpt::CheckVertex()
     ///////////////////////////check z direction
     TH1D * HTgZ[NFoils] = {0};         // z position from calculated y, calculated y is from matrix
     TH1D * HTgZReal[NFoils] = {0};     //real z postion
+    TH1D * HTgZfromTgY[NFoils] = {0};  // z position from 'real' tg_y
     //    const Double_t ZRange = 15*10e-3; 
     const Double_t ZRange = 35*10e-3; 
     TH1F* Check_Tong=new TH1F("Check_Tong","React Z",600,-0.12,0.12);
@@ -2978,16 +3161,20 @@ TCanvas * LOpticsOpt::CheckVertex()
     Check_Tong->SetXTitle("Target Z [m]");
     for (UInt_t idx = 0; idx < NFoils; idx++) {
       HTgZ[idx] = new TH1D(Form("Target_Z%d", idx),Foil_names[idx], 500, -ZRange+Z_offset, ZRange+Z_offset);
-        HTgZReal[idx] = new TH1D(Form("Target_Z%d", idx), Form("Target Z for Foil Target #%d", idx), 500, -ZRange+Z_offset, ZRange+Z_offset);
-
-        HTgZ[idx]->GetXaxis()->SetTitle("Z vertex [m]");
-	HTgZ[idx]->GetXaxis()->CenterTitle();
-        assert(HTgZ[idx]); // assure memory allocation
-	assert(HTgZReal[idx]);
+      HTgZReal[idx] = new TH1D(Form("Target_Z%d", idx), Form("Target Z for Foil Target #%d", idx), 500, -ZRange+Z_offset, ZRange+Z_offset);
+      HTgZfromTgY[idx] = new TH1D(Form("Target_Z%d", idx), Form("Target Z for Foil Target #%d", idx), 500, -ZRange+Z_offset, ZRange+Z_offset);
+	
+      
+      HTgZ[idx]->GetXaxis()->SetTitle("Z vertex [m]");
+      HTgZ[idx]->GetXaxis()->CenterTitle();
+      assert(HTgZ[idx]); // assure memory allocation
+      assert(HTgZReal[idx]);
     }
 
     Double_t dtg_z = 0;
     Double_t dtg_z_rms = 0;
+
+    Double_t Z_from_tgy; // variable to get 'real' reactz from 'real' tg_y
 
     for (UInt_t idx = 0; idx < fNRawData; idx++) {
         EventData &eventdata = fRawData[idx];
@@ -3005,7 +3192,13 @@ TCanvas * LOpticsOpt::CheckVertex()
 	// res = res%(NSieveRow*NSieveCol);
 	const UInt_t Col = (UInt_t)eventdata.Data[kColID]; //starting 0!
 	const UInt_t Row = (UInt_t)eventdata.Data[kRowID]; //starting 0!
-	
+
+
+	PlotID = FoilID;
+
+	if(NFoils<11){
+	  PlotID -= 8;
+	}
 
 	//calculate ReactZ with CalcTgY
 	eventdata.Data[kRealReactZ] = targetfoils[FoilID];
@@ -3029,13 +3222,19 @@ TCanvas * LOpticsOpt::CheckVertex()
 
 	//        Double_t Real_Tg_Y = BeamSpotTCS.Y() + Real_Tg_Phi * (0 - BeamSpotTCS.Z());
         const Int_t a = (HRSAngle > 0) ? 1 : -1;
-	CalcReacZ = - ( eventdata.Data[kCalcTgY] -a*MissPointZ)*TMath::Cos(TMath::ATan(Real_Tg_Phi))/TMath::Sin(HRSAngle + TMath::ATan(Real_Tg_Phi)) + BeamSpotHCS.X()*TMath::Cos(HRSAngle+TMath::ATan(Real_Tg_Phi))/TMath::Sin(HRSAngle+TMath::ATan(Real_Tg_Phi));
+	//	CalcReacZ = - ( eventdata.Data[kCalcTgY] -a*MissPointZ)*TMath::Cos(TMath::ATan(Real_Tg_Phi))/TMath::Sin(HRSAngle + TMath::ATan(Real_Tg_Phi)) + BeamSpotHCS.X()*TMath::Cos(HRSAngle+TMath::ATan(Real_Tg_Phi))/TMath::Sin(HRSAngle+TMath::ATan(Real_Tg_Phi));
+	CalcReacZ = - ( eventdata.Data[kCalcTgY] -a*MissPointZ)*TMath::Cos(Real_Tg_Phi)/TMath::Sin(HRSAngle + Real_Tg_Phi) + BeamSpotHCS.X()*TMath::Cos(HRSAngle + Real_Tg_Phi)/TMath::Sin(HRSAngle+Real_Tg_Phi);
 
+	Z_from_tgy =  - ( eventdata.Data[kRealTgY] -a*MissPointZ)*TMath::Cos(Real_Tg_Phi)/TMath::Sin(HRSAngle + Real_Tg_Phi) + BeamSpotHCS.X()*TMath::Cos(HRSAngle + Real_Tg_Phi)/TMath::Sin(HRSAngle+Real_Tg_Phi);
+	
 	//for right arm,eventdata.Data[kCalcTgY] + MissPointZ, for left arm,eventdata.Data[kCalcTgY] - MissPointZ 
+	
 
+	HTgZfromTgY[PlotID]->Fill(Z_from_tgy);	
+	
 
-	HTgZ[FoilID]->Fill(CalcReacZ);
-	HTgZReal[FoilID]->Fill(eventdata.Data[kRealReactZ]);
+	HTgZ[PlotID]->Fill(CalcReacZ);
+	HTgZReal[PlotID]->Fill(eventdata.Data[kRealReactZ]);
 	Check_Tong->Fill(CalcReacZ);
 	Check_Tong2->Fill(eventdata.Data[kRealReactZ]);
 	dtg_z += CalcReacZ - eventdata.Data[kRealReactZ];
@@ -3097,17 +3296,45 @@ TCanvas * LOpticsOpt::CheckVertex()
 	//	cout<<"mean:"<<mean<<endl;
 	c2->cd(idx+1)->Update();
 	MaxPlot = c2->cd(idx + 1) ->GetUymax();
-        TLine *l1 = new TLine(targetfoils[idx], 0, targetfoils[idx], MaxPlot);
-        l1->SetLineColor(kBlue);
+
+
+	TLine *l1;
+	
+	if(NFoils <11)
+	  {
+	    // case in which only vertical foils are displayed
+	    l1 = new TLine(targetfoils[idx+8], 0, targetfoils[idx+8], MaxPlot);
+	  }
+	else
+	  {
+	    l1 = new TLine(targetfoils[idx], 0, targetfoils[idx], MaxPlot);
+	  }
+	
+        l1->SetLineColor(kOrange);
         l1->SetLineWidth(2);
 	l1->Draw("same");
        
 	TPaveText *tt = new TPaveText(0.6,0.6,0.88,0.82,"NDC");
-	tt->AddText(Form("\\Delta = %2.1f mm", 1000 * (f1->GetParameter(1) - targetfoils[idx])));
+
+	if(NFoils <11)
+	  {
+	    // case in which only vertical foils are displayed
+	    tt->AddText(Form("\\Delta = %2.1f mm", 1000 * (f1->GetParameter(1) - targetfoils[idx+8])));
+	  }
+	else
+	  {
+	    tt->AddText(Form("\\Delta = %2.1f mm", 1000 * (f1->GetParameter(1) - targetfoils[idx])));	    
+	  }
+
 	tt->AddText(Form("\\sigma = %2.1f mm", 1000 * (f1->GetParameter(2))));
 	tt->SetShadowColor(0);
 	tt->SetFillColor(0);
-	tt->Draw("same");	
+	tt->Draw("same");
+
+	HTgZfromTgY[idx]->SetLineColor(kGreen+2);
+	HTgZfromTgY[idx]->Draw("same");
+	
+	
 
        // c_Tong->cd()->Update();
      }
@@ -3178,12 +3405,14 @@ TCanvas * LOpticsOpt::CheckVertex()
       HTgZ[i]->SetLineWidth(2);
 
       if(i==0){
-	HTgZ[i]->Draw("L PLC"); // PLC option to do automatic colouring
+	//	HTgZ[i]->Draw("L PLC"); // PLC option to do automatic colouring
+		HTgZ[i]->Draw("L"); 
 	foils[i]->Draw("same");
 
       }
       else{
-	HTgZ[i]->Draw("same L PLC");
+	// HTgZ[i]->Draw("same L PLC");
+	HTgZ[i]->Draw("same L");
 	foils[i]->Draw("same");
       }          
 
@@ -3657,7 +3886,7 @@ const Double_t ArbitaryVertexShift = 0;
 //     t0->SetShadowColor(0);
 //     t0->AddText("DpKin_{Real} = #frac{P_{#theta_{HRS}} - P_{Central}}{P_{Central}}");
 //     t0->AddText("DpKin = dp - #frac{(P_{#theta} - P_{Loss}) - P_{#theta_{HRS}} }{ P_{Central} }");
-//     t0->AddText("DpKin - DpKin_{Real} = dp - #frac{(P_{#theta} - P_{Loss}) - P_{Central}}{P_{Central}}");
+//     t0->AddText("DpKin - ti_{Real} = dp - #frac{(P_{#theta} - P_{Loss}) - P_{Central}}{P_{Central}}");
 //     t0->Draw();
 
 //     Info("CheckDp", "New set of arbitary dp shifts:");

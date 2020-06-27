@@ -109,7 +109,12 @@ double myfcn2(const double *par)
   assert(opt->fCurrentMatrixElems);
   
   opt->Array2Matrix(par);
-  double f = opt->SumSquareDPhi();
+  
+  std::pair<Double_t,Double_t> rms_ph_dy = opt->SumSquareDPhi();
+  //  Double_t f = rms_ph_dy.first;
+  Double_t f = rms_ph_dy.second;
+  
+  //double f = opt->SumSquareDPhi();
   
 
   //  cout << "For NCall :" << NCall << ", f = " << f << endl;
@@ -225,20 +230,24 @@ void DoMinTP(TString SourceDataBase, TString DestDataBase, UInt_t MaxDataPerGrou
     opt->SaveDataBase(DestDataBase); 
     
     Double_t rms_th = opt->SumSquareDTh();
-    Double_t rms_ph = opt->SumSquareDPhi();
 
+
+    //Double_t rms_ph = opt->SumSquareDPhi();
+    std::pair<Double_t,Double_t> rms_ph_dy = opt->SumSquareDPhi();
+    Double_t rms_ph = rms_ph_dy.first;
+    Double_t rms_dy = rms_ph_dy.second;
 
 
     //#if draw_plots
     //opt->check_fit_qual_Th();
     //#endif
     
-    TCanvas * c1 = opt->CheckSieve(NFoils);
-    c1->Print(DestDataBase+".Sieve.Opt.png", "png");
-    c1->Print(DestDataBase+".Sieve.Opt.eps", "eps");
+    TCanvas * c1_check = opt->CheckSieve(NFoils);
+    c1_check->Print(DestDataBase+".Sieve.Opt.png", "png");
+    c1_check->Print(DestDataBase+".Sieve.Opt.eps", "eps");
     
 
-    TCanvas * c2 = opt->Sieve_hole_diff(NFoils);
+    TCanvas * c2_diff = opt->Sieve_hole_diff(NFoils);
 
     //    TCanvas * c2 = opt->CheckSieveAccu(-1);
     //    c2->Print(DestDataBase + ".TpAccu.Opt.png", "png");
