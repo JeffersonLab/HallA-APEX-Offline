@@ -181,7 +181,8 @@ public:
     TCanvas* CheckSieveAccu(Int_t PlotFoilID = 0);
     TCanvas* Sieve_hole_diff(Int_t PlotFoilID = 0);
     Double_t SumSquareDTh(void);
-    Double_t SumSquareDPhi(void);
+    //    Double_t SumSquareDPhi(void);
+    std::pair<Double_t,Double_t> SumSquareDPhi(void);
     //void check_fit_qual_Th(void);
     //void check_fit_qual_y(void);
     Double_t fArbitaryVertexShift[100]; // compensate bias due to event selections, array of [FoilID]

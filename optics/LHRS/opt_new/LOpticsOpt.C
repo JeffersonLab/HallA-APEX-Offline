@@ -2852,7 +2852,7 @@ Double_t LOpticsOpt::SumSquareDTh()
     return rmsdx; //Use for opt to sieve plane
 }
 
-Double_t LOpticsOpt::SumSquareDPhi()
+ std::pair<Double_t,Double_t> LOpticsOpt::SumSquareDPhi()
 {
     // return square sum of diff between calculated tg_ph and expected tg_ph
 
@@ -2894,7 +2894,8 @@ Double_t LOpticsOpt::SumSquareDPhi()
         CalcMatrix(x_fp, fPTAMatrixElems);
 
         // calculate the coordinates at the target
-        phi = CalcTargetVar(fPMatrixElems, powers) + CalcTargetVar(fPTAMatrixElems, powers);
+	//        phi = CalcTargetVar(fPMatrixElems, powers) + CalcTargetVar(fPTAMatrixElems, powers);
+	phi = CalcTargetVar(fPMatrixElems, powers);
        
         dphi += phi - eventdata.Data[kRealPhi];
         rmsphi += (phi - eventdata.Data[kRealPhi])*(phi - eventdata.Data[kRealPhi]);
@@ -2933,7 +2934,8 @@ Double_t LOpticsOpt::SumSquareDPhi()
     printf("SumSquareDY: #%d : dy = %f,\t rmsdy = %f,\t overall rmsdy = %f\n", NCall, dy / fNRawData, TMath::Sqrt(rmsdy / fNRawData), rmsdy);
 
     //return rmsphi;  //Use for opt to angles
-    return rmsdy;   //Use for opt to sieve plane
+    // return rmsdy;   //Use for opt to sieve plane
+    return std::make_pair(rmsphi,rmsdy);   //Use for opt to sieve plane
 }
 
 void LOpticsOpt::PrepareVertex(void)
