@@ -3145,6 +3145,7 @@ TCanvas * LOpticsOpt::CheckVertex()
     ///////////////////////////check z direction
     TH1D * HTgZ[NFoils] = {0};         // z position from calculated y, calculated y is from matrix
     TH1D * HTgZReal[NFoils] = {0};     //real z postion
+    TH1D * HTgZfromTgY[NFoils] = {0};  // z position from 'real' tg_y
     //    const Double_t ZRange = 15*10e-3; 
     const Double_t ZRange = 35*10e-3; 
     TH1F* Check_Tong=new TH1F("Check_Tong","React Z",600,-0.12,0.12);
@@ -3221,13 +3222,19 @@ TCanvas * LOpticsOpt::CheckVertex()
 
 	//        Double_t Real_Tg_Y = BeamSpotTCS.Y() + Real_Tg_Phi * (0 - BeamSpotTCS.Z());
         const Int_t a = (HRSAngle > 0) ? 1 : -1;
-	CalcReacZ = - ( eventdata.Data[kCalcTgY] -a*MissPointZ)*TMath::Cos(TMath::ATan(Real_Tg_Phi))/TMath::Sin(HRSAngle + TMath::ATan(Real_Tg_Phi)) + BeamSpotHCS.X()*TMath::Cos(HRSAngle+TMath::ATan(Real_Tg_Phi))/TMath::Sin(HRSAngle+TMath::ATan(Real_Tg_Phi));
+	//	CalcReacZ = - ( eventdata.Data[kCalcTgY] -a*MissPointZ)*TMath::Cos(TMath::ATan(Real_Tg_Phi))/TMath::Sin(HRSAngle + TMath::ATan(Real_Tg_Phi)) + BeamSpotHCS.X()*TMath::Cos(HRSAngle+TMath::ATan(Real_Tg_Phi))/TMath::Sin(HRSAngle+TMath::ATan(Real_Tg_Phi));
+	CalcReacZ = - ( eventdata.Data[kCalcTgY] -a*MissPointZ)*TMath::Cos(Real_Tg_Phi)/TMath::Sin(HRSAngle + Real_Tg_Phi) + BeamSpotHCS.X()*TMath::Cos(HRSAngle + Real_Tg_Phi)/TMath::Sin(HRSAngle+Real_Tg_Phi);
 
+	Z_from_tgy =  - ( eventdata.Data[kRealTgY] -a*MissPointZ)*TMath::Cos(Real_Tg_Phi)/TMath::Sin(HRSAngle + Real_Tg_Phi) + BeamSpotHCS.X()*TMath::Cos(HRSAngle + Real_Tg_Phi)/TMath::Sin(HRSAngle+Real_Tg_Phi);
+	
 	//for right arm,eventdata.Data[kCalcTgY] + MissPointZ, for left arm,eventdata.Data[kCalcTgY] - MissPointZ 
+	
 
+	HTgZfromTgY[PlotID]->Fill(Z_from_tgy);	
+	
 
-	HTgZ[FoilID]->Fill(CalcReacZ);
-	HTgZReal[FoilID]->Fill(eventdata.Data[kRealReactZ]);
+	HTgZ[PlotID]->Fill(CalcReacZ);
+	HTgZReal[PlotID]->Fill(eventdata.Data[kRealReactZ]);
 	Check_Tong->Fill(CalcReacZ);
 	Check_Tong2->Fill(eventdata.Data[kRealReactZ]);
 	dtg_z += CalcReacZ - eventdata.Data[kRealReactZ];
@@ -3398,12 +3405,14 @@ TCanvas * LOpticsOpt::CheckVertex()
       HTgZ[i]->SetLineWidth(2);
 
       if(i==0){
-	HTgZ[i]->Draw("L PLC"); // PLC option to do automatic colouring
+	//	HTgZ[i]->Draw("L PLC"); // PLC option to do automatic colouring
+		HTgZ[i]->Draw("L"); 
 	foils[i]->Draw("same");
 
       }
       else{
-	HTgZ[i]->Draw("same L PLC");
+	// HTgZ[i]->Draw("same L PLC");
+	HTgZ[i]->Draw("same L");
 	foils[i]->Draw("same");
       }          
 
