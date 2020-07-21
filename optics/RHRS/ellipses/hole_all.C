@@ -2,13 +2,19 @@ void hole_all(){
 
   // Macro that shows all of the holes and the graphical cuts side by side for a nice visualization
 
+  TString run = "4647";
+  TString range = "full";
+  
   gStyle->SetPalette(1);
-  TFile* tcuts = new TFile("../Sieve/xfp_full_brute/apex_4647_opt_5th_xfp_full_brute.root.FullCut.root","read");
+  //TFile* tcuts = new TFile("../Sieve/"+run+"/xfp_"+range+"/apex_"+run+".root.FullCut.root","read");
+  TFile* tcuts = new TFile("../Sieve/"+run+"/xfp_full_brute/apex_"+run+"_opt_5th_xfp_full_brute.root.FullCut.root","read");
   TChain * t = new TChain("T");
-  t->Add("/home/sean/Grad/Research/APEX/Rootfiles/apex_4647_opt_5th_xfp_full_brute.root");
+  //t->Add("/home/sean/Grad/Research/APEX/Rootfiles/apex_"+run+".root");
+  t->Add("/home/sean/Grad/Research/APEX/Rootfiles/apex_"+run+"_opt_5th_xfp_full_brute.root");
   
   TCut GeneralCut = "R.tr.n==1 && (R.cer.asum_c>500)";
-  //TCut GeneralCut = "R.tr.n==1 && (R.cer.asum_c>500) && abs(R.tr.r_x) < 0.10";
+  if(range == "-50_-30") GeneralCut = "R.tr.n==1 && (R.cer.asum_c>500) && (R.tr.r_x > -0.50 && R.tr.r_x < -0.30)";
+  if(range == "-10_10") GeneralCut = "R.tr.n==1 && (R.cer.asum_c>500) && abs(R.tr.r_x) < 0.10";
   //TCut GeneralCut = "R.tr.n==1 && (R.cer.asum_c>500) && (R.tr.r_x > -0.45 && R.tr.r_x < -0.25)";
   //TCut GeneralCut = "R.tr.n==1 && (R.cer.asum_c>500) && (R.tr.r_x > 0.25 && R.tr.r_x < 0.45)";
   
@@ -26,7 +32,7 @@ void hole_all(){
   xpyp->Draw("colz");
 
   TPaveText *pt1 = new TPaveText(0.12,0.78,0.32,0.89,"nbNDC");
-  pt1->AddText("Run 4647");
+  pt1->AddText("Run "+run);
   pt1->AddText("Cerenkov signal sum > 500");
   pt1->AddText("Single track");
   //pt1->AddText("|x_{fp}| < 0.10 m");
@@ -62,6 +68,6 @@ void hole_all(){
     }
   }
 
-  c->SaveAs("xfp_full_brute/apex_4647_xfp_full_brute_cuts.gif");
+  c->SaveAs("xfp_full_brute/apex_"+run+"_xfp_full_brute_cuts.gif");
   
 }

@@ -116,6 +116,17 @@ ROpticsOpt::~ROpticsOpt()
 
 
 
+TVector3 ROpticsOpt::BeamSpotHCS_Correction(UInt_t FoilID, double beam_y, double beam_z){
+  
+  TVector3 foil(targetfoilsX[FoilID], beam_y, 0);
+  
+  foil.RotateY(target_yaw);
+  
+  return foil;
+}
+
+
+
 Int_t ROpticsOpt::LoadDataBase(TString DataBaseName,TString xfp_range)
 {
   DataBaseName = DataBaseName + "_" + xfp_range;
@@ -436,95 +447,9 @@ Int_t ROpticsOpt::LoadDataBase(TString DataBaseName,TString xfp_range)
 }
 
 
-const TVector3 ROpticsOpt::GetSieveHoleTCS(UInt_t Col, UInt_t Row)
-{
-    assert(Col < NSieveCol);
-    assert(Row < NSieveRow);
-
-    /*
-    Double_t XbyRow =0;
-    
-    if((Col%2) == 0){
-      XbyRow = SieveXbyRowEven[Row];
-    }
-    if((Col%2) == 1){
-      XbyRow = SieveXbyRowOdd[Row];
-    }
-    
-    */
-
-    //TVector3 SieveHoleTCS(SieveOffX + SieveXbyRow[Row], SieveOffY + SieveYbyCol[Col], ZPos);  //Old way of calculating without survey information
-
-    /// Calculate position with survey info ////
-
-    TVector3 SieveHoleTCS(SieveXbyRow[Row], SieveYbyCol[Col], 0);
-    
-    SieveHoleTCS.RotateX(-(yaw - HRSAngle));
-    SieveHoleTCS.RotateY(pitch - TMath::Pi()/2);
-
-    SieveHoleTCS.SetXYZ( SieveHoleTCS.X() + SieveOffX,  SieveHoleTCS.Y() + SieveOffY, SieveHoleTCS.Z() + ZPos + SieveOffZ);
 
 
-    
-    /*
-    cout<<"Col%2:"<<Col%2<<endl;
-    cout<<"Col:"<<Col<<endl;
-    cout<<"XbyRow:"<<XbyRow<<endl;
-    cout<<"Row:"<<Row<<endl;
-    cout<<"YbyCol:"<<SieveYbyCol[Col]<<endl;
-    cout<<"*******************"<<endl;
-    */
-    return SieveHoleTCS;
-}
-
-const TVector3 ROpticsOpt::GetSieveHoleCorrectionTCS(UInt_t nfoil, UInt_t Col, UInt_t Row)
-{
-    assert(nfoil <NFoils);
-    assert(Col < NSieveCol);
-    assert(Row < NSieveRow);
-     
-    //consider the difference of real distribution and hole center
-    Double_t Y_p=0, Y_m=0, Yback_p=0, Yback_m=0; // Y the sieve hole Y position
-    Double_t X_p=0, X_m=0, Xback_p=0, Xback_m=0; // X the sieve hole X position
-    Double_t Yreal_p=0, Yreal_m=0, Xreal_p=0, Xreal_m=0; // real distrituion limit
-    Double_t Z_distance=0;
-    Double_t BeamYHCS=0,BeamXHCS=0;
-    //    Double_t SieveY_Correction[NFoils][NSieveCol][NSieveRow] ={{{0}}};
-    //    Double_t SieveX_Correction[NFoils][NSieveCol][NSieveRow] ={{{0}}};
-
-    //const TVector3 BeamSpotHCS_average(BeamX_average, BeamY_average, targetfoils[nfoil]);
-    const TVector3 BeamSpotHCS_average(BeamX_average[nfoil], BeamY_average[nfoil], targetfoils[nfoil]);
-    const TVector3 BeamSpotTCS_average = fTCSInHCS.Inverse()*(BeamSpotHCS_average - fPointingOffset);        
-    BeamXHCS= BeamSpotTCS_average.X();
-    BeamYHCS= BeamSpotTCS_average.Y();
-
-    const TVector3 SieveHoleTCS = GetSieveHoleTCS(Col, Row);
-
-    Z_distance = SieveHoleTCS.Z() - BeamSpotTCS_average.Z();
-    Y_p = SieveHoleTCS.Y() +  SieveRadius/2.* 25.4e-3; // .157/2. * 25.4e-3 is the sieve hole radius
-    Y_m = SieveHoleTCS.Y() - SieveRadius/2. * 25.4e-3;
-    Yback_p = Z_distance /(Z_distance + 25.4e-3) * (Y_p-BeamYHCS) + BeamYHCS;
-    Yback_m = Z_distance /(Z_distance + 25.4e-3) * (Y_m-BeamYHCS) + BeamYHCS;
-    Yreal_p = (Y_p >= Yback_p) ? Yback_p : Y_p;
-    Yreal_m = (Y_m >= Yback_m) ? Y_m : Yback_m;
-    X_p = SieveHoleTCS.X() +  SieveRadius/2. * 25.4e-3; 
-    X_m = SieveHoleTCS.X() -  SieveRadius/2. * 25.4e-3;
-    Xback_p = Z_distance /(Z_distance + 25.4e-3) * (X_p-BeamXHCS) + BeamXHCS;
-    Xback_m = Z_distance /(Z_distance + 25.4e-3) * (X_m-BeamXHCS) + BeamXHCS;
-    Xreal_p = (X_p >= Xback_p) ? Xback_p : X_p;
-    Xreal_m = (X_m >= Xback_m) ? X_m : Xback_m;
-
-    const TVector3 SieveHoleCorrectionTCS((Xreal_p + Xreal_m)/2, (Yreal_p + Yreal_m)/2 ,SieveHoleTCS.Z());
-    //const TVector3 SieveHoleCorrectionTCS( SieveHoleTCS.X(), SieveHoleTCS.Y() ,SieveHoleTCS.Z() );
-    return SieveHoleCorrectionTCS;
-
-   
-}
-
-
-
-
-UInt_t ROpticsOpt::LoadRawData(TChain* t)
+UInt_t ROpticsOpt::LoadRawData(TChain* t, TString run)
 {
 
   int entries = t->GetEntries();
@@ -568,10 +493,16 @@ UInt_t ROpticsOpt::LoadRawData(TChain* t)
     eventdata[1] = R_tr_th_rot[0];
     eventdata[2] = R_tr_y_rot[0];
     eventdata[3] = R_tr_ph_rot[0];
-    eventdata[4] = Ru_x[0];
-    eventdata[5] = Ru_y[0];
-  
 
+    if(run == "4647" || run == "4647" || run == "4650" || run == "V_wires"){
+      eventdata[4] = R_x[0];
+      eventdata[5] = R_y[0];
+    }
+    else {
+      eventdata[4] = Ru_x[0];
+      eventdata[5] = Ru_y[0];
+    }
+    
  
     Double_t(*powers)[5] = fRawData[NRead].powers;
     Double_t x_fp = eventdata[kX];
@@ -989,40 +920,26 @@ double ROpticsOpt::calc_tgdp(int event){
 }
 
 
-double ROpticsOpt::calc_vz(int event, double y){
+double ROpticsOpt::calc_vz(TString run, int event, double y, double phi){
 
   EventData &eventdata = fRawData[event];
+  
+  int FoilID = 0;
+  
+  if(run == "4648") FoilID = 0;
+  if(run == "4647") FoilID = 1;
+  if(run == "4650") FoilID = 2;
+  
+  
+  TVector3 BeamSpotHCS = BeamSpotHCS_Correction(FoilID,y,0);
 
-  UInt_t res = (UInt_t) eventdata.Data[kCutID];
-  // const UInt_t KineID = res / (NSieveRow * NSieveCol * NFoils); //starting 0!
-  res = res % (NSieveRow * NSieveCol * NFoils);
-  const UInt_t FoilID = res / (NSieveRow * NSieveCol); //starting 0!
+  if(run == "4652" || run == "4653") BeamSpotHCS.SetXYZ(eventdata.Data[kBeamX], eventdata.Data[kBeamY], 0);
   
-  res = res % (NSieveRow * NSieveCol);
-  const UInt_t Col = res / (NSieveRow); //starting 0!
-  const UInt_t Row = res % (NSieveRow); //starting 0!
+  double CalcReacZ;
   
-  //calculate ReactZ with CalcTgY
-  eventdata.Data[kRealReactZ] = targetfoils[FoilID];
-  Double_t CalcReacZ = 0;
-  const TVector3 SieveHoleCorrectionTCS = GetSieveHoleCorrectionTCS(FoilID, Col, Row);
-  eventdata.Data[kSieveX] = SieveHoleCorrectionTCS.X();
-  eventdata.Data[kSieveY] = SieveHoleCorrectionTCS.Y();
-  eventdata.Data[kSieveZ] = SieveHoleCorrectionTCS.Z();
-  
-  TVector3 BeamSpotHCS(eventdata.Data[kBeamX], eventdata.Data[kBeamY], targetfoils[FoilID]);
-  
-  eventdata.Data[kBeamZ] = targetfoils[FoilID];
-  TVector3 BeamSpotTCS = fTCSInHCS.Inverse()*(BeamSpotHCS - fPointingOffset);
-  
-  const TVector3 MomDirectionTCS = SieveHoleCorrectionTCS - BeamSpotTCS;
-  
-  Double_t Real_Tg_Phi = MomDirectionTCS.Y() / MomDirectionTCS.Z();
-
   const Int_t a = (HRSAngle > 0) ? 1 : -1;
-  CalcReacZ = - ( y -a*MissPointZ)*TMath::Cos(TMath::ATan(Real_Tg_Phi))/TMath::Sin(HRSAngle + TMath::ATan(Real_Tg_Phi)) + BeamSpotHCS.X()*TMath::Cos(HRSAngle+TMath::ATan(Real_Tg_Phi))/TMath::Sin(HRSAngle+TMath::ATan(Real_Tg_Phi));
+  CalcReacZ = - ( y -a*MissPointZ)*TMath::Cos(phi)/TMath::Sin(HRSAngle + phi) + BeamSpotHCS.X()*TMath::Cos(HRSAngle + phi)/TMath::Sin(HRSAngle + phi);
   //CalcReacZ = -(y)/TMath::Sin(HRSAngle);
- 
    
   return CalcReacZ; 
 

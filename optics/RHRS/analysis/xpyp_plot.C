@@ -2,15 +2,15 @@ void xpyp_plot(){
 
   //Macro makes plots to analyze the new theta and phi after optimization
 
-  TString run = "4650";     //Run number
+  TString run = "4657";     //Run number
   TString order = "5th";    //Optimization order
   //example for range is -10_10 for -10 cm < x_fp <10 cm
   //use "full" for full focal plane range
   TString range = "full";   //Range in focal plane
-  bool before = false;      //Are we doing before optimization plots
+  bool before = true;      //Are we doing before optimization plots
   bool make_plots = true;
-  bool brute_force = true;  //Are we using brute force method
-  bool V_wires = true;  //Are we using multiple wires
+  bool brute_force = false;  //Are we using brute force method
+  bool V_wires = false;  //Are we using multiple wires
 
   TString rootfiles = "/home/sean/Grad/Research/APEX/Rootfiles/";
   gStyle->SetPalette(1);
@@ -24,8 +24,8 @@ void xpyp_plot(){
   else if(range == "full" && brute_force && !V_wires) name = rootfiles + "apex_"+run+"_opt_"+order+"_xfp_full_brute";  //Full x_fp with 5 matrices
   else if(range == "full" && brute_force && V_wires) name = rootfiles + "apex_"+run+"_opt_"+order+"_xfp_full_V_wires";  //Full x_fp with 5 matrices
   else name = rootfiles + "apex_"+run+"_opt_"+order+"_xfp_"+range;
-  
-  
+
+  //name = rootfiles + "apex_"+run+"_opt_"+order+"_xfp_"+range+"_brute";
   
   t->Add(name + ".root");
   
@@ -58,9 +58,11 @@ void xpyp_plot(){
   pt1->AddText("Run "+run);
   pt1->AddText("Cerenkov signal sum > 500");
   pt1->AddText("Single track");
+  if(range == "-50_-30") pt1->AddText("-0.50 m < x_{fp} < -0.30 m");
+  if(range == "-30_-10") pt1->AddText("-0.30 m < x_{fp} < -0.10 m");
   if(range == "-10_10") pt1->AddText("|x_{fp}| < 0.10 m");
-  if(range == "-45_-25") pt1->AddText("-0.45 m < x_{fp} < -0.25 m");
-  if(range == "25_45") pt1->AddText("0.25 m < x_{fp} < 0.45 m");
+  if(range == "10_30") pt1->AddText("0.10 < x_{fp} < 0.30 m");
+  if(range == "30_50") pt1->AddText("0.30 < x_{fp} < 0.50 m");
   pt1->SetFillColor(0);
 
   TText *text = pt1->GetLineWith("Run");
@@ -81,6 +83,7 @@ void xpyp_plot(){
   double sieve_ph[27], sieve_th[17];
 
   ifstream csv_file("../Sieve/"+run+"/xfp_-50_-30/apex_"+run+".root.cuts_full.csv");
+
   
   
   string line;

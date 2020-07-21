@@ -321,6 +321,9 @@ UInt_t ROpticsOpt::LoadRawData(TTree* t)
   double R_tr_ph_rot[100];
   double R_x[100];
   double R_y[100];
+  double Ru_x[100];
+  double Ru_y[100];
+  
   
   t->SetBranchStatus("*",0);
  
@@ -330,6 +333,8 @@ UInt_t ROpticsOpt::LoadRawData(TTree* t)
   t->SetBranchStatus("R.tr.r_ph",1);
   t->SetBranchStatus("Rrb.x",1);
   t->SetBranchStatus("Rrb.y",1);
+  t->SetBranchStatus("Rurb.x",1);
+  t->SetBranchStatus("Rurb.y",1);
 
   t->SetBranchAddress("R.tr.r_x",R_tr_x_rot);
   t->SetBranchAddress("R.tr.r_y",R_tr_y_rot);
@@ -337,6 +342,8 @@ UInt_t ROpticsOpt::LoadRawData(TTree* t)
   t->SetBranchAddress("R.tr.r_ph",R_tr_ph_rot);
   t->SetBranchAddress("Rrb.x",R_x);
   t->SetBranchAddress("Rrb.y",R_y);
+  t->SetBranchAddress("Rurb.x",Ru_x);
+  t->SetBranchAddress("Rurb.y",Ru_y);
 
   
   for(UInt_t NRead = 0; NRead<entries; NRead++){
@@ -390,9 +397,9 @@ void ROpticsOpt::CalcMatrix(const Double_t x, vector<THaMatrixElement>& matrix)
         it->v = 0.0;
 
         if (it->order > 0) {
-            for (int i = it->order - 1; i >= 1; i--)
-                it->v = x * (it->v + it->poly[i]);
-            it->v += it->poly[0];
+	  for (int i = it->order - 1; i >= 1; i--)
+	      it->v = x * (it->v + it->poly[i]);
+	    it->v += it->poly[0];
         }
     }
 }
@@ -409,8 +416,9 @@ Double_t ROpticsOpt::CalcTargetVar(const vector<THaMatrixElement>& matrix, const
         if (it->v != 0.0) {
             v = it->v;
             unsigned int np = it->pw.size(); // generalize for extra matrix elems.
+
             for (unsigned int i = 0; i < np; i++)
-                v *= powers[it->pw[i]][i + 1];
+	      v *= powers[it->pw[i]][i + 1];
             retval += v;
             //      retval += it->v * powers[it->pw[0]][1]
             //	              * powers[it->pw[1]][2]
@@ -485,10 +493,9 @@ double ROpticsOpt::calc_tgph(int event){
   // CalcMatrix(x_fp, fYTAMatrixElems);
   CalcMatrix(x_fp, fPMatrixElems);
   CalcMatrix(x_fp, fPTAMatrixElems);
-  
+
   // calculate the coordinates at the target
   phi = CalcTargetVar(fPMatrixElems, powers) + CalcTargetVar(fPTAMatrixElems, powers);
-  
   
   return phi; 
 
@@ -520,14 +527,18 @@ double ROpticsOpt::calc_tgdp(int event){
 }
 
 
-double ROpticsOpt::calc_vz(int event, double y, double ph){
+double ROpticsOpt::calc_vz(int event, double y, double phi){
 
   EventData &eventdata = fRawData[event];
+  
   TVector3 BeamSpotHCS(eventdata.Data[kBeamX], eventdata.Data[kBeamY], 0);
+
+  double CalcReacZ;
   
   const Int_t a = (HRSAngle > 0) ? 1 : -1;
-  double CalcReacZ = - ( y -a*MissPointZ)*TMath::Cos(TMath::ATan(ph))/TMath::Sin(HRSAngle + TMath::ATan(ph)) + BeamSpotHCS.X()*TMath::Cos(HRSAngle+TMath::ATan(ph))/TMath::Sin(HRSAngle+TMath::ATan(ph));
-  
+  CalcReacZ = - ( y -a*MissPointZ)*TMath::Cos(phi)/TMath::Sin(HRSAngle + phi) + BeamSpotHCS.X()*TMath::Cos(HRSAngle + phi)/TMath::Sin(HRSAngle + phi);
+  //CalcReacZ = -(y)/TMath::Sin(HRSAngle);
+ 
    
   return CalcReacZ; 
 

@@ -1,0 +1,23 @@
+#!/bin/bash
+
+ORDERS="5th"
+RUNS="4647"
+OUTPUT="same"
+
+
+for run in $RUNS
+do
+    for order in $ORDERS
+    do
+	if [[ "$OUTPUT" == "same" ]];then
+	    OUTPUT="$run"
+	fi
+	analyzer <<EOF
+replay("$run","$order","$OUTPUT")
+EOF
+	if [[ "$OUTPUT" == "$run" ]];then
+	    OUTPUT="same"
+	fi
+    done
+    
+done
