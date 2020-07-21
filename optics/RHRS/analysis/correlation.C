@@ -5,7 +5,7 @@ void correlation(){
   TString run = "4647";     //Run number
   TString order = "5th";
   TString range = "-10_10";
-  bool before = false; //Are we doing before optimization plots
+  bool before = true; //Are we doing before optimization plots
   bool make_plots = false;
   bool brute_force = false;
   

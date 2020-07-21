@@ -1,3 +1,49 @@
+void correction(TH2F *hist){
+
+  TF1 *fit = new TF1("line","pol1");
+  hist->Fit("line","q0");
+
+  double b = fit->GetParameter(0);
+  double m = fit->GetParameter(1);
+  double x_m = hist->GetMean();
+  
+  for(int i = 0; i <  hist->GetNbinsX();i++){
+    int start_bin = 0;
+    int end_bin = hist->GetNbinsY();
+
+    if(hist->GetXaxis()->GetBinCenter(i) > x_m){
+      start_bin = end_bin;
+      end_bin = 0;
+
+      for(int j = start_bin; j > end_bin;j--){
+	double y_diff = m*(x_m - hist->GetXaxis()->GetBinCenter(i));
+	double y_new = hist->GetYaxis()->GetBinCenter(j) + y_diff;
+
+	if(hist->GetYaxis()->FindBin(y_new) == j) continue;
+	
+	hist->SetBinContent(i,hist->GetYaxis()->FindBin(y_new),hist->GetBinContent(i,j));
+	hist->SetBinContent(i,j,0);
+      }
+    }
+    else if(hist->GetXaxis()->GetBinCenter(i) < x_m){
+      for(int j = start_bin; j < end_bin;j++){
+	double y_diff = m*(hist->GetXaxis()->GetBinCenter(i) - x_m);
+	double y_new = hist->GetYaxis()->GetBinCenter(j) - y_diff;
+	
+	if(hist->GetYaxis()->FindBin(y_new) == j) continue;
+	
+	hist->SetBinContent(i,hist->GetYaxis()->FindBin(y_new),hist->GetBinContent(i,j));
+	hist->SetBinContent(i,j,0);
+      }
+      
+      
+    }
+  }
+
+
+}
+
+
 
 double Avg(double R[3]){
   double average = 0;
@@ -15,8 +61,8 @@ void projection(){
   bool opt = true;
   
   TFile* tcuts;
-  if(opt) tcuts = new TFile("../Sieve/xfp_" + range + "/apex_4647_opt_5th_xfp_"+range+".root.FullCut.root","READ");
-  else tcuts = new TFile("../Sieve/xfp_" + range + "/apex_4647.root.FullCut.root","READ");
+  if(opt) tcuts = new TFile("../Sieve/4647/xfp_" + range + "/apex_4647_opt_5th_xfp_"+range+".root.FullCut.root","READ");
+  else tcuts = new TFile("../Sieve/4647/xfp_" + range + "/apex_4647.root.FullCut.root","READ");
   TChain * t = new TChain("T");
   if(opt)  t->Add("/home/sean/Grad/Research/APEX/Rootfiles/apex_4647_opt_5th_xfp_"+range+".root");
   else t->Add("/home/sean/Grad/Research/APEX/Rootfiles/apex_4647.root");
@@ -28,7 +74,7 @@ void projection(){
   double th_cen = 0;
   int  stat;
 
-  ifstream cutcsv("../Sieve/xfp_" + range + "/apex_4647.root.cuts_full.csv");
+  ifstream cutcsv("../Sieve/4647/xfp_" + range + "/apex_4647.root.cuts_full.csv");
   ofstream cutcsvnew("xfp_" + range + "/apex_4647.root.EllipseCuts.csv");
   string line;
 
@@ -60,6 +106,7 @@ void projection(){
 	continue;
       }
 
+
       stringstream linestream(line);
       string cell;
 
@@ -79,14 +126,25 @@ void projection(){
       TString name = Form("ID = %d:%d",n_col,n_row);
       TString name2 = Form("ID  = %d:%d",n_col,n_row);
 
-       for(int i = 0; i<g->GetN();i++){
-	  g->GetX()[i] /= 1000;
-	  g->GetY()[i] /= 1000;
-	}             
+
+      double theta_min = 100;
+      double theta_max = -100;
+      double phi_min = 100;
+      double phi_max = -100;
+      
+      for(int i = 0; i<g->GetN();i++){
+	if(g->GetX()[i] < phi_min) phi_min = g->GetX()[i];
+	if(g->GetX()[i] > phi_max) phi_max = g->GetX()[i];
+	if(g->GetY()[i] < theta_min) theta_min = g->GetY()[i];
+	if(g->GetY()[i] > theta_max) theta_max = g->GetY()[i];
+	
+	g->GetX()[i] /= 1000;
+	g->GetY()[i] /= 1000;
+      }             
 
       TCut id_cut = TCut(Form("hcut_R_1_%d_%d",n_col,n_row));
 
-
+      
       c[n_canvas] = new TCanvas(Form("c_%d",n_canvas),"",800,600);
       t->Draw("R.tr.tg_ph*1000>>" + name, GeneralCut && id_cut,"");
       //t->Draw("Sieve.y*100>>" + name, GeneralCut && id_cut,"");
@@ -134,14 +192,21 @@ void projection(){
       phi_rms = fph->GetParameter(2);
       phi_cen = fph->GetParameter(1);
 
-      c2[n_canvas] = new TCanvas(Form("c2_%d",n_canvas),"",800,600);
-      t->Draw("R.tr.tg_th*1000>>" + name2, GeneralCut && id_cut,"");
+      
+      TH2F * th_y = new TH2F("Th vs y", ";raster y (mm);#theta_{tg} (mrad)", 100, 1.2, 4, 100, theta_min, theta_max);
+      t->Draw("R.tr.tg_th*1000:Rrb.y*1000>>Th vs y", GeneralCut && id_cut,"goff");
+
+      correction(th_y);
       
 
-      TH1F *htemp2 = (TH1F*)gPad->GetPrimitive(name2);   
+      c2[n_canvas] = new TCanvas(Form("c2_%d",n_canvas),"",800,600);
+      TH1D *htemp2 = th_y->ProjectionY(name2);
+
+      
       htemp2->SetTitle("");
       htemp2->GetXaxis()->SetTitle("Target #theta (mrad)");
       htemp2->GetYaxis()->SetTitle("Entries");
+      htemp2->GetXaxis()->SetTitleOffset(1.2);
 
       TF1 *f2 = new TF1("f2","gaus");
       htemp2->Fit("f2","q0");

@@ -77,7 +77,7 @@ public:
     
     
     //UInt_t LoadRawData(TString DataFileName, UInt_t NLoad = MaxNRawData, UInt_t MaxDataPerGroup = (UInt_t) - 1); // load data to Rawdata[]
-    UInt_t LoadRawData(TChain *t); // load data to Rawdata[]
+    UInt_t LoadRawData(TChain *t, TString run); // load data to Rawdata[]
     
     //typedef struct {
     struct EventData {
@@ -141,7 +141,7 @@ public:
     ///////////////////////////////////////////////////////////////////////////
     // Optimization related Commands
     ///////////////////////////////////////////////////////////////////////////
-
+    TVector3 BeamSpotHCS_Correction(UInt_t FoilID, double beam_y, double beam_z);
     const TVector3 GetSieveHoleTCS(UInt_t Col, UInt_t Row);
     const TVector3 GetSieveHoleCorrectionTCS(UInt_t nfoil, UInt_t Col, UInt_t Row);
     
@@ -175,6 +175,12 @@ public:
     enum {
         kPORDER = 7
     };
+
+
+
+    ///////////////////////////////////////////////////////////////////////////
+    // declare all the different matrices needed
+    ///////////////////////////////////////////////////////////////////////////
 
     friend class THaMatrixElement;
     std::vector<THaMatrixElement> * fCurrentMatrixElems;
@@ -233,6 +239,11 @@ public:
     std::vector<THaMatrixElement> fFPMatrixElems_30_50; // matrix elements used in
 
     std::vector<THaMatrixElement> fRMatrixElems_30_50; // Path-length corrections (meters)
+
+    /////////////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////////////////
+
+    
     
     void CalcMatrix(const double x, std::vector<THaMatrixElement> &matrix);
     // Double_t DoPoly(const int n, const std::vector<double> &a, const double x);
@@ -242,7 +253,7 @@ public:
     double calc_tgth(int event);
     double calc_tgph(int event);
     double calc_tgdp(int event);
-    double calc_vz(int event, double y);
+    double calc_vz(TString run, int event, double y, double phi);
     double sieve_x(int event);
     double sieve_y(int event);
 
