@@ -898,6 +898,15 @@ UInt_t ROpticsOpt::LoadRawData(TString DataFileName, UInt_t NLoad, UInt_t MaxDat
 // Optimization related Commands
 ///////////////////////////////////////////////////////////////////////////////
 
+TVector3 ROpticsOpt::BeamSpotHCS_Correction(UInt_t FoilID, double beam_y, double beam_z){
+  
+  TVector3 foil(targetfoilsX[FoilID], beam_y, beam_z);
+
+  foil.RotateY(target_yaw);
+
+  return foil;
+}
+
 const TVector3 ROpticsOpt::GetSieveHoleTCS(UInt_t Col, UInt_t Row)
 {
     assert(Col < NSieveCol);
@@ -954,8 +963,8 @@ const TVector3 ROpticsOpt::GetSieveHoleCorrectionTCS(UInt_t nfoil, UInt_t Col, U
     //    Double_t SieveY_Correction[NFoils][NSieveCol][NSieveRow] ={{{0}}};
     //    Double_t SieveX_Correction[NFoils][NSieveCol][NSieveRow] ={{{0}}};
 
-    //const TVector3 BeamSpotHCS_average(BeamX_average, BeamY_average, targetfoils[nfoil]);
-    const TVector3 BeamSpotHCS_average(BeamX_average[nfoil], BeamY_average[nfoil], targetfoils[nfoil]);
+    //const TVector3 BeamSpotHCS_average(BeamX_average[nfoil], BeamY_average[nfoil], targetfoils[nfoil]);
+    const TVector3 BeamSpotHCS_average = BeamSpotHCS_Correction(nfoil,BeamY_average[nfoil], targetfoils[nfoil]);
     const TVector3 BeamSpotTCS_average = fTCSInHCS.Inverse()*(BeamSpotHCS_average - fPointingOffset);        
     BeamXHCS= BeamSpotTCS_average.X();
     BeamYHCS= BeamSpotTCS_average.Y();
@@ -1008,7 +1017,7 @@ void ROpticsOpt::PrepareSieve(void)
         eventdata.Data[kSieveY] = SieveHoleCorrectionTCS.Y();
         eventdata.Data[kSieveZ] = SieveHoleCorrectionTCS.Z();
 
-	const TVector3 BeamSpotHCS(eventdata.Data[kBeamX], eventdata.Data[kBeamY], targetfoils[FoilID]);
+	const TVector3 BeamSpotHCS = BeamSpotHCS_Correction(FoilID, eventdata.Data[kBeamY], targetfoils[FoilID]);
 	//const TVector3 BeamSpotHCS(BeamX_average[FoilID], BeamY_average, targetfoils[FoilID]);
         eventdata.Data[kBeamZ] = targetfoils[FoilID];
 
@@ -1019,6 +1028,7 @@ void ROpticsOpt::PrepareSieve(void)
         eventdata.Data[kRealTh] = MomDirectionTCS.X() / MomDirectionTCS.Z();
         eventdata.Data[kRealPhi] = MomDirectionTCS.Y() / MomDirectionTCS.Z();
 
+	//if(Col == 8 && Row == 8) cout<<eventdata.Data[kRealPhi]<<" "<<eventdata.Data[kRealTh]<<endl;
 	
         const Double_t x_tg = BeamSpotTCS.X() - BeamSpotTCS.Z() * eventdata.Data[kRealTh];
         const Double_t y_tg = BeamSpotTCS.Y() - BeamSpotTCS.Z() * eventdata.Data[kRealPhi];
@@ -2049,7 +2059,7 @@ Double_t ROpticsOpt::SumSquareDTh()
         eventdata.Data[kCalcTh] = theta;
 
 	const TVector3 SieveHoleCorrectionTCS = GetSieveHoleCorrectionTCS(FoilID, Col, Row);
-	const TVector3 BeamSpotHCS(eventdata.Data[kBeamX], eventdata.Data[kBeamY], targetfoils[FoilID]);
+	const TVector3 BeamSpotHCS = BeamSpotHCS_Correction(FoilID, eventdata.Data[kBeamY], targetfoils[FoilID]);
 	const TVector3 BeamSpotTCS = fTCSInHCS.Inverse()*(BeamSpotHCS - fPointingOffset);
 	const Double_t x_tg = BeamSpotTCS.X() - BeamSpotTCS.Z() * tan(eventdata.Data[kCalcTh]);
 	double ProjectionX = x_tg + (tan(eventdata.Data[kCalcTh]) + x_tg * ExtTarCor_ThetaCorr) * (ZPos);
@@ -2116,7 +2126,7 @@ Double_t ROpticsOpt::SumSquareDPhi()
         eventdata.Data[kCalcPh] = phi;
 
 	const TVector3 SieveHoleCorrectionTCS = GetSieveHoleCorrectionTCS(FoilID, Col, Row);
-	const TVector3 BeamSpotHCS(eventdata.Data[kBeamX], eventdata.Data[kBeamY], targetfoils[FoilID]);
+	const TVector3 BeamSpotHCS = BeamSpotHCS_Correction(FoilID, eventdata.Data[kBeamY], targetfoils[FoilID]);
 	const TVector3 BeamSpotTCS = fTCSInHCS.Inverse()*(BeamSpotHCS - fPointingOffset);
 	const Double_t y_tg = BeamSpotTCS.Y() - BeamSpotTCS.Z() * tan(eventdata.Data[kCalcPh]);
 
@@ -2160,7 +2170,7 @@ void ROpticsOpt::PrepareVertex(void)
         eventdata.Data[kSieveY] = SieveHoleCorrectionTCS.Y();
         eventdata.Data[kSieveZ] = SieveHoleCorrectionTCS.Z();
 
-	TVector3 BeamSpotHCS(eventdata.Data[kBeamX], eventdata.Data[kBeamY], targetfoils[FoilID]);
+	TVector3 BeamSpotHCS = BeamSpotHCS_Correction(FoilID, eventdata.Data[kBeamY], targetfoils[FoilID]);
 	//	TVector3 BeamSpotHCS(BeamX_average, BeamY_average , targetfoils[FoilID]);
         eventdata.Data[kBeamZ] = targetfoils[FoilID];
         TVector3 BeamSpotTCS = fTCSInHCS.Inverse()*(BeamSpotHCS - fPointingOffset);
@@ -2169,12 +2179,14 @@ void ROpticsOpt::PrepareVertex(void)
 
         Double_t Real_Tg_Phi = MomDirectionTCS.Y() / MomDirectionTCS.Z();
 
+
         Double_t Real_Tg_Y = BeamSpotTCS.Y() + Real_Tg_Phi * (0 - BeamSpotTCS.Z());
+
 	//Real_Tg_Y is in TCS, corresponding Tg_X == 0
 
 	eventdata.Data[kRealTgY] = Real_Tg_Y;
         eventdata.Data[kRealReactZ] = targetfoils[FoilID];
-
+	
         DEBUG_MASSINFO("PrepareVertex", "Real_Tg_Y = %f,\t Real_ReactZ = %f", Real_Tg_Y, eventdata.Data[kRealReactZ]);
     }
 
@@ -2254,7 +2266,7 @@ TCanvas * ROpticsOpt::CheckVertex()
     } else {
         c1 = new TCanvas("CheckTgY", "Target Y Check", 1800, 1350);
         c1->Divide(3, 3);
-    }
+}
 
     Double_t YMean[NFoils]={0};
     Double_t MaxPlot = 2000.0;
@@ -2352,7 +2364,7 @@ TCanvas * ROpticsOpt::CheckVertex()
         eventdata.Data[kSieveY] = SieveHoleCorrectionTCS.Y();
         eventdata.Data[kSieveZ] = SieveHoleCorrectionTCS.Z();
 
-	TVector3 BeamSpotHCS(eventdata.Data[kBeamX], eventdata.Data[kBeamY], targetfoils[FoilID]);
+	TVector3 BeamSpotHCS = BeamSpotHCS_Correction(FoilID, eventdata.Data[kBeamY], targetfoils[FoilID]);
 	// 	TVector3 BeamSpotHCS(BeamX_average, BeamY_average, targetfoils[FoilID]);
        eventdata.Data[kBeamZ] = targetfoils[FoilID];
         TVector3 BeamSpotTCS = fTCSInHCS.Inverse()*(BeamSpotHCS - fPointingOffset);
@@ -2600,6 +2612,7 @@ void ROpticsOpt::PrepareDp(void)
 
 
 	TVector3 BeamSpotHCS(eventdata.Data[kBeamX], eventdata.Data[kBeamY], eventdata.Data[kBeamVZ]);
+       
 	//        TVector3 BeamSpotHCS(BeamX_average, BeamY_average, eventdata.Data[kBeamVZ]);
         TVector3 BeamSpotTCS = fTCSInHCS.Inverse()*(BeamSpotHCS - fPointingOffset);
 	TVector3 MomDirectionTCS(theta,phi,1);
