@@ -1,9 +1,17 @@
 
 
+Sub-directories contain calibration and related scripts for different detectors and systems. They may also contain READMEs where suited.
 
-Need to add file_def.h to this directory with a string, ROOTFILE_DIR, that has the relevant local directory for root files.
+
+Need to add file_def.h to this directory with a TString, ROOTFILE_DIR, that has the relevant local directory for root files.
+
+e.g.
+
+TString ROOTFILE_DIR = "/home/user/Rootfiles/apex_%d.root";
+
+where %d is the runnumber (this is needed for Load_more_rootfile.C script).
 
 
-Sub-directories contain calibration and relateed scripts for different detectors and systems. They may also contain READMEs where suited.
+
 
 

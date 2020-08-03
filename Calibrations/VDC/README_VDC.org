@@ -1,0 +1,52 @@
+VDC calibration scripts
+
+
+
+* t0 calibration
+
+There are two forms of t0 calibration carried out by the scripts in this directory:
+  - 'slope' calibration
+  - Gaussian fit calibration
+
+The Gaussain method is more standard and is the assumed approach for APEX VDC t0 calibration.
+
+
+
+** Gaussian t0 calibration
+
+Use calibVDCtdc script created by Ole Hansen (and slightly modified for APEX):
+
+.L calibVDCtdc.C+
+  calibVDCtdc("L", runnumber)   // or "R" for right arm
+
+
+This script plots for each group of wires (16 vdc wires going to smae A/D card) the rawtiming spectrum.
+It then fits a Gaussian to this (around peak of distribution where nonlinear responce is) and t0 is taken as being 1.4 $\sigma$ to the right of this peak. 
+If this process fails for a group of wires then the t0 value for the adjacent group may be used.
+
+The script produces plots of t0 for each VDC plane (in plots/) and a DB with the t0 values (in DB/).
+
+Care should be taken over the trigger cut used. This is controlled by the input parameter for arm (such that LHRS and RHRS can have different trigger cuts). 
+
+
+
+** Slope calibration
+
+This script was taken from the Gmp experiment.
+It works by calculating the most negative slope in the rawtime distribution for a group of wires and extrapolating this to the x-axis (and taking this as t0). 
+
+.L GmpVDCt0Calib.C+
+ .x vdct0_Left.C(runnumber)   (or .x vdct0_Right.C(runnumber))
+
+This produces one combined plot for all planes (in plots/) and a DB with the t0 values (in DB/).
+
+
+
+** Comparison
+
+A comparison script, DB_plotter.py, plots the t0 values from both slope and gaus calculations and saves the results in plots/comparison
+
+ python DB_plotter.py run_number arm  (e.g. python DB_plotter.py 4766 L)
+
+
+

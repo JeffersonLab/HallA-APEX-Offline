@@ -74,3 +74,6 @@ Calibrations/**/*#
 
 
 /optics/LHRS/Tree2Ascii/SieveTree2Ascii_variations/*
+
+/Calibrations/VDC/plots/*
+/Calibrations/VDC/DB/*
