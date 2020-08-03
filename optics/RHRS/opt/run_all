@@ -1,11 +1,13 @@
 #!/bin/bash
 
-ORDERS="4th 5th"
-RUNS="V_wires"
+ORDERS="5th"
+RUNS="4647"
 RANGES="-50_-30 -30_-10 -10_10 10_30 30_50"
+#RANGES="-50_-30 -30_-10 -10_10 10_30 30_50"
 
 
-#ROpticsOptScript("$run","$range","theta","$phi_file","$theta_file")
+
+#ROpticsOptScript("$run","$range","phi","db_R.vdc.dat_$order","$phi_file")
 
 for run in $RUNS
 do

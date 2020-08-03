@@ -19,6 +19,7 @@ void compare(double &ph_wid,double &th_wid,double &ph_off,double &th_off){
   int hole_n = 1, opt;
   vector<double> x,y_th, y_ph, ph_std, th_std;
 
+  
   string line;
 
   getline(file,line);
@@ -45,8 +46,8 @@ void compare(double &ph_wid,double &th_wid,double &ph_off,double &th_off){
       ph_std.push_back(ph_rms);
       th_std.push_back(th_rms);
       x.push_back(hole_n);
-      hole_n++;
     }
+    hole_n++;
   }
   
   TCanvas* c = new TCanvas("c","",800,640);
@@ -58,7 +59,8 @@ void compare(double &ph_wid,double &th_wid,double &ph_off,double &th_off){
   g->GetYaxis()->SetTitle("#theta_{meas} - #theta_{exp} (mrad)");
   g->SetTitle("Measured Sieve Hole Centers");
 
-  TLine* l = new TLine(0,0,78,0);
+  cout<<c->GetUxmin()<<" "<<c->GetUymax()<<endl;
+  TLine* l = new TLine(x[0] - 30,0,x[x.size()-1] + 30,0);
   l->Draw("same");
   l->SetLineColor(kRed);
 
@@ -76,25 +78,6 @@ void compare(double &ph_wid,double &th_wid,double &ph_off,double &th_off){
   l->Draw("same");
   c2->SaveAs("xfp_" + range + "/phi_diff.gif");
 
-
-  TCanvas* c3 = new TCanvas("c3","",800,640);
-  TGraph* g3 = new TGraph(x.size(),&x[0],&ph_std[0]);
-  g3->Draw("AP");
-  g3->SetMarkerStyle(20);
-  g3->GetYaxis()->SetRangeUser(0,1.5);
-  g3->GetXaxis()->SetTitle("Hole #");
-  g3->GetYaxis()->SetTitle("#phi Width (mrad)");
-  g3->SetTitle("Width of #phi");
-
-
-  TCanvas* c4 = new TCanvas("c4","",800,640);
-  TGraph* g4 = new TGraph(x.size(),&x[0],&th_std[0]);
-  g4->Draw("AP");
-  g4->SetMarkerStyle(20);
-  g4->GetYaxis()->SetRangeUser(0.5,3.5);
-  g4->GetXaxis()->SetTitle("Hole #");
-  g4->GetYaxis()->SetTitle("#theta Width (mrad)");
-  g4->SetTitle("Width of #theta");
 
   TH1F* hphi = new TH1F("hphi","#phi Offsets;#phi_{meas} - #phi_{exp} (mrad);Entries",100,-1.5,1.5);
 
@@ -177,6 +160,8 @@ void mass_res(){
   
   
   TH1F* hmass = new TH1F("hmass","Mass Resolution;#Delta m (MeV);Entries",100,-10,10);
+  hmass->GetYaxis()->SetTitleOffset(1.6);
+  
   TRandom2 *tr = new TRandom2();
 
   
@@ -209,7 +194,7 @@ void mass_res(){
   TCanvas *cmass = new TCanvas("cmass","",800,640);
   hmass->Draw();
 
-  cmass->SaveAs("xfp_" + range + "/mass_res.gif");
+  //cmass->SaveAs("xfp_" + range + "/mass_res.gif");
 
   cout<<"Phi Offset = "<<ph_off*1000<<" mrad"<<endl;
   cout<<"Theta Offset = "<<th_off*1000<<" mrad"<<endl;

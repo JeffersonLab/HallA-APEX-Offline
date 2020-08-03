@@ -160,6 +160,7 @@ public:
     ///////////////////////////////////////////////////////////////////////////
     // Optimization related Commands
     ///////////////////////////////////////////////////////////////////////////
+    TVector3 BeamSpotHCS_Correction(UInt_t FoilID, double beam_y, double beam_z);
     const TVector3 GetSieveHoleTCS(UInt_t Col, UInt_t Row);
     const TVector3 GetSieveHoleCorrectionTCS(UInt_t nfoil, UInt_t Col, UInt_t Row);
 
