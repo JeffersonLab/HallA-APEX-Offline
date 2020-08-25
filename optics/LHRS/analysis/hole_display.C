@@ -46,7 +46,7 @@ void hole_display(Int_t foil_no = 0){
   int  stat;
 
   //  TH2F* xpyp = new TH2F("xpyp","",400,-0.065,0.065,400,-0.065,0.065);
-  TH2F* xpyp = new TH2F("xpyp","",400,-65,65,400,-65,65);
+  TH2F* xpyp = new TH2F("xpyp","",400,-40,40,400,-65,65);
   //  T->Draw("L.tr.tg_th:L.tr.tg_ph>>xpyp", GenrealCut,"");
   T->Draw("th_tgt*1000:ph_tgt*1000>>xpyp", GenrealCut,"");
 
@@ -78,7 +78,7 @@ void hole_display(Int_t foil_no = 0){
   c->Update();
 
 
-  TCanvas *c_b = new TCanvas("c_b","target cuts",1300,800);
+  TCanvas *c_b = new TCanvas("c_b","target cuts",1300,1300);
 
   c_b->cd(1);
   xpyp->Draw("colz");
@@ -299,13 +299,13 @@ void hole_display(Int_t foil_no = 0){
   
   //  c->Print(Form("sieve_angles_w_diagram.pdf",Run_number));
 
-  c2->Print(Form("output/%d/sieve_angles_ellipse.pdf",Run_number));
+  c_b->Print(Form("output/%d/sieve_angles_ellipse_%d.pdf",Run_number,Run_number));
 
-  c3->Print(Form("output/%d/sieve_angles.pdf",Run_number));
+  c3->Print(Form("output/%d/sieve_angles_%d.pdf",Run_number,Run_number));
 
-  c4->Print(Form("output/%d/sieve_XY.pdf",Run_number));
+  c4->Print(Form("output/%d/sieve_XY_%d.pdf",Run_number,Run_number));
 
-  c5->Print(Form("output/%d/sieve_FP.pdf",Run_number));
+  c5->Print(Form("output/%d/sieve_FP_%d.pdf",Run_number,Run_number));
     
     
     
