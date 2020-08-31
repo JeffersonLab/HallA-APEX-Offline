@@ -73,9 +73,9 @@ TString Sieve_CSV_name = "sieve_csv/";
 
 
 
-Bool_t IsMultiFoil(Int_t runnumber);
+//Bool_t IsMultiFoil(Int_t runnumber);
 
-TString Return_target(Int_t runnumber);
+//TString Return_target(Int_t runnumber);
 
 
 void ReLoadcuts(){
