@@ -1,0 +1,42 @@
+#+STARTUP: hidestars
+
+Small README describing scripts in the analysis directory for LHRS optics
+
+
+* beam_x_check
+ beam_x_check.C: Takes various vertical foil runs and plots their projected position at the target and their BPMB positions.
+- designed to compare different runs for same foil and surveyed foil position to those found by the beam.
+
+
+* hole_display & hole_id
+
+hole_display.C: designed to show all hole cut for one foil
+- displayed on target variables plot and on diagram/ photo of sieve slit
+
+hole_id.C: designed to show individual hole cut
+- displayed on target variables plot and on diagram/ photo of sieve slit
+
+
+* checking scripts
+
+** ReactZ_check 
+ ReactZ_check.C:  Script designed to print different forms of Vertex Z to display the discrepancies
+
+
+** apex_optics_left.C
+summary plots with PID and correlation plots
+
+** Vertical_foil_plots.C
+   
+   Plots $y_{FP}$ vs $\phi_{FP}$ for all vertical foils. Both seperatley and in one combined plot.
+   
+   This 2D FP distribution is the one that can be used to cut out foils. 
+
+
+** horizontal_foil_plots.C
+
+   Plots beam, Focal Plane and target variables for horizontal foil runs (LHRS). 
+
+   This script is desinged to illustrate cuts used for seperate horizontal foils and the resulting target and FP distributions that result.
+
+

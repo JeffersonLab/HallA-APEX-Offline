@@ -346,7 +346,7 @@ TCut FP_cuts = "L.tr.r_x>-0.6 && L.tr.r_x<0.56 && L.tr.r_y>-0.04 && L.tr.r_y<0.0
 
 // TCut FP_cuts = "L.tr.r_x>-0.6 && L.tr.r_x<0.56 && L.tr.r_y>-0.04 && L.tr.r_y<0.037 && L.tr.r_th>-0.029 && L.tr.r_th<0.02 && L.tr.r_ph>-0.05 && L.tr.r_ph<0.04";
 
-TCut PID_cuts = "(L.prl1.e/(L.gold.p*1000))>0.3 && ((L.prl1.e+L.prl2.e)/(L.gold.p*1000))>0.625 && ((L.prl1.e+L.prl2.e)/(L.gold.p*1000))<1.11 &&  L.cer.asum_c >650";
+TCut PID_cuts = "(L.prl1.e/(L.gold.p*1000))>0.3 && ((L.prl1.e+L.prl2.e)/(L.gold.p*1000))>0.625 && ((L.prl1.e+L.prl2.e)/(L.gold.p*1000))<1.11 &&  L.cer.asum_c >650 && DL.evtype == 1";
 
 // && Lrb.x>-0.0029 && Lrb.x<-0.0022";
 
@@ -364,9 +364,11 @@ std::vector<int> Opt1_runs{4771,4772};
 
 std::vector<int> Opt3_runs{4773,4774};
 
+std::vector<int> horizontal_runs{4775,4776,4777};
 
 std::vector<TString> Single_foil{"V1","V2","V3"};
-std::vector<TString> Multi_foil{"Optics1","Optics3"};
+std::vector<TString> Multi_foil{"Optics1","Optics3","horizontal"};
+
 
 
 Double_t dp_split[6][2] = {{-0.05,-0.03},{-0.03,-0.01},{-0.01,0.01},{0.01,0.03},{0.03,0.05},{0,0}};
@@ -383,6 +385,7 @@ double target_pitch = -0.0219 * D2R;  //Degree of pitch
 
 
 // function that gets beam cut from run number
+TString Return_target(Int_t runnumber);
 
 TString get_Beamcut(Int_t runnumber){
 
@@ -391,18 +394,33 @@ TString get_Beamcut(Int_t runnumber){
   if(runnumber == 4766){
     // V1
     cout << "V1 wire beam cut!" << endl;
-    beam_cut = "0.0017<Lrb.x && Lrb.x<0.0024";
+    beam_cut = "0.00170<Lrb.x && Lrb.x<0.0024";
+    //    beam_cut = "0.00175<Lrb.x && Lrb.x<0.0021";
   }
   else if(runnumber == 4768){
     // V2
     cout << "V2 wire beam cut!" << endl;
     beam_cut = "-0.001<Lrb.x && Lrb.x<-0.0003";
+    // beam_cut = "-0.0008<Lrb.x && Lrb.x<-0.0004";
   }
   else if(runnumber == 4769){
     // V3
     cout << "V3 wire beam cut!" << endl;
     beam_cut = "-0.0029<Lrb.x && Lrb.x<-0.00225";
+    // beam_cut = "-0.0027<Lrb.x && Lrb.x<-0.0023";
   }
+  else if( !Return_target(runnumber).CompareTo(TString("horizontal"))){
+    cout << "Horizontal beam cut!" << endl;
+    beam_cut = "(0.00191<Lrb.y && Lrb.y<0.00209)"; 
+      //" (0.00240<Lrb.y && Lrb.y<0.00258)";
+      //"(0.00191<Lrb.y && Lrb.y<0.00209)"; 
+    //||
+		   //    (0.00191<Lrb.y && Lrb.y<0.00209)
+      //      && //(0.00175<Lrb.y&&Lrb.y<0.00215)";
+ //(0.0022<Lrb.y&&Lrb.y<0.0027)";
+      
+  }
+  
 
   return beam_cut;
 }
@@ -446,11 +464,18 @@ TString Return_target(Int_t runnumber){
   else if( Contains(Opt3_runs,runnumber)){
     run_type = "Optics3";
   }
+  else if( Contains(horizontal_runs,runnumber)){
+    run_type = "horizontal";
+  }
+
+  
     
   return run_type;
   
 }
 
+// function returns Foil number based on run number
+// for multifoil runs it returns the first foil number (ie 0 for Optics3 and 1 for Optics1)
 
 Int_t GetFoilID(Int_t runnumber){
 
@@ -467,10 +492,18 @@ Int_t GetFoilID(Int_t runnumber){
   else if( run_type == "V3"){
     FoilID = 10;
   }
-  else{
-    cout << "Not a single foil run" << endl;
+  else if( run_type == "Optics3"){
+    FoilID = 0;    
   }
-
+  else if( run_type == "Optics1"){
+    FoilID = 1;    
+  }
+  else{
+    cout << "Run " << runnumber << " does not have recognised type" << endl;
+  }
+  //    cout << "Not a single foil run" << endl;
+  
+    
   return FoilID;
 }
 
