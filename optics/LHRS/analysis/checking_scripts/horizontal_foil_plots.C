@@ -75,13 +75,27 @@ void horizontal_foil_plots(){
   Double_t c_Lrby2_l = 0.00240;
   Double_t c_Lrby2_h = 0.00258;
 
+  
+  // define reactz cut for V2
+  Double_t c_zV2_l = -0.1;
+  Double_t c_zV2_h = 0.05;
 
+  // define V2 and raster cuts
+
+  TCut V2_zcut = Form("reactz>%f && reactz<%f",c_zV2_l,c_zV2_h);
+
+  // lower raster cut (in y)
+  TCut rast_l = Form("Lrb.y>%f && Lrb.y<%f",c_Lrby1_l,c_Lrby1_h);
+
+  // greater raster cut (in y)
+  TCut rast_h = Form("Lrb.y>%f && Lrb.y<%f",c_Lrby2_l,c_Lrby2_h);
 
   // cuts from InputAPEXl.h
   TCut GenrealCut = GeneralSieveCut + PID_cuts + FP_cuts;
   
   TCanvas *c1 = new TCanvas("c1"); 
 
+  cout << GenrealCut << endl << endl;
   
   TH2F* h_raster = new TH2F("h_raster","Raster", 400, Lrbx_l, Lrbx_h, 400, Lrby_l, Lrby_h);
   h_raster->GetYaxis()->SetTitle("Raster y [m]");
@@ -118,6 +132,16 @@ void horizontal_foil_plots(){
 
   T->Draw("reactz:Lrb.y>>h_z_rasty",GenrealCut,"colz");
 
+  TLine* V2_rz_l = new TLine(Lrby_l,c_zV2_l,Lrby_h,c_zV2_l);
+  V2_rz_l->SetLineWidth(1.5);
+  V2_rz_l->SetLineColor(kRed);
+  TLine* V2_rz_h = new TLine(Lrby_l,c_zV2_h,Lrby_h,c_zV2_h);
+  V2_rz_h->SetLineWidth(1.5);
+  V2_rz_h->SetLineColor(kRed);
+
+  V2_rz_l->Draw("same");
+  V2_rz_h->Draw("same");
+  
 
   TCanvas *c3 = new TCanvas("c3");
 
@@ -127,6 +151,16 @@ void horizontal_foil_plots(){
 
   T->Draw("reactz:Lrb.x>>h_z_rastx",GenrealCut,"colz");
 
+
+  TLine* V2_rzx_l = new TLine(Lrbx_l,c_zV2_l,Lrbx_h,c_zV2_l);
+  V2_rzx_l->SetLineWidth(1.5);
+  V2_rzx_l->SetLineColor(kRed);
+  TLine* V2_rzx_h = new TLine(Lrbx_l,c_zV2_h,Lrbx_h,c_zV2_h);
+  V2_rzx_h->SetLineWidth(1.5);
+  V2_rzx_h->SetLineColor(kRed);
+  
+  V2_rzx_l->Draw("same");
+  V2_rzx_h->Draw("same");
 
   // Focal plane plots
 
@@ -140,13 +174,21 @@ void horizontal_foil_plots(){
   h_FP_py_2->GetXaxis()->SetTitle("FP Y [m]");
   h_FP_py_2->GetYaxis()->SetTitle("FP #phi [mrad]");
 
-  c4->Divide(2,1);
+  TH2F* h_FP_py_3 = new TH2F("h_FP_py_3","Focal Plane #phi vs Y, V2 cut",400,y_FP_l,y_FP_h,400,ph_FP_l,ph_FP_h);
+  h_FP_py_3->GetXaxis()->SetTitle("FP Y [m]");
+  h_FP_py_3->GetYaxis()->SetTitle("FP #phi [mrad]");
+
+  c4->Divide(3,1);
   c4->cd(1);
 
-  T->Draw("1000*L.tr.r_ph:L.tr.r_y>>h_FP_py_1",GenrealCut+Form("Lrb.y>%f&&Lrb.y<%f",c_Lrby1_l,c_Lrby1_h),"colz");
-  c4->cd(2);
-  T->Draw("1000*L.tr.r_ph:L.tr.r_y>>h_FP_py_2",GenrealCut+Form("Lrb.y>%f&&Lrb.y<%f",c_Lrby2_l,c_Lrby2_h),"colz");
+  cout << "rast_l + !rast_h = " << rast_l + !rast_h << endl;
 
+
+  T->Draw("1000*L.tr.r_ph:L.tr.r_y>>h_FP_py_1",GenrealCut + rast_l + !rast_h + !V2_zcut,"colz");  
+  c4->cd(2);  
+  T->Draw("1000*L.tr.r_ph:L.tr.r_y>>h_FP_py_2",GenrealCut + !rast_l + rast_h + !V2_zcut,"colz");
+  c4->cd(3);
+  T->Draw("1000*L.tr.r_ph:L.tr.r_y>>h_FP_py_3",GenrealCut + !rast_l + !rast_h + V2_zcut,"colz");
 
   TCanvas *c5 = new TCanvas("c5");
 
@@ -158,12 +200,17 @@ void horizontal_foil_plots(){
   h_FP_ty_2->GetXaxis()->SetTitle("FP Y [m]");
   h_FP_ty_2->GetYaxis()->SetTitle("FP #theta [mrad]");
 
-  c5->Divide(2,1);
-  c5->cd(1);
-  T->Draw("1000*L.tr.r_th:L.tr.r_y>>h_FP_ty_1",GenrealCut+Form("Lrb.y>%f&&Lrb.y<%f",c_Lrby1_l,c_Lrby1_h),"colz");
-  c5->cd(2);
-  T->Draw("1000*L.tr.r_th:L.tr.r_y>>h_FP_ty_2",GenrealCut+Form("Lrb.y>%f&&Lrb.y<%f",c_Lrby2_l,c_Lrby2_h),"colz");
+  TH2F* h_FP_ty_3 = new TH2F("h_FP_ty_3","Focal Plane #theta vs Y, V2 cut",400,y_FP_l,y_FP_h,400,th_FP_l,th_FP_h);
+  h_FP_ty_3->GetXaxis()->SetTitle("FP Y [m]");
+  h_FP_ty_3->GetYaxis()->SetTitle("FP #theta [mrad]");
 
+  c5->Divide(3,1);
+  c5->cd(1);
+  T->Draw("1000*L.tr.r_th:L.tr.r_y>>h_FP_ty_1",GenrealCut + rast_l + !rast_h + !V2_zcut,"colz");
+  c5->cd(2);
+  T->Draw("1000*L.tr.r_th:L.tr.r_y>>h_FP_ty_2",GenrealCut + !rast_l + rast_h + !V2_zcut,"colz");
+  c5->cd(3);
+  T->Draw("1000*L.tr.r_th:L.tr.r_y>>h_FP_ty_3",GenrealCut + !rast_l + !rast_h + V2_zcut,"colz");
 
   // target sieve distributions
 
@@ -173,17 +220,32 @@ void horizontal_foil_plots(){
   h_tg_tp_1->GetXaxis()->SetTitle("tg #phi [mrad]");
   h_tg_tp_1->GetYaxis()->SetTitle("tg #theta [mrad]");
 
-  TH2F* h_tg_tp_2 = new TH2F("h_tg_tp_2","Target #theta vs #phi, lower beam Y",400,ph_tg_l,ph_tg_h,400,th_tg_l,th_tg_h);
+  TH2F* h_tg_tp_2 = new TH2F("h_tg_tp_2","Target #theta vs #phi, greater beam Y",400,ph_tg_l,ph_tg_h,400,th_tg_l,th_tg_h);
   h_tg_tp_2->GetXaxis()->SetTitle("tg #phi [mrad]");
   h_tg_tp_2->GetYaxis()->SetTitle("tg #theta [mrad]");
 
-  c6->Divide(2,1);
+  TH2F* h_tg_tp_3 = new TH2F("h_tg_tp_3","Target #theta vs #phi, V2 cut",400,ph_tg_l,ph_tg_h,400,th_tg_l,th_tg_h);
+  h_tg_tp_3->GetXaxis()->SetTitle("tg #phi [mrad]");
+  h_tg_tp_3->GetYaxis()->SetTitle("tg #theta [mrad]");
+
+  c6->Divide(3,1);
   c6->cd(1);
-  T->Draw("1000*th_tgt:1000*ph_tgt>>h_tg_tp_1",GenrealCut+Form("Lrb.y>%f&&Lrb.y<%f",c_Lrby1_l,c_Lrby1_h),"colz");
+  T->Draw("1000*th_tgt:1000*ph_tgt>>h_tg_tp_1",GenrealCut + rast_l + !rast_h + !V2_zcut,"colz");
   c6->cd(2);
-  T->Draw("1000*th_tgt:1000*ph_tgt>>h_tg_tp_2",GenrealCut+Form("Lrb.y>%f&&Lrb.y<%f",c_Lrby2_l,c_Lrby2_h),"colz");
-  
-  
+  T->Draw("1000*th_tgt:1000*ph_tgt>>h_tg_tp_2",GenrealCut + !rast_l + rast_h + !V2_zcut,"colz");
+  c6->cd(3);
+  T->Draw("1000*th_tgt:1000*ph_tgt>>h_tg_tp_3",GenrealCut + !rast_l + !rast_h + V2_zcut,"colz");
+
+
+  // make plot of raster current vs position (for y)
+
+  TCanvas *c7 = new TCanvas("c7");
+
+
+  TH2F* h_rcurr = new TH2F("h_rcurr","BPMP Y vs raster current",1000,0,0.007,1000,18000,45000);
+  T->Draw("Lrb.Raster2.rawcur.y:Lrb.BPMA.y>>h_rcurr","","colz");
+
+    
 
   // save results
 
