@@ -1,0 +1,33 @@
+#+STARTUP: hidestars
+
+README for optimisation scripts (newer version)
+
+
+* LOpticsOpt & LOpticsOptScript
+
+LOpticsOpt is a class that handles various aspects of the optimisation:
+- reading in data
+- producing and calculating chi^2
+- plotting optimisation results
+
+LOpticsOptScript: script that executs optimisation for theta, phi or y_tg
+
+
+* minimiser_comp & plot_min_comp
+
+minimiser_comp.C: designed to cylce through different ROOT minimisers and algorithms for use in optimisation and save results to a text file.
+
+plot_min_comp.py: plots results of minimiser_comp.
+
+
+* print_DB
+
+scripts used to print chosen order of optics matrix with all possible elements
+- e.g. print a 3rd order matrix with all possible elements.
+
+
+* SieveCheck
+SieveCheck.C: prints out theta and phi of sieve holes (for a chosen foil)
+- designed to check and ensure same values are used for optimisation and event-cutting
+
+

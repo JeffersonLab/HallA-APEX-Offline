@@ -18,6 +18,10 @@
 #define y_optimize true
 #define dp_optimize false
 
+// this parameter can turn on cutting of events not in main gaus for reconstructed phi_tg
+// uses initial matrix to produce phi_tg, fit gaus to y_sieve diff plot and cut based on this
+#define tail_cutting false
+
 //#include "LOpticsOpt.h"
 //#include "SaveCanvas.C"
 
@@ -45,6 +49,11 @@ UInt_t MaxDataPerGroup = 100;
 TString DataSource = "../Tree2Ascii/text_cuts/Overall_cuts.dat";
 //TString DataSource = "../Tree2Ascii/text_cuts/Overall_cuts_allX_FP.dat";
 
+// store results of optimisations
+
+Double_t good_theta = 1e10;
+Double_t good_phi= 1e10;
+Double_t good_y= 1e10;
 
 // Inputs for minimiser and algorithm used
 char* minimiser = NULL;
@@ -165,11 +174,34 @@ void DoMinTP(TString SourceDataBase, TString DestDataBase, UInt_t MaxDataPerGrou
     // opt->LoadRawData(DataSource, (UInt_t) - 1, MaxDataPerGroup);
 
     cout << "DataSource = " << DataSource << endl;
-    UInt_t NRead = opt->LoadRawData(DataSource);
+    //    UInt_t NRead = opt->LoadRawData(DataSource);
+    UInt_t NRead = opt->LoadRawData(DataSource, (UInt_t) - 1, MaxDataPerGroup, Old_DataSource);
     cout << "Events read = " << NRead << endl;
-    
+
+    opt->Display_holes_FP();
 
     opt->PrepareSieve();
+
+    opt->Print_holes(DataSource);
+    
+#if tail_cutting
+
+    opt->Sieve_hole_diff_tail(NFoils);
+    opt->Ignore_tail();
+
+
+#else
+#if !tail_cutting
+    opt->Sieve_hole_diff(NFoils);
+    
+#endif
+#endif
+
+    
+
+
+
+    
 
     opt->Print("");
     
@@ -245,9 +277,25 @@ void DoMinTP(TString SourceDataBase, TString DestDataBase, UInt_t MaxDataPerGrou
     TCanvas * c1_check = opt->CheckSieve(NFoils);
     c1_check->Print(DestDataBase+".Sieve.Opt.png", "png");
     c1_check->Print(DestDataBase+".Sieve.Opt.eps", "eps");
-    
 
-    TCanvas * c2_diff = opt->Sieve_hole_diff(NFoils);
+
+    TCanvas * c2_diff;
+    
+#if tail_cutting
+
+    c2_diff = opt->Sieve_hole_diff_tail(NFoils);
+
+#else
+#if !tail_cutting
+    c2_diff = opt->Sieve_hole_diff(NFoils);
+    
+#endif
+#endif
+
+    //    TCanvas * c2_diff = opt->Sieve_hole_diff(NFoils);
+
+
+    
 
     //    TCanvas * c2 = opt->CheckSieveAccu(-1);
     //    c2->Print(DestDataBase + ".TpAccu.Opt.png", "png");
@@ -313,7 +361,10 @@ void DoMinTP(TString SourceDataBase, TString DestDataBase, UInt_t MaxDataPerGrou
     }
     
     
-
+    good_theta = rms_th;
+    good_phi = rms_ph;
+    good_y = rms_dy;
+    
 
 
 }
@@ -330,6 +381,18 @@ void DoMinY(TString SourceDataBase, TString DestDataBase, UInt_t MaxDataPerGroup
     cout<<"NPara:"<<NPara<<endl;
     opt->LoadRawData(DataSource, (UInt_t) - 1, MaxDataPerGroup);
     opt->PrepareVertex();
+
+    // added for phi_tg tail exclusion
+    opt->PrepareSieve();
+
+
+#if tail_cutting
+
+    opt->Sieve_hole_diff_tail(NFoils);
+    opt->Ignore_tail();
+    
+#endif
+           
 
     opt->Print("");
 
@@ -567,19 +630,20 @@ void LOpticsOptScript(TString select, TString SourceDataBase, TString DestDataBa
 	myfcnX = myfcn1;
         opt->fCurrentMatrixElems = &(opt->fTMatrixElems);
 	
-        DoMinTP(SourceDataBase, DestDataBase, 500, save);
+        DoMinTP(SourceDataBase, DestDataBase, 100, save);
         break;
     case 2:
         cout << "Optimizing for Phi\n";
         myfcnX = myfcn2;
         opt->fCurrentMatrixElems = &(opt->fPMatrixElems);
-        DoMinTP(SourceDataBase, DestDataBase, 500, save);
+        DoMinTP(SourceDataBase, DestDataBase, 100, save);
         break;
     case 3:
         cout << "Optimizing for Y\n";
         myfcnX = myfcn3;
         opt->fCurrentMatrixElems = &(opt->fYMatrixElems);
-        DoMinY(SourceDataBase, DestDataBase, 200000, save);
+        //DoMinY(SourceDataBase, DestDataBase, 200000, save);
+	DoMinY(SourceDataBase, DestDataBase, 100, save);
         break;
     case 4:
         cout << "Optimizing for Delta\n";

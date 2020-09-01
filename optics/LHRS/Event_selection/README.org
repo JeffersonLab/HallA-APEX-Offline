@@ -1,0 +1,61 @@
+#+STARTUP: hidestars
+
+README for Event selection scripts in LHRS optics
+
+
+
+* APEX_Sieve
+
+APEX_Sieve.C
+APEX_Sieve.h
+- small script used to get Sieve information
+- Inlcuded in other scripts that need to translate from colum and row or hole number to sieve x and sieve y.
+
+
+* cut_L
+
+ cut_L.C
+- used to cut foils, holes and optionally columns from the data
+- stores TCutGs in root file
+- also stores text version of cuts in Cuts_Sieve directory
+
+Method:
+
+InputAPEXL.h defines several cuts including: 'GeneralSieveCut' which acts as a cut on track quality (number of vdc clusters, track fit quality etc), 'PID_cuts' which are defined using the PID scripts in the Calibrations directory of the repo (used to cut out pions), 'FP_cuts' which are used to cut out events at extreme FP region and beam cuts dependent upon run number.
+These have to be carefully looked at before the start of event selection.
+
+
+file_def.h: defines which rootfiles are read in, and where graphical and text cuts are saved:
+- TString ROOTFILE_DIR = "rootfiles/%d_replay.root"; defines local directory with rootfiles with %d beign used for runnumber.
+
+- TString RootFileName and SoureRootFile define where graphical cuts are saved and name of text cut files.
+
+- Int_t Run_number and Int_t Run_number_2  defines the run numbers used.
+
+
+
+The functions used for cutting are then performed in this order: 
+
+1) cut_Vertex(int overwrite = 0, int nfoils = 3, int FoilID = -1, int append = 0):
+This function is used to make an inital Vertex cut for an individual wire of foil. This is based on target variables: $z_{react}$ and $\phi_{tg}$. The variable names are those from the shortened replay in the correlations directory but could also use the standard analyzer variables.
+
+2) cut_Vertex_FP(int overwrite = 0, int nfoils = 3, int FoilID = -1, int append = 0):
+This function calls seperate functions depending on whether its a single or multiple foil run (based on run number and defined in InputAPEXL.h). Plots are displayed of the FP foil/ wire distribution: $\phi_{FP}$ vs $y_{FP}$ with and without the target foil cut.
+
+3) CutSieve_ellipse(int FoilID = 0, uint col = 0, int overwrite = 0, int append = 1):
+Function is used to cut ellipse from sieve (from target variables). Function takes input for row numbers. This is based on target variables:  $\theta_{tg}$ and $\phi_{tg}$. If append is one then info is added to text file for cuts (used in converting cuts to ASCII). Cuts are also stored in csv form for mas_res and projection scripts described below. 
+
+4)  CutSieve_FP(int FoilID = 0, uint col = 0, int overwrite = 0, int append = 1):
+This is used to add an additional FP cut for holes (after step 3 has been performed). Can be used to write to text file as well if append is set to 1. These additional cuts should not be needed but do act as an extra check (that events from one sieve 'hole' are coming from the same part of the focal plane). The focal plane variables plotted are: $\theta_{FP}$ vs $y_{FP}$.
+
+
+
+* mas_res & projection
+projection.C: projects holes in theta and phi, fits gaussian and attempts to finds deviation from expected values
+
+mas_res.C: plots results of projection.C as well as calculating mass resolution
+
+
+* SieveCheck
+SieveCheck.C: prints out theta and phi of sieve holes (for a chosen foil)
+- designed to check and ensure same values are used for optimisation and event-cutting

@@ -12,7 +12,94 @@
 
 
 #include "hole_opt_select.h"
+#include <iostream>
+#include <fstream>
 
+
+
+
+// funtcion which uses switch to choose which hole selection is used
+
+void hole_selector(TString File_name){
+
+  // hole_select_opy method is used
+  if(method == kcopy_old){
+    hole_select_copy(File_name);
+  }
+  else if (method == khole_opt_select){
+    hole_opt_select();
+  }
+
+}
+
+
+// function to only used defined holes used in another optimisation
+// need to use LOpticsOpt::Print_holes() to prodcue file to be read in 
+
+void hole_select_copy(TString File_name){
+
+  ifstream ifile;
+  File_name(0,24) = "";
+  cout << TString("plots/holes_used/") + File_name << endl;
+  ifile.open(TString("plots/holes_used/") + File_name);
+
+  // list of holes to be read in from optimisation (selected by filename)
+  std::vector<holes_fcr> hole_list;
+
+  Int_t Foil = 0;
+  Int_t Row = 0;
+  Int_t Col = 0;
+  holes_fcr new_hole;
+
+  // skip first two lines of input file (just gives colum names)
+  string dummy_line;
+  getline(ifile,dummy_line);
+  getline(ifile,dummy_line);
+  
+   while (1) {
+     if(!ifile.good()) break;
+     
+     
+     ifile >> Foil >> Col >> Row;
+
+
+     if(NFoils<11){
+      Foil += 8;
+     }
+     
+     
+     new_hole = {Foil,Col,Row};
+    
+     
+     hole_list.push_back(new_hole);
+
+   }
+
+   for(Int_t i = 0; i<11; i++){
+     foil_select[i] = true;
+     for(Int_t j = 0; j<NSieveCol; j++){
+       col_select[i][j] = true;
+       for(Int_t k = 0; k<NSieveRow; k++){
+	 row_select[i][k] = true;
+	 
+	 hole_select[i][j][k] = false;	 
+       }
+     }
+   }
+   
+   
+   
+   for (auto hole_it : hole_list){
+
+     hole_select[hole_it.Foil][hole_it.Col][hole_it.Row] = true;
+
+   }
+
+
+
+   
+  
+}
 
 
 void hole_opt_select(){
@@ -31,20 +118,25 @@ void hole_opt_select(){
   //  holes_fcr hole_list[] = {{10,1,5},{10,1,7},{10,1,9},{10,1,11},{10,2,4},{10,2,6},{10,2,8},{10,2,10},{10,2,12},{10,3,5},{10,3,7},{10,3,9},{10,3,11},{10,4,6},{10,4,8},{10,4,10},{10,4,12},{10,5,7},{10,5,9},{10,5,11},{10,6,8},{10,6,10},{10,6,12}};
   //  holes_fcr hole_list[] = {{10,2,4},{10,2,6},{10,2,8},{10,2,10},{10,2,12},{10,3,5},{10,3,7},{10,3,9},{10,3,11},{10,4,6},{10,4,8},{10,4,10},{10,4,12},{10,5,7},{10,5,9},{10,5,11},{10,6,8},{10,6,10},{10,6,12}};
   //  holes_fcr hole_list[] = {};
-  
-  holes_fcr hole_list[] = {{9,11,5},{9,11,11},{9,12,4},{9,12,6},{9,12,10},{9,14,4},{9,14,6},{9,14,10},{10,3,11},{10,4,10}};
 
+  // most recent
+  //  holes_fcr hole_list[] = {{9,11,5},{9,11,11},{9,12,4},{9,12,6},{9,12,10},{9,14,4},{9,14,6},{9,14,10},{10,3,11},{10,4,10}};
+  //  holes_fcr hole_list[] = {{9,14,4},{9,14,6},{9,14,10}}; //4/8/20
+  holes_fcr hole_list[] = {{9,14,4},{9,14,6},{9,14,10},{9,14,12}};
 
   /// columns defined by foil and column to be ignored
-  cols_fc col_foil_list[] = {{8,6},{8,7},{8,8},{8,9},{8,18},{8,19},{8,20},{9,2},{9,15},{9,16},{9,17},{9,18},{10,5},{10,6}};
-
+   //  cols_fc col_foil_list[] = {{8,6},{8,7},{8,8},{8,9},{8,18},{8,19},{8,20},{9,2},{9,15},{9,16},{9,17},{9,18},{10,5},{10,6}};
+  //  cols_fc col_foil_list[] = {{8,17},{8,18},{8,19},{8,20},{8,21},{8,22},{8,23},{9,15},{9,16},{9,17},{9,18}}; // 4/8/20
+  cols_fc col_foil_list[] = {{9,15},{9,16}};
 
   /// rows defined by foil and row to be ignored
-  rows_fr row_foil_list[] = {{8,3},{8,12},{9,3},{9,12},{9,13},{10,3},{10,4},{10,5},{10,12},{10,13}};
-  
+  // most recent
+   //  rows_fr row_foil_list[] = {{8,3},{8,12},{9,3},{9,12},{9,13},{10,3},{10,4},{10,5},{10,12},{10,13}};
+  //  rows_fr row_foil_list[] = {{8,3},{10,4}}; //4/8/20
+  rows_fr row_foil_list[] = {};
 
-  Int_t row_list[] = {13,14,15}; // rows to be missed from optimisation
-
+  //  Int_t row_list[] = {13,14,15}; // rows to be missed from optimisation
+  Int_t row_list[] = {3,14};
 
 
   // set holes to be ignored based foil, column and hole
@@ -127,7 +219,7 @@ void hole_opt_select(){
     
       col_select[i][j] = true;
 
-      // this loop sets columsn to be ignored based on column list (will ignore for all foils)
+      // this loop sets columns to be ignored based on column list (will ignore for all foils)
       for(const Int_t col_ign : col_list){
 	
 	if( j == col_ign){
@@ -135,7 +227,7 @@ void hole_opt_select(){
 	}      	
       }
 
-      // this loop sets columsn to be ignored based on column list (will ignore for all foils)
+      // this loop sets columns to be ignored based on column list (will ignore for all foils)
       for(const cols_fc col_ign : col_foil_list){
 	
 	if( i==col_ign.Foil && j == col_ign.Col){
