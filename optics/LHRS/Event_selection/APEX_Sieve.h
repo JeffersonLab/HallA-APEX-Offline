@@ -30,17 +30,17 @@ std::vector<int> Get_Col_Row(Int_t Hole);
 
 
 
-const TVector3 GetSieveHoleTCS(Int_t Col, Int_t Row) /*const*/
+const TVector3 GetSieveHoleTCS(UInt_t Col, UInt_t Row) /*const*/
 {
 
 
-  if(Col < 0 || Col > NSieveCol){
+  if(Col > NSieveCol){
     
     Col = 1;
   }
 
 
-  if(Row < 0 || Row > NSieveRow){
+  if(Row > NSieveRow){
     
     Row = 1;
   }
@@ -211,7 +211,7 @@ std::vector<int> Get_Col_Row(Int_t Hole){
   Int_t row = 0;
 
 
-  for(Int_t i = 0; i<NSieveRow; i++){
+  for(UInt_t i = 0; i<NSieveRow; i++){
 
     row_comp += NoinEachRow[i];
 
