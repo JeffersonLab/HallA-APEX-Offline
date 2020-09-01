@@ -47,6 +47,7 @@
 #include "DebugDef.h"
 #include "InputAPEXL.h"
 #include "hole_opt_select.C"
+#include "APEX_Sieve.h"
 
 ///////////////////////////////////////////////////////////////////////////////
 class TCanvas;
@@ -69,6 +70,12 @@ public:
     Int_t LoadDataBase(TString DataBaseName); // Database file -> Memory
     Int_t SaveDataBase(TString DataBaseName); // Memory -> Database file
 
+    void Ignore_tail(); // ignore events outside main gaus of phi distrib
+
+    void Print_holes(TString DataSource); // function that prints holes used in optimisation to filoe
+    
+
+  
     virtual void Print(const Option_t* opt) const;
     //virtual void Print() const;
     UInt_t Matrix2Array(Double_t Array[], Bool_t FreeParaFlag[] = NULL) // fCurrentMatrixElems -> Array
@@ -92,10 +99,13 @@ public:
     enum {
         MaxNEventData = 100, MaxNRawData = 2000000, kNUM_PRECOMP_POW = 10, kMaxDataGroup = 180 * 5 * 5
     };
+
+
+  // Bool which determines if hole_ignoring functions are to be used
+  Bool_t hole_ignore = false;
     
     
-    
-    UInt_t LoadRawData(TString DataFileName, UInt_t NLoad = MaxNRawData, UInt_t MaxDataPerGroup = (UInt_t) - 1); // load data to Rawdata[]
+  UInt_t LoadRawData(TString DataFileName, UInt_t NLoad = MaxNRawData, UInt_t MaxDataPerGroup = (UInt_t) - 1, TString Old_DataFile_name = ""); // load data to Rawdata[]
 
     
     //typedef struct {
@@ -133,7 +143,7 @@ public:
       kCalcPh		//calculated ph from matrix
     };
     enum ExtraVertexIdx{
-      kBeamDirX = 13,//urb.dir.y or rb.dir.y
+      kBeamDirX = 13, //urb.dir.y or rb.dir.y		//      kBeamDirX = 13,//urb.dir.y or rb.dir.y
       kBeamDirY,//urb.dir.y or rb.dir.y
       kBeamDirZ,//urb.dir.y or rb.dir.y
       kRealTgY=60,	//Expected Tg_y from Survey and
@@ -143,7 +153,8 @@ public:
       kSieveX,
       kSieveY,
       kSieveZ,
-      kBeamZ
+      kBeamZ,
+      kIgnore // test parameter to ignore certain prescribed events
     };
     enum ExtraDpIdx{
       //      kL_tr_tg_dp=71,	//L.tr.tg_dp
@@ -180,6 +191,8 @@ public:
     TCanvas* CheckSieve(Int_t PlotFoilID = 0);
     TCanvas* CheckSieveAccu(Int_t PlotFoilID = 0);
     TCanvas* Sieve_hole_diff(Int_t PlotFoilID = 0);
+    TCanvas* Sieve_hole_diff_tail(Int_t PlotFoilID = 0);
+  
     Double_t SumSquareDTh(void);
     //    Double_t SumSquareDPhi(void);
     std::pair<Double_t,Double_t> SumSquareDPhi(void);
@@ -188,7 +201,10 @@ public:
     Double_t fArbitaryVertexShift[100]; // compensate bias due to event selections, array of [FoilID]
     void PrepareVertex(void);
     TCanvas* CheckVertex(void);
+    TCanvas* CheckVertex_Surv(void);
     Double_t SumSquareDTgY();
+
+    void Display_holes_FP();
 
     Double_t fArbitaryDpKinShift[100]; // compensate bias due to dp event selections, array of [KineID]
     /* void PrepareDp(void); */
@@ -267,6 +283,10 @@ public:
 
 private:
     ClassDef(LOpticsOpt, 0) // HRS Optics Optimizer
+
+
+    Double_t gaus_start[NFoils], gaus_end[NFoils];
+    Double_t lin_starts[NFoils], lin_ends[NFoils];
 };
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -292,4 +312,23 @@ public:
 
     UInt_t OptOrder; //order optimize to
 };
+
+
+// function for fitting Gaus and linear background
+// used for y_sieve difference
+
+Double_t  peak(Double_t *x, Double_t *par) {
+  return  par[0]*TMath::Exp(-(((x[0]-par[1])*(x[0]-par[1]))/(2*par[2]*par[2])));
+}
+
+Double_t bg(Double_t *x, Double_t *par) {
+  return par[0]+(par[1]*x[0]);
+}
+
+// sum of peak and backgorund
+Double_t overall(Double_t *x, Double_t *par) {
+  return peak(x,par) + bg(x,&par[3]);
+}
+
+
 #endif
