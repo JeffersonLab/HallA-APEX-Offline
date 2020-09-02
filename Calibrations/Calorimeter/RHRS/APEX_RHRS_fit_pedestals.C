@@ -150,8 +150,8 @@ void APEX_RHRS_fit_pedestals(Int_t run = 4648) {
 		delete show_ped;
 	}
 
-	ofstream pedPSfile("output_data/ped_preshower.dat");
-	ofstream pedSHfile("output_data/ped_shower.dat");
+	ofstream pedPSfile(Form("output_data/%d_ped_preshower.dat",run));
+	ofstream pedSHfile(Form("output_data/%d_ped_shower.dat",run));
 	
 	for(int i = 0; i < nBlkPreShower; i++) {
 	  pedPSfile << setw(10) << ped_preShow[i] << "\t";

@@ -319,8 +319,8 @@ void APEX_RHRS_minuit_cluster_cut1(Int_t run = 4179) {
 	numEvents = T->GetEntries();
 
 	// read the pedestals
-	ifstream preshowerPedFile("output_data/ped_preshower.dat");
-	ifstream showerPedFile("output_data/ped_shower.dat");
+	ifstream preshowerPedFile(Form("output_data/%d_ped_preshower.dat",run));
+	ifstream showerPedFile(Form("output_data/%d_ped_shower.dat",run));
 	Double_t preShowPed;
 	Double_t showPed;
 
@@ -391,8 +391,8 @@ void APEX_RHRS_minuit_cluster_cut1(Int_t run = 4179) {
 	// write out to file in current directory
 	// the output has been structured with the correct ordering of the block gains
 	// i.e., you should be able to just copy and paste this into your database file
-	ofstream fit_preshower("output_data/minuit_cluster_cut1.ps.dat");
-	ofstream fit_shower("output_data/minuit_cluster_cut1.sh.dat");
+	ofstream fit_preshower(Form("output_data/%d_minuit_cluster_cut1.ps.dat",run));
+	ofstream fit_shower(Form("output_data/%d_minuit_cluster_cut1.sh.dat",run));
 	cout << setprecision(5);
 
 	fit_preshower << "R.ps.pedestals =\n";
