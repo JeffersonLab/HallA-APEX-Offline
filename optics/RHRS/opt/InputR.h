@@ -86,6 +86,15 @@ double target_pitch = -0.0219 * D2R;
 const Double_t targetfoilsX[] = {2.5e-3, 0, -2.5e-3};
 
 
+
+
+
+std::vector<TString> Foil_names;
+
+
+
+
+
  ///////////////////////////////////////////////////////////////////////// 
  // Excitation State Inputs 
 const UInt_t NKine = 5; //N Delta Scans */

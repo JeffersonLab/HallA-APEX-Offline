@@ -2,8 +2,8 @@
 
 ORDERS="5th"
 RUNS="4647"
-RANGES="-50_-30 -30_-10 -10_10 10_30 30_50"
 #RANGES="-50_-30 -30_-10 -10_10 10_30 30_50"
+RANGES="-10_10"
 
 
 
@@ -20,8 +20,6 @@ do
 	    y_file="db_R.vdc.dat_y_"$order"_xfp_"$range
 	    analyzer <<EOF
 ROpticsOptScript("$run","$range","phi","db_R.vdc.dat_$order","$phi_file")
-ROpticsOptScript("$run","$range","theta","$phi_file","$theta_file")
-ROpticsOptScript("$run","$range","y","$theta_file","$y_file")
 EOF
 	done
 	
