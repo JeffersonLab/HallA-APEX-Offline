@@ -68,6 +68,8 @@ public:
     Int_t LoadDataBase(TString DataBaseName); // Database file -> Memory
     Int_t SaveDataBase(TString DataBaseName); // Memory -> Database file
 
+    void Ignore_tail();   // ignore events outside main gaus of phi distrib
+    
     virtual void Print(const Option_t* opt) const;
     //virtual void Print() const;
     UInt_t Matrix2Array(Double_t Array[], Bool_t FreeParaFlag[] = NULL) // fCurrentMatrixElems -> Array
@@ -136,7 +138,8 @@ public:
     enum ExtraVertexIdx {
         kRealReactZ = 10, //expected ReactZ
         kCalcTgY, //calculated Tg_y
-        kCalcReactZ //calculated ReactZ
+        kCalcReactZ, //calculated ReactZ
+	kIgnore
     };
 
     enum ExtraDpIdx {
@@ -171,6 +174,9 @@ public:
     void PrepareSieve(void);
     TCanvas* CheckSieve(Int_t PlotFoilID = 0);
     TCanvas* CheckSieveAccu(Int_t PlotFoilID = 0);
+    TCanvas* Sieve_hole_diff(Int_t PlotFoilID = 0);
+    TCanvas* Sieve_hole_diff_tail(Int_t PlotFoilID = 0);
+
     Double_t SumSquareDTh(void);
     Double_t SumSquareDPhi(void);
     //void check_fit_qual_Th(void);
@@ -257,7 +263,11 @@ public:
 
 private:
     ClassDef(ROpticsOpt, 0) // HRS Optics Optimizer
-};
+      
+    Double_t gaus_start[NFoils], gaus_end[NFoils];
+    Double_t lin_starts[NFoils], lin_ends[NFoils];
+      
+      };
 
 ///////////////////////////////////////////////////////////////////////////////
 // class for storing matrix element data
@@ -282,4 +292,25 @@ public:
 
     UInt_t OptOrder; //order optimize to
 };
+
+
+
+// function for fitting Gaus and linear background
+// used for y_sieve difference
+
+Double_t  peak(Double_t *x, Double_t *par) {
+  return  par[0]*TMath::Exp(-(((x[0]-par[1])*(x[0]-par[1]))/(2*par[2]*par[2])));
+}
+
+Double_t bg(Double_t *x, Double_t *par) {
+  return par[0]+(par[1]*x[0]);
+}
+
+// sum of peak and backgorund
+Double_t overall(Double_t *x, Double_t *par) {
+  return peak(x,par) + bg(x,&par[3]);
+}
+
+
+
 #endif
