@@ -106,6 +106,38 @@ THaTrackingDetector(name, description, apparatus)
 
     for (UInt_t i = 0; i < 100; i++)
         fArbitaryDpKinShift[i] = fArbitaryVertexShift[i] = 0;
+
+
+    // give names to foils used
+    
+    // vertical foils
+    if(NFoils == 3){     
+      for(UInt_t i = 0; i<NFoils; i++){
+	TString foil(Form("V%d",i+1));
+	Foil_names.push_back(foil);
+      }      
+    }
+    // Optics foils
+    else if(NFoils == 8){
+      for(UInt_t i = 0; i<NFoils; i++){
+	TString foil(Form("Opt %d",i+1));
+	Foil_names.push_back(foil);
+      }      
+    }
+    // Optics and Vertical foils (0-7 wires are optics, 8-10 are Vertical)
+    else if(NFoils == 11){
+      UInt_t i = 0;
+      for(; i<3; i++){
+	TString foil(Form("V%d",i+1));
+	Foil_names.push_back(foil);
+      } 
+      for(; i<11; i++){
+	TString foil(Form("Opt %d",i-2));
+	Foil_names.push_back(foil);
+      }      
+           
+    }
+    
 }
 
 ROpticsOpt::~ROpticsOpt()
@@ -898,6 +930,16 @@ UInt_t ROpticsOpt::LoadRawData(TString DataFileName, UInt_t NLoad, UInt_t MaxDat
 // Optimization related Commands
 ///////////////////////////////////////////////////////////////////////////////
 
+TVector3 ROpticsOpt::BeamSpotHCS_Correction(UInt_t FoilID, double beam_y, double beam_z){
+  
+  TVector3 foil(targetfoilsX[FoilID], beam_y, beam_z);
+
+  foil.RotateY(target_yaw);
+
+  return foil;
+}
+
+
 const TVector3 ROpticsOpt::GetSieveHoleTCS(UInt_t Col, UInt_t Row)
 {
     assert(Col < NSieveCol);
@@ -1007,11 +1049,12 @@ void ROpticsOpt::PrepareSieve(void)
         eventdata.Data[kSieveX] = SieveHoleCorrectionTCS.X();
         eventdata.Data[kSieveY] = SieveHoleCorrectionTCS.Y();
         eventdata.Data[kSieveZ] = SieveHoleCorrectionTCS.Z();
-
+	
 	const TVector3 BeamSpotHCS(eventdata.Data[kBeamX], eventdata.Data[kBeamY], targetfoils[FoilID]);
 	//const TVector3 BeamSpotHCS(BeamX_average[FoilID], BeamY_average, targetfoils[FoilID]);
+	
         eventdata.Data[kBeamZ] = targetfoils[FoilID];
-
+	
         const TVector3 BeamSpotTCS = fTCSInHCS.Inverse()*(BeamSpotHCS - fPointingOffset);        
 
 	const TVector3 MomDirectionTCS = SieveHoleCorrectionTCS - BeamSpotTCS;

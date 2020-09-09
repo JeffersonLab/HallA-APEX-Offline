@@ -80,6 +80,15 @@ const Double_t targetoffset = -5*1e-3;
 //const Double_t targetfoils[] = {-10e-2+targetoffset, targetoffset-7.5e-2, targetoffset-5e-2, targetoffset-2.e-2, targetoffset+0.0, targetoffset+2.e-2, targetoffset+5e-2, targetoffset+7.5e-2,10e-2+targetoffset, 1e36};
 const Double_t targetfoils[] = {-0.2 + targetoffset, 0.0 + targetoffset, 0.2 + targetoffset, 1e36};
 
+
+
+
+std::vector<TString> Foil_names;
+
+
+
+
+
  ///////////////////////////////////////////////////////////////////////// 
  // Excitation State Inputs 
 const UInt_t NKine = 5; //N Delta Scans */
