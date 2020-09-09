@@ -6,7 +6,8 @@ RUNS="4647"
 RANGES="-10_10"
 
 
-#ROpticsOptScript("$run","$range","theta","$phi_file","$theta_file")
+
+#ROpticsOptScript("$run","$range","phi","db_R.vdc.dat_$order","$phi_file")
 
 for run in $RUNS
 do

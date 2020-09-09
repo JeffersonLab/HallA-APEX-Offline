@@ -8,8 +8,8 @@
 
 void SieveCheck(Int_t FoilID){
 
-  const Double_t BeamX_average = -0.0006391;
-  const Double_t BeamY_average = 0.002405; 
+  // const Double_t BeamX_average = -0.0006391;
+  // const Double_t BeamY_average = 0.002405; 
  
   
   TRotation fTCSInHCS;
@@ -22,7 +22,7 @@ void SieveCheck(Int_t FoilID){
   fPointingOffset.SetXYZ(-MissPointZ*TMath::Sin(HRSAngle)*TMath::Cos(HRSAngle),(Double_t)MissPointY,MissPointZ*TMath::Sin(HRSAngle)*TMath::Sin(HRSAngle));
 
 
-  TVector3 BeamSpotHCS_average(BeamX_average,BeamY_average,targetfoils[FoilID]);
+  TVector3 BeamSpotHCS_average(BeamX_average[FoilID],BeamY_average[FoilID],targetfoils[FoilID]);
   TVector3 BeamSpotTCS_average = fTCSInHCS.Inverse()*(BeamSpotHCS_average-fPointingOffset);
 
   for( Int_t row = 0; row<NSieveRow; row++){
@@ -31,7 +31,7 @@ void SieveCheck(Int_t FoilID){
 
       Int_t Hole = Get_Hole(col, row);
       
-      TVector3 Hole_pos = GetSieveHoleTCS(Hole);
+      TVector3 Hole_pos = GetSieveHoleCorrectionTCS(FoilID,col,row);
 
        TVector3 Hole_pos_nocorrect = GetSieveHoleTCS(col,row);
       

@@ -24,9 +24,9 @@ const TString InputID = "GMp_RHRS";
 const Double_t D2R = TMath::Pi() / 180.;
 
 //set as central sieve hole angle
-//const Double_t HRSAngle = -5 * D2R; 
+const Double_t HRSAngle = -5 * D2R; 
 //const Double_t HRSAngle = 5.366 * D2R;
-const Double_t HRSAngle = 5.0 * D2R; 
+//const Double_t HRSAngle = 5.0 * D2R; 
 
 //LH2 target information
 const Double_t LH2_TargetLength = 15*1.e-2; //unit m
@@ -62,9 +62,14 @@ const Double_t SieveRadius_c = 0.106*25.4/2.0*1e-3;
 
 // case of Optics Foils + vertical foils
 
-Double_t BeamX_average[] = {-0.0006391,-0.000636,-0.0006391,-0.000636,-0.0006391,-0.000636,-0.0006391,-0.000636,0.002064,-0.0005847,-0.002499};
+//Double_t BeamX_average[] = {-0.0006391,-0.000636,-0.0006391,-0.000636,-0.0006391,-0.000636,-0.0006391,-0.000636,0.002064,-0.0005847,-0.002499};
 
-Double_t BeamY_average[] = {0.002405,0.002419,0.002405,0.002419,0.002405,0.002419,0.002405,0.002419,0.002284,0.002424,0.002498};
+//Double_t BeamX_average[] = {-0.0006391,-0.000636,-0.0006391,-0.000636,-0.0006391,-0.000636,-0.0006391,-0.000636,0.002064,-0.0005847,-0.002499};
+
+//Double_t BeamY_average[] = {0.002405,0.002419,0.002405,0.002419,0.002405,0.002419,0.002405,0.002419,0.002284,0.002424,0.002498};
+
+const Double_t BeamX_average[] = {1.76e-3, -0.9646e-3, -2.137e-3};
+const Double_t BeamY_average[] = {2.726e-3, 2.845*1e-3, 2.879e-3};
 
 Double_t BeamXDir_average[] = {0.0002036,0.0001817,0.0002036,0.0001817,0.0002036,0.0001817,0.0002036,0.0001817,0.002392,0.0002429,-0.001303};
 Double_t BeamYDir_average[] = {-0.0005503,-0.0005584,-0.0005503,-0.0005584,-0.0005503,-0.0005584,-0.0005503,-0.0005584,-0.0006598,-0.000541,-0.0004732};
@@ -122,13 +127,14 @@ std::map<int, std::pair<int,int>> Beam_info;
 // Sieve Position Inputs
 const Double_t YbyCol = .19 * 25.4e-3;
 // 16/1/20
-const Double_t y_off = 31.23 * tan(0.8 *D2R) * 25.4e-3; 
+//const Double_t y_off = 31.23 * tan(0.8 *D2R) * 25.4e-3;
+const Double_t y_off = -31.23 * tan(0.8 *D2R) * 25.4e-3; 
 //const Double_t y_off = 0.0; 
-//const Double_t SieveYbyCol[]= {7*YbyCol + y_off, 6.5*YbyCol + y_off, 6*YbyCol + y_off, 5.5*YbyCol + y_off, 5*YbyCol + y_off, 4.5*YbyCol + y_off, 4*YbyCol + y_off, 3.5*YbyCol + y_off, 3*YbyCol + y_off, 2.5*YbyCol + y_off, 2*YbyCol + y_off, 1.5*YbyCol + y_off, 1.0*YbyCol + y_off, 0.5*YbyCol + y_off, 0.0*YbyCol + y_off, -0.5*YbyCol + y_off, -1*YbyCol + y_off, -1.5*YbyCol + y_off, -2*YbyCol + y_off, -2.5*YbyCol + y_off, -3*YbyCol + y_off, -3.5*YbyCol + y_off, -4*YbyCol + y_off, -4.5*YbyCol + y_off, -5*YbyCol + y_off, -6*YbyCol + y_off, -7*YbyCol + y_off, 1e36};
+const Double_t SieveYbyCol[]= {7*YbyCol + y_off, 6.5*YbyCol + y_off, 6*YbyCol + y_off, 5.5*YbyCol + y_off, 5*YbyCol + y_off, 4.5*YbyCol + y_off, 4*YbyCol + y_off, 3.5*YbyCol + y_off, 3*YbyCol + y_off, 2.5*YbyCol + y_off, 2*YbyCol + y_off, 1.5*YbyCol + y_off, 1.0*YbyCol + y_off, 0.5*YbyCol + y_off, 0.0*YbyCol + y_off, -0.5*YbyCol + y_off, -1*YbyCol + y_off, -1.5*YbyCol + y_off, -2*YbyCol + y_off, -2.5*YbyCol + y_off, -3*YbyCol + y_off, -3.5*YbyCol + y_off, -4*YbyCol + y_off, -4.5*YbyCol + y_off, -5*YbyCol + y_off, -6*YbyCol + y_off, -7*YbyCol + y_off, 1e36};
 
 
-/* const Double_t SieveYbyCol[]= {7*YbyCol + y_off, 6*YbyCol + y_off, 5*YbyCol + y_off, 4.5*YbyCol + y_off, 4*YbyCol + y_off, 3.5*YbyCol + y_off, 3*YbyCol + y_off, 2.5*YbyCol + y_off, 2*YbyCol + y_off, 1.5*YbyCol + y_off, 1.0*YbyCol + y_off, 0.5*YbyCol + y_off, 0.0*YbyCol + y_off, -0.5*YbyCol + y_off, -1*YbyCol + y_off, -1.5*YbyCol + y_off, -2*YbyCol + y_off, -2.5*YbyCol + y_off, -3*YbyCol + y_off, -3.5*YbyCol + y_off, -4*YbyCol + y_off, -4.5*YbyCol + y_off, -5*YbyCol + y_off, -5.5*YbyCol + y_off, -6*YbyCol + y_off, -6.5*YbyCol + y_off, -7*YbyCol + y_off, 1e36}; */
-const Double_t SieveYbyCol[]= { -7*YbyCol + y_off, -6.5*YbyCol + y_off, -6*YbyCol + y_off, -5.5*YbyCol + y_off, -5*YbyCol + y_off, -4.5*YbyCol + y_off, -4*YbyCol + y_off, -3.5*YbyCol + y_off, -3*YbyCol + y_off, -2.5*YbyCol + y_off, -2*YbyCol + y_off, -1.5*YbyCol + y_off, -1*YbyCol + y_off, -0.5*YbyCol + y_off, 0.0*YbyCol + y_off, 0.5*YbyCol + y_off, 1.0*YbyCol + y_off, 1.5*YbyCol + y_off, 2*YbyCol + y_off, 2.5*YbyCol + y_off, 3*YbyCol + y_off, 3.5*YbyCol + y_off, 4*YbyCol + y_off, 4.5*YbyCol + y_off, 5*YbyCol + y_off, 6*YbyCol + y_off, 7*YbyCol + y_off, 1e36}; 
+/*const Double_t SieveYbyCol[]= {7*YbyCol + y_off, 6*YbyCol + y_off, 5*YbyCol + y_off, 4.5*YbyCol + y_off, 4*YbyCol + y_off, 3.5*YbyCol + y_off, 3*YbyCol + y_off, 2.5*YbyCol + y_off, 2*YbyCol + y_off, 1.5*YbyCol + y_off, 1.0*YbyCol + y_off, 0.5*YbyCol + y_off, 0.0*YbyCol + y_off, -0.5*YbyCol + y_off, -1*YbyCol + y_off, -1.5*YbyCol + y_off, -2*YbyCol + y_off, -2.5*YbyCol + y_off, -3*YbyCol + y_off, -3.5*YbyCol + y_off, -4*YbyCol + y_off, -4.5*YbyCol + y_off, -5*YbyCol + y_off, -5.5*YbyCol + y_off, -6*YbyCol + y_off, -6.5*YbyCol + y_off, -7*YbyCol + y_off, 1e36}; */
+/* const Double_t SieveYbyCol[]= { -7*YbyCol + y_off, -6.5*YbyCol + y_off, -6*YbyCol + y_off, -5.5*YbyCol + y_off, -5*YbyCol + y_off, -4.5*YbyCol + y_off, -4*YbyCol + y_off, -3.5*YbyCol + y_off, -3*YbyCol + y_off, -2.5*YbyCol + y_off, -2*YbyCol + y_off, -1.5*YbyCol + y_off, -1*YbyCol + y_off, -0.5*YbyCol + y_off, 0.0*YbyCol + y_off, 0.5*YbyCol + y_off, 1.0*YbyCol + y_off, 1.5*YbyCol + y_off, 2*YbyCol + y_off, 2.5*YbyCol + y_off, 3*YbyCol + y_off, 3.5*YbyCol + y_off, 4*YbyCol + y_off, 4.5*YbyCol + y_off, 5*YbyCol + y_off, 6*YbyCol + y_off, 7*YbyCol + y_off, 1e36}; */ 
 const UInt_t NSieveCol = 27; 
 
 const Double_t XbyRow = .46 * 25.4e-3;
@@ -145,12 +151,17 @@ B.L. Sieve Centre     791.8   81.0    1.4    5.366
 */
 
 // SieveOff* are in TCS
-//const Double_t SieveOffY = 0;
-const Double_t SieveOffY = 0.665315e-3; // obtained from technical drawing of set-up (31.23 inches from V2 foil to centre of sieve slit, 0.8 degree angle from centre of sieve slit to largest hole, last number is conversion to metres)
-/* const Double_t SieveOffX = 0; */
-const Double_t SieveOffX = -1.334e-3; // X points down in TCS, hence negative of Y term in 'Hall-like' system where Survey results are taken from
 
-const Double_t SieveOffZ = 2.6756e-3;
+//const Double_t SieveOffY = 0;
+//const Double_t SieveOffY = 0.665315e-3; // obtained from technical drawing of set-up (31.23 inches from V2 foil to centre of sieve slit, 0.8 degree angle from centre of sieve slit to largest hole, last number is conversion to metres)
+/* const Double_t SieveOffX = 0; */
+//const Double_t SieveOffX = -1.334e-3; // X points down in TCS, hence negative of Y term in 'Hall-like' system where Survey results are taken from
+
+//const Double_t SieveOffZ = 2.6756e-3;
+
+const Double_t SieveOffY = 2.07*1.e-3;// -(3.314-0.8)*1.e-3;
+const Double_t SieveOffX = -1.65*1.e-3;//-(1.07+1.42)*1.e-3;
+const Double_t SieveOffZ = 1.49*1.e-3;//-(1.07+1.42)*1.e-3;
 
 // experiment with SieveOff in HCS and using fTCSinHCS to convert between
 
@@ -185,7 +196,8 @@ const Double_t targetoffset = 0;
 
 // scheme where foils Optics foils are numbered 0-7 and Vertical foils 8-10
 
-static const UInt_t NFoils = 11;
+static const UInt_t NFoils = 3;
+
 // z-corrections for foils from survey
 
 // general foil z-correction to nearest mm
@@ -218,7 +230,8 @@ static const Double_t foil_xcorr_down = -0.04e-3;
 //const Double_t targetfoils[] = { -0.3,  -0.219, -0.15,  -0.075, 0.075, 0.15, 0.219, 0.3, -0.2, 0, 0.2, 1e36};
 
 // foil z-positions
-const Double_t targetfoils[] = { -0.3 + foil_zcorr,  -0.219 + foil_zcorr, -0.15 + foil_zcorr,  -0.075 + foil_zcorr, 0.075 + foil_zcorr, 0.15 + foil_zcorr, 0.219 + foil_zcorr, 0.3 + foil_zcorr, -0.2 + foil_zcorr, 0 + foil_zcorr, 0.2 + foil_zcorr, 1e36};
+//const Double_t targetfoils[] = { -0.3 + foil_zcorr,  -0.219 + foil_zcorr, -0.15 + foil_zcorr,  -0.075 + foil_zcorr, 0.075 + foil_zcorr, 0.15 + foil_zcorr, 0.219 + foil_zcorr, 0.3 + foil_zcorr, -0.2 + foil_zcorr, 0 + foil_zcorr, 0.2 + foil_zcorr, 1e36};
+const Double_t targetfoils[] = {-0.2 + targetoffset, 0.0 + targetoffset, 0.2 + targetoffset, 1e36};
 
 // foil x-positions
 const Double_t orig_targetfoilsX[] = { 0, 0, 0, 0, 0, 0, 0, 0, 0.0025 + foil_xcorr_W, 0 + foil_xcorr_W, -0.0025 + foil_xcorr_W, 1e36};
@@ -346,9 +359,7 @@ TCut FP_cuts = "L.tr.r_x>-0.6 && L.tr.r_x<0.56 && L.tr.r_y>-0.04 && L.tr.r_y<0.0
 
 // TCut FP_cuts = "L.tr.r_x>-0.6 && L.tr.r_x<0.56 && L.tr.r_y>-0.04 && L.tr.r_y<0.037 && L.tr.r_th>-0.029 && L.tr.r_th<0.02 && L.tr.r_ph>-0.05 && L.tr.r_ph<0.04";
 
-TCut PID_cuts = "(L.prl1.e/(L.gold.p*1000))>0.3 && ((L.prl1.e+L.prl2.e)/(L.gold.p*1000))>0.625 && ((L.prl1.e+L.prl2.e)/(L.gold.p*1000))<1.11 &&  L.cer.asum_c >650";
-
-// && Lrb.x>-0.0029 && Lrb.x<-0.0022";
+TCut PID_cuts = "(L.prl1.e/(L.gold.p*1000))>0.3 && ((L.prl1.e+L.prl2.e)/(L.gold.p*1000))>0.625 && ((L.prl1.e+L.prl2.e)/(L.gold.p*1000))<1.11 &&  L.cer.asum_c >650 && Lrb.x>-0.0029 && Lrb.x<-0.0022";
 
 
 // list of runs for LHRS optics based on target
@@ -374,40 +385,14 @@ Double_t dp_split[6][2] = {{-0.05,-0.03},{-0.03,-0.01},{-0.01,0.01},{0.01,0.03},
 
 
 //////Sieve Survey Inputs////
-double yaw = 5.366 * D2R;     //Abs value of yaw
-double pitch = 89.988 * D2R;  //Degree of pitch 
+//double yaw = 5.366 * D2R;     //Abs value of yaw
+double yaw = -5.372 * D2R;     //Abs value of yaw
+//double pitch = 89.988 * D2R;  //Degree of pitch
+double pitch = 90.019 * D2R;  //Degree of pitch 
 
 
 double target_yaw =  0.1022 * D2R;
 double target_pitch = -0.0219 * D2R;  //Degree of pitch 
-
-
-// function that gets beam cut from run number
-
-TString get_Beamcut(Int_t runnumber){
-
-  TString beam_cut = "";
-
-  if(runnumber == 4766){
-    // V1
-    cout << "V1 wire beam cut!" << endl;
-    beam_cut = "0.0017<Lrb.x && Lrb.x<0.0024";
-  }
-  else if(runnumber == 4768){
-    // V2
-    cout << "V2 wire beam cut!" << endl;
-    beam_cut = "-0.001<Lrb.x && Lrb.x<-0.0003";
-  }
-  else if(runnumber == 4769){
-    // V3
-    cout << "V3 wire beam cut!" << endl;
-    beam_cut = "-0.0029<Lrb.x && Lrb.x<-0.00225";
-  }
-
-  return beam_cut;
-}
-
-
 
 
 // functions that can return run type (Foil) from run number
@@ -423,7 +408,6 @@ bool Contains(const std::vector<TString> &list, TString x){
   return std::find(list.begin(), list.end(), x) != list.end();
 
 }
-
 
 
 TString Return_target(Int_t runnumber){
