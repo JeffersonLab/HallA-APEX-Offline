@@ -37,8 +37,6 @@
 
 
 
-//void CalcMatrixElem_APEX(vector<THaMatrixElement>& matrix );
-
 
 void apex_ME_calc(Int_t runnumber, TString db_name, Int_t rast = 1){
   
@@ -55,15 +53,7 @@ void apex_ME_calc(Int_t runnumber, TString db_name, Int_t rast = 1){
 
   // create a directory in which to save the results
 
-  // TString Dir_name;
-  
-  // cout << "Enter a directory name in which to save results: " << endl;
-    
-  // cin >> Dir_name;
-
   gSystem->Exec("mkdir rootfiles/" + db_name); 
-
-
 
 
 
@@ -106,7 +96,7 @@ void apex_ME_calc(Int_t runnumber, TString db_name, Int_t rast = 1){
 
   T->SetBranchStatus("L.tr.vz",1);
 
-  T->SetBranchStatus("L.gold.*",1);
+  //  T->SetBranchStatus("L.gold.*",1);
   
 
 
@@ -130,9 +120,14 @@ void apex_ME_calc(Int_t runnumber, TString db_name, Int_t rast = 1){
   T->SetBranchStatus("L.cer.asum_c",1);
   
   
+  // branches for trigger information
+  T->SetBranchStatus("DL.evtype",1);
+  T->SetBranchStatus("DR.evtype",1);
 
 
-
+  // further branches for raster information
+  T->SetBranchStatus("Lrb.*",1);
+  
 
   // set-up output TTree
 
@@ -150,6 +145,7 @@ void apex_ME_calc(Int_t runnumber, TString db_name, Int_t rast = 1){
 
   //  TString final_cut = (TString) PID_cuts + " && " + (TString) GeneralSieveCut + " && " + (TString) FP_cut;
 
+  // for the moment: do not implement cut but include tree variables such that cuts can be performed later
   TString final_cut = "";
 
 
@@ -157,33 +153,10 @@ void apex_ME_calc(Int_t runnumber, TString db_name, Int_t rast = 1){
 
   TTree*  out_T = T->CloneTree(0,final_cut);
 
-
-  // add additional branches 
-
-  
-  // create structure for ME (matrix elements)
-  // 
-
-
-
-
-
-  //  auto newBranch = new TBranch();
-
   
   LoadDataBase("DB/" + db_name);
 
 
-  //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  // test-loop to print DB out
-
-
-
-  //  std::vector<THaMatrixElement>& matrix = fTMatrixElems;
-
-  
-  
-  //  MatrixElems_Vals TMatrix_vals;
 
   MatrixElemExist(fTMatrixElems, TMatrix_vals);
   MatrixElemExist(fYMatrixElems, YMatrix_vals);
@@ -199,34 +172,6 @@ void apex_ME_calc(Int_t runnumber, TString db_name, Int_t rast = 1){
 
 
 
-  // for( int a = 0; a<5; a++){
-  //   for( int b = 0; b<5; b++){
-  //     for( int c = 0; c<5; c++){
-  // 	for( int d = 0; d<5; d++){
-	  
-  // 	  cout << "Exist[" << a << "][" << b << "][" << c << "][" << d << "] = " << TMatrix_vals.Exist[a][b][c][d] << endl;
-	  
-
-  // 	  if(TMatrix_vals.Exist[a][b][c][d] != 0){
-  // 	    //	    out_T->Branch(Form("TElems_%i_%i_%i_%i",a,b,c,d),values[no_exist]);
-  // 	    //	    out_T->Branch(Form("Test_2_%i",no_exist),values);
-
-  // 	    if(no_exist > 0){
-
-  // 	      TMatrix_vals.values.push_back(0);
-
-  // 	    }
-
-  // 	    no_exist++;
-	    
-  // 									       }
-  // 	  }
-  // 	}
-  //     }
-  //   }
-
-
-
 
 
   //  out_T->Branch(Form("Test_2_%i",no_exist),fTMatrixElems,);
@@ -236,11 +181,18 @@ void apex_ME_calc(Int_t runnumber, TString db_name, Int_t rast = 1){
   out_T->Branch("D_elems",&DMatrix_vals.values);
   
 
+  
 
   // add z-vertex and sieve positions to output tree
 
+  // assigned foilz (makes sense for vertical foil runs)
+  Double_t foilz = 0;
+  // calculated foilz (based on Y elements/ tg_y reconstruction)
   Double_t reactz = 0;
-    
+
+  
+
+  out_T->Branch("foilz",&foilz);
   out_T->Branch("reactz",&reactz);
 
   Double_t x_sieve = 0;
@@ -265,35 +217,7 @@ void apex_ME_calc(Int_t runnumber, TString db_name, Int_t rast = 1){
 
   out_T->Branch("x_tgt",&x_tgt);
 
-  // std::cout.precision(7);
 
-  // Int_t it_count = 0;
-  // for( vector<THaMatrixElement>::iterator it=matrix.begin(); it!=matrix.end(); it++ ) {
-
-
-
-
-
-
-  //   std::cout << "for ME[" << it_count << "] with x-order = " << it->order << " : " << std::endl;
-  //   for(int i=0; i<=it->order-1; i++){
-  //     std::cout << "it->poly[" << i << "] = " << it->poly[i] << std::endl;
-  //     std::cout << "it->pw[" << i << "] = " << it->pw[i] << std::endl;
-  //   }
-    
-  //   std::cout << std::endl << std::endl;
-  //   it_count++;
-
-  // }
-  //    ~~~~~~~~~~~~~~~~~~~~~~~~
-
-
-  //  std::cout << "finished " << std::endl;
-
-  //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  // Calculate new target variables (with given DB)
-
-//  out_T->Branch("",fTMatrixelems);
 
 
 
@@ -306,8 +230,14 @@ void apex_ME_calc(Int_t runnumber, TString db_name, Int_t rast = 1){
 
   Double_t Lrb_x = 0;
   Double_t Lrb_y = 0;
+  Double_t Lrb_dir_x = 0;
+  Double_t Lrb_dir_y = 0;
+
+  
   Double_t Lurb_x = 0;
   Double_t Lurb_y = 0;
+  Double_t Lurb_dir_x = 0;
+  Double_t Lurb_dir_y = 0;
 
  
   Double_t th_tgt = 0;
@@ -317,10 +247,6 @@ void apex_ME_calc(Int_t runnumber, TString db_name, Int_t rast = 1){
 
 
 
-  // T->SetBranchAddress("L.tr.x",&x_fp);
-  // T->SetBranchAddress("L.tr.y",&y_fp);
-  // T->SetBranchAddress("L.tr.th",&th_fp);
-  // T->SetBranchAddress("L.tr.ph",&ph_fp);
 
   T->SetBranchAddress("L.tr.r_x",x_fp);
   T->SetBranchAddress("L.tr.r_y",y_fp);
@@ -331,11 +257,13 @@ void apex_ME_calc(Int_t runnumber, TString db_name, Int_t rast = 1){
 
   T->SetBranchAddress("Lrb.x",&Lrb_x);
   T->SetBranchAddress("Lrb.y",&Lrb_y);
+  T->SetBranchAddress("Lrb.dir.x",&Lrb_dir_x);
+  T->SetBranchAddress("Lrb.dir.y",&Lrb_dir_y);
   T->SetBranchAddress("Lurb.x",&Lurb_x);
   T->SetBranchAddress("Lurb.y",&Lurb_y);
-
-
-
+  T->SetBranchAddress("Lurb.dir.x",&Lurb_dir_x);
+  T->SetBranchAddress("Lurb.dir.y",&Lurb_dir_y);
+  
   out_T->Branch("th_tgt",&th_tgt);
   out_T->Branch("y_tgt",&y_tgt);
   out_T->Branch("ph_tgt",&ph_tgt);
@@ -348,16 +276,6 @@ void apex_ME_calc(Int_t runnumber, TString db_name, Int_t rast = 1){
 
 
 
-
-
-  //  out_T->Branch("X_ME",r_values,"r_values[5][5][5][5]/D");
-  //  out_T->Branch("X_ME",&fTMatrixElems); 
-
-
-
-
-
-
   // Added to keep track of portion of times that the number of bytes read from the original tree exceed s a certain level
   Double_t tree_read_tracker = 0;
   Int_t read_lim = 600;
@@ -365,31 +283,34 @@ void apex_ME_calc(Int_t runnumber, TString db_name, Int_t rast = 1){
 
   Double_t theta_track = 0;
 
-  //  NEntries = 10;
 
 
+  // set number of powers to calculate 
+  // this sets for each event what powers of x_fp,th_fp,y_fp,ph_fp to calculate  
+  
+  Int_t max_pow = 5;
 
+  
+  Int_t loop_no = 0;
+  
   for(Int_t i = 0; i<NEntries; i++){
+    loop_no++;
 
 
-
+    reactz = 0;
+    
     bytes  = T->GetEntry(i);
 
-    //    cout << "Out_T first check : out_T->GetEntries() = " << out_T->GetEntries() << endl;
+    
+    // if(bytes>read_lim){
+    //   tree_read_tracker++;
+    //   continue;
+    // }
+
 
     
-    if(bytes>read_lim){
-      tree_read_tracker++;
-      continue;
-    }
-
-    //    cout << "Portion of events > 600 bytes = " << tree_read_tracker/i << endl;
-
-
-    //    std::cout << " loop " << i << " where x_fp = " << x_fp << std::endl;
-
     //  calculate the powers we need
-    for(int j=0; j<5; j++) {
+    for(int j=0; j<=max_pow; j++) {
       powers[j][0] = pow(x_fp[0], j);
       powers[j][1] = pow(th_fp[0], j);
       powers[j][2] = pow(y_fp[0], j);
@@ -398,11 +319,6 @@ void apex_ME_calc(Int_t runnumber, TString db_name, Int_t rast = 1){
     }
 
 
-    //    CalcMatrix(x_fp,fTMatrixElems);
-    // cout << " theta = " << CalcTargetVar(fTMatrixElems, powers) << endl;
-
-    // cout << " Print focal plane variables: " << endl;
-    // cout << "x_fp = " << x_fp << ", th_fp = " << th_fp << ", y_fp = " << y_fp << ", ph_fp = " << ph_fp << endl;
     
     CalcMatrixElem(TMatrix_vals);
     CalcMatrixElem(YMatrix_vals);
@@ -415,107 +331,43 @@ void apex_ME_calc(Int_t runnumber, TString db_name, Int_t rast = 1){
     ph_tgt = PMatrix_vals.tg_v;
     dp_tgt = DMatrix_vals.tg_v;
 
-
-
-    // cout << "new target theta = " << thtgt << " and old target theta = " << th_tg << endl << endl;
-
-   //  cout << "New target values: th_tgt = " << th_tgt << ", y_tgt = " << y_tgt << ", ph_tgt = " << ph_tgt << ", dp_tgt = " << dp_tgt << endl;
-
-
-   //  cout << "New matrix values: T_elems (size " << TMatrix_vals.values.size() << ") = ";
-   //  for(Int_t j = 0; j < TMatrix_vals.values.size(); j++){
-   //    if(TMath::Abs(TMatrix_vals.values[j]) > 1e+8){
-   // 	cout << TMatrix_vals.values[j] << ", ";
-   //    }
-   
-      
-   //  }
-
-   //  cout << " " << endl;
-   //  cout << "New matrix values: Y_elems (size " << YMatrix_vals.values.size() << ") = ";
-   //  for(Int_t j = 0; j < YMatrix_vals.values.size(); j++){
-
-   //    if(TMath::Abs(YMatrix_vals.values[j]) > 1e+8){
-   // 	cout << YMatrix_vals.values[j] << ", ";
-   //    }
-   
-      
-   //  }
-
-   //  cout << " " << endl;
-   //  cout << "New matrix values: P_elems (size " << PMatrix_vals.values.size() << ") = ";
-   //  for(Int_t j = 0; j < PMatrix_vals.values.size(); j++){
-
-   //    if(TMath::Abs(PMatrix_vals.values[j]) > 1e+8){
-   // 	cout << PMatrix_vals.values[j] << ", ";
-   //    }
-   
-      
-   //  }
-
-   //  cout << " " << endl;
-   //  cout << "New matrix values: D_elems (size " << DMatrix_vals.values.size() << ") = ";
-   //  for(Int_t j = 0; j < DMatrix_vals.values.size(); j++){
-   //    if(TMath::Abs(DMatrix_vals.values[j]) > 1e+8){
-   // 	cout << DMatrix_vals.values[j] << ", ";
-   //    }
-   
-      
-   //  }
-
-   
-
-   //  cout << " " << endl;
-
-
-    
-   //  cout << "loop = " << i << endl;
-
-
-    
-   // cout << "bytes = " << bytes << endl;
-
-
-
-    // calculate reactz
-
-
-    // temp 
-
     
     const Int_t a = (HRSAngle > 0) ? 1 : -1;
 
 
     TVector3 BeamSpotHCS(0,0,0);
 
+    Int_t FoilID = GetFoilID(runnumber);
+    foilz = targetfoils[FoilID];
 
+    
     if( rast!= 0){
 
-      reactz = - ( y_tgt -a*MissPointZ)*TMath::Cos(TMath::ATan(ph_tgt))/TMath::Sin(HRSAngle + TMath::ATan(ph_tgt)) + Lrb_x*TMath::Cos(HRSAngle+TMath::ATan(ph_tgt))/TMath::Sin(HRSAngle+TMath::ATan(ph_tgt));
 
-      BeamSpotHCS.SetXYZ(Lrb_x,Lrb_y,reactz);
+      //      reactz = - ( y_tgt -a*MissPointZ)*TMath::Cos(ph_tgt)/TMath::Sin(HRSAngle + TMath::ATan(ph_tgt)) + Lrb_x*TMath::Cos(HRSAngle + ph_tgt)/TMath::Sin(HRSAngle + TMath::ATan(ph_tgt));
 
-
+      reactz = - ( y_tgt -a*MissPointZ)*TMath::Cos(ph_tgt)/TMath::Sin(HRSAngle + ph_tgt) + Lrb_x*TMath::Cos(HRSAngle + ph_tgt)/TMath::Sin(HRSAngle + ph_tgt);
+      
+      
+      if(IsMultiFoil(runnumber)){
+	// for multiple foil (horizontal runs) runs use reactz (calculated z) for beamspot
+	BeamSpotHCS.SetXYZ(Lrb_x + (Lrb_dir_x)*(reactz/BeamZDir_average),Lrb_y + (Lrb_dir_y)*(reactz/BeamZDir_average),reactz);
+      }
+      else if(!IsMultiFoil(runnumber)){
+	// for single foil runs use foilz (kno	g_th_rc[row_count][col_v]->SetMarkerColor(col_colour[(int)x_row_column[row_count][col_v]-first_col]);wn z for said foil) for beamspot
+	BeamSpotHCS.SetXYZ(Lrb_x + (Lrb_dir_x)*(foilz/BeamZDir_average),Lrb_y + (Lrb_dir_y)*(foilz/BeamZDir_average),foilz);;
+      }
+      
     }
     else{
       
       reactz = - ( y_tgt -a*MissPointZ)*TMath::Cos(TMath::ATan(ph_tgt))/TMath::Sin(HRSAngle + TMath::ATan(ph_tgt)) + Lurb_x*TMath::Cos(HRSAngle+TMath::ATan(ph_tgt))/TMath::Sin(HRSAngle+TMath::ATan(ph_tgt));
 
-      BeamSpotHCS.SetXYZ(Lurb_x,Lurb_y,reactz);
+      BeamSpotHCS.SetXYZ(Lurb_x + (Lurb_dir_x)*(reactz/BeamZDir_average),Lurb_y + (Lurb_dir_y)*(reactz/BeamZDir_average),reactz);
+
 
       
     }
-
-
-
-    // calculating x_tg and sieve x and y
-
-
-    
-    //    reactz = -0.205;
-    
-
-    //    TVector3 BeamSpotHCS(0,0,-0.205);
 
 
 
@@ -526,58 +378,45 @@ void apex_ME_calc(Int_t runnumber, TString db_name, Int_t rast = 1){
 
 
     x_sieve = x_tgt + (TMath::Tan(th_tgt) + x_tgt*ExtTarCor_ThetaCorr) * (ZPos); 
+   
 
-
-    
-
-    y_tgt_alt = BeamSpotTCS.Y() - BeamSpotTCS.Z() * TMath::Tan(ph_tgt);
+    y_tgt_alt = BeamSpotTCS.Y() - BeamSpotTCS.Z() * TMath::Tan(ph_tgt);    
 
     
-
-    //    x_sieve = x_tgt + (TMath::Tan(th_tgt) + x_tgt*ExtTarCor_ThetaCorr) * (reactz); 
-
-    //    y_sieve = y_tgt + TMath::Tan(ph_tgt) * (ZPos);
     y_sieve = y_tgt + TMath::Tan(ph_tgt) * (ZPos);
 
     y_sieve_alt = y_tgt_alt + TMath::Tan(ph_tgt) * (ZPos);
 
-
-
-    //  y_sieve = y_tgt + TMath::Tan(ph_tgt) * (SieveHoleTCS.Z() - BeamSp);
+   
 
 
     if(TMath::Abs(th_tgt) < 1e+8 &&  TMath::Abs(y_tgt) < 1e+8 && TMath::Abs(ph_tgt) < 1e+8 && TMath::Abs(dp_tgt) < 1e+8 && theta_track != th_tgt){
 
-
-    // if(TMath::Abs(th_tgt) < 1e+8 &&  TMath::Abs(y_tgt) < 1e+8 && TMath::Abs(ph_tgt) < 1e+8 && TMath::Abs(dp_tgt) < 1e+8){
-
-      //    if(bytes<read_lim){
-     
       
-      
-      // cout << "before test: out_T->GetEntries() = " << out_T->GetEntries() << endl << endl;
       
       out_T->Fill();
 
 
 
-      // cout << "after test: out_T->GetEntries() = " << out_T->GetEntries() << endl << endl;
-      //    }
     }
     else{
-      // cout << " " << endl;
+      
     }
 
+
+    
+    
     theta_track = th_tgt;
     
   }
 
 
+  cout << "final number of loop: " << loop_no << endl;
+  cout << "Number of events: " << NEntries << endl << endl;
+
+
   out_T->Write();
 
-
-  //#pragma link C++ class vector<DB_entry> +;
-  //#pragma link C++ class vector<THaMatrixElement>+;
 
 
   // extract DB elements for T,Y,P and D and save these to the rootfile
@@ -611,7 +450,6 @@ void apex_ME_calc(Int_t runnumber, TString db_name, Int_t rast = 1){
 
   std::ofstream DB_file; 
 
-  //  DB_file.open("rootfiles/" + Dir_name + Form("/DB_%i.dat",runnumber),std::ofstream::out);
   DB_file.open("rootfiles/" + db_name + Form("/DB_%i.dat",runnumber),std::ofstream::out);
 
 
@@ -643,30 +481,6 @@ void apex_ME_calc(Int_t runnumber, TString db_name, Int_t rast = 1){
 
   cout << "closed DB" << endl;
 
-  // newfile->WriteObject(&TDB_co,"T_coeffs");
-  // newfile->WriteObject(&TDB_pow,"T_powers");
-
-  // newfile->WriteObject(&YDB_co,"Y_coeffs");
-  // newfile->WriteObject(&YDB_pow,"Y_powers");
-
-  // newfile->WriteObject(&PDB_co,"P_coeffs");
-  // newfile->WriteObject(&PDB_pow,"P_powers");
-
-  // newfile->WriteObject(&DDB_co,"D_coeffs");
-  // newfile->WriteObject(&DDB_pow,"D_powers");
-
-
-  // if(TFile* file_test = TFile::Open("rootfiles/" + db_name + Form("/%d_replay_1.root",runnumber),"read")){
-  //   cout << "opened new file! " << endl;
-  //   file_test->Close();    
-  // }
-  // else{
-  //   newfile->Close();
-  //   cout << "closed newfile" << endl;
-
-
-  // }
-
 
   delete out_T;
   delete T;
@@ -676,64 +490,9 @@ void apex_ME_calc(Int_t runnumber, TString db_name, Int_t rast = 1){
 
 
 
-  //  delete newfile;
+
   
   
 
 }
-
-
-
-// void CalcMatrixElem_APEX(vector<THaMatrixElement>& matrix )
-// {
-//   // calculates value for each event of each combination of polynomial ie for T A B C this calculates for theta^A, y^B and phi^C and calculates for all powers of X related to this as well
-
-
-//   // For:
-//   // T 2 1 0  -1.575120e+01 -5.741883e+02  0.000000e+00  0.000000e+00  0.000000e+00  0.000000e+00  0.000000e+00
-//   // values will be calculated for th^2*y^1*ph^0*x^0 and for th^2*y^1*ph^0*x^1
-
-
-
-//   // loop through all of one kind of element
-//   for( vector<THaMatrixElement>::iterator it=matrix.begin(); it!=matrix.end(); it++ ) {
-
-
-//     // if(!it){
-//     //   std::cout << "iterator not valid " << std::endl;
-//     // }
-    
-//     for(int i=0; i<=it->order-1; i++){
-//       // order here is power of X
-//       // it->order = (max power of x) +1
-//       // it->poly[i] is coeffecient of x^i
-//       // it->pw[i] is For i = 0 power of theta,
-//       //                  i = 1 power of y,
-//       //                  i = 2 power of phi,
-      
-      
-//       // combine powers of x, theta, y and phi to
-//       // 
-//       it->values[i][it->pw[0]][it->pw[1]][it->pw[2]] = it->poly[i] * powers[i][0] * powers[it->pw[0]][1] * powers[it->pw[1]][2]  * powers[it->pw[2]][3];
-      
-      
-      
-//     }
-
-    
-//   }
-
-
-
-    
-
-
-
-//   // }
-
-
-
-
-// }
-
 
