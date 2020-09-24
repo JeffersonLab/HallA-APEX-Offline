@@ -7,10 +7,14 @@
 #include "TString.h"
 #include "TVirtualFitter.h"
 
-#define th_ph_optimize true
+#define th_ph_optimize false
 #define draw_plots true
 #define y_optimize true
 #define dp_optimize false
+
+// this parameter can turn on cutting of events not in main gaus for reconstructed phi_tg
+// uses initial matrix to produce phi_tg, fit gaus to y_sieve diff plot and cut based on this
+#define tail_cutting false
 
 //#include "ROpticsOpt.h"
 //#include "SaveCanvas.C"
@@ -100,6 +104,22 @@ void DoMinTP(TString SourceDataBase, TString DestDataBase, UInt_t MaxDataPerGrou
     opt->LoadRawData(DataSource, (UInt_t) - 1, MaxDataPerGroup);
     opt->PrepareSieve();
 
+
+#if tail_cutting
+    
+    opt->Sieve_hole_diff_tail(NFoils);
+    opt->Ignore_tail();
+    
+    
+#else
+#if !tail_cutting
+    
+    opt->Sieve_hole_diff(NFoils);
+    
+#endif
+#endif
+    
+
     opt->Print("");
     
 #if th_ph_optimize  
@@ -151,6 +171,22 @@ void DoMinTP(TString SourceDataBase, TString DestDataBase, UInt_t MaxDataPerGrou
     //    c2->Print(DestDataBase + ".TpAccu.Opt.png", "png");
     //    c2->Print(DestDataBase + ".TpAccu.Opt.eps", "eps");
 
+
+    TCanvas * c2_diff;
+    
+#if tail_cutting
+
+    c2_diff = opt->Sieve_hole_diff_tail(NFoils);
+
+#else
+#if !tail_cutting
+    c2_diff = opt->Sieve_hole_diff(NFoils);
+    
+#endif
+#endif
+    
+    
+
 #if th_ph_optimize
     delete fitter;
 #endif    
@@ -169,6 +205,15 @@ void DoMinY(TString SourceDataBase, TString DestDataBase, UInt_t MaxDataPerGroup
     opt->LoadRawData(DataSource, (UInt_t) - 1, MaxDataPerGroup);
     opt->PrepareVertex();
 
+     // added for phi_tg tail exclusion
+    opt->PrepareSieve();
+
+    opt->Sieve_hole_diff_tail(NFoils);
+
+#if tail_cutting
+    opt->Ignore_tail();
+#endif
+    
     opt->Print("");
 
 #if y_optimize                                  
@@ -315,11 +360,13 @@ void ROpticsOptScript(TString run, TString range,TString select, TString SourceD
 {
   
   DataSource = "../Sieve/"+run+"/xfp_"+range+"/Sieve.full.f"+run;
+  //DataSource = "../Sieve/"+run+"/xfp_"+range+"/Sieve.full.f4647";
   
-    opt = new ROpticsOpt();
-
-    TString extra_dir = "";
-    if(select != "phi") extra_dir = run + "/";
+  opt = new ROpticsOpt();
+  
+  TString extra_dir = "";
+  if(select != "phi") extra_dir = run + "/";
+  //if(select != "phi" && select != "y") extra_dir = run + "/";
     
     
     SourceDataBase = "DB/" + extra_dir + SourceDataBase;
