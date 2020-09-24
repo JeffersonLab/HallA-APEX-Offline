@@ -274,7 +274,7 @@ void LoadDataBase(TString DataBaseName){
 		
 		Int_t sum_powers = 0;
 
-		for( Int_t pc = 0; pc < npow; pc++){ //pc acronym for power count (goes through i, j and k to get size of these)
+		for( UInt_t pc = 0; pc < npow; pc++){ //pc acronym for power count (goes through i, j and k to get size of these)
 		sum_powers  += ME.pw[pc];
 		}
 
@@ -457,6 +457,8 @@ void MatrixElemExist(vector<THaMatrixElement>& matrix, MatrixElems_Vals &MV)
   // test if element exists in DB corresponding to (x^i)(theta^j)(y^k)(phi^l) 
 
 
+  Int_t alt_no_entries = 0;
+  
   // loop through all of one kind of element
   for( vector<THaMatrixElement>::iterator it=matrix.begin(); it!=matrix.end(); it++ ) {
 
@@ -492,48 +494,21 @@ void MatrixElemExist(vector<THaMatrixElement>& matrix, MatrixElems_Vals &MV)
       db_entry.ph_p = it->pw[2];
       db_entry.DB_coeff = it->poly[i];
 
-
-
+      
       MV.DB_entries.push_back(db_entry);
 
-      MV.no_elements++;
 
-      
-      
 
-      //      MV.values[i][it->pw[0]][it->pw[1]][it->pw[2]] = it->poly[i] * powers[i][0] * powers[it->pw[0]][1] * powers[it->pw[1]][2]  * powers[it->pw[2]][3];
-	
+      alt_no_entries++;
+
     }
 
 
   }
+  
+  MV.no_elements = alt_no_entries;
 
-
-  // int no_elements = 0;
-
-  // for( int a = 0; a<5; a++){
-  //   for( int b = 0; b<5; b++){
-  //     for( int c = 0; c<5; c++){
-  // 	for( int d = 0; d<5; d++){
-	  	  	  
-  // 	  if(MV.Exist[a][b][c][d] != 0){
-
-
-  // 	    if(no_elements > 0){
-
-  // 	      MV.values.push_back(0);
-
-  // 	    }
-
-  // 	    no_elements++;
-  // 	  }
-  // 	}
-  //     }
-  //   }
-  // }
-
-  // MV.no_elements = no_elements;
-
+  
 
 
 }
