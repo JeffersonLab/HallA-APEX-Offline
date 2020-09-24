@@ -354,7 +354,7 @@ TCut PID_cuts = "(L.prl1.e/(L.gold.p*1000))>0.3 && ((L.prl1.e+L.prl2.e)/(L.gold.
 // list of runs for LHRS optics based on target
 
 
-std::vector<int> V1_runs{4179,4766,4767};
+std::vector<int> V1_runs{4648,4179,4766,4767};
 
 std::vector<int> V2_runs{4181,4768};
 
@@ -499,7 +499,7 @@ Int_t GetFoilID(Int_t runnumber){
     FoilID = 1;    
   }
   else{
-    cout << "Run " << runnumber << " does not have recognised type" << endl;
+    //    cout << "Run " << runnumber << " does not have recognised type" << endl;
   }
   //    cout << "Not a single foil run" << endl;
   
@@ -521,8 +521,8 @@ Bool_t IsMultiFoil(Int_t runnumber){
     ismultifoil = false;
   }
   else{
-    cout << "Chosen run_number not recognised as single or multifoil: defaulted to single foil" << endl;
-    ismultifoil = true;
+    // cout << "Chosen run_number not recognised as single or multifoil: defaulted to single foil" << endl;
+    ismultifoil =true;
   }
     
 
