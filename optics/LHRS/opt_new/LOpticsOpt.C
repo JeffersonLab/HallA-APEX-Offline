@@ -5501,4 +5501,291 @@ void THaMatrixElement::SkimPoly()
     if (order == 0) iszero = kTRUE;
 }
 
+
+void LOpticsOpt::SVD_prepare(TString tg_var){
+  
+  
+
+
+  //  Int_t fNRawData_alt = 1e3;
+  Int_t fNRawData_alt = fNRawData;
+
+
+
+  Int_t no_elems = 0;
+
+  
+
+
+  vector<THaMatrixElement>& matrix = fTMatrixElems;
+    
+  if(!tg_var.CompareTo("theta"))
+    {
+      cout << "Compare = theta" << endl;      
+      matrix = fTMatrixElems;
+    }
+  else if(!tg_var.CompareTo("phi"))
+    {
+      cout << "Compare = phi" << endl;      
+      matrix = fPMatrixElems;
+    }
+  else if(!tg_var.CompareTo("y"))
+    {
+      matrix = fYMatrixElems;
+    }
+  else
+    {
+      cout << "SVD_prepare() needs input of either: 'theta','phi' or 'y'" << endl;
+      cout << "Input " << tg_var << " does not match these" << endl;      
+      exit(0);
+    }
+  
+
+
+  for (vector<THaMatrixElement>::const_iterator it = matrix.begin();it != matrix.end(); it++){
+
+    for (int i = 0; i <= it->order-1; i++){
+      no_elems++;
+    }
+
+  }
+
+
+
+  A_mat.ResizeTo(fNRawData_alt,no_elems);
+
+  B_vec.ResizeTo(fNRawData_alt);
+
+  x_vec.ResizeTo(no_elems);
+  
+
+
+  
+  for(Int_t evNo = 0; evNo<fNRawData_alt; evNo++){
+
+    EventData &eventdata = fRawData[evNo];
+    //    cout << "evNo = " << evNo << endl; 
+
+    // need to have way of translating i,j,k,l of ME to order in SVD problem
+    // default to same way as read then this might be easier to read back out to DB
+    //    TVectorD ME_vec(fTMatrixElems.size());
+    TVectorD ME_vec(no_elems);
+    
+    Int_t ME_no = 0;
+
+
+
+
+    Double_t(*powers)[5] = fRawData[evNo].powers;
+
+    Double_t x_fp = eventdata.Data[kX];
+    Double_t th_fp = eventdata.Data[kTh];
+    Double_t y_fp = eventdata.Data[kY];
+    Double_t ph_fp = eventdata.Data[kPhi];
+
+    
+    for (int i = 0; i < kNUM_PRECOMP_POW; i++) {
+      powers[i][0] = pow(x_fp, i);
+      powers[i][1] = pow(th_fp, i);
+      powers[i][2] = pow(y_fp, i);
+      powers[i][3] = pow(ph_fp, i);
+      powers[i][4] = pow(TMath::Abs(th_fp), i);
+    }
+	
+    
+    
+    for (vector<THaMatrixElement>::const_iterator it = matrix.begin();it != matrix.end(); it++){
+
+
+      Double_t ytp_val = 1.0; // value of y, theta, phi part of polynomial for one ME (for a particular event)
+
+      unsigned int np = it->pw.size(); // generalize for extra matrix elems.
+      
+      for (unsigned int i = 0; i < np; i++){
+	ytp_val *= powers[it->pw[i]][i+1];
+      }
+
+      // calculataion of ME for specific event
+
+
+      
+      // cycle through all orders of x for one 'ME' (from lowest to highest)
+      for (int i = 0; i <= it->order-1; i++){
+       
+	Double_t ME_val = 0.0;
+	
+	// line multiplies y,theta,phi part of polynomial with x_fp 
+	ME_val = ytp_val*powers[i][0];
+	
+	ME_vec(ME_no) = ME_val;
+	// cout << "ME_vec("<< ME_no << ") = " << ME_val << endl;
+
+	//	cout << "ME[" << ME_no << "] = x^" << i << "*theta^" << it->pw[0] << "*y^" << it->pw[1] << "*phi^" << it->pw[2] << endl;
+	
+	ME_no++;
+      }
+      
+      
+      // if (it->order > 0) {
+      // 	for (int i = it->order - 1; i >= 1; i--)
+      // 	  ME_val = x_fp * it->poly[i];
+      // 	ME_val += it->poly[0];
+      //   }
+
+      // if (ME_val != 0.0) {
+
+      //       unsigned int np = it->pw.size(); // generalize for extra matrix elems.
+      //       for (unsigned int i = 0; i < np; i++)
+      //           ME_val *= powers[it->pw[i]][i + 1];
+	    
+      //       //      retval += ME_val * powers[it->pw[0]][1]
+      //       //	              * powers[it->pw[1]][2]
+      //       //	              * powers[it->pw[2]][3];
+      //   }
+
+      
+
+    
+      // cout << "ME_vno = " << ME_no << endl;
+      // cout << "ME_vec(ME_no) = " << ME_vec(ME_no) << endl;
+      // cout << "it->v = " << ME_val << endl;
+
+    }
+    
+    TMatrixDRow(A_mat,evNo) = ME_vec;
+
+
+    Int_t var_selection = 0;
+
+    if(!tg_var.CompareTo("theta"))
+      {      
+	var_selection = kRealThMatrix;
+      }
+    else if(!tg_var.CompareTo("phi"))
+      {
+	var_selection = kRealPhi;
+      }
+    else if(!tg_var.CompareTo("y"))
+      {
+	var_selection = kRealTgY;	
+      }
+    
+    B_vec(evNo) = eventdata.Data[var_selection];
+    
+    //    TMatrixDRow(A_mat,evNo) = ;
+
+    
+  }
+
+  //  A_mat.NormByColumn();
+  
+  cout << "SVD_method completed" << endl;
+  //  A_mat.Print();
+    
+}
+
+
+TVectorD LOpticsOpt::SVD_execute(TString tg_var){
+
+
+  // for(Int_t i = 0; i <1; i++){
+
+  //   cout << "B-vec[" << i << "] = " << B_vec[i] << endl;
+
+  //   for(Int_t j = 0; j <fTMatrixElems.size(); j++){
+  //     cout << "A-vmat[" << i << "][" << j << "] = " << A_mat[i][j] << endl;
+  //     }
+  // }
+  
+  TDecompSVD svd(A_mat);
+
+  Bool_t ok;
+
+  //  Bool_t ok_decomp = svd.Decompose();
+
+  TVectorD x_output;
+  // Int_t fNRawData_alt = 1e3;
+  // x_output.ResizeTo(fNRawData_alt);
+  
+  // if(!ok_decomp){
+  //   cout << "decomp failed!" << endl;
+  //   cout << "SVD failed, condition: " << svd.Condition() <<endl;
+  //   //    A_mat.Print();
+  // }
+  // else{
+  //   cout << "decomp suceeded!" << endl;
+  TVectorD x_output_2 = svd.Solve(B_vec,ok);
+  x_output.ResizeTo(x_output_2);
+  x_output = x_output_2;
+  cout << "assignment suceeded!" << endl;
+  // }  
+  //  return  svd.Solve(B_vec,ok);
+
+
+  // Use newly calculated ME values to change Matrix values
+  // (so that these can be used in the SaveDatabase() function
+
+  Int_t  x_it = 0; // iterate through vector of ME values
+   
+  vector<THaMatrixElement>* matrix;// = &fTMatrixElems;
+    
+  if(!tg_var.CompareTo("theta"))
+    {
+      cout << "MEs set to theta" << endl;      
+      matrix = &fTMatrixElems;
+    }
+  else if(!tg_var.CompareTo("phi"))
+    {
+      cout << "MEs set to phi" << endl;      
+      matrix = &fPMatrixElems;
+    }
+  else if(!tg_var.CompareTo("y"))
+    {
+      matrix = &fYMatrixElems;
+    }
+  else
+    {
+      cout << "SVD_execute() needs input of either: 'theta','phi' or 'y'" << endl;
+      cout << "Input " << tg_var << " does not match these" << endl;      
+      exit(0);
+    }
+  
+
+
+  for (vector<THaMatrixElement>::iterator it = matrix->begin();it != matrix->end(); it++){
+
+    for (int i = 0; i <= it->order-1; i++){\
+     it->poly[i] = x_output[x_it];      
+     x_it++;           
+    }
+    
+
+  }
+  
+  
+
+  // typedef vector<THaMatrixElement>::size_type vsiz_t;
+  
+  
+  // for (vsiz_t i = 0; i < fTMatrixElems.size(); i++) {
+
+  //   THaMatrixElement& m = fTMatrixElems[i];
+    
+  //   for (Int_t j = 0; j < m.order; j++) {
+  //     m.poly[j] = x_output[x_it];      
+  //     x_it++;      
+  //   }
+    
+  // }
+  
+
+  
+  return x_output;
+
+}
+
+
+
+
+
 ClassImp(LOpticsOpt);

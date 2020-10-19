@@ -29,6 +29,10 @@
 #include "THaTrackingDetector.h"
 #include "THaString.h"
 
+#include "TMatrixD.h"
+#include "TVectorD.h"
+#include "TDecompSVD.h"
+
 ///////////////////////////////////////////////////////////////////////////////
 // Debug Definitions
 // place this section below any other head files
@@ -173,8 +177,27 @@ public:
       kCalcDpKin,	//calculated dp_kin, before radiation correction
       kRealDpKinExcitations/*Do not append more index*/ //first index of expected dp_kins for all excitation states
     };
-    
 
+  /////////////////////////////////////////////////////////////////////////////
+  // related to SVD 
+  /////////////////////////////////////////////////////////////////////////////
+
+  // matrix A in SVD calculation, contains N rows (Number of events) with M entries (products of x,theta,y,phi FP variables) corresponding to M Matrix elements.
+  TMatrixD A_mat;
+  // vector B in SVD calculation, contains N entries, the relevant target variables for each event (ie y_tg)
+  TVectorD B_vec;
+  // vector x in SVD calculation, contians M entires, the values of the ME coefficients to be solved for
+  TVectorD x_vec;
+
+
+  // Prepare matrices fo SVD method
+  // should be called after LoadRawData and prepareVertex or PrepareSieve
+  void SVD_prepare(TString tg_var);
+
+  TVectorD SVD_execute(TString tg_var);
+
+    
+  
     ///////////////////////////////////////////////////////////////////////////
     // Optimization related Commands
     ///////////////////////////////////////////////////////////////////////////
