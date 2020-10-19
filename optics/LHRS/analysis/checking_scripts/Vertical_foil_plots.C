@@ -2,12 +2,14 @@
 #include "../Load_more_rootfiles.C"
 #include "../InputAPEXL.h"
 
-void Vertical_foil_plots(){
+void Vertical_foil_plots(TString plot_name = ""){
 
   // ----------------------------------------------------------------------
   //
 
-  Int_t run_nos[] = {4766,4768,4769};
+  Int_t run_nos[] = {4766,4767,4768,4769,4770};
+
+  Int_t Vert_nos[] = {4766,4768,4769};
   
   TChain* T;
 
@@ -15,9 +17,16 @@ void Vertical_foil_plots(){
 
   TFile* f1[3];
 
-  f1[0] = new TFile("/w/work3/home/johnw/Rootfiles/apex_4766_15_8_2020_V1.root.FullCut.root","READ");
-  f1[1] = new TFile("/w/work3/home/johnw/Rootfiles/apex_4768_15_8_2020_V2.root.FullCut.root","READ");
-  f1[2] = new TFile("/w/work3/home/johnw/Rootfiles/apex_4769_15_8_2020_V3.root.FullCut.root","READ");
+  // f1[0] = new TFile("/w/work3/home/johnw/Rootfiles/apex_4766_15_8_2020_V1.root.FullCut.root","READ");
+  // f1[1] = new TFile("/w/work3/home/johnw/Rootfiles/apex_4768_15_8_2020_V2.root.FullCut.root","READ");
+  // f1[2] = new TFile("/w/work3/home/johnw/Rootfiles/apex_4769_15_8_2020_V3.root.FullCut.root","READ");
+
+  f1[0] = new TFile("/w/work3/home/johnw/Rootfiles/apex_4766_22_9_2020_V1.root.FullCut.root","READ");
+  f1[1] = new TFile("/w/work3/home/johnw/Rootfiles/apex_4768_22_9_2020_V2.root.FullCut.root","READ");
+  f1[2] = new TFile("/w/work3/home/johnw/Rootfiles/apex_4769_22_9_2020_V3.root.FullCut.root","READ");
+
+
+  
 
   TCutG* foil_tg_gcuts[3];
   TCutG* foil_FP_gcuts[3];
@@ -25,9 +34,15 @@ void Vertical_foil_plots(){
   Int_t run_po = 0;
   for(auto run_no : run_nos){
 
-    foil_tg_gcuts[run_po] = (TCutG*) f1[run_po]->GetObjectChecked(Form("fcut_L_%d", run_po + 8), "TCutG"); //looking for foil cut definition
 
-    foil_FP_gcuts[run_po] = (TCutG*) f1[run_po]->GetObjectChecked(Form("fcut_L_FP_%d", run_po + 8), "TCutG"); //looking for foil cut definition
+    // -8 here converts from numbering scheme of targets Optics (8) + Vertical (3) where the verticcal foils are 8-10 to numbering shceme where Vertical foils are 0-2
+    Int_t Foilno = GetFoilID(run_no) - 8;
+
+    cout << "Foilno = " << Foilno << endl;
+
+    foil_tg_gcuts[Foilno] = (TCutG*) f1[Foilno]->GetObjectChecked(Form("fcut_L_%d", Foilno + 8), "TCutG"); //looking for foil cut definition
+
+    foil_FP_gcuts[Foilno] = (TCutG*) f1[Foilno]->GetObjectChecked(Form("fcut_L_FP_%d", Foilno + 8), "TCutG"); //looking for foil cut definition
 
     
     TChain* T_add = Load_more_rootfiles(run_no);
@@ -67,7 +82,6 @@ void Vertical_foil_plots(){
     foil_FP_gcuts[i]->Draw("PL same");
   }
 
-  c1->Print("vertex_results/Vert_FP_foils_all.pdf");
 
 
   TCanvas *c2 = new TCanvas("c2");
@@ -82,7 +96,7 @@ void Vertical_foil_plots(){
 
     c2->cd(i+1);
 
-    TCut beam_cut(get_Beamcut(run_nos[i]));
+    TCut beam_cut(get_Beamcut(Vert_nos[i]));
     T->Draw(Form("L.tr.r_ph:L.tr.r_y>>h2_%d",i),beam_cut + GenrealCut, "COLZ");
 
     foil_FP_gcuts[i]->SetLineColor(kRed);
@@ -90,7 +104,6 @@ void Vertical_foil_plots(){
 
   }
 
-  c2->Print("vertex_results/Vert_FP_foils_ind.pdf");
 
   TCanvas *c3 = new TCanvas("c3");
 
@@ -105,7 +118,6 @@ void Vertical_foil_plots(){
     foil_tg_gcuts[i]->Draw("PL same");
   }
 
-  c3->Print("vertex_results/Vert_tg_foils_all.pdf");
   
   
   TCanvas *c4 = new TCanvas("c4");
@@ -122,7 +134,7 @@ void Vertical_foil_plots(){
     h_f_tg_ind[i]->GetXaxis()->SetTitle("#phi_{tg} [rad]");
     h_f_tg_ind[i]->GetYaxis()->SetTitle("Reactz [m]");
 
-    TCut beam_cut(get_Beamcut(run_nos[i]));
+    TCut beam_cut(get_Beamcut(Vert_nos[i]));
     T->Draw(Form("reactz:ph_tgt>>h_f_tg_ind_%d",i+8),beam_cut + GenrealCut, "COLZ");
     
     foil_tg_gcuts[i]->SetLineColor(kRed);
@@ -131,7 +143,6 @@ void Vertical_foil_plots(){
 
   }
 
-  c4->Print("vertex_results/Vert_tg_foils_ind.pdf");
 
   TCanvas *c5 = new TCanvas("c5");
   c5->Divide(3,1);
@@ -148,7 +159,7 @@ void Vertical_foil_plots(){
     h_tg_sieve[i]->GetXaxis()->SetTitle("#phi_{tg} [mrad]");
     h_tg_sieve[i]->GetYaxis()->SetTitle("#theta_{tg} [mrad]");
 
-    TCut beam_cut(get_Beamcut(run_nos[i]));
+    TCut beam_cut(get_Beamcut(Vert_nos[i]));
     T->Draw(Form("(1000*th_tgt):(1000*ph_tgt)>>h_tg_sieve_%d",i+8),beam_cut + GenrealCut + TCut(Form("fcut_L_%d", FoilID)) + TCut(Form("fcut_L_FP_%d", FoilID)), "COLZ");
     
     // foil_tg_gcuts[i]->SetLineColor(kRed);
@@ -157,7 +168,34 @@ void Vertical_foil_plots(){
 
   }
 
-  c5->Print("vertex_results/Vert_tg_sieve_ind.pdf");
+
+  // print all canvases
+
+
+  if( !plot_name.CompareTo(TString("")) ){
+  
+    c1->Print("vertex_results/Vert_FP_foils_all.pdf");
+    
+    c2->Print("vertex_results/Vert_FP_foils_ind.pdf");
+    
+    c3->Print("vertex_results/Vert_tg_foils_all.pdf");
+    
+    c4->Print("vertex_results/Vert_tg_foils_ind.pdf");
+    
+    c5->Print("vertex_results/Vert_tg_sieve_ind.pdf");
+  }
+  else{
+    
+    c1->Print(Form("vertex_results/Vert_FP_foils_all_%s.pdf",plot_name.Data()));
+    
+    c2->Print(Form("vertex_results/Vert_FP_foils_ind_%s.pdf",plot_name.Data()));
+    
+    c3->Print(Form("vertex_results/Vert_tg_foils_all_%s.pdf",plot_name.Data()));
+    
+    c4->Print(Form("vertex_results/Vert_tg_foils_ind_%s.pdf",plot_name.Data()));
+    
+    c5->Print(Form("vertex_results/Vert_tg_sieve_ind_%s.pdf",plot_name.Data()));
+  }
   
   
 }
