@@ -13,14 +13,22 @@
 
 #include <typeinfo>
 
-#define th_ph_optimize true
+#define th_ph_optimize false
 #define draw_plots true
-#define y_optimize true
+#define y_optimize false
 #define dp_optimize false
 
 // this parameter can turn on cutting of events not in main gaus for reconstructed phi_tg
 // uses initial matrix to produce phi_tg, fit gaus to y_sieve diff plot and cut based on this
 #define tail_cutting false
+
+
+// parameters control if SVD is used (in place of chi^2 minimisation)
+
+#define th_ph_SVD false
+#define y_SVD false
+
+
 
 //#include "LOpticsOpt.h"
 //#include "SaveCanvas.C"
@@ -365,6 +373,34 @@ void DoMinTP(TString SourceDataBase, TString DestDataBase, UInt_t MaxDataPerGrou
     good_phi = rms_ph;
     good_y = rms_dy;
     
+    cout << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" << endl;
+    cout << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" << endl;
+    cout << ">>>>>>>>>>>> DoMinTP Finished! <<<<<<<<<<<<<<<<<<" << endl;
+    cout << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" << endl;
+    cout << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" << endl;
+
+
+    
+    TString opt_var = "";
+
+#if th_ph_SVD
+    
+    if( myfcnX == myfcn1){
+      cout << "SVD: Theta!!!" << endl;
+      opt_var = "theta";	
+    }
+    else if( myfcnX == myfcn2){
+      cout << "SVD: Phi!!!" << endl;
+      opt_var = "phi";	
+    }
+    opt->SVD_prepare(opt_var);
+    TVectorD x_vec = opt->SVD_execute(opt_var);    
+    x_vec.Print();
+
+#endif                   
+
+
+    opt->SaveDataBase(DestDataBase); 
 
 
 }
@@ -438,8 +474,8 @@ void DoMinY(TString SourceDataBase, TString DestDataBase, UInt_t MaxDataPerGroup
 
     Double_t rms_y = opt->SumSquareDTgY();
 
-    TCanvas * c1 = opt->CheckVertex();
-    c1->Print(DestDataBase + ".Vertex.Opt.png", "png");
+    //    TCanvas * c1 = opt->CheckVertex();
+    //    c1->Print(DestDataBase + ".Vertex.Opt.png", "png");
 
 #if y_optimize
     delete min;
@@ -489,7 +525,19 @@ void DoMinY(TString SourceDataBase, TString DestDataBase, UInt_t MaxDataPerGroup
 	cout << "Not Y!!!" << endl;
       }
             
-    }        
+    }
+
+    TString opt_var = "y";
+
+#if y_SVD
+    opt->SVD_prepare(opt_var);
+    TVectorD x_vec = opt->SVD_execute(opt_var);   
+    x_vec.Print();
+#endif
+    
+
+    opt->SaveDataBase(DestDataBase); 
+
 
 }
 

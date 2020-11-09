@@ -223,7 +223,7 @@ void compare_DBs(TString DB_name_1, TString DB_name_2, Int_t EL /* element T,P,Y
   // loop through canvases and print
   for (Int_t i = 0; i<C.size() ; i++){
 
-    C[i]->Print(Form("DB_comp_plots/%s_%s_%i_order.pdf",DB_name_1.Data(),DB_name_2.Data(),i),"pdf");
+    C[i]->Print(Form("DB_comp_plots/%s_%s_%i_order_%s.pdf",DB_name_1.Data(),DB_name_2.Data(),i,element_string[EL].Data()),"pdf");
 
   }
   

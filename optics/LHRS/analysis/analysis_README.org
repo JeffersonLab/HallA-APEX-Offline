@@ -40,3 +40,12 @@ summary plots with PID and correlation plots
    This script is desinged to illustrate cuts used for seperate horizontal foils and the resulting target and FP distributions that result.
 
 
+** horizontal_correction.C (horizontal_correction_right.C)
+   
+  Uses horizontal wire runs to plot vertical raster current and vertical BPM information with knowledge of shape of raster current (Triangle wave) to check for time delay in vertical raster current. This can be done by comparing the position of the horizontal wire (peak in vertical current) when the beam is travelling 'up' and 'down'. This phase can be gleaned by use of the vertical BPM in addition to the raster current. The script calculates the time delay needed in the vertical raster current to explain the difference in horizontal foil peaks. 
+
+(horizontal_correction_right.C does this but used a horizontal wire run from the RHRS)
+
+** Vertical_correction.C 
+   
+Does the same as horizontal_correction.C but for Vertical wire runs checking the horizontal raster delay.
