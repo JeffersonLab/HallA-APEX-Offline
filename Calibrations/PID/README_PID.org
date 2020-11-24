@@ -1,0 +1,25 @@
+README for PID Scripts
+
+
+
+
+
+
+APEX_PID_check_L.C: PID script for LHRS. Draw cuts for:
+
+- track parameters: $\beta$ (speed) and $\chi^2$ (fit quality of trick)
+
+- target variables: $y_{tg}$,$\theta_{tg}$,$\phi_{tg}$,$\delta p$  
+
+- track projected to scintillators and calorimeters
+
+  - comparison to Energ-weighted position for calorimeters
+
+  - comaparison to position from timing from Scintillators (to be added)
+
+  Current cut levels based on optics run 4774 (negative polairty for LHRS)
+
+
+
+
+APEX_PID_check_R.C: equivalent script for RHRS. Cut levels based on Optics run 4653 (RHRS with negative polarity).
