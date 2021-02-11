@@ -1,0 +1,103 @@
+Scripts for the calibration of the Scintillators in the LHRS and RHRS.
+
+In APEX set-up the scintillators were the S0 and S2.
+
+
+* Pedestal and gain
+
+Scripts used to calibrate the pedestal and gain of the s0 and s2 channels (for each PMT). For 2019 APEX run pedestal was aleady subtracted by FADC so pedestal should be zero in DB (output of this script). Gain is still needed to match channels.
+
+
+
+Ls0_cali.C : LHRS s0 calibration of pedestal and gains.
+
+Lscin_cali.C : LHRS s2 calibration of pedestal and gains.
+
+
+Rs0_cali.C : RHRS s0 calibration of pedestal and gains.
+
+Rscin_cali.C : RHRS s2 calibration of pedestal and gains.
+
+
+
+* Timing 
+
+Various scripts used to calibrate all components of timing corrections for each paddle of S2 (and single paddle of S0). S2 is more important as coincidence time is taken as difference of left and right paddles. 
+
+S2 paddles timing offsets (each paddle read out by PMT at both ends which are calibratd seperately). 
+
+
+** Timing offset
+
+Calibrate electronic offset for each channel/ PMT. 
+
+There are two established methods for this in Hall A: 
+
+- Adjacent paddle alignment: Select events hitting adjacent S2 paddles and calibrate difference between paddles (setting arbitary central paddles to time offset of 0) (used by Transveristy experiment)
+
+- TOF method: Use TOF between S0 and S2 and difference between left and right PMTs (top and bottom for S0) to calibrate S2 offsets (used by Tritium, GMP)
+        
+
+*** Adjacent Paddle Alignment
+
+L_time_alignment.C : Performs paddle alignment for LHRS. Prints plots (in plots/s2_alignment/check/) and DB files with timing offsets (in hall A DB format and as csv). 
+
+R_time_alignment.C : Performs paddle alignment for RHRS. Prints plots (in plots/s2_alignment/check/) and saves DB files with timing offsets (in hall A DB format and as csv). 
+
+
+*** TOF method
+
+L_s_both_timing.C : Performs TOF-method timing offset calibration for LHRS. Saves plots (in plots/) and saves DB files with timing offests (in hall A DB format and as csv).
+
+R_s_both_timing.C : Performs TOF-method timing offset calibration for RHRS. Saves plots (in plots/) and saves DB files with timing offests (in hall A DB format and as csv).
+
+
+
+** Timewalk
+
+
+Timewalk correction in Hall A typically characterised as proportional to $ADC^{-0.5}$. Two calibration coeffeicents are needed in this case, $K$, a proportionality factor, and $ADC_{MIP}$ the ADC amplitude for a 'Minimum Ionising Particle'. 
+
+
+L_tw_correct.C: Attempts standard Hall A timewalk correction for LHRS. Currently find this works well for S0 but not for S2. 
+
+L_tw_correct_diff.C: Uses differences between left and right PMT ADC hits in S2 paddles to characterise TW effect. This seems to do superior job for S2. 
+
+
+R_tw_correct.C: Attempts standard Hall A timewalk correction for RHRS. Currently find this works well for S0 but not for S2.
+
+
+Scripts output results in timewalk/plots and timewalk/DB.
+
+
+
+** Path-length Corrections
+
+Differences in coincidence time between the LHRS and RHRS can be caused from hits coming from the same interaction in the target if the path lengths in the two arms are different. Path length correction can be characterised interms of the track positions and angles in the dispersive and non-dipsersive directions: $x$,$\theta$,$y$,$\phi$.
+
+These corrections can be applpied on a per-paddle basis or calibrated for events all across S2. So far the second approach has been found to be more effective.
+
+
+pl_corrections_all.C :Find 1st order PL correction for $x$,$\theta$ and $\phi$ in both arms. 
+
+
+
+
+
+** Coincidence time plotting
+
+Ultimately aim of timing corrections is to improve resolution of timing coincidence between LHRS and RHRS. 
+
+
+Coinc_peak.C : Plots chosen run with specified csv files containing timing offset corrections. Read pl corrections based on same DB file name. Displays width of coincidence timing peak and width versus paddle number. Saves result to CSV file (in coinc_csv). 
+
+
+plot_coinc.py: Plots results (width and Names) from Coinc_peak.C script. 
+
+
+
+
+
+
+
+
