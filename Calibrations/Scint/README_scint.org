@@ -56,7 +56,7 @@ R_s_both_timing.C : Performs TOF-method timing offset calibration for RHRS. Save
 ** Timewalk
 
 
-Timewalk correction in Hall A typically characterised as proportional to $ADC^{-0.5}$. Two calibration coeffeicents are needed in this case, $K$, a proportionality factor, and $ADC_{MIP}$ the ADC amplitude for a 'Minimum Ionising Particle'. 
+Timewalk correction in Hall A typically characterised as proportional to ADC^{-0.5}. Two calibration coeffeicents are needed in this case, $K$, a proportionality factor, and $ADC_{MIP}$ the ADC amplitude for a 'Minimum Ionising Particle'. 
 
 
 L_tw_correct.C: Attempts standard Hall A timewalk correction for LHRS. Currently find this works well for S0 but not for S2. 
@@ -73,12 +73,12 @@ Scripts output results in timewalk/plots and timewalk/DB.
 
 ** Path-length Corrections
 
-Differences in coincidence time between the LHRS and RHRS can be caused from hits coming from the same interaction in the target if the path lengths in the two arms are different. Path length correction can be characterised interms of the track positions and angles in the dispersive and non-dipsersive directions: $x$,$\theta$,$y$,$\phi$.
+Differences in coincidence time between the LHRS and RHRS can be caused from hits coming from the same interaction in the target if the path lengths in the two arms are different. Path length correction can be characterised interms of the track positions and angles in the dispersive and non-dipsersive directions: x,\theta,y,\phi.
 
 These corrections can be applpied on a per-paddle basis or calibrated for events all across S2. So far the second approach has been found to be more effective.
 
 
-pl_corrections_all.C :Find 1st order PL correction for $x$,$\theta$ and $\phi$ in both arms. 
+pl_corrections_all.C :Find 1st order PL correction for x,\theta and \phi in both arms. 
 
 
 
