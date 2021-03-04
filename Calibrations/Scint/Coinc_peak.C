@@ -133,8 +133,8 @@ void Coinc_peak(Int_t runno, TString DB_Lname /* LHRS DB name where corrections 
  
   // calculate width of coincidence peak
   
-   TChain* T = Load_more_rootfiles(runno);
-   
+  TChain* T = Load_more_rootfiles(runno);
+  
   
   Double_t tmin = 1690, tmax = 1705;  // the limits for 'peak'
   
@@ -147,6 +147,8 @@ void Coinc_peak(Int_t runno, TString DB_Lname /* LHRS DB name where corrections 
   //((1/TMath::Sqrt(R.s2.la_p[%i])))
 
 
+  /*
+  
   string csvname_l = ("time_walk/s2_lims/L_4771_s2.csv");
   // string csvname_l = ("time_walk/s2_lims/L_477dfsdf1_s2.csv");
   CsvParser csv_l(csvname_l);
@@ -188,6 +190,7 @@ void Coinc_peak(Int_t runno, TString DB_Lname /* LHRS DB name where corrections 
     s2_r_upper[i] = stod(s2_r_upper_s[i]);
   }  
 
+  */
 
   const Double_t fTdc2T = 0.5e-9;      // seconds/channel
 

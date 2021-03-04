@@ -101,3 +101,22 @@ plot_coinc.py: Plots results (width and Names) from Coinc_peak.C script.
 
 
 
+
+
+** Order of use
+
+Current structure of scripts:
+
+1) Use timing offset script:
+   - currently preferred alignment method: L_time_alignment.C (R_time_alignment.C)
+   - creates DBs in DB directory
+
+2) Use Path-length correction script:
+   - pl_corrections_all.C
+   - void pl_corrections_all(Int_t runno,  TString DB_Lname /* LHRS DB name where corrections are read from*/, TString DB_Rname /* RHRS DB name where corrections are read from*/, TString Name  = "_" /*Name to be added to csv file*/)
+   - DB_Lname and DB_rname are results from 1) (DBs with paddle offsets)
+
+3) Use Coinc time plotting scripts:
+   - Coinc_peak.C: again need to specify offset DBs
+   - plot_coinc.py: can plot results from  CoinC_peak.C
+
