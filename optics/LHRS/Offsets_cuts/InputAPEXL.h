@@ -337,16 +337,40 @@ const Int_t NHoles = 225;
 
 
 
-TCut GeneralSieveCut = "L.tr.n==1 && L.tr.chi2<0.003 && L.vdc.u1.nclust==1 && L.vdc.v1.nclust==1 && L.vdc.u2.nclust==1 && L.vdc.v2.nclust==1";
+TCut GeneralSieveCut = "L.tr.n==1 && L.tr.chi2<0.0035 && L.gold.beta>0.400000  && L.vdc.u1.nclust==1 && L.vdc.v1.nclust==1 && L.vdc.u2.nclust==1 && L.vdc.v2.nclust==1";
+// TCut GeneralSieveCut = "L.tr.n==1 && L.tr.chi2<0.0035 && L.vdc.u1.nclust==1 && L.vdc.v1.nclust==1 && L.vdc.u2.nclust==1 && L.vdc.v2.nclust==1";
+
+
+// cut on tracks projected to other detectors
+
+TCut TrackDetCut = "L.s0.trx>-0.850000 && L.s0.trx<0.850000 && L.s0.try>-0.125000 && L.s0.try<0.125000 && L.s2.trx>-1.117650 && L.s2.trx<1.117650 && L.s2.try>-0.215900 && L.s2.try<0.215900 && L.prl1.trx>-1.300000 && L.prl1.trx<1.300000 && L.prl1.try>-0.350000 && L.prl1.try<0.350000 && L.prl2.trx>-1.300000 && L.prl2.trx<1.300000 && L.prl2.try>-0.350000 && L.prl2.try<0.350000";
+
+// cut on agreement on track between vdc proj and calorimeter
+
+TCut TrackCal = "(L.prl1.x-L.prl1.trx)>-0.065000 && (L.prl1.x-L.prl1.trx)<0.065000 && (L.prl2.x-L.prl2.trx)>-0.045000 && (L.prl2.x-L.prl2.trx)<0.065000";
+
+
+
+TCut GeneralSieveCut_r = "R.tr.n==1 && R.tr.chi2<0.003 && R.vdc.u1.nclust==1 && R.vdc.v1.nclust==1 && R.vdc.u2.nclust==1 && R.vdc.v2.nclust==1";
+
+
 
 // TCut GeneralSieveCut = "L.tr.n==1 && L.tr.chi2<0.003 && abs(L.gold.th)<0.08 && L.gold.ph>-0.07 && L.gold.ph<0.025 && abs(L.tr.r_x)<0.5 && L.vdc.u1.nclust==1 && L.vdc.v1.nclust==1 && L.vdc.u2.nclust==1 && L.vdc.v2.nclust==1"; 
 
 
-TCut FP_cuts = "L.tr.r_x>-0.6 && L.tr.r_x<0.56 && L.tr.r_y>-0.04 && L.tr.r_y<0.037 && L.tr.r_th>-0.029 && L.tr.r_th<0.02 && L.tr.r_ph>-0.05 && L.tr.r_ph<0.04 && abs(L.tr.r_x)<0.1";
+//TCut FP_cuts = "L.tr.r_x>-0.6 && L.tr.r_x<0.56 && L.tr.r_y>-0.04 && L.tr.r_y<0.037 && L.tr.r_th>-0.06 && L.tr.r_th<0.05 && L.tr.r_ph>-0.05 && L.tr.r_ph<0.04 && abs(L.tr.r_x)<0.5";
+TCut FP_cuts = "L.tr.r_x>-0.6 && L.tr.r_x<0.56 && L.tr.r_y>-0.04 && L.tr.r_y<0.037 && L.tr.r_th>-0.06 && L.tr.r_th<0.05 && L.tr.r_ph>-0.05 && L.tr.r_ph<0.04 && abs(L.tr.r_x)<0.1";
+
+TCut FP_cuts_coinc = "L.tr.r_x>-0.6 && L.tr.r_x<0.56 && L.tr.r_y>-0.04 && L.tr.r_y<0.037 && L.tr.r_th>-0.029 && L.tr.r_th<0.02 && L.tr.r_ph>-0.05 && L.tr.r_ph<0.04";
 
 // TCut FP_cuts = "L.tr.r_x>-0.6 && L.tr.r_x<0.56 && L.tr.r_y>-0.04 && L.tr.r_y<0.037 && L.tr.r_th>-0.029 && L.tr.r_th<0.02 && L.tr.r_ph>-0.05 && L.tr.r_ph<0.04";
 
-TCut PID_cuts = "(L.prl1.e/(L.gold.p*1000))>0.3 && ((L.prl1.e+L.prl2.e)/(L.gold.p*1000))>0.625 && ((L.prl1.e+L.prl2.e)/(L.gold.p*1000))<1.11 &&  L.cer.asum_c >650 && DL.evtype == 1";
+//TCut PID_cuts = "(L.prl1.e/(L.gold.p*1000))>0.3 && ((L.prl1.e+L.prl2.e)/(L.gold.p*1000))>0.625 && ((L.prl1.e+L.prl2.e)/(L.gold.p*1000))<1.11 &&  L.cer.asum_c >650 && DL.evtype == 1";
+TCut PID_cuts = "(L.prl1.e/(L.gold.p*1000))>0.3 && ((L.prl1.e+L.prl2.e)/(L.gold.p*1000))>0.625 && ((L.prl1.e+L.prl2.e)/(L.gold.p*1000))<1.11 &&  L.cer.asum_c >650";
+
+
+//TCut PID_cuts_r = "(R.ps.asum_c+0.9*R.sh.asum_c)>800 && R.ps.asum_c>350 && R.cer.asum_c>200";
+TCut PID_cuts_r = "(R.ps.e/(R.gold.p*1000)) > 0.200000  && ((R.sh.e + R.ps.e)/(R.gold.p*1000)) > 0.510000 && ((R.sh.e + R.ps.e)/(R.gold.p*1000)) < 1.250000 && R.cer.asum_c > 10.000000";
 
 // && Lrb.x>-0.0029 && Lrb.x<-0.0022";
 
