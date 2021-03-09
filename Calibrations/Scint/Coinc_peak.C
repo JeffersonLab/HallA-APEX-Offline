@@ -203,8 +203,8 @@ void Coinc_peak(Int_t runno, TString DB_Lname /* LHRS DB name where corrections 
   Double_t R_tr_p[100],R_s0_trx[100],R_s2_try[100];
 
   // pl variables
-  Double_t L_r_x, L_r_y, L_tg_dp, L_r_th, L_r_ph;
-  Double_t R_r_x, R_r_y, R_tg_dp, R_r_th, R_r_ph;
+  Double_t L_r_x[100], L_r_y[100], L_tg_dp[100], L_r_th[100], L_r_ph[100];
+  Double_t R_r_x[100], R_r_y[100], R_tg_dp[100], R_r_th[100], R_r_ph[100];
   
   
   Double_t L_s2_lt[NS2Pad],L_s2_rt[NS2Pad];
@@ -234,11 +234,17 @@ void Coinc_peak(Int_t runno, TString DB_Lname /* LHRS DB name where corrections 
   T->SetBranchStatus("L.prl1.e",1);
   T->SetBranchStatus("L.prl2.e",1);
 
-  T->SetBranchAddress("L.tr.r_x",&L_r_x);
-  T->SetBranchAddress("L.tr.r_y",&L_r_y);
-  T->SetBranchAddress("L.tr.r_th",&L_r_th);
-  T->SetBranchAddress("L.tr.r_ph",&L_r_ph);
-  T->SetBranchAddress("L.tr.tg_dp",&L_tg_dp);
+  T->SetBranchStatus("L.tr.r_x",1);
+  T->SetBranchStatus("L.tr.r_y",1);
+  T->SetBranchStatus("L.tr.r_th",1);
+  T->SetBranchStatus("L.tr.r_ph",1);
+  T->SetBranchStatus("L.tr.tg_dp",1);
+  
+  T->SetBranchAddress("L.tr.r_x",L_r_x);
+  T->SetBranchAddress("L.tr.r_y",L_r_y);
+  T->SetBranchAddress("L.tr.r_th",L_r_th);
+  T->SetBranchAddress("L.tr.r_ph",L_r_ph);
+  T->SetBranchAddress("L.tr.tg_dp",L_tg_dp);
   
   T->SetBranchStatus("R.tr.n",1);
   T->SetBranchStatus("R.tr.p",1);
@@ -246,11 +252,18 @@ void Coinc_peak(Int_t runno, TString DB_Lname /* LHRS DB name where corrections 
   T->SetBranchStatus("R.ps.e",1);
   T->SetBranchStatus("R.sh.e",1);
 
-  T->SetBranchAddress("R.tr.r_x",&R_r_x);
-  T->SetBranchAddress("R.tr.r_y",&R_r_y);
-  T->SetBranchAddress("R.tr.r_th",&R_r_th);
-  T->SetBranchAddress("R.tr.r_ph",&R_r_ph);
-  T->SetBranchAddress("R.tr.tg_dp",&R_tg_dp);
+
+  T->SetBranchStatus("R.tr.r_x",1);
+  T->SetBranchStatus("R.tr.r_y",1);
+  T->SetBranchStatus("R.tr.r_th",1);
+  T->SetBranchStatus("R.tr.r_ph",1);
+  T->SetBranchStatus("R.tr.tg_dp",1);
+  
+  T->SetBranchAddress("R.tr.r_x",R_r_x);
+  T->SetBranchAddress("R.tr.r_y",R_r_y);
+  T->SetBranchAddress("R.tr.r_th",R_r_th);
+  T->SetBranchAddress("R.tr.r_ph",R_r_ph);
+  T->SetBranchAddress("R.tr.tg_dp",R_tg_dp);
   
   
   T->SetBranchStatus("L.s2.nthit",1);
@@ -408,7 +421,7 @@ void Coinc_peak(Int_t runno, TString DB_Lname /* LHRS DB name where corrections 
 	  LTime = fTdc2T*(L_s2_lt[j]-L_ls2_coeff[j] + L_s2_rt[j]-L_rs2_coeff[j])/2.;
 	  LTime_un = (fTdc2T*(L_s2_lt[j]+L_s2_rt[j]))/2.;
 
-          L_pl_corr = L_th_slope * L_r_th + L_ph_slope * L_r_ph + L_x_slope * L_r_x;
+          L_pl_corr = L_th_slope * L_r_th[0] + L_ph_slope * L_r_ph[0] + L_x_slope * L_r_x[0];
 	  LTime_pl = (fTdc2T*(L_s2_lt[j]-L_ls2_coeff[j]+L_s2_rt[j]-L_rs2_coeff[j]))/2. - L_pl_corr;
 
 	  LHRS_pad = j+1;
@@ -422,7 +435,7 @@ void Coinc_peak(Int_t runno, TString DB_Lname /* LHRS DB name where corrections 
 	  //	  RTime = fTdc2T*(R_s2_lt[j]+R_ls2_coeff[j] + R_s2_rt[j]+R_rs2_coeff[j])/2.;
 	  RTime = fTdc2T*(R_s2_lt[j]-R_ls2_coeff[j] + R_s2_rt[j]-R_rs2_coeff[j])/2.;
 	  RTime_un = (fTdc2T*(R_s2_lt[j]+R_s2_rt[j]))/2.;
-	  R_pl_corr = R_th_slope * R_r_th + R_ph_slope * R_r_ph + R_x_slope * R_r_x;
+	  R_pl_corr = R_th_slope * R_r_th[0] + R_ph_slope * R_r_ph[0] + R_x_slope * R_r_x[0];
 	  RTime_pl = (fTdc2T*(R_s2_lt[j]-R_ls2_coeff[j] + R_s2_rt[j]-R_rs2_coeff[j]))/2. - R_pl_corr;
 	  RHRS_pad = j+1;
 
