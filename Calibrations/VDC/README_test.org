@@ -1,0 +1,21 @@
+README for newer test scripts
+
+
+* Table_norm.C
+
+  Goes through events and selects clusters with 5 (max) consecutive wire hits, where the pivot wire is central (3rd wire).
+
+  Calculates difference of vertical track difference at 1st and 2nd (and 4th and 5th) wires. Read in existing unnormalised TTD table and uses this value to normalise TTD tables entries. Logic is that difference between 1st and 2nd (4th and 5th) lookup table values should equal known difference in vertical distance. Print this to file.
+
+
+
+
+
+
+* clust_miss.C
+
+Compares 
+
+* lookup_corr.C
+
+script which calibrates (and tests angular correction for VDC)

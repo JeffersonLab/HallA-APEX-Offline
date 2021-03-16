@@ -1,0 +1,51 @@
+VDC TTD (Time To Distance) calibration scripts
+
+
+
+
+  There are different forms of TTD (drift Time To Distance) conversion. 
+  - lookup table method
+  - analytic method (converts time to distance using drift velocity)
+
+
+** analytic method
+
+fitvdcTTD.C script: Adapted from script written by Seamus Riordan, based on current method used in Hall A.
+
+
+Useage:
+  .L fitvdcTTD.C+
+  fitvdcTTD("L",runno)
+
+  or
+
+  fitvdcTTD("R",runno)
+
+
+** Lookup table
+
+APEX_VDCTable.C: Written for APEX. Integrates over timing range and produces lookup table. Can normlaise this by dividing by largest distance (based on cell dimensions). Normalising in this method can be flawed, however.
+
+Table_norm.C: Written for APEX. Firstly clusters with 5 wires are selected, differences in track vertical distance between the 1st and 2nd (and 4th adn 5th) are calculated (determined from cluster/ track slope and known wire seperation). This is used to normal TTD lookup table, by dividing lookup table entries for relevant wires by this calculated distance. 
+
+lookup_corr.C: Written for APEX. Calibrate angular corrections for lookup table method. Form of correction based on MIT theses referenced in script. Finds optimal value of R (distance from wire where nature of E-field changes) and theta0 (cenral value of slope of cluster). 
+
+
+*** Order of use
+
+1) APEX_VDCTable.C : creates unnormalised lookup table
+   - Use: .x APEX_VDCTable.C("arm",runnumber) (ie .x APEX_VDCTable.C("L",4771) )
+
+2) Table_norm.C : Normalises lookup table created in first step.
+   - Use: .x Table_norm.C("arm", runnumber)
+
+3) lookup_corr.C : Calibrates angular correction for lookup table (normalised DB from 2) is input).
+   - Use: .x lookup_corr.C("arn", runnumber)
+
+
+
+
+
+** Comparison
+
+comp_TTD.C: Written for APEX. Plots calculated distance vs 'real' distance and chi^2 between calculated and 'real' values for analytic and TTD methods. ('Real' values are from global track fit).  

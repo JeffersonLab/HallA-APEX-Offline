@@ -1,1 +1,1 @@
-/home/johnw/HallA_scripts/HallA-APEX-Offline/optics/LHRS/Offsets_cuts/InputAPEXL.h
+../../optics/LHRS/Offsets_cuts/InputAPEXL.h
