@@ -281,6 +281,13 @@ void APEX_VDCtable(const char *arm, Int_t runnumber = -1,
   Int_t low_bin[4] = {0};
   Int_t high_bin[4] = {0};
 
+  
+  Double_t low_val[4] = {0};
+  Double_t high_val[4] = {0};
+
+
+  
+
   Bool_t first[4] = {false};
 
   for(Int_t i = 0; i<NPLANE; i++ ){
@@ -296,6 +303,7 @@ void APEX_VDCtable(const char *arm, Int_t runnumber = -1,
 
 	if (first[i] ){
 	  low_bin[i] = j;
+	  low_val[i] = (low_bin[i]+0.5)*kTimeRes + low;
 	  first[i] = false;
 	}
       }            
@@ -374,7 +382,7 @@ void APEX_VDCtable(const char *arm, Int_t runnumber = -1,
 
 
   for( i = 0; i < NPLANE; i++ ){
-    if(TTD_func::SaveNewTTDData(tables[i], NBins[i], arm, plane[i], runnumber, "unnormalised"))
+    if(TTD_func::SaveNewTTDData(tables[i], NBins[i], low_val[i], arm, plane[i], runnumber, "unnormalised"))
 	cout<<"Done for "<<plane[i]<<endl;
     else{
       cout<<"Failed for "<<plane[i]<<endl;      

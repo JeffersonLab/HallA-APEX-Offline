@@ -4,8 +4,10 @@
 
 // performs lookup table ttd conversion without angular correction
 double TTDTable::Convert(double dtime){
-  
+
   Double_t bin_res = 0.5e-9;
+
+  dtime -= Low;
   Int_t bin_no = dtime/(bin_res);
   Double_t dist = LTable[bin_no];
   

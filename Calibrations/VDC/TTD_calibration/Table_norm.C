@@ -319,6 +319,7 @@ void Table_norm(const char *arm, Int_t runnumber = -1)
 
   Int_t NBins[NPLANE] = {0}; // number of bins lookup table for each plane
 
+  Double_t Low[NPLANE] = {0}; // lowest value for time
   
   std::vector<Double_t> LTable[NPLANE]; // velocity lookup table
   TTDTable* PlaneTable[NPLANE];
@@ -353,12 +354,28 @@ void Table_norm(const char *arm, Int_t runnumber = -1)
 
 	}
 
+
+	phrase = Form("%s.vdc.%s.ttd_table.low = ",arm,plane[i]);
+	
+	if(!line.find(phrase)){
+	  
+	  
+	  std::getline(table_DB, line);
+
+	  Low[i] = TTD_func::ReadSingleVal<Double_t>(line);
+
+	  line_no++;
+
+	}
+
+	
+
 	phrase = Form("%s.vdc.%s.ttd_table.table",arm,plane[i]);
 
 	if(!line.find(phrase)){	  	  
 
 	  LTable[i] = TTD_func::ReadLookupTable(table_DB, line_no, NBins[i]);
-	  PlaneTable[i] = new TTDTable(LTable[i]);	  
+	  PlaneTable[i] = new TTDTable(LTable[i],Low[i]);	  
 
 	  line_no++;
 	}
@@ -724,7 +741,7 @@ void Table_norm(const char *arm, Int_t runnumber = -1)
 
 
   for( i = 0; i < NPLANE; i++ ){
-    if(TTD_func::SaveNewTTDData(LTable[i], NBins[i], arm, plane[i], runnumber, "norm"))
+    if(TTD_func::SaveNewTTDData(LTable[i], NBins[i], Low[i], arm, plane[i], runnumber, "norm"))
       cout<<"Done for "<<plane[i]<<endl;
     else
       cout<<"Failed for "<<plane[i]<<endl;

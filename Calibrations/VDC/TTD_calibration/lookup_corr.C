@@ -545,6 +545,12 @@ void lookup_corr(const char *arm, Int_t runnumber = -1){
   Int_t low_bin[NPLANE][3] = {0};
   Int_t high_bin[NPLANE][3] = {0};
 
+    
+  Double_t low_val[NPLANE][3] = {0};
+  Double_t high_val[NPLANE][3] = {0};
+
+ 
+
   Bool_t first[NPLANE][3] = {false};
 
   for(Int_t i = 0; i<NPLANE; i++ ){
@@ -563,6 +569,7 @@ void lookup_corr(const char *arm, Int_t runnumber = -1){
 	  
 	  if (first[i][j] ){
 	    low_bin[i][j] = k;
+	    low_val[i][j] = (low_bin[i][j]+0.5)*kTimeRes + low;
 	    first[i][j] = false;
 	  }
 	}            
@@ -667,7 +674,7 @@ void lookup_corr(const char *arm, Int_t runnumber = -1){
   for(Int_t i = 0; i < NPLANE; i++ ){
     for(Int_t j = 0; j<3; j++){
       
-      PlaneTables[i][j] = new TTDTable(tables[i][j]);
+      PlaneTables[i][j] = new TTDTable(tables[i][j],low_val[i][j]);
     }
   }
       
@@ -865,6 +872,7 @@ void lookup_corr(const char *arm, Int_t runnumber = -1){
 
   std::vector<Double_t> NormTable[NPLANE]; // velocity lookup table
   Int_t NBinsNorm[NPLANE];
+  Double_t LowNorm[NPLANE];
 
 
   
@@ -896,13 +904,28 @@ void lookup_corr(const char *arm, Int_t runnumber = -1){
 
 	}
 
+	
+	phrase = Form("%s.vdc.%s.ttd_table.low = ",arm,plane[i]);
+	
+	if(!line.find(phrase)){
+	  
+	  
+	  std::getline(table_DB, line);
+
+	  LowNorm[i] = TTD_func::ReadSingleVal<Double_t>(line);
+
+	  line_no++;
+
+	}
+	
+
 	phrase = Form("%s.vdc.%s.ttd_table.table",arm,plane[i]);
 
 
 	if(!line.find(phrase)){
 
 	  NormTable[i] = TTD_func::ReadLookupTable(table_DB, line_no, NBinsNorm[i]);
-	  TTDTables[i] = new TTDTable(NormTable[i]);
+	  TTDTables[i] = new TTDTable(NormTable[i],LowNorm[i]);
 
 	  line_no++;
 
@@ -1020,7 +1043,8 @@ void lookup_corr(const char *arm, Int_t runnumber = -1){
 
     for(Int_t i = 0; i < NPLANE; i++ ){
       
-      TTDTablesCorr[i] = new TTDTable(NormTable[i],Pars[i]);
+      TTDTablesCorr[i] = new TTDTable(NormTable[i],LowNorm[i],Pars[i]);
+
       
     }
 
@@ -1207,9 +1231,9 @@ void lookup_corr(const char *arm, Int_t runnumber = -1){
     
     outp[i]->open(Form("DB/lookup_tables/db_%s_%s_lookup_TTD_angleCorr.vdc.%d.dat", arm, plane[i], runnumber) );
 
-    *outp[i]<<arm<<".vdc."<<plane[i]<<".R = "<< endl;
+    *outp[i]<<arm<<".vdc."<<plane[i]<<".ttd_table.R = "<< endl;
     *outp[i]<<Pars[i][0]<<endl;
-    *outp[i]<<arm<<".vdc."<<plane[i]<<".theta0 = "<<endl;
+    *outp[i]<<arm<<".vdc."<<plane[i]<<".ttd_table.theta0 = "<<endl;
     *outp[i]<<Pars[i][1]<<endl;
 
     outp[i]->close();
