@@ -84,13 +84,20 @@ double TTDTable::ConvertAngleCorr(double dtime, double tanTheta){
 
   tanTheta = TMath::ATan(tanTheta);
   //  tanTheta = 1/tanTheta;
-  
-  if (dist >= *fR) {
-    dist += (*fR)*( (1/TMath::Cos(tanTheta) -  (1/TMath::Cos(fTheta0))));
 
-  } else if (dist < *fR ) { 
+
+  Double_t SecTheta = (1/TMath::Cos(tanTheta));
+  Double_t CosTheta = TMath::Cos(tanTheta);
+
+  Double_t SecTheta0 = (1/TMath::Cos(fTheta0));
+  
+  
+  if (dist >= (*fR)*SecTheta0 ) {
+    dist += (*fR)*(SecTheta -  SecTheta0);
+
+  } else if (dist < (*fR)*SecTheta0 ) { 
     
-    dist *= (1/TMath::Cos(tanTheta) /  (1/TMath::Cos(fTheta0)) );
+    dist *= (SecTheta /  SecTheta0 );
   }
 		 
   return dist;
