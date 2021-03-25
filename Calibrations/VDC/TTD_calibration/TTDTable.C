@@ -4,8 +4,10 @@
 
 // performs lookup table ttd conversion without angular correction
 double TTDTable::Convert(double dtime){
-  
+
   Double_t bin_res = 0.5e-9;
+
+  dtime -= Low;
   Int_t bin_no = dtime/(bin_res);
   Double_t dist = LTable[bin_no];
   
@@ -82,13 +84,20 @@ double TTDTable::ConvertAngleCorr(double dtime, double tanTheta){
 
   tanTheta = TMath::ATan(tanTheta);
   //  tanTheta = 1/tanTheta;
-  
-  if (dist >= *fR) {
-    dist += (*fR)*( (1/TMath::Cos(tanTheta) -  (1/TMath::Cos(fTheta0))));
 
-  } else if (dist < *fR ) { 
+
+  Double_t SecTheta = (1/TMath::Cos(tanTheta));
+  Double_t CosTheta = TMath::Cos(tanTheta);
+
+  Double_t SecTheta0 = (1/TMath::Cos(fTheta0));
+  
+  
+  if (dist >= (*fR)*SecTheta0 ) {
+    dist += (*fR)*(SecTheta -  SecTheta0);
+
+  } else if (dist < (*fR)*SecTheta0 ) { 
     
-    dist *= (1/TMath::Cos(tanTheta) /  (1/TMath::Cos(fTheta0)) );
+    dist *= (SecTheta /  SecTheta0 );
   }
 		 
   return dist;

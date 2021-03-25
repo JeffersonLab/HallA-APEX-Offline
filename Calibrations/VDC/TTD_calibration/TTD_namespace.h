@@ -92,7 +92,7 @@ namespace TTD_func
 
   
   template <typename T>
-  int SaveNewTTDData(vector<T> table, Double_t NBins, TString arm, TString plane, Int_t runnumber, TString name){
+  int SaveNewTTDData(vector<T> table, Double_t NBins, Double_t Low, TString arm, TString plane, Int_t runnumber, TString name){
 
     
     TString filename = Form("DB/lookup_tables/db_%s_%s_lookup_TTD_%s.vdc.%d.dat",arm.Data(), plane.Data(), name.Data(), runnumber);
@@ -103,6 +103,7 @@ namespace TTD_func
 
     *outp << Form("%s.vdc.%s.ttd_table.nbins = ",arm.Data(),plane.Data()) << endl <<NBins << endl << endl;
 
+    *outp << Form("%s.vdc.%s.ttd_table.low = ",arm.Data(),plane.Data()) << endl << Low << endl << endl;
 
     *outp << Form("%s.vdc.%s.ttd_table.table =",arm.Data(),plane.Data()) << endl;
 
