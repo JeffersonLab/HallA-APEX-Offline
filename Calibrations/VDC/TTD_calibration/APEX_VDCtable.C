@@ -20,7 +20,7 @@
 
 #define NPLANE 4
 #define MAX_HIT 1000
-#define MAX_ENTRIES 100000
+#define MAX_ENTRIES 1000000
 
 #define DEG_TO_RAD 0.017453278
 
@@ -294,22 +294,55 @@ void APEX_VDCtable(const char *arm, Int_t runnumber = -1,
     first[i] = true;
   }
   
+
+
   for(Int_t i = 0; i<NPLANE; i++ ){
-    for(Int_t j = 0; j<hist[i]->GetNbinsX(); j++){
+    
+    Int_t j = 0;
 
-      if (hist[i]->GetBinContent(j) > 0){
-	  
-	high_bin[i] = j;
 
-	if (first[i] ){
-	  low_bin[i] = j;
-	  low_val[i] = (low_bin[i]+0.5)*kTimeRes + low;
-	  first[i] = false;
-	}
-      }            
-      
+    while(hist[i]->GetBinContent(j) == 0){
+      j++;
     }
+
+    
+    low_bin[i] = j;
+    low_val[i] = (low_bin[i])*kTimeRes + low;
+
+    
+    Int_t k = 0; // check against gaving small gap in time spectrum at smaller times
+    
+    while(hist[i]->GetBinContent(j) > 0 || k < 10){
+      high_bin[i] = j;      
+      j++;
+      k++;
+    }
+
+    cout << "passed second while loop" << endl;
+
+    
+    cout << "lowbin[" << i << "] = " << low_bin[i] << endl;
+    cout << "highbin[" << i << "] = " << high_bin[i] << endl;
+
   }
+    
+    
+    // for(Int_t j = 0; j<hist[i]->GetNbinsX(); j++){
+
+    //   if (hist[i]->GetBinContent(j) > 0){
+	  
+    // 	high_bin[i] = j;
+
+    // 	if (first[i] ){
+    // 	  low_bin[i] = j;
+    // 	  low_val[i] = (low_bin[i])*kTimeRes + low;
+    // 	  first[i] = false;
+    // 	}
+    //   }                  
+    // }
+
+    
+
 
   
   // set provisional value of K normlisation parameter (determined by size of drift cell)

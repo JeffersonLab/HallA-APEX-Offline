@@ -30,6 +30,8 @@ Table_norm.C: Written for APEX. Firstly clusters with 5 wires are selected, diff
 
 lookup_corr.C: Written for APEX. Calibrate angular corrections for lookup table method. Form of correction based on MIT theses referenced in script. Finds optimal value of R (distance from wire where nature of E-field changes) and theta0 (cenral value of slope of cluster). 
 
+AnalyticSlopeFit: Written for APEX. Calculates M1, M2 parameters that are used for 'extending' lookup table (for purpose of 3-parameter fitting with time values outside of normal range).
+
 
 *** Order of use
 
@@ -40,7 +42,7 @@ lookup_corr.C: Written for APEX. Calibrate angular corrections for lookup table 
    - Use: .x Table_norm.C("arm", runnumber)
 
 3) lookup_corr.C : Calibrates angular correction for lookup table (normalised DB from 2) is input).
-   - Use: .x lookup_corr.C("arn", runnumber)
+   - Use: .x lookup_corr.C("arm", runnumber)
 
 
 

@@ -375,7 +375,7 @@ void Table_norm(const char *arm, Int_t runnumber = -1)
 	if(!line.find(phrase)){	  	  
 
 	  LTable[i] = TTD_func::ReadLookupTable(table_DB, line_no, NBins[i]);
-	  PlaneTable[i] = new TTDTable(LTable[i],Low[i]);	  
+	  PlaneTable[i] = new TTDTable(LTable[i],Low[i],NBins[i]);	  
 
 	  line_no++;
 	}
@@ -723,6 +723,56 @@ void Table_norm(const char *arm, Int_t runnumber = -1)
     }
     cout << endl << endl;
   }
+
+
+  // 'smooth' out table and ensure no double entries
+
+  for( i = 0; i < NPLANE; i++ ){
+
+    Double_t prev = 0.0; // store previous entry
+    Int_t previ = 0;
+    Double_t next = 0.0; // store next entry
+    Int_t nexti = 0;
+
+    Int_t NoCon = 1;
+
+    Double_t mCorr = 0.0; // gradient to 'smooth' entries
+    
+    for(Int_t j=1; j<NBins[i]; j++){
+
+      if(LTable[i][j] == LTable[i][j-1]){
+	
+	NoCon++;
+      }
+      else if(NoCon > 1){
+
+	cout << plane[i] << ": condition entered for j = " << j << endl;
+	
+	mCorr = (LTable[i][j]-prev)/(NoCon + 1);
+	// for loop going through all points to be corrected
+	for(Int_t k=1; k<NoCon+1; k++){
+	  LTable[i][previ+k] = prev + mCorr*k;
+	}
+
+	NoCon = 1;
+	prev = LTable[i][j-1];
+	previ = j-1;
+	
+      }
+      else{
+	prev = LTable[i][j-1];
+	previ = j-1;
+	NoCon = 1;
+      }
+
+
+      
+    }
+    cout << endl << endl;
+  }
+  
+
+  
 
   
   // ask whether to replace the values in the database
