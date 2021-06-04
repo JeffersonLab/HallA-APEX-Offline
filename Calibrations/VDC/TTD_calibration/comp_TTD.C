@@ -37,6 +37,8 @@ void comp_TTD(const char *arm = "L", Int_t runnumber = -1  ){
   Double_t an_pars[NPLANE][8] = {0}; // 4 a1 and 4 a3 parameters for each VDC plane
 
   Double_t Lookup_pars[NPLANE][2] = {0}; // 2 parameters for lookup table correction
+
+  Double_t Ext_pars[NPLANE][4] = {0}; // 2 parameters for lookup table correction
   
   TString ana_DB_name = Form("DB/analytic_TTD/db_%s_TTD.vdc.%d.dat",arm,runnumber);
 
@@ -129,6 +131,61 @@ void comp_TTD(const char *arm = "L", Int_t runnumber = -1  ){
   
   std::vector<Double_t> LTable[NPLANE]; // velocity lookup table
   TTDTable* PlaneTable[NPLANE]; 
+
+
+
+  
+  // read in extension parameters for Lookup table
+  
+  std::ifstream tableExt_DB(Form("DB/ALT_analytic_TTD/db_%s_TTD.vdc.%d.dat", arm, runnumber));
+  
+  cout << "Opened " << Form("DB/ALT_analytic_TTD/db_%s_TTD.vdc.%d.dat", arm, runnumber) << endl;
+
+
+
+
+    
+  line_no = 0;
+  
+  while (std::getline(tableExt_DB, line))
+    {
+      
+      
+      std::istringstream iss(line);
+      
+      for(Int_t i = 0; i < NPLANE; i++){	
+
+	
+	//L.vdc.u1.ttd.param =
+	phrase = Form("%s.vdc.%s.ttd.param =",arm,plane[i]);
+
+	if(!line.find(phrase)){
+	  cout << "found phrase " << phrase << endl;
+
+	  std::getline(tableExt_DB, line);
+	  
+	  //	  Double_t* expars = ReadAParams(line);       
+
+	  
+
+	  for(Int_t j = 0; j<4; j++){
+	    Ext_pars[i][j] = TTD_func::ReadSingleVal<Double_t>(line);
+	    //	    Ext_pars[i][j] = expars[j];
+	    cout << "Ext_pars[" << i<< "][" << j << "] = " << Ext_pars[i][j] << endl;
+	    std::getline(tableExt_DB, line);
+	  }
+
+	  line_no++;
+	}
+	
+	
+	
+      }
+      line_no++;
+    }
+  
+  cout << "Succesfull read Ext pars " << endl << endl;
+
   
   // loop over planes
 
@@ -222,7 +279,7 @@ void comp_TTD(const char *arm = "L", Int_t runnumber = -1  ){
 	if(!line.find(phrase)){
 
 	  LTable[i] = TTD_func::ReadLookupTable(table_DB, line_no, NBins[i]);
-	  PlaneTable[i] = new TTDTable(LTable[i],Low[i],Lookup_pars[i]);
+	  PlaneTable[i] = new TTDTable(LTable[i],Low[i],NBins[i],Lookup_pars[i],Ext_pars[i]);
 	  
 	  line_no++;
 	}	
@@ -713,7 +770,7 @@ void comp_TTD(const char *arm = "L", Int_t runnumber = -1  ){
   Lin_cor->SetLineStyle(4); // dashed line
   
 
-  Double_t XSigma_up = 3.0; // how many sigma to cut away from mean of 'real' distance distrib
+  Double_t XSigma_up = 2.0; // how many sigma to cut away from mean of 'real' distance distrib
 
   Double_t XSigma_down = 2.0; // how many sigma to cut away from mean of 'real' distance distrib
     

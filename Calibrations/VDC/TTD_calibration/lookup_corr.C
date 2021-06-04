@@ -674,7 +674,7 @@ void lookup_corr(const char *arm, Int_t runnumber = -1){
   for(Int_t i = 0; i < NPLANE; i++ ){
     for(Int_t j = 0; j<3; j++){
       
-      PlaneTables[i][j] = new TTDTable(tables[i][j],low_val[i][j]);
+      PlaneTables[i][j] = new TTDTable(tables[i][j],low_val[i][j],NBins[i][j]);
     }
   }
       
@@ -925,7 +925,7 @@ void lookup_corr(const char *arm, Int_t runnumber = -1){
 	if(!line.find(phrase)){
 
 	  NormTable[i] = TTD_func::ReadLookupTable(table_DB, line_no, NBinsNorm[i]);
-	  TTDTables[i] = new TTDTable(NormTable[i],LowNorm[i]);
+	  TTDTables[i] = new TTDTable(NormTable[i],LowNorm[i],NBinsNorm[i]);
 
 	  line_no++;
 
@@ -1017,14 +1017,14 @@ void lookup_corr(const char *arm, Int_t runnumber = -1){
 
 
 
-    // plot TTD table comparison to 'real' distance
+  // plot TTD table comparison to 'real' distance
   // plot with angular corrrections for comparison
 
   const double R = 0.0021;
   //  const double theta0 = 0.71;
   const double theta0 = 1.4;
 
-  double_t Pars[NPLANE][2];
+  Double_t Pars[NPLANE][2];
 
   for(Int_t i = 0; i < NPLANE; i++ ){
 
@@ -1039,14 +1039,25 @@ void lookup_corr(const char *arm, Int_t runnumber = -1){
 
 
 
+  Double_t ExtPars[NPLANE][4] = {0.0};
+
+
+  for(Int_t i = 0; i < NPLANE; i++ ){
+    for(Int_t j = 0; j < 4; j++ ){
+      ExtPars[i][j] = 0.0;
+    }
+  }
+  
+  
+
   TTDTable* TTDTablesCorr[NPLANE];
 
-    for(Int_t i = 0; i < NPLANE; i++ ){
+  for(Int_t i = 0; i < NPLANE; i++ ){
       
-      TTDTablesCorr[i] = new TTDTable(NormTable[i],LowNorm[i],Pars[i]);
+    TTDTablesCorr[i] = new TTDTable(NormTable[i],LowNorm[i],NBinsNorm[i],Pars[i],ExtPars[i]);
 
-      
-    }
+    
+  }
 
   
   

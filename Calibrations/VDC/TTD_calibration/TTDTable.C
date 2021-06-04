@@ -5,11 +5,46 @@
 // performs lookup table ttd conversion without angular correction
 double TTDTable::Convert(double dtime){
 
-  Double_t bin_res = 0.5e-9;
 
   dtime -= Low;
   Int_t bin_no = dtime/(bin_res);
   Double_t dist = LTable[bin_no];
+
+
+  
+ 
+  
+  const double* I1 = &(parExt[0]);
+  const double* M1 = &(parExt[1]);
+
+  const double* I2 = &(parExt[2]);
+  const double* M2 = &(parExt[3]);
+    
+  
+  if(dtime < 0.0){
+    //    cout << "small dist condition" << endl;
+    if(BExtPars){
+      dist = LTable[0] + (*M2)*dtime;
+    }
+    else{
+      dist = LTable[0] + (*M2)*dtime;
+    }
+  }
+  else if(bin_no > NBins-1){
+    //    cout << "large dist condition" << endl;
+    if(BExtPars){
+      dist = LTable[NBins-1] + (*M1)*(dtime - (NBins*bin_res));
+    }
+    else{
+      dist = LTable[NBins-1];
+    }
+  }
+  else{
+    //    cout << "medium dist condition" << endl;
+    dist = LTable[bin_no] + std::fmod(dtime,bin_res)*(LTable[bin_no+1]-LTable[bin_no]);
+    //    dist = LTable[bin_no] + ((dtime/bin_res-bin_no)/(bin_res))*(LTable[bin_no+1]-LTable[bin_no]);
+    //   dist = LTable[bin_no];
+  }
   
   return dist;  
 }
@@ -94,9 +129,7 @@ double TTDTable::ConvertAngleCorr(double dtime, double tanTheta){
   
   if (dist >= (*fR)*SecTheta0 ) {
     dist += (*fR)*(SecTheta -  SecTheta0);
-
-  } else if (dist < (*fR)*SecTheta0 ) { 
-    
+  } else if (dist < (*fR)*SecTheta0 ) {     
     dist *= (SecTheta /  SecTheta0 );
   }
 		 
