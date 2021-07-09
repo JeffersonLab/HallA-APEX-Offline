@@ -166,7 +166,7 @@ void fitvdcTTD( const char *arm = "L", Int_t runnumber = -1 ){
   TChain* T = new TChain("T");
 
   if(!strcmp(arm,"L")){
-  T = Load_more_rootfiles(runnumber);
+    T = Load_more_rootfiles(runnumber);
   }
   else if (!strcmp(arm,"R")){  
     T = Load_more_rootfiles(runnumber);
@@ -287,7 +287,8 @@ void fitvdcTTD( const char *arm = "L", Int_t runnumber = -1 ){
     //  for( i = 0; i < 10; i++ ){
     T->GetEntry(i);
     if( (i%5000)==0 ) { cout << "Entry " << i << endl; }
-    if( ntr == 1 && TTD_func::passtrg(Int_t(evttype), trg) && cer_sum > Cer_cut && ps_e/(1e3*tr_p[0]) > Ps_cut && (ps_e+sh_e)/(1e3*tr_p[0]) > Ps_Sh_cut_l &&  (ps_e+sh_e)/(1e3*tr_p[0]) < Ps_Sh_cut_h ){
+    //    if( ntr == 1 && TTD_func::passtrg(Int_t(evttype), trg) && cer_sum > Cer_cut && ps_e/(1e3*tr_p[0]) > Ps_cut && (ps_e+sh_e)/(1e3*tr_p[0]) > Ps_Sh_cut_l &&  (ps_e+sh_e)/(1e3*tr_p[0]) < Ps_Sh_cut_h ){
+    if( ntr == 1 && TTD_func::passtrg(Int_t(evttype), trg)  && cer_sum > Cer_cut){
       for( j = 0; j < NPLANE; j++ ){
 	this_slope = d_th[0]*cos(ang[j]*DEG_TO_RAD) 
 	  + d_ph[0]*sin(ang[j]*DEG_TO_RAD);
@@ -597,6 +598,7 @@ void fitvdcTTD( const char *arm = "L", Int_t runnumber = -1 ){
     //    gMinuit->mnparm(5, "a2_0", 0.0, 1e-6, -2e-3, 2e-3,ierflg);
     gMinuit->mnparm(5, "a2_0", -4.20e-04, 1e-6, -2e-3, 2e-3,ierflg);
     gMinuit->mnparm(6, "a2_1", 0.0, conststep, -2e-3, 2e-3,ierflg);
+    gMinuit->FixParameter(6);
     gMinuit->mnparm(7, "a2_2", 0.0, conststep, -1e-3, 1e-3,ierflg);
     gMinuit->FixParameter(7);
     //    gMinuit->mnparm(8, "a2_3", 0.0, conststep, -1e-3, 1e-3,ierflg);

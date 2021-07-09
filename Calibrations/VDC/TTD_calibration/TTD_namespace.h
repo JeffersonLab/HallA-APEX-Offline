@@ -48,6 +48,44 @@ namespace TTD_func
 }
 
 
+  /* perform analytic TTD conversion based on difference from slope to central slope */
+  double TTDformAngle( double dtime, double tanTheta, double fDriftVel, const double *par, double invTanTheta0, const double *apar){
+  double a1 = 0.0, a2 = 0.0;
+
+  double dist = TTDform(dtime, tanTheta, fDriftVel, par, invTanTheta0);
+
+  const double* fR = &(apar[0]); // radius of electric field of wire
+  //  const double* fslope0 = &(apar[1]); // central angle
+  const double* fslope0 = &(apar[1]); // central angle
+  
+  
+  const double fTheta0 = TMath::ATan(*fslope0);
+  //  const double fTheta0 = 1/(*fslope0);
+  /* const double fTheta0 = (*fslope0); */
+
+  tanTheta = TMath::ATan(tanTheta);
+  //  tanTheta = 1/tanTheta;
+
+
+  Double_t SecTheta = (1/TMath::Cos(tanTheta));
+  Double_t CosTheta = TMath::Cos(tanTheta);
+
+  Double_t SecTheta0 = (1/TMath::Cos(fTheta0));
+  
+  
+  if (dist >= (*fR)*SecTheta0 ) {
+    dist += (*fR)*(SecTheta -  SecTheta0);
+  } else if (dist < (*fR)*SecTheta0 ) {     
+    dist *= (SecTheta /  SecTheta0 );
+  }
+
+  
+  return dist;
+}
+
+  
+
+  
     /* perform analytic TTD conversion based on difference from slope to central slope */
 
   Double_t TTDAna( Double_t dtime, Double_t tanTheta, Double_t fDriftVel, const Double_t *par){

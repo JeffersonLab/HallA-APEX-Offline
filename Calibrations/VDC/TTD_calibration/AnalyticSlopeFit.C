@@ -105,7 +105,7 @@ Double_t Convert(Double_t dtime, const Double_t *par){
 Double_t TTDform_Alt(Double_t dtime, Double_t tanTheta, const Double_t *par){
 
 
-  Double_t dist = Convert(dtime, par); // get lookup table value for central angle
+  Double_t dist = Convert(dtime, par); // get analytic value for central angle
 
   const Double_t* CrossP = &(par[0]);
   

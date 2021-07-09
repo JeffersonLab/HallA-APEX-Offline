@@ -1,6 +1,19 @@
 VDC calibration scripts
 
 
-- Scripts for calibrating t0 (timing offset) in t0_calib directory which contains README.
+** t0_calib
 
-- Scripts for calibrating TTD (Time To Distance) in TTD_calibration directory which contains README.
+- Scripts for calibrating t0 (timing offset) (contains README).
+
+
+** tracking
+
+
+- scripts related to tracking
+
+** TTD_calibration
+
+- Scripts for calibrating TTD (Time To Distance)  (contains README).
+
+
+
