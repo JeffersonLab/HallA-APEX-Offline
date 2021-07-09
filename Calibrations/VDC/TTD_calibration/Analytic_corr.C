@@ -1,9 +1,9 @@
 /**************************************************************
-  lookup_corr.C
+  Analytic_corr.C
   John Williamson    
-  9th March, 2021
+  21st June, 2021
 
-  Calibrate and plot effect of angular correction to lookup TTD method.
+  Calibrate and plot effect of angular correction to analytic TTD method.
 
   Based on two MIT theses:
   - V. Jordan, MIT, 1994
@@ -57,9 +57,16 @@ std::vector<Int_t> EndWireNoGood[NPLANE]; // Central wire no for cluster
 
 Int_t    this_plane;
 
-TTDTable* TTDTables[NPLANE];
 
+static const Double_t TT0 = 1.4;
 
+Double_t apars[NPLANE][8] = {0};
+
+Double_t fDriftVel[NPLANE] = {0};
+
+Double_t ReadDriftVel(std::string line);
+
+Double_t* ReadAParams(std::string line);
 
 
 double fcn(const double* par) {
@@ -70,9 +77,12 @@ double fcn(const double* par) {
 
   
   for (Int_t i=0; i<nent[this_plane]; i++) {
-    delta =  TTD_func::TTD_Corr(TTDTables[this_plane]->Convert(wtime[this_plane][i]), 1/tanTh_alt[this_plane][i],&(par[0])) - trdist[this_plane][i];
+    //    delta =  TTD_func::TTD_Corr(TTDTables[this_plane]->Convert(wtime[this_plane][i]), 1/tanTh_alt[this_plane][i],&(par[0])) - trdist[this_plane][i];
+    delta =  TTD_func::TTDformAngle(wtime[this_plane][i],1/tanTh_alt[this_plane][i], fDriftVel[this_plane], &(apars[this_plane][0]),TT0, &(par[0])) - trdist[this_plane][i];
 
-    
+
+    //  double TTDformAngle( double dtime, double tanTheta, double fDriftVel, const double *par, double invTanTheta0, const double *apar){
+
     chisq += delta*delta;
   }
 
@@ -83,7 +93,7 @@ double fcn(const double* par) {
 }
 
 
-void lookup_corr(const char *arm, Int_t runnumber = -1){
+void Analytic_corr(const char *arm, Int_t runnumber = -1){
 
    
   TChain* T = new TChain("T");
@@ -415,547 +425,92 @@ void lookup_corr(const char *arm, Int_t runnumber = -1){
   }
 
 
-  // form and plot TTD tables for central, begining and end regions of each plane
+
+
+  // read in analytic DB pars
+
+
+  TString ana_DB_name = Form("DB/analytic_TTD/db_%s_TTD.vdc.%d.dat",arm,runnumber);
+
+  std::ifstream ana_DB(Form("DB/analytic_TTD/db_%s_TTD.vdc.%d.dat",arm,runnumber));
+
+  char* phrase = NULL;
+
+  Int_t line_no = 0;
   
-  const char region[3][8] = {"Beg","Cen","End"};
-
-
-
-  //  const Double_t RegNo[3] = {0.645,0.695,0.745};
-  const Double_t RegNo[3] = {1.45,1.55,1.65};
+  std::string line;
   
-  vector<double> tables[NPLANE][3];
+  while (std::getline(ana_DB, line))
+    {
+      std::istringstream iss(line);
 
-  std::vector<double> Times[NPLANE][3];
-  
-  // Form histograms of time for three regions in plane
-
-  TH1F *htime[NPLANE][3];
-
-  TH1F* hslope[NPLANE];
-  TH1F* hslopeGood[NPLANE];
-  
-
-  Double_t high = 450e-9;
-  Double_t low = -10.0e-9;
-  Int_t num_bins = (high - low)/kTimeRes;
-
-  
-  for(Int_t i = 0; i<NPLANE; i++){
-    
-    hslope[i] = new TH1F(Form("Slope_%s_%s", arm, plane[i]),Form("Slope %s %s", arm, plane[i]), 100, 1, 2);
-    hslope[i]->GetXaxis()->SetTitle("Slope");
-    
-    hslopeGood[i] = new TH1F(Form("Good_Slope_%s_%s", arm, plane[i]),Form("Good Slope %s %s", arm, plane[i]), 100, 1, 2);
-    hslopeGood[i]->GetXaxis()->SetTitle("Slope");
-    
-    for(Int_t j = 0; j<3; j++){
-      htime[i][j] = new TH1F(Form("TDC_%s_%s_%s", arm, plane[i],region[j]),Form("TDC spectrum %s %s %s", arm, plane[i],region[j]), num_bins, low, high);
-      }
-  }
-
-
-  for(Int_t i = 0; i<NPLANE; i++){
-    
-    for(Int_t j = 0; j<wtime[i].size(); j++){
-
-
-      hslope[i]->Fill(1/tanTh_alt[i][j]);
+      Int_t plane_no = 0;
       
-      for(Int_t k = 0; k<3; k++){
+      for(auto pl : plane){
 	
-	// condition checks if pivot wire is vicinity of defined regions wires (begining, centre and end of plane)
-	if( TMath::Abs(1/tanTh_alt[i][j] - RegNo[k]) < 0.05) {
-	  htime[i][k]->Fill(wtime[i][j]);
-	}
-      }      
-    }
-
-
-    for(Int_t j = 0; j<wtimeGood[i].size(); j++){      
-      
-      hslopeGood[i]->Fill(1/tanTh_altGood[i][j]);
-      
-    }
-    
-  }
-  
-
-  TCanvas* c1 = new TCanvas("c1", "Drift Time spectra for angular regions", 640, 480);
-  c1->Divide(2,2);
-
-  
-  TCanvas* c2 = new TCanvas("c2", "Slopes", 640, 480);
-  c2->Divide(2,2);
-
-  TLegend* leg_DTS[NPLANE];
-
-  TLine* Slope_Line[NPLANE][4];
-  
-  TLegend* leg_slope[NPLANE];
-  
-  for(Int_t i = 0; i<NPLANE; i++){
-    c1->cd(i+1);
-    
-    htime[i][0]->SetLineColor(kRed);
-    htime[i][0]->Draw();
-
-    htime[i][1]->SetLineColor(kBlue);
-    htime[i][1]->Draw("same");
-
-    htime[i][2]->SetLineColor(kGreen);
-    htime[i][2]->Draw("same");
-
-    leg_DTS[i] = new TLegend(.65,.65,.9,.9,"Key");
-    for(Int_t j = 0; j<3; j++){
-      leg_DTS[i]->AddEntry(htime[i][j],Form(" Drift-time spectrum %s",region[j]),"l");
-    }
-    leg_DTS[i]->Draw("same");
-    
-    c2->cd(i+1);
-    
-    hslope[i]->Draw();
-    hslopeGood[i]->SetLineColor(kRed);
-    hslopeGood[i]->Draw("same");
-
-    //Double_t MaxY = gPad->GetUymax();
-    Double_t MaxY = hslope[i]->GetMaximum();    
-    Slope_Line[i][0] = new TLine(RegNo[0]-0.05,0,RegNo[0]-0.05,MaxY);
-    Slope_Line[i][1] = new TLine(RegNo[0]+0.05,0,RegNo[0]+0.05,MaxY);
-    Slope_Line[i][2] = new TLine(RegNo[1]+0.05,0,RegNo[1]+0.05,MaxY);
-    Slope_Line[i][3] = new TLine(RegNo[2]+0.05,0,RegNo[2]+0.05,MaxY);
-
-    for(Int_t j = 0; j<4; j++){
-      Slope_Line[i][j]->SetLineStyle(9);
-      Slope_Line[i][j]->Draw("same");
-    }
-    
-    
-    leg_slope[i] = new TLegend(.1,.65,.37,.9,"Key");
-    leg_slope[i]->AddEntry(hslope[i],"All slopes","l");
-    leg_slope[i]->AddEntry(hslopeGood[i],"5-wire cluster slopes","l");
-    leg_slope[i]->AddEntry(Slope_Line[i][0],"Boundaries of Beg, Cen and End regions","l");
-    leg_slope[i]->Draw("same");
-    
-  }
-
-
-  // form lookup tables for different angular regions
-  
-  // find first and last bins in time with entries for each plane    
-  Int_t low_bin[NPLANE][3] = {0};
-  Int_t high_bin[NPLANE][3] = {0};
-
-    
-  Double_t low_val[NPLANE][3] = {0};
-  Double_t high_val[NPLANE][3] = {0};
-
- 
-
-  Bool_t first[NPLANE][3] = {false};
-
-  for(Int_t i = 0; i<NPLANE; i++ ){
-    for(Int_t j = 0; j<3; j++ ){
-      first[i][j] = true;
-    }
-  }
-  
-  for(Int_t i = 0; i<NPLANE; i++ ){
-    for(Int_t j = 0; j<3; j++ ){
-      for(Int_t k = 0; k<htime[i][j]->GetNbinsX(); k++){
-	
-	if (htime[i][j]->GetBinContent(k) > 0){
-	  
-	  high_bin[i][j] = k;
-	  
-	  if (first[i][j] ){
-	    low_bin[i][j] = k;
-	    low_val[i][j] = (low_bin[i][j]+0.5)*kTimeRes + low;
-	    first[i][j] = false;
-	  }
-	}            
-      }
-    }
-  }
-
-    
-  // set provisional value of K normlisation parameter (determined by size of drift cell)
-  Double_t K[NPLANE][3] = {1.0};
-  
-
-  
-  Int_t NBins[NPLANE][3] = {0}; // per-plane entries in look-up tables   
-  for(Int_t i = 0; i < NPLANE; i++ ){
-    for(Int_t j = 0; j<3; j++ ){
-
-      NBins[i][j] = high_bin[i][j] - low_bin[i][j];
-
-      cout << "Plane: " << plane[i] << " region: " << region[j] << ", low_bin = " << low_bin[i][j] << ", high_bin = " << high_bin[i][j] << ", NBins = " << NBins[i][j] << endl;
-      
-      K[i][j] = 1.0;
-    }
-  }
-     
-
-  for(Int_t i = 0; i < NPLANE; i++ ){
-
-    for(Int_t j = 0; j<3; j++){
-        
-      tables[i][j].push_back(htime[i][j]->GetBinContent(low_bin[i][j]));      
-      // cout << "table[" << i << "][" << j <<"][0] = " << tables[i][j][0] << endl;
-      // cout << "htime[" << i << "][" << j << "]->GetBinContent(low_bin[" << i<< "][" << j << "]) = " << htime[i][j]->GetBinContent(low_bin[i][j]) << endl;
-      // cout << "low_bin[" << i << "][" << j << "] = " << low_bin[i][j] << endl;
-      
-      Times[i][j].push_back(htime[i][j]->GetBinCenter(low_bin[i][j]));
-      // cout << "Bin center = " << htime[i][j]->GetBinCenter(low_bin[i][j]) << endl << endl;
-      
-
-      for(Int_t k=1; k<NBins[i][j]; k++) {
-	tables[i][j].push_back(tables[i][j][k-1] + K[i][j]*htime[i][j]->GetBinContent(k+low_bin[i][j]));
-	Times[i][j].push_back(htime[i][j]->GetBinCenter(k+low_bin[i][j]));
-	//	cout << "i = " << i << ", j = " << j << ": Table = " << tables[i][j][k-1] + K[i][j]*htime[i][j]->GetBinContent(k+low_bin[i][j]) << ", time = " << htime[i][j]->GetBinCenter(k+low_bin[i][j]) << endl;
-	
-      }
-      //      cout << endl;
-    }
-
-  }
-  
-
-  // plot TTD Tables
-
-  TGraph* TableGraph[NPLANE][3];
-
-  TMultiGraph* mg[NPLANE];
-
-  TLegend *leg_TTD[NPLANE];
-  
-  Int_t colours[3] = {kRed,kBlue,kGreen};
-  
-  for(Int_t i = 0; i<NPLANE; i++){
-    
-    mg[i] = new TMultiGraph();
-
-    leg_TTD[i] = new TLegend(.1,.65,.37,.9,"Key");
-    
-    for(Int_t j = 0; j<3; j++){
-      //      Int_t VecSize = Times[i][j].size();
-      //      TableGraph[i][j] = new TGraph(Times[i][j].size(),&(Times[i][j][0]),&(tables[i][j][0]));
-      TableGraph[i][j] = new TGraph(Times[i][j].size(),&(Times[i][j][0]),&(tables[i][j][0]));
-      TableGraph[i][j]->SetMarkerColor(colours[j]);
-      TableGraph[i][j]->SetLineColor(colours[j]);
-      TableGraph[i][j]->SetTitle(Form("%s %s TTD Table",plane[i],region[j]));
-
-      mg[i]->Add(TableGraph[i][j]);
-      leg_TTD[i]->AddEntry(TableGraph[i][j],Form("%s",region[j]),"l");
-    }
-  }
-
-
-  TCanvas* c3 = new TCanvas("c3", "c3", 640, 480);
-  c3->Divide(2,2);
-
-  for(Int_t i = 0; i<NPLANE; i++){
-
-    c3->cd(i+1);
-    mg[i]->Draw("apl");
-
-    leg_TTD[i]->Draw("same");
-    // mg[i]->GetXaxis()->SetTitle("Time (s)");
-    // mg[i]->GetYaxis()->SetTitle("Distance");
-    mg[i]->SetTitle(Form("%s TTD Table; Time (s); Distance",plane[i]));
-  }
-
-
-
-  // place lookup tables in classes
-
-  TTDTable* PlaneTables[NPLANE][3];
-  
-  for(Int_t i = 0; i < NPLANE; i++ ){
-    for(Int_t j = 0; j<3; j++){
-      
-      PlaneTables[i][j] = new TTDTable(tables[i][j],low_val[i][j],NBins[i][j]);
-    }
-  }
-      
-
-  cout << endl;
-
-  
-  // normalise TTD lookup tables
-
-  TH1D *hW1W2TTD[NPLANE][3];
-  TH1D *hW4W5TTD[NPLANE][3];
-  
-  for(Int_t i = 0; i < NPLANE; i++ ){
-
-    Double_t norm_max = 0.0;
-    Double_t norm_low= 0.0;
-    
-    for(Int_t j = 0; j<3; j++){
-    
-      Double_t norm_max_test = tables[i][j].back()/0.013;
-
-      if(norm_max_test > norm_max){
-	norm_max = norm_max_test;
-      }
-
-      Double_t norm_low_test = norm_max_test/2.;
-      
-      if(norm_low == 0 || norm_low_test < norm_low){
-	norm_low = norm_low_test;
-      }      
-    }
-
-
-    for(Int_t j = 0; j<3; j++){
-      
-      hW1W2TTD[i][j] = new TH1D(Form("hW1W2TTD_%s_%s", plane[i],region[j]), Form("(Wires 1 & 2) TTD Normsalistion %s %s", plane[i],region[j]),100,norm_low,norm_max);
-      hW1W2TTD[i][j]->GetXaxis()->SetTitle("TTD normalisation");
-      hW1W2TTD[i][j]->SetLineColor(colours[j]);      
-      
-      
-      hW4W5TTD[i][j] = (TH1D*) hW1W2TTD[i][j]->Clone(Form("hW1W2TTD_%s_%s", plane[i],region[j]));
-      hW4W5TTD[i][j]->SetTitle( Form("(Wires 4 & 5) TTD Normsalistion %s %s", plane[i],region[j]));
-    }
-
-    cout << plane[i] << ": # good clusts = " << ClustCountGood[i] << endl;
-    
-    for(Int_t k = 0; k<ClustCountGood[i]; k++ ){
-
-      //      cout << "plane = " << plane[i] << ", ClustNo = " << k << endl;
-      
-      Bool_t GoodClust = kTRUE;
-      
-      for(Int_t l = 0; l<5; l++){
-	
-	// check that wires are consecutive (no gaps in cluster)
-	if(l>0){
-	  if(! (WireNumbersGood[i][k*5 + l] == (WireNumbersGood[i][k*5 + l - 1])+1) ){
-	    GoodClust = kFALSE;
-	    break;
-	  }	  
-	}
-	
-	
-	// check that pivot wire in cluster ins 3rd wire (5 wire clusters, checking that pivot is central wire)
-	if(l==2){	  
-	  if(!(WireNumbersGood[i][k*5 + l] == CentralWireNoGood[i][k])){
-	    GoodClust = kFALSE;
-	    break;
-	  }
-	    
-	}
-      }
-      
-      
-      if(GoodClust){
-	
-	  Double_t AnaDiff_1_2 = -(trdistGood[i][k*5 + 1] - trdistGood[i][k*5 + 0]);
-	  Double_t CalcDiff_1_2 = (1/tanTh_altGood[i][k*5+1]) * (wire_sep);
-	  
-	  Double_t AnaDiff_4_5 = trdistGood[i][k*5 + 4] - trdistGood[i][k*5 + 3];
-	  Double_t CalcDiff_4_5 = (1/tanTh_altGood[i][k*5+3]) * (wire_sep);
-
-
-	  for(Int_t j = 0; j<3; j++){
-	    
-	    if( TMath::Abs(1/tanTh_altGood[i][k*5+2] - RegNo[j]) < 0.05) {
-
-	      
-	      Double_t TTDTableDiff_1_2 = PlaneTables[i][j]->Convert(wtimeGood[i][k*5+1])-PlaneTables[i][j]->Convert(wtimeGood[i][k*5+0]);
-	      
-	      Double_t TTDW1W2Norm = -TTDTableDiff_1_2/CalcDiff_1_2;
-	      
-	      
-	      Double_t TTDTableDiff_4_5 = PlaneTables[i][j]->Convert(wtimeGood[i][k*5+4])-PlaneTables[i][j]->Convert(wtimeGood[i][k*5+3]);
-	      
-	      Double_t TTDW4W5Norm = TTDTableDiff_4_5/CalcDiff_4_5;
-	      
-	      //	      hW1W2TTDSlope[i][j]->Fill(1/tanTh_alt[i][k*5+3],TTDW1W2Norm);
-
-
-
-	      hW1W2TTD[i][j]->Fill(TTDW1W2Norm);
-	  
-
-	      hW4W5TTD[i][j]->Fill(TTDW4W5Norm);
-	    }
-	  }
-
-      }
-	  
-    }           	
-  }
-   
-  
-
-  // plot normalisations for each plane and region
-  
-  TCanvas* c4 = new TCanvas("c4", "c4", 640, 480);
-  c4->Divide(2,2);
-
-  // mean of normalisation
-
-  Double_t TTDNormMeans[NPLANE][3];
-
-  for(Int_t i = 0; i<NPLANE; i++){
-    c4->cd(i+1);
-    for(Int_t j = 0; j<3; j++){
-
-      if(j == 0){
-	hW1W2TTD[i][j]->Draw();
-	TTDNormMeans[i][j] = hW1W2TTD[i][j]->GetMean();
-      }
-      else{
-	hW1W2TTD[i][j]->Draw("same");
-	TTDNormMeans[i][j] = hW1W2TTD[i][j]->GetMean();
-      }
-      
-    }
-    leg_TTD[i]->Draw("same");
-  }
-
-
-  // normalise tables
-
-  for(Int_t i = 0; i < NPLANE; i++ ){
-    for(Int_t j = 0; j < 3; j++ ){
-      for(Int_t k=0; k<NBins[i][j]; k++){
-
-	tables[i][j][k] /= TTDNormMeans[i][j];
-	
-      }      
-    }
-  }
-
-
-  //plot normalised TTD tables
-  
-  TGraph* TableGraphNorm[NPLANE][3];
-
-  TMultiGraph* mgNorm[NPLANE];
-
-    
-  for(Int_t i = 0; i<NPLANE; i++){
-    
-    mgNorm[i] = new TMultiGraph();
-
-    
-    for(Int_t j = 0; j<3; j++){
-
-      TableGraphNorm[i][j] = new TGraph(Times[i][j].size(),&(Times[i][j][0]),&(tables[i][j][0]));
-      TableGraphNorm[i][j]->SetMarkerColor(colours[j]);
-      TableGraphNorm[i][j]->SetLineColor(colours[j]);
-      TableGraphNorm[i][j]->SetTitle(Form("%s %s TTD Table",plane[i],region[j]));
-
-      mgNorm[i]->Add(TableGraphNorm[i][j]);
-    }
-  }
-
-
-  TCanvas* c5 = new TCanvas("c5", "Normalised TTD tables", 640, 480);
-  c5->Divide(2,2);
-
-  for(Int_t i = 0; i<NPLANE; i++){
-
-    c5->cd(i+1);
-    mgNorm[i]->Draw("apl");
-
-    leg_TTD[i]->Draw("same");
-    mgNorm[i]->SetTitle(Form("%s TTD Table; Time (s); Distance",plane[i]));
-  }
-
-
-  // read normalised TTD from DB
-
-
-  std::vector<Double_t> NormTable[NPLANE]; // velocity lookup table
-  Int_t NBinsNorm[NPLANE];
-  Double_t LowNorm[NPLANE];
-
-
-  
-  for(Int_t i = 0; i < NPLANE; i++ ){
-  
-    std::ifstream table_DB(Form("DB/lookup_tables/db_%s_%s_lookup_TTD_norm.vdc.%d.dat",arm,plane[i],runnumber));
-
-    cout << "Reading " << Form("DB/lookup_tables/db_%s_%s_lookup_TTD_norm.vdc.%d.dat",arm,plane[i],runnumber) << endl;
-    
-    Int_t line_no = 0;
-    
-    std::string line;
-
-    char* phrase = NULL;
-    
-    while (std::getline(table_DB, line))
-      {
-	std::istringstream iss(line);
-	
-	phrase = Form("%s.vdc.%s.ttd_table.nbins = ",arm,plane[i]);
-
+	phrase = Form("%s.vdc.%s.driftvel",arm,pl);
 	if(!line.find(phrase)){
 	  
-	  std::getline(table_DB, line);
-
-	  NBinsNorm[i] = TTD_func::ReadNBins(line);
+	  std::getline(ana_DB, line);
+	  
+	  fDriftVel[plane_no] = ReadDriftVel(line);
 
 	  line_no++;
-
+	  
 	}
 
-	
-	phrase = Form("%s.vdc.%s.ttd_table.low = ",arm,plane[i]);
-	
-	if(!line.find(phrase)){
-	  
-	  
-	  std::getline(table_DB, line);
-
-	  LowNorm[i] = TTD_func::ReadSingleVal<Double_t>(line);
-
-	  line_no++;
-
-	}
-	
-
-	phrase = Form("%s.vdc.%s.ttd_table.table",arm,plane[i]);
-
+	phrase = Form("%s.vdc.%s.ttd.param =",arm,pl);
 
 	if(!line.find(phrase)){
 
-	  NormTable[i] = TTD_func::ReadLookupTable(table_DB, line_no, NBinsNorm[i]);
-	  TTDTables[i] = new TTDTable(NormTable[i],LowNorm[i],NBinsNorm[i]);
+	  std::getline(ana_DB, line);	  
 
-	  line_no++;
+	  Double_t* a1_pars = ReadAParams(line);
+	  
+	  for(Int_t j = 0; j<4; j++){
+	    apars[plane_no][j] = a1_pars[j];
+	   }
+	  
+	  std::getline(ana_DB, line);
+
+	  Double_t* a2_pars = ReadAParams(line);
+	  
+	  for(Int_t j = 0; j<4; j++){
+	    apars[plane_no][j+4] = a2_pars[j];
+	  }
+
+	  line_no++;	  
 
 	}	
 
-	line_no++;
-      }    
-  }
-  
-
-
-
-  for(Int_t i = 0; i < NPLANE; i++){
-
-    cout << "For " << plane[i] << ", Table = " << endl;
-    
-    Int_t j = 1;
-    for( auto val : NormTable[i]){
-      cout << val << " ";
-      if(j%10==0){
-	cout << endl;
+	plane_no++;
       }
       
-      j++;
+      
+      cout << endl;
+
+      line_no++;
     }
 
+  
+  cout << "Testing analytic DB reading" << endl;
+  
+  for(Int_t i = 0; i < NPLANE; i++){
+
+    cout << plane[i] << " driftvel = " << fDriftVel[i] << endl;
+
+    for( Int_t j = 0; j<4; j++ ){      
+      cout << "a1," << j << " = " << apars[i][j] << ", ";
+    }
+    cout << endl;
+    for( Int_t j = 0; j<4; j++ ){
+      cout << "a2," << j << " = " << apars[i][j+4] << ", ";
+    }
+    
     cout << endl << endl;
   }
 
+  
 
   
   // Set-up and perform minimisation
@@ -1018,7 +573,7 @@ void lookup_corr(const char *arm, Int_t runnumber = -1){
 
 
 
-  // plot TTD table comparison to 'real' distance
+  // plot analytic comparison to 'real' distance
   // plot with angular corrrections for comparison
 
   const double R = 0.0021;
@@ -1051,14 +606,6 @@ void lookup_corr(const char *arm, Int_t runnumber = -1){
   
   
 
-  TTDTable* TTDTablesCorr[NPLANE];
-
-  for(Int_t i = 0; i < NPLANE; i++ ){
-      
-    TTDTablesCorr[i] = new TTDTable(NormTable[i],LowNorm[i],NBinsNorm[i],Pars[i],ExtPars[i]);
-
-    
-  }
 
   
   
@@ -1077,10 +624,10 @@ void lookup_corr(const char *arm, Int_t runnumber = -1){
 
 
   // plot TTD distance vs real distance
-  TH2F *hreal_dist_table[NPLANE];
+  TH2F *hreal_dist_Ana[NPLANE];
 
   // plot table drift distance versus time spectra for all planes
-  TH2F *htime_dist_table[NPLANE];
+  TH2F *htime_dist_Ana[NPLANE];
 
   
 
@@ -1105,26 +652,33 @@ void lookup_corr(const char *arm, Int_t runnumber = -1){
     hDistDiffCorrSlope[i]->GetYaxis()->SetTitle("Real distance - Table distance [m]");
 
 
-    hreal_dist_table[i] = new TH2F(Form("hreal_dist_table_%s", plane[i]), Form("%s TTD Lookup table", plane[i]), 200, 0.0, 0.020, 200, 0.0, 0.020);
-    hreal_dist_table[i]->GetXaxis()->SetTitle("'Real' Track Dist (m)");
-    hreal_dist_table[i]->GetXaxis()->CenterTitle();
-    hreal_dist_table[i]->GetYaxis()->SetTitle("Table Track Dist (m)");
-    hreal_dist_table[i]->GetYaxis()->CenterTitle();
+    hreal_dist_Ana[i] = new TH2F(Form("hreal_dist_Ana_%s", plane[i]), Form("%s TTD Lookup table", plane[i]), 200, 0.0, 0.020, 200, 0.0, 0.020);
+    hreal_dist_Ana[i]->GetXaxis()->SetTitle("'Real' Track Dist (m)");
+    hreal_dist_Ana[i]->GetXaxis()->CenterTitle();
+    hreal_dist_Ana[i]->GetYaxis()->SetTitle("Table Track Dist (m)");
+    hreal_dist_Ana[i]->GetYaxis()->CenterTitle();
 
-    htime_dist_table[i] = new TH2F(Form("htime_dist_table_%s", plane[i]), Form("%s TTD Lookup Table (with angular correction)", plane[i]), 760, -30, 350, 200, 0.0, 0.020);
-    htime_dist_table[i]->GetXaxis()->SetTitle("Drift Time(ns)");
-    htime_dist_table[i]->GetXaxis()->CenterTitle();
-    htime_dist_table[i]->GetYaxis()->SetTitle("Dist from Time (m)");
-    htime_dist_table[i]->GetYaxis()->CenterTitle();
+    htime_dist_Ana[i] = new TH2F(Form("htime_dist_Ana_%s", plane[i]), Form("%s TTD Lookup Table (with angular correction)", plane[i]), 760, -30, 350, 200, 0.0, 0.020);
+    htime_dist_Ana[i]->GetXaxis()->SetTitle("Drift Time(ns)");
+    htime_dist_Ana[i]->GetXaxis()->CenterTitle();
+    htime_dist_Ana[i]->GetYaxis()->SetTitle("Dist from Time (m)");
+    htime_dist_Ana[i]->GetYaxis()->CenterTitle();
+  
     
     
     for(Int_t j = 0; j<wtime[i].size(); j++){
       
       Double_t RealDist = trdist[i][j];
-      Double_t TTDDist = TTDTables[i]->Convert(wtime[i][j]);
-      Double_t Slope = 1/tanTh_alt[i][j];
+      // Double_t TTDDist = TTDTables[i]->Convert(wtime[i][j]);
 
-      Double_t TTDDistCorr = TTDTablesCorr[i]->ConvertAngleCorr(wtime[i][j], Slope);
+
+      Double_t Slope = 1/tanTh_alt[i][j];
+      
+      Double_t TTDDist = TTD_func::TTDform(wtime[i][j],Slope,fDriftVel[i], &(apars[i][0]),TT0);
+
+
+      //      Double_t TTDDistCorr = TTDTablesCorr[i]->ConvertAngleCorr(wtime[i][j], Slope);
+      Double_t TTDDistCorr = TTD_func::TTDformAngle(wtime[i][j],Slope,fDriftVel[i], &(apars[i][0]),TT0, &(Pars[i][0]));
 
       
       hDistDiff[i]->Fill(RealDist-TTDDist);
@@ -1134,8 +688,8 @@ void lookup_corr(const char *arm, Int_t runnumber = -1){
       hDistDiffCorrSlope[i]->Fill(Slope,RealDist-TTDDistCorr);
 
 
-      hreal_dist_table[i]->Fill(RealDist, TTDDistCorr);
-      htime_dist_table[i]->Fill(wtime[i][j]*1e9, TTDDistCorr);
+      hreal_dist_Ana[i]->Fill(RealDist, TTDDistCorr);
+      htime_dist_Ana[i]->Fill(wtime[i][j]*1e9, TTDDistCorr);
       
     }    
   }
@@ -1213,13 +767,13 @@ void lookup_corr(const char *arm, Int_t runnumber = -1){
 
     c9->cd(i+1);
     gPad->SetLeftMargin(0.15);
-    htime_dist_table[i]->Draw("colz");
-    htime_dist_table[i]->GetYaxis()->SetTitleOffset(1.2);
+    htime_dist_Ana[i]->Draw("colz");
+    htime_dist_Ana[i]->GetYaxis()->SetTitleOffset(1.2);
     
     c10->cd(i+1);
     gPad->SetLeftMargin(0.15);
-    hreal_dist_table[i]->Draw("colz");
-    hreal_dist_table[i]->GetYaxis()->SetTitleOffset(1.2);
+    hreal_dist_Ana[i]->Draw("colz");
+    hreal_dist_Ana[i]->GetYaxis()->SetTitleOffset(1.2);
     Lin_cor->Draw("same");
 
     leg_Dist[i] = new TLegend(.2,.65,.57,.9,"Key");
@@ -1230,6 +784,7 @@ void lookup_corr(const char *arm, Int_t runnumber = -1){
     
     
   }
+
   
 
   // save results (values of R and theta0 for each plane) to DB
@@ -1241,11 +796,11 @@ void lookup_corr(const char *arm, Int_t runnumber = -1){
 
     outp[i] = new std::ofstream;
     
-    outp[i]->open(Form("DB/lookup_tables/db_%s_%s_lookup_TTD_angleCorr.vdc.%d.dat", arm, plane[i], runnumber) );
+    outp[i]->open(Form("DB/analytic_TTD/db_%s_%s_TTD_angleCorr.vdc.%d.dat", arm, plane[i], runnumber) );
 
-    *outp[i]<<arm<<".vdc."<<plane[i]<<".ttd_table.R = "<< endl;
+    *outp[i]<<arm<<".vdc."<<plane[i]<<".ttd_table.R_Ana = "<< endl;
     *outp[i]<<Pars[i][0]<<endl;
-    *outp[i]<<arm<<".vdc."<<plane[i]<<".ttd_table.theta0 = "<<endl;
+    *outp[i]<<arm<<".vdc."<<plane[i]<<".ttd_table.theta0_Ana = "<<endl;
     *outp[i]<<Pars[i][1]<<endl;
 
     outp[i]->close();
@@ -1256,12 +811,43 @@ void lookup_corr(const char *arm, Int_t runnumber = -1){
   // print results
 
 
-  c6->Print(Form("plots/lookup_angle_corr/Dist_comp_%s_%i.png",arm,runnumber));
-  c7->Print(Form("plots/lookup_angle_corr/Dist_Diff_Uncorrected_%s_%i.png",arm,runnumber));
-  c8->Print(Form("plots/lookup_angle_corr/Dist_Diff_Corrected_%s_%i.png",arm,runnumber));
+  c6->Print(Form("plots/analytic_angle_corr/Dist_comp_%s_%i.png",arm,runnumber));
+  c7->Print(Form("plots/analytic_angle_corr/Dist_Diff_Uncorrected_%s_%i.png",arm,runnumber));
+  c8->Print(Form("plots/analytic_angle_corr/Dist_Diff_Corrected_%s_%i.png",arm,runnumber));
 
-  c6->Print(Form("plots/lookup_angle_corr/Lookup_Corr_%s_%i.pdf(",arm,runnumber));
-  c7->Print(Form("plots/lookup_angle_corr/Lookup_Corr_%s_%i.pdf",arm,runnumber));
-  c8->Print(Form("plots/lookup_angle_corr/Lookup_Corr_%s_%i.pdf)",arm,runnumber));
+  c6->Print(Form("plots/analytic_angle_corr/Analytic_Corr_%s_%i.pdf(",arm,runnumber));
+  c7->Print(Form("plots/analytic_angle_corr/Analytic_Corr_%s_%i.pdf",arm,runnumber));
+  c8->Print(Form("plots/analytic_angle_corr/Analytic_Corr_%s_%i.pdf)",arm,runnumber));
+
+
+
+  }
+
+
+Double_t* ReadAParams(std::string line){
+
+  std::istringstream iss(line);
+
+  Double_t a_pars[4] = {0};
   
+  for(Int_t j = 0; j<4; j++){
+    iss >> a_pars[j];    
+  }
+
+  return a_pars;
+  
+}
+
+
+
+
+Double_t ReadDriftVel(std::string line){
+
+
+  Double_t DriftVel = 0.0;
+  
+  DriftVel = TTD_func::ReadSingleVal<Double_t>(line);
+
+  return DriftVel;
+
 }

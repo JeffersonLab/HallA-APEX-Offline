@@ -22,6 +22,8 @@
 #define DEG_TO_RAD 0.017453278
 
 
+static const Double_t TT0 = 1.4;
+
 Double_t ReadDriftVel(std::string line);
 
 Double_t* ReadAParams(std::string line);
@@ -35,8 +37,10 @@ void comp_TTD(const char *arm = "L", Int_t runnumber = -1  ){
   Double_t driftvel[NPLANE] = {0};
 
   Double_t an_pars[NPLANE][8] = {0}; // 4 a1 and 4 a3 parameters for each VDC plane
+ 
+  Double_t an_Angle_pars[NPLANE][2] = {0}; // 2 parameters for analytic angular correction
 
-  Double_t Lookup_pars[NPLANE][2] = {0}; // 2 parameters for lookup table correction
+  Double_t Lookup_pars[NPLANE][2] = {0}; // 2 parameters for lookup table angular correction
 
   Double_t Ext_pars[NPLANE][4] = {0}; // 2 parameters for lookup table correction
   
@@ -102,7 +106,8 @@ void comp_TTD(const char *arm = "L", Int_t runnumber = -1  ){
       line_no++;
     }
 
-  
+
+ 
   cout << "Testing analytic DB reading" << endl;
   
   for(Int_t i = 0; i < NPLANE; i++){
@@ -120,7 +125,76 @@ void comp_TTD(const char *arm = "L", Int_t runnumber = -1  ){
     cout << endl << endl;
   }
 
+  // read in analytic angular corrections
 
+  // loop over planes
+
+  for(Int_t i = 0; i<NPLANE; i++){
+
+    // set values of Lookup angular correction parameters
+
+    // Lookup_pars[i][0] = 0.0019;
+    // Lookup_pars[i][1] = 1.35;
+    
+
+    std::ifstream AnaAng_DB(Form("DB/analytic_TTD/db_%s_%s_TTD_angleCorr.vdc.%d.dat", arm, plane[i], runnumber));
+
+    cout << "Opened " << Form("DB/analytic_TTD/db_%s_%s_TTD_angleCorr.vdc.%d.dat", arm, plane[i], runnumber) << endl;
+    
+    line_no = 0;
+
+    cout << "Reading in analytic angular corrections:" << endl;
+    
+    while (std::getline(AnaAng_DB, line))
+      {
+
+
+	std::istringstream iss(line);
+	phrase = Form("%s.vdc.%s.ttd_table.R_Ana = ",arm,plane[i]);
+
+	if(!line.find(phrase)){
+
+	  std::getline(AnaAng_DB, line);
+	  
+	  an_Angle_pars[i][0] = TTD_func::ReadSingleVal<Double_t>(line);
+
+	  line_no++;
+	}
+
+	phrase = Form("%s.vdc.%s.ttd_table.theta0_Ana = ",arm,plane[i]);
+
+	if(!line.find(phrase)){
+
+	  cout << phrase << " found in line " << line_no << endl;
+	  std::getline(AnaAng_DB, line);
+	  
+	  an_Angle_pars[i][1] = TTD_func::ReadSingleVal<Double_t>(line);
+
+	  line_no++;
+	}
+
+	line_no++;
+      }
+    
+  }
+
+
+  cout << endl;
+  cout << "Testing analytic angular corr DB reading" << endl;
+  
+  for(Int_t i = 0; i < NPLANE; i++){
+
+    cout << "For " << plane[i] << endl;
+
+
+    for( Int_t j = 0; j<2; j++ ){
+      cout << "par " << j << " = " << an_Angle_pars[i][j] << ", ";
+    }
+    
+    cout << endl << endl;
+  }
+
+  
 
   // read in drift velocity table
 
@@ -186,6 +260,9 @@ void comp_TTD(const char *arm = "L", Int_t runnumber = -1  ){
   
   cout << "Succesfull read Ext pars " << endl << endl;
 
+
+
+
   
   // loop over planes
 
@@ -233,12 +310,12 @@ void comp_TTD(const char *arm = "L", Int_t runnumber = -1  ){
 
 	line_no++;
       }
-    
+  
     
     std::ifstream table_DB(Form("DB/lookup_tables/db_%s_%s_lookup_TTD_norm.vdc.%d.dat",arm,plane[i],runnumber));
 
     cout << "Reading " << Form("DB/lookup_tables/db_%s_%s_lookup_TTD_norm.vdc.%d.dat",arm,plane[i],runnumber) << endl;
-    
+  
     Int_t line_no = 0;
   
     std::string line;
@@ -507,6 +584,7 @@ void comp_TTD(const char *arm = "L", Int_t runnumber = -1  ){
   TH1F *hdistTable[NPLANE];
   TH1F *hdistTableCorr[NPLANE];
   TH1F* hdistAna[NPLANE];
+  TH1F* hdistAnaCorr[NPLANE];
 
   // plot 'real' drift distance versus time spectra for all planes
   TH2D *htime_dist_real[NPLANE];
@@ -533,6 +611,12 @@ void comp_TTD(const char *arm = "L", Int_t runnumber = -1  ){
   // plot analytical drift distance versus 'real' distances for all planes
   TH2D *hreal_dist_ana[NPLANE];
 
+  
+  // plot analytical drift distance versus time spectra for all planes
+  TH2D *htime_dist_anaCorr[NPLANE];
+
+  // plot analytical drift distance versus 'real' distances for all planes
+  TH2D *hreal_dist_anaCorr[NPLANE];
 
   
 
@@ -551,10 +635,13 @@ void comp_TTD(const char *arm = "L", Int_t runnumber = -1  ){
   TH1D *h_chi2_table[NPLANE];
   TH1D *h_chi2_tableCorr[NPLANE]; // with angular correction
   TH1D *h_chi2_ana[NPLANE];
+  TH1D *h_chi2_anaCorr[NPLANE]; // with angular correction
 
   TH1D *h_chi_table[NPLANE];
   TH1D *h_chi_tableCorr[NPLANE]; // with angular correction
-  TH1D *h_chi_ana[NPLANE]; 
+  TH1D *h_chi_ana[NPLANE];
+  TH1D *h_chi_anaCorr[NPLANE]; // with angular correction
+
 
   
   // plot slopes for all planes
@@ -586,6 +673,10 @@ void comp_TTD(const char *arm = "L", Int_t runnumber = -1  ){
     htime_dist_ana[i]->GetXaxis()->CenterTitle();
     htime_dist_ana[i]->GetYaxis()->SetTitle("Dist from Time (m)");
     htime_dist_ana[i]->GetYaxis()->CenterTitle();
+
+    htime_dist_anaCorr[i] =  (TH2D*) htime_dist_ana[i]->Clone(Form("htime_dist_anaCorr_%s", plane[i]));
+    htime_dist_anaCorr[i]->SetTitle(Form("%s TTD Analytic function (with angular correction)", plane[i]));
+
     
 
     htime[i] = new TH1F(Form("htime_%s", plane[i]), Form("%s TTD", plane[i]), 760, -30, 350);
@@ -605,6 +696,9 @@ void comp_TTD(const char *arm = "L", Int_t runnumber = -1  ){
     hdistAna[i] = (TH1F*) hdist[i]->Clone(Form("hdistAna_%s", plane[i]));
     hdistAna[i]->SetTitle(Form("%s TTD", plane[i]));
 
+    hdistAnaCorr[i] = (TH1F*) hdist[i]->Clone(Form("hdistAnaCorr_%s", plane[i]));
+    hdistAnaCorr[i]->SetTitle(Form("%s TTD", plane[i]));
+
     hreal_dist_table[i] = new TH2D(Form("hreal_dist_table_%s", plane[i]), Form("%s TTD Lookup table", plane[i]), 200, 0.0, 0.020, 200, 0.0, 0.020);
     hreal_dist_table[i]->GetXaxis()->SetTitle("'Real' Track Dist (m)");
     hreal_dist_table[i]->GetXaxis()->CenterTitle();
@@ -620,6 +714,8 @@ void comp_TTD(const char *arm = "L", Int_t runnumber = -1  ){
     hreal_dist_ana[i]->GetYaxis()->SetTitle("Analytic Track Dist (m)");
     hreal_dist_ana[i]->GetYaxis()->CenterTitle();
 
+    hreal_dist_anaCorr[i] =  (TH2D*) hreal_dist_ana[i]->Clone(Form("hreal_dist_anaCorr_%s", plane[i]));
+    hreal_dist_anaCorr[i]->SetTitle(Form("%s TTD Analytic function (with angular correction)", plane[i]));
 
 
     h_chi2_table[i] = new TH1D(Form("h_chi2_table_%s", plane[i]), Form("%s #chi^{2}", plane[i]), 200, 0.0, 1e-6);
@@ -629,8 +725,11 @@ void comp_TTD(const char *arm = "L", Int_t runnumber = -1  ){
     h_chi2_tableCorr[i] = (TH1D*) h_chi2_table[i]->Clone(Form("h_chi2_tableCorr_%s", plane[i]));
     h_chi2_tableCorr[i]->SetTitle(Form("%s #chi^{2}", plane[i]));
 
-    h_chi2_ana[i] = (TH1D*) h_chi2_table[i]->Clone(Form("h_chi2_tableCorr_%s", plane[i]));
+    h_chi2_ana[i] = (TH1D*) h_chi2_table[i]->Clone(Form("h_chi2_ana_%s", plane[i]));
     h_chi2_ana[i]->SetTitle(Form("%s #chi^{2}", plane[i]));
+    
+    h_chi2_anaCorr[i] = (TH1D*) h_chi2_table[i]->Clone(Form("h_chi2_anaCorr_%s", plane[i]));
+    h_chi2_anaCorr[i]->SetTitle(Form("%s #chi^{2}", plane[i]));
 
 
 
@@ -643,6 +742,9 @@ void comp_TTD(const char *arm = "L", Int_t runnumber = -1  ){
     
     h_chi_ana[i] = (TH1D*) h_chi_table[i]->Clone(Form("h_chi_ana_%s", plane[i]));
     h_chi_ana[i]->SetTitle(Form("%s Real distance - TTD distance",plane[i]));
+
+    h_chi_anaCorr[i] = (TH1D*) h_chi_table[i]->Clone(Form("h_chi_anaCorr_%s", plane[i]));
+    h_chi_anaCorr[i]->SetTitle(Form("%s Real distance - TTD distance",plane[i]));
 
     hslope[i] = new TH1D(Form("hslope_%s",plane[i]), Form("slope distribution %s",plane[i]), 100,1.0,2.0);
     hslope[i]->GetXaxis()->SetTitle("Slope");
@@ -661,7 +763,8 @@ void comp_TTD(const char *arm = "L", Int_t runnumber = -1  ){
     if( (i%5000)==0 ) { cout << "Entry " <<  i << endl; }
     
     
-    if( ntr == 1 && TTD_func::passtrg(Int_t(evttype), trg) && cer_sum > Cer_cut && ps_e/(1e3*tr_p[0]) > Ps_cut && (ps_e+sh_e)/(1e3*tr_p[0]) > Ps_Sh_cut_l &&  (ps_e+sh_e)/(1e3*tr_p[0]) < Ps_Sh_cut_h ){      
+    //    if( ntr == 1 && TTD_func::passtrg(Int_t(evttype), trg) && cer_sum > Cer_cut && ps_e/(1e3*tr_p[0]) > Ps_cut && (ps_e+sh_e)/(1e3*tr_p[0]) > Ps_Sh_cut_l &&  (ps_e+sh_e)/(1e3*tr_p[0]) < Ps_Sh_cut_h ){
+    if( ntr == 1 && TTD_func::passtrg(Int_t(evttype), trg)  && cer_sum > Cer_cut){
       for( j = 0; j < NPLANE; j++ ){
 	this_slope = d_th[0]*cos(ang[j]*DEG_TO_RAD)
 	  + d_ph[0]*sin(ang[j]*DEG_TO_RAD);;
@@ -703,7 +806,13 @@ void comp_TTD(const char *arm = "L", Int_t runnumber = -1  ){
 		Double_t ana_dist = TTD_func::TTDAna(time, this_slope, driftvel[j],an_pars[j]);
 		htime_dist_ana[j]->Fill(time_ns,ana_dist);
 		hreal_dist_ana[j]->Fill(dist,ana_dist);
-	    
+
+		//      Double_t TTDDistCorr = TTD_func::TTDformAngle(wtime[i][j],Slope,fDriftVel[i], &(apars[i][0]),TT0, &(Pars[i][0]));
+		Double_t ana_distCorr = TTD_func::TTDformAngle(time, 1/this_slope, driftvel[j],an_pars[j],TT0,an_Angle_pars[j]);
+		htime_dist_anaCorr[j]->Fill(time_ns,ana_distCorr);
+		hreal_dist_anaCorr[j]->Fill(dist,ana_distCorr);
+
+		
 		//	    Double_t table_dist = TTD_table(time, LTable[j], NBins[j],this_slope,an_pars[j]);
 		Double_t table_dist = PlaneTable[j]->Convert(time);
 
@@ -720,15 +829,18 @@ void comp_TTD(const char *arm = "L", Int_t runnumber = -1  ){
 		hdistTable[j]->Fill(table_dist);
 		hdistTableCorr[j]->Fill(table_distCorr);
 		hdistAna[j]->Fill(ana_dist);
+		hdistAnaCorr[j]->Fill(ana_distCorr);
 		
 		h_chi2_table[j]->Fill(TMath::Power((dist-table_dist),2));
 		h_chi2_tableCorr[j]->Fill(TMath::Power((dist-table_distCorr),2));
 		h_chi2_ana[j]->Fill(TMath::Power((dist-ana_dist),2));
+		h_chi2_anaCorr[j]->Fill(TMath::Power((dist-ana_distCorr),2));
 
 
 		h_chi_table[j]->Fill(dist-table_dist);
 		h_chi_tableCorr[j]->Fill(dist-table_distCorr);
 		h_chi_ana[j]->Fill(dist-ana_dist);
+		h_chi_anaCorr[j]->Fill(dist-ana_distCorr);
 		
 
 		hslope[j]->Fill(1/this_slope);
@@ -810,6 +922,9 @@ void comp_TTD(const char *arm = "L", Int_t runnumber = -1  ){
     hdistAna[i]->SetLineColor(kRed);
     hDistStack[i]->Add(hdistAna[i]);
 
+    hdistAnaCorr[i]->SetLineColor(kMagenta);
+    hDistStack[i]->Add(hdistAnaCorr[i]);
+
     hdistTable[i]->SetLineColor(kBlue);
     hDistStack[i]->Add(hdistTable[i]);
 
@@ -823,6 +938,7 @@ void comp_TTD(const char *arm = "L", Int_t runnumber = -1  ){
       // create dist legend
       leg_dist->AddEntry(hdist[i],"'Real' track dist ","l");
       leg_dist->AddEntry(hdistAna[i],"Analytic method","l");
+      leg_dist->AddEntry(hdistAnaCorr[i],"Analytic method w corr","l");
       leg_dist->AddEntry(hdistTable[i],"Dist from Lookup table","l");
       leg_dist->AddEntry(hdistTableCorr[i],"Dist from Lookup table w corr","l");            
     }
@@ -873,7 +989,7 @@ void comp_TTD(const char *arm = "L", Int_t runnumber = -1  ){
 
 
     c_TTD[i] = new TCanvas(Form("c_TTD_%s",plane[i]), Form("TTD distributions %s",plane[i]),1400,1400);
-    c_TTD[i]->Divide(3,2);
+    c_TTD[i]->Divide(4,2);
     c_TTD[i]->cd(1);
     gPad->SetLeftMargin(0.15);
     htime_dist_ana[i]->GetYaxis()->SetTitleOffset(1.4);
@@ -881,16 +997,21 @@ void comp_TTD(const char *arm = "L", Int_t runnumber = -1  ){
 
     c_TTD[i]->cd(2);
     gPad->SetLeftMargin(0.15);
+    htime_dist_anaCorr[i]->GetYaxis()->SetTitleOffset(1.4);
+    htime_dist_anaCorr[i]->Draw("colz");
+
+    c_TTD[i]->cd(3);
+    gPad->SetLeftMargin(0.15);
     htime_dist_table[i]->GetYaxis()->SetTitleOffset(1.4);
     htime_dist_table[i]->Draw("colz");
 
-    c_TTD[i]->cd(3);
+    c_TTD[i]->cd(4);
     gPad->SetLeftMargin(0.15);
     htime_dist_tableCorr[i]->GetYaxis()->SetTitleOffset(1.4);
     htime_dist_tableCorr[i]->Draw("colz");
 
     
-    c_TTD[i]->cd(4);
+    c_TTD[i]->cd(5);
     gPad->SetLeftMargin(0.15);
     hreal_dist_ana[i]->GetYaxis()->SetTitleOffset(1.4);
     hreal_dist_ana[i]->Draw("colz");
@@ -900,16 +1021,24 @@ void comp_TTD(const char *arm = "L", Int_t runnumber = -1  ){
     leg_TTD[i]->SetTextSize(0.025);
     leg_TTD[i]->AddEntry(Lin_cor,"Exact linear correlation","l");
     leg_TTD[i]->Draw("same");
+
+    
+    c_TTD[i]->cd(6);
+    gPad->SetLeftMargin(0.15);
+    hreal_dist_anaCorr[i]->GetYaxis()->SetTitleOffset(1.4);
+    hreal_dist_anaCorr[i]->Draw("colz");
+    Lin_cor->Draw("same");
+    leg_TTD[i]->Draw("same");
     
     
-    c_TTD[i]->cd(5);
+    c_TTD[i]->cd(7);
     gPad->SetLeftMargin(0.15);
     hreal_dist_table[i]->GetYaxis()->SetTitleOffset(1.4);
     hreal_dist_table[i]->Draw("colz");
     Lin_cor->Draw("same");
     leg_TTD[i]->Draw("same");
 
-    c_TTD[i]->cd(6);
+    c_TTD[i]->cd(8);
     gPad->SetLeftMargin(0.15);
     hreal_dist_tableCorr[i]->GetYaxis()->SetTitleOffset(1.4);
     hreal_dist_tableCorr[i]->Draw("colz");
@@ -927,16 +1056,21 @@ void comp_TTD(const char *arm = "L", Int_t runnumber = -1  ){
     h_chi2_ana[i]->SetLineColor(kRed);
     h_chi2_ana[i]->Draw();
 
+    h_chi2_anaCorr[i]->SetLineColor(kMagenta);
+    h_chi2_anaCorr[i]->Draw("same");
+
     h_chi2_table[i]->SetLineColor(kBlue);
     h_chi2_table[i]->Draw("same");
 
     h_chi2_tableCorr[i]->SetLineColor(kGreen+2);
     h_chi2_tableCorr[i]->Draw("same");
 
+
     leg_Chi2[i] = new TLegend(.70,.65,.9,.9,"Key");
     leg_Chi2[i]->SetFillColor(0);
     leg_Chi2[i]->SetTextSize(0.02);
     leg_Chi2[i]->AddEntry(h_chi2_ana[i],"Analytic","l");
+    leg_Chi2[i]->AddEntry(h_chi2_anaCorr[i],"#splitline{Analytic}{(corrected)}","l");
     leg_Chi2[i]->AddEntry(h_chi2_table[i],"Lookup table","l");
     leg_Chi2[i]->AddEntry(h_chi2_tableCorr[i],"#splitline{Lookup table}{(corrected)}","l");
     leg_Chi2[i]->Draw("same");
@@ -948,6 +1082,9 @@ void comp_TTD(const char *arm = "L", Int_t runnumber = -1  ){
 
     h_chi_ana[i]->SetLineColor(kRed);
     h_chi_ana[i]->Draw();
+
+    h_chi_anaCorr[i]->SetLineColor(kMagenta);
+    h_chi_anaCorr[i]->Draw("same");
 
     h_chi_table[i]->SetLineColor(kBlue);
     h_chi_table[i]->Draw("same");

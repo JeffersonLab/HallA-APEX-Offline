@@ -11,6 +11,10 @@ VDC TTD (Time To Distance) calibration scripts
 ** analytic method
 
 fitvdcTTD.C script: Adapted from script written by Seamus Riordan, based on current method used in Hall A.
+(Adapted such that angular correction is calculated seperatley.)
+
+Analytic_corr.C: Calculates anglular correctin for analytic method
+
 
 
 Useage:
@@ -20,6 +24,13 @@ Useage:
   or
 
   fitvdcTTD("R",runno)
+
+
+  .x Analytic_corr("L", runno)
+
+  or 
+  
+  .x Analytic_corr("R", runno)
 
 
 ** Lookup table

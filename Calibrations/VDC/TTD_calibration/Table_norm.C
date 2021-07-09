@@ -224,7 +224,8 @@ void Table_norm(const char *arm, Int_t runnumber = -1)
     if( (i%5000)==0 ) { cout << "Entry " << i << endl; }
     
    
-    if( ntr == 1 && TTD_func::passtrg(Int_t(evttype), trg) && cer_sum > Cer_cut && ps_e/(1e3*tr_p[0]) > Ps_cut && (ps_e+sh_e)/(1e3*tr_p[0]) > Ps_Sh_cut_l &&  (ps_e+sh_e)/(1e3*tr_p[0]) < Ps_Sh_cut_h ){
+    //    if( ntr == 1 && TTD_func::passtrg(Int_t(evttype), trg) && cer_sum > Cer_cut && ps_e/(1e3*tr_p[0]) > Ps_cut && (ps_e+sh_e)/(1e3*tr_p[0]) > Ps_Sh_cut_l &&  (ps_e+sh_e)/(1e3*tr_p[0]) < Ps_Sh_cut_h ){
+    if( ntr == 1 && TTD_func::passtrg(Int_t(evttype), trg) && cer_sum > Cer_cut){
       for( j = 0; j < NPLANE; j++ ){
 	this_slope = d_th[0]*cos(ang[j]*DEG_TO_RAD) 
 	  + d_ph[0]*sin(ang[j]*DEG_TO_RAD);
