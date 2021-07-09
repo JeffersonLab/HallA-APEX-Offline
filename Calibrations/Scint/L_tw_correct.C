@@ -21,29 +21,19 @@ This correction involves two coeffecients: one for a 'Minimising Ionising Partic
 TF1* f_cb;
 TF1* f_line;
 
-Double_t finter(Double_t *x, Double_t *par) {
-  return TMath::Abs(f_cb->EvalPar(x,par) - f_line->EvalPar(x,par));
-}
 
-Double_t eval_line(Double_t x, Double_t *par) {
-  return (par[0] + par[1]*x);
-  //  return TMath::Abs(f_cb->EvalPar(x,par) - f_line->EvalPar(x,par));  
-}
-
-
-void L_tw_correct(Int_t runno){
+void L_tw_correct(Int_t runno, Bool_t Coinc = true){
 
   TChain* T = Load_more_rootfiles(runno);
 
   // set levels of MIP for s0 and s2 (this must match definition in DB)
 
-  // const Double_t s0_MIP = 500.0;
-  // const Double_t s2_MIP = 200.0;
-
-
+  const Double_t s0_MIP = 500.0;
+  //  const Double_t s2_MIP = 200.0;
 
   
   const Int_t NS2Pad = 16;
+  const Int_t MaxS2Hit = 15;
 
   Double_t s0_L = 0.0;
   Double_t s0_R = 0.0;
@@ -55,7 +45,7 @@ void L_tw_correct(Int_t runno){
   // set-up branches to be read from TTree
 
 
-    //Define Variables
+  //Define Variables
   Double_t L_tr_n,L_cer_asum_c,L_ps_e,L_sh_e;
   Double_t L_tr_p[100],L_s0_trx[100],L_s2_try[100];
   Double_t L_s0_lt[10],L_s0_rt[10];
@@ -71,6 +61,39 @@ void L_tw_correct(Int_t runno){
   Double_t evtypebits;
   Double_t L_s0_trpath[100],L_s2_trpath[100];
 
+
+  Double_t R_s2_la_c[16],R_s2_ra_c[16];
+  Double_t R_s2_t_pads[16];
+  Double_t R_tr_n,R_cer_asum_c,R_ps_e,R_sh_e;
+  Double_t R_ps_asum_c, R_sh_asum_c;
+  Double_t R_s2_nthit;
+
+  // TW variables
+  Double_t L_TW_l = 0.0;
+  Double_t L_TW_r = 0.0;
+  Double_t L_TW_b = 0.0;
+  Double_t L_TW_p = 0.0;
+
+  Double_t R_TW_l = 0.0;
+  Double_t R_TW_r = 0.0;
+  Double_t R_TW_b = 0.0;
+  Double_t R_TW_p = 0.0;
+
+  
+  
+  //trigger
+  Double_t Trig_type;
+
+  Double_t Trig_time_T2[MaxS2Hit];
+  Double_t Trig_No_T2;
+  Double_t Trig_time_T5[MaxS2Hit];
+  Double_t Trig_No_T5;
+
+
+  // record which paddle is hit for an entry
+  Int_t LHRS_pad = -1;
+  Int_t RHRS_pad = -1;
+
   
   //Define Branch Status/Addresses
   T->SetBranchStatus("*",0);
@@ -82,15 +105,28 @@ void L_tw_correct(Int_t runno){
   T->SetBranchStatus("L.s0.lt",1);
   T->SetBranchStatus("L.s0.rt",1);
   T->SetBranchStatus("L.s0.trx",1);
+  T->SetBranchStatus("L.s0.la_p",1);
+  T->SetBranchStatus("L.s0.ra_p",1);
   T->SetBranchStatus("L.s0.nthit",1);
+  T->SetBranchStatus("L.s2.lt",1);
+  T->SetBranchStatus("L.s2.rt",1);
+  T->SetBranchStatus("L.s2.la_p",1);
+  T->SetBranchStatus("L.s2.ra_p",1);
+  T->SetBranchStatus("L.s2.la_c",1);
+  T->SetBranchStatus("L.s2.ra_c",1);
   T->SetBranchStatus("L.s2.try",1);
   T->SetBranchStatus("L.s2.trx",1);
   T->SetBranchStatus("L.s2.trdx",1);
   T->SetBranchStatus("L.s2.nthit",1);
   T->SetBranchStatus("L.s2.t_pads",1);
-  T->SetBranchStatus("DL.evtypebits",1);
   T->SetBranchStatus("L.s0.trpath",1);
   T->SetBranchStatus("L.s2.trpath",1);
+  T->SetBranchStatus("DL.evtypebits",1);
+  T->SetBranchStatus("DL.evtype",1);
+  T->SetBranchStatus("DR.rrawt2",1); 
+  T->SetBranchStatus("Ndata.DR.rrawt2",1);
+  T->SetBranchStatus("DR.rrawt5",1);
+  T->SetBranchStatus("Ndata.DR.rrawt5",1);
 
   T->SetBranchAddress("L.tr.n",&L_tr_n);
   T->SetBranchAddress("L.tr.p",L_tr_p);
@@ -117,7 +153,23 @@ void L_tw_correct(Int_t runno){
   T->SetBranchAddress("DL.evtypebits",&evtypebits);
   T->SetBranchAddress("L.s0.trpath",L_s0_trpath);
   T->SetBranchAddress("L.s2.trpath",L_s2_trpath);
+  T->SetBranchAddress("DL.evtype",&Trig_type);
+  T->SetBranchAddress("DR.rrawt2", Trig_time_T2); 
+  T->SetBranchAddress("Ndata.DR.rrawt2",&Trig_No_T2);
+  T->SetBranchAddress("DR.rrawt5",Trig_time_T5);
+  T->SetBranchAddress("Ndata.DR.rrawt5",&Trig_No_T5);
 
+  T->SetBranchAddress("R.tr.n",&R_tr_n);
+  T->SetBranchAddress("R.s2.la_c",R_s2_la_c);
+  T->SetBranchAddress("R.s2.ra_c",R_s2_ra_c);
+  T->SetBranchAddress("R.s2.t_pads",R_s2_t_pads);
+  T->SetBranchAddress("R.ps.asum_c",&R_ps_asum_c);
+  T->SetBranchAddress("R.sh.asum_c",&R_sh_asum_c);
+  T->SetBranchAddress("R.cer.asum_c",&R_cer_asum_c);
+  T->SetBranchAddress("R.ps.e",&R_ps_e);
+  T->SetBranchAddress("R.sh.e",&R_sh_e);
+  T->SetBranchAddress("R.s2.nthit",&R_s2_nthit);
+  
   Int_t nentries = T->GetEntries();
 
   cout<<"Total Number of Events = "<<nentries<<endl;
@@ -219,25 +271,70 @@ void L_tw_correct(Int_t runno){
   const Double_t fTdc2T = 0.5e-9;
 
   
+  // cuts on difference of timewalk effect between L-PMT and R-PMT
+
+  Double_t TW_lim = 0.007;
+
+
+
+  // time limits change depdending on if run was coincidence or single-arm
+  // single-arm is self-timing peak (I think)
+  
   // time limits (difference from mean)
   Double_t tdiff_l = -10;
   Double_t tdiff_h = 10;
   Int_t tdiff_nbins = (tdiff_h - tdiff_l);
   
-  // time limits (no correction) 
-  Double_t time_l = 5.5e3; // left + right pmts
-  Double_t time_h = 5.56e3; // left + right pmts
-  Int_t time_nbins = (time_h - time_l);
+  // time limits (no correction)
+
   
-  // left time 
-  Double_t timel_l = 2.76e3; // left pmts
-  Double_t timel_h = 2.82e3; // left pmts
-  Int_t timel_nbins = (timel_h - timel_l);
+  Double_t time_l = 0.0; // left + right pmts
+  Double_t time_h = 0.0; // left + right pmts
+  
+  // left time
+  Double_t timel_l = 0.0; // left pmts
+  Double_t timel_h = 0.0; // left pmts
+
 
   // right time 
-  Double_t timer_l = 2.72e3; // right pmts
-  Double_t timer_h = 2.75e3; // right pmts
+  Double_t timer_l = 0.0; // right pmts
+  Double_t timer_h = 0.0; // right pmts
+
+  if(Coinc){
+
+    // coinc peak (between LHRS and RHRS)
+
+    time_l = 5.56e3;
+    time_h = 5.66e3; 
+  
+    timel_l = 2.80e3; 
+    timel_h = 2.86e3; 
+
+    timer_l = 2.74e3; 
+    timer_h = 2.80e3;
+    
+  }
+  else{
+
+    // for single arm LHRS run
+    
+    time_l = 5.5e3;
+    time_h = 5.56e3; 
+
+    timel_l = 2.76e3; 
+    timel_h = 2.82e3;
+
+    timer_l = 2.72e3; 
+    timer_h = 2.75e3;     
+
+  }
+
+
+  
+  Int_t time_nbins = (time_h - time_l);
+  Int_t timel_nbins = (timel_h - timel_l);
   Int_t timer_nbins = (timer_h - timer_l);
+  
 
   
   
@@ -260,7 +357,20 @@ void L_tw_correct(Int_t runno){
   Double_t tw_b_high = 0.16;
   Int_t tw_b_nbins = 69;
 
+
   
+  // parameters for S2 and trigger timing cuts
+
+  Double_t T2LowCut = 1683;
+  Double_t T2HighCut = 1710;
+
+  Double_t T5LowCut = 1625;
+  Double_t T5HighCut = 1634;
+
+  Bool_t T2Pass = false;
+  Bool_t T5Pass = false;
+		     		     
+  Bool_t CoincPass = false;
 
   for(Int_t i = 0; i<NS2Pad; i++){
 
@@ -349,37 +459,104 @@ void L_tw_correct(Int_t runno){
   
   for(Int_t i=0;i<nentries;i++){
     
+    T2Pass = false;
+    T5Pass = false;
+    CoincPass = false;
+
+    LHRS_pad = -1;
+    RHRS_pad = -1;
+    
+    
     if(i%100000==0) cout << " events processed = " << i << endl;
     T->GetEntry(i);
     
-    if(L_tr_n==1 && L_cer_asum_c>1500 && (L_ps_e+L_sh_e)/(1000.*L_tr_p[0])>0.8 && L_s0_nthit==1){
+    for(Int_t j = 0; j < Trig_No_T2; j++){      
+      if (Trig_time_T2[j] > T2LowCut && Trig_time_T2[j] < T2HighCut){	
+	T2Pass = true;
+      }
+    }
+    
+    
+    for(Int_t j = 0; j < Trig_No_T5; j++){      
+      if (Trig_time_T5[j] > T5LowCut && Trig_time_T5[j] < T5HighCut){	
+	T5Pass = true;
+      }
+    }
+    
+    if((T2Pass && T5Pass && Trig_type == 6) || !Coinc){
+      CoincPass = true;
+    }
+
+
+    
+    
+    if(L_tr_n==1 && L_cer_asum_c>1500 && (L_ps_e+L_sh_e)/(1000.*L_tr_p[0])>0.8 && L_s0_nthit==1 && CoincPass){
       h_L_s0_t->Fill(L_s0_lt[0] + L_s0_rt[0]);
       h_L_s0_ADC->Fill((1/TMath::Sqrt(L_s0_la_p[0])) + (1/TMath::Sqrt(L_s0_ra_p[0])));
       //      h_L_s0_t_ADC->Fill();
 
     }
-      
-      for(Int_t j=0;j<16;j++){
-	if(L_tr_n==1 && L_cer_asum_c>2500&&L_s2_t_pads[0]==j&&L_s2_nthit==1&&(L_ps_e+L_sh_e)/L_tr_p[0]/1000>0.7 && L_s2_lt[j]>0 && L_s2_rt[j]>0 && abs(L_s2_trdx[0])<0.07 && L_s2_la_c[j]>160 && L_s2_ra_c[j]>160 ){
-	  // abs(L.s2.trdx)<0.07" 
 
-	  h_L_s2_t[j]->Fill(L_s2_lt[j] + L_s2_rt[j]);
-	  h_L_s2_ADC[j]->Fill((1/TMath::Sqrt(L_s2_la_p[j])) + (1/TMath::Sqrt(L_s2_ra_p[j])));
+
+    
+    if(L_s2_nthit ==1 &&  L_tr_n==1 && L_cer_asum_c>1500 && (L_ps_e+L_sh_e)/(1000.*L_tr_p[0])>0.8  && R_tr_n==1 && R_cer_asum_c>200 &&  R_s2_nthit==1 && (R_ps_asum_c + 0.9*R_sh_asum_c)>800 && R_ps_asum_c>350 && CoincPass){
+    
+      for(int j=0;j<NS2Pad;j++){                                                                              
+	if ( L_s2_lt[j]>0 && L_s2_rt[j]>0 && abs(L_s2_trdx[0])<0.07 && L_s2_la_c[j]>160 && L_s2_ra_c[j]>160 && L_s2_t_pads[0]==j){    
+	  LHRS_pad = j;
+	}    
+	
+	
+	
+	if (R_s2_la_c[j]>160 && R_s2_ra_c[j]>160 && R_s2_t_pads[0]==j){    
+	  RHRS_pad = j;
+	}	
+      }
+    }
+
+
+    // condition on LHRS pad being found for single-arm run
+    // or both LHRS and RHRS pad found for coincidence run
+    if((Coinc && (LHRS_pad == -1 || RHRS_pad == -1)) || (!Coinc && (LHRS_pad == -1)) ){
+      continue;
+    }
+    
+
+    L_TW_l = 1/TMath::Sqrt(L_s2_la_c[LHRS_pad]);
+    L_TW_r = 1/TMath::Sqrt(L_s2_ra_c[LHRS_pad]);
+    L_TW_b = L_TW_l - L_TW_r;
+    L_TW_p = L_TW_l + L_TW_r;
+	
+    if(Coinc){
+      R_TW_l = 1/TMath::Sqrt(R_s2_la_c[RHRS_pad]);
+      R_TW_r = 1/TMath::Sqrt(R_s2_ra_c[RHRS_pad]);
+      R_TW_b = R_TW_l - R_TW_r;
+      R_TW_p = R_TW_l + R_TW_r;
+    }
+
+
+    if(Coinc && !(abs(L_TW_b) < TW_lim && abs(R_TW_b) < TW_lim) ){
+      // cut on difference on left and right PMTs being too large (for LHRS and RHRS)
+      continue;
+    }
+    
+    h_L_s2_t[LHRS_pad]->Fill(L_s2_lt[LHRS_pad] + L_s2_rt[LHRS_pad]);
+    h_L_s2_ADC[LHRS_pad]->Fill((1/TMath::Sqrt(L_s2_la_p[LHRS_pad])) + (1/TMath::Sqrt(L_s2_ra_p[LHRS_pad])));
 
 	  
-	  h_L_s2_t_l[j]->Fill(L_s2_lt[j]);
-	  h_L_s2_ADC_l[j]->Fill((1/TMath::Sqrt(L_s2_la_p[j])));
+    h_L_s2_t_l[LHRS_pad]->Fill(L_s2_lt[LHRS_pad]);
+    h_L_s2_ADC_l[LHRS_pad]->Fill((1/TMath::Sqrt(L_s2_la_p[LHRS_pad])));
 
 
-	  h_L_s2_t_r[j]->Fill(L_s2_rt[j]);
-	  h_L_s2_ADC_r[j]->Fill((1/TMath::Sqrt(L_s2_ra_p[j])));
+    h_L_s2_t_r[LHRS_pad]->Fill(L_s2_rt[LHRS_pad]);
+    h_L_s2_ADC_r[LHRS_pad]->Fill((1/TMath::Sqrt(L_s2_ra_p[LHRS_pad])));
 
-
-	}
-
-      }
 
   }
+  
+
+
+  
   
 
   TCanvas *c1 = new TCanvas("c1","s0 timing");
@@ -576,78 +753,135 @@ void L_tw_correct(Int_t runno){
   }
 
 
-  // barker
-
 
 
   for(Int_t i=0;i<nentries;i++){
+
+    T2Pass = false;
+    T5Pass = false;
+    CoincPass = false;
+
+    LHRS_pad = -1;
+    RHRS_pad = -1;
+
     
     if(i%100000==0) cout << " events processed = " << i << endl;
     T->GetEntry(i);
+  
+
+
+    for(Int_t j = 0; j < Trig_No_T2; j++){      
+      if (Trig_time_T2[j] > T2LowCut && Trig_time_T2[j] < T2HighCut){	
+	T2Pass = true;
+      }
+    }    
     
-    if(L_tr_n==1 && L_cer_asum_c>1500 && (L_ps_e+L_sh_e)/(1000.*L_tr_p[0])>0.8 && L_s0_nthit==1){
+    for(Int_t j = 0; j < Trig_No_T5; j++){      
+      if (Trig_time_T5[j] > T5LowCut && Trig_time_T5[j] < T5HighCut){	
+	T5Pass = true;
+      }
+    }
+    
+    if((T2Pass && T5Pass && Trig_type == 6) || !Coinc){
+      CoincPass = true;
+    }
+
+    
+    if(L_tr_n==1 && L_cer_asum_c>1500 && (L_ps_e+L_sh_e)/(1000.*L_tr_p[0])>0.8 && L_s0_nthit==1  && CoincPass){
       
       h_L_s0_t_ADC->Fill((1/TMath::Sqrt(L_s0_la_p[0])) + (1/TMath::Sqrt(L_s0_ra_p[0])), L_s0_lt[0] + L_s0_rt[0] - s0_t_mean);
       hprof_L_s0_t_ADC->Fill((1/TMath::Sqrt(L_s0_la_p[0])) + (1/TMath::Sqrt(L_s0_ra_p[0])), L_s0_lt[0] + L_s0_rt[0] - s0_t_mean);
 
     }
-      
-      for(Int_t j=0;j<16;j++){
-	//	if(L_tr_n==1 && L_cer_asum_c>2500&&L_s2_t_pads[0]==j&&L_s2_nthit==1&&(L_ps_e+L_sh_e)/L_tr_p[0]/1000>0.7 && L_s2_lt[j]>0 && L_s2_rt[j]>0 && abs(L_s2_trdx[0])<0.07 ){
-	if(L_tr_n==1 && L_cer_asum_c>2500&&L_s2_t_pads[0]==j&&L_s2_nthit==1&&(L_ps_e+L_sh_e)/L_tr_p[0]/1000>0.7 && L_s2_lt[j]>0 && L_s2_rt[j]>0 && abs(L_s2_trdx[0])<0.07 && L_s2_la_c[j]>160 && L_s2_ra_c[j]>160 ){
 
 
-	  // Double_t TW_l = 1/TMath::Sqrt(L_s2_la_p[j]);
-	  // Double_t TW_r = 1/TMath::Sqrt(L_s2_ra_p[j]);
-	  Double_t TW_l = 1/TMath::Sqrt(L_s2_la_c[j]);
-	  Double_t TW_r = 1/TMath::Sqrt(L_s2_ra_c[j]);
-	  Double_t TW_b = TW_l + TW_r;
 
-	  Double_t b_time =  L_s2_lt[j] + L_s2_rt[j] - s2_mean[j];
-	  Double_t l_time =  L_s2_lt[j] - s2_mean_l[j];
-	  Double_t r_time =  L_s2_rt[j] - s2_mean_r[j];
-	  
-
-	  // (left + right time)
-	  h_L_s2_t_ADC[j]->Fill(TW_b,b_time);
-	  hprof_L_s2_t_ADC[j]->Fill(TW_b,b_time);
-
-	  h_L_s2_t_ADCl[j]->Fill(TW_l,b_time);
-	  hprof_L_s2_t_ADCl[j]->Fill(TW_l,b_time);
-
-	  h_L_s2_t_ADCr[j]->Fill(TW_r,b_time);
-	  hprof_L_s2_t_ADCr[j]->Fill(TW_r,b_time);
-
-	  
-
-	  // (left time)
-	  h_L_s2_tl_ADC[j]->Fill(TW_b,l_time);
-	  hprof_L_s2_tl_ADC[j]->Fill(TW_b,l_time);
-	  
-	  h_L_s2_tl_ADCl[j]->Fill(TW_l,l_time);
-	  hprof_L_s2_tl_ADCl[j]->Fill(TW_l,l_time);
-
-	  h_L_s2_tl_ADCr[j]->Fill(TW_r,l_time);
-	  hprof_L_s2_tl_ADCr[j]->Fill(TW_r,l_time);
-
-
-	  // (right time)
-	  h_L_s2_tr_ADC[j]->Fill(TW_b,r_time);
-	  hprof_L_s2_tr_ADC[j]->Fill(TW_b,r_time);
-		  
-	  h_L_s2_tr_ADCl[j]->Fill(TW_l,r_time);
-	  hprof_L_s2_tr_ADCl[j]->Fill(TW_l,r_time);
-	  
-	  h_L_s2_tr_ADCr[j]->Fill(TW_r,r_time);
-	  hprof_L_s2_tr_ADCr[j]->Fill(TW_r,r_time);
-
-	  
-
-	}
-
+    if(L_s2_nthit ==1 &&  L_tr_n==1 && L_cer_asum_c>1500 && (L_ps_e+L_sh_e)/(1000.*L_tr_p[0])>0.8  && R_tr_n==1 && R_cer_asum_c>200 &&  R_s2_nthit==1 && (R_ps_asum_c + 0.9*R_sh_asum_c)>800 && R_ps_asum_c>350 && CoincPass){
+    
+      for(int j=0;j<NS2Pad;j++){                                                                              
+	if ( L_s2_lt[j]>0 && L_s2_rt[j]>0 && abs(L_s2_trdx[0])<0.07 && L_s2_la_c[j]>160 && L_s2_ra_c[j]>160 && L_s2_t_pads[0]==j){    
+	  LHRS_pad = j;
+	}    
+	
+	
+	
+	if (R_s2_la_c[j]>160 && R_s2_ra_c[j]>160  && R_s2_t_pads[0]==j){    
+	  RHRS_pad = j;
+	}	
       }
+    }
+    
+    if((Coinc && (LHRS_pad == -1 || RHRS_pad == -1)) || (!Coinc && (LHRS_pad == -1)) ){
+      continue;
+    }
 
+    
+
+    L_TW_l = 1/TMath::Sqrt(L_s2_la_c[LHRS_pad]);
+    L_TW_r = 1/TMath::Sqrt(L_s2_ra_c[LHRS_pad]);
+    L_TW_b = L_TW_l - L_TW_r;
+    L_TW_p = L_TW_l + L_TW_r;
+	
+    if(Coinc){
+      R_TW_l = 1/TMath::Sqrt(R_s2_la_c[RHRS_pad]);
+      R_TW_r = 1/TMath::Sqrt(R_s2_ra_c[RHRS_pad]);
+      R_TW_b = R_TW_l - R_TW_r;
+      R_TW_p = R_TW_l + R_TW_r;
+    }
+
+
+    if(Coinc && !(abs(L_TW_b) < TW_lim && abs(R_TW_b) < TW_lim) ){
+      // cut on difference on left and right PMTs being too large (for LHRS and RHRS)
+      continue;
+    }
+
+    
+    
+    Double_t b_time =  L_s2_lt[LHRS_pad] + L_s2_rt[LHRS_pad] - s2_mean[LHRS_pad];
+    Double_t l_time =  L_s2_lt[LHRS_pad] - s2_mean_l[LHRS_pad];
+    Double_t r_time =  L_s2_rt[LHRS_pad] - s2_mean_r[LHRS_pad];
+    
+    
+    // (left + right time)
+    h_L_s2_t_ADC[LHRS_pad]->Fill(L_TW_p,b_time);
+    hprof_L_s2_t_ADC[LHRS_pad]->Fill(L_TW_p,b_time);
+    
+    h_L_s2_t_ADCl[LHRS_pad]->Fill(L_TW_l,b_time);
+    hprof_L_s2_t_ADCl[LHRS_pad]->Fill(L_TW_l,b_time);
+    
+    h_L_s2_t_ADCr[LHRS_pad]->Fill(L_TW_r,b_time);
+    hprof_L_s2_t_ADCr[LHRS_pad]->Fill(L_TW_r,b_time);
+    
+	  
+
+    // (left time)
+    h_L_s2_tl_ADC[LHRS_pad]->Fill(L_TW_p,l_time);
+    hprof_L_s2_tl_ADC[LHRS_pad]->Fill(L_TW_p,l_time);
+	  
+    h_L_s2_tl_ADCl[LHRS_pad]->Fill(L_TW_l,l_time);
+    hprof_L_s2_tl_ADCl[LHRS_pad]->Fill(L_TW_l,l_time);
+
+    h_L_s2_tl_ADCr[LHRS_pad]->Fill(L_TW_r,l_time);
+    hprof_L_s2_tl_ADCr[LHRS_pad]->Fill(L_TW_r,l_time);
+
+
+    // (right time)
+    h_L_s2_tr_ADC[LHRS_pad]->Fill(L_TW_p,r_time);
+    hprof_L_s2_tr_ADC[LHRS_pad]->Fill(L_TW_p,r_time);
+		  
+    h_L_s2_tr_ADCl[LHRS_pad]->Fill(L_TW_l,r_time);
+    hprof_L_s2_tr_ADCl[LHRS_pad]->Fill(L_TW_l,r_time);
+	  
+    h_L_s2_tr_ADCr[LHRS_pad]->Fill(L_TW_r,r_time);
+    hprof_L_s2_tr_ADCr[LHRS_pad]->Fill(L_TW_r,r_time);
+
+	  
+    
   }
+
+
+
+  
   
 
   
@@ -661,18 +895,25 @@ void L_tw_correct(Int_t runno){
   c2->cd(2);
   hprof_L_s0_t_ADC->Draw();
 
-  hprof_L_s0_t_ADC->Fit("pol1","QR","",0,0.16);
+
+    
+  Double_t s0_offset = 0.0;
+  Double_t s0_k = 0.0;
   
-  Double_t s0_offset =  hprof_L_s0_t_ADC->GetFunction("pol1")->GetParameter(0);
-  Double_t s0_k = hprof_L_s0_t_ADC->GetFunction("pol1")->GetParameter(1);
+
+  if(!Coinc){
+    hprof_L_s0_t_ADC->Fit("pol1","QR","",0,0.16);
+  
+    s0_offset =  hprof_L_s0_t_ADC->GetFunction("pol1")->GetParameter(0);
+    s0_k = hprof_L_s0_t_ADC->GetFunction("pol1")->GetParameter(1);
 
   // can now derive ADC_MIP for s0 from these parameters
 
-  Double_t s0_MIP = (4*TMath::Power(s0_k,2))/TMath::Power(s0_offset,2);
+    //    s0_MIP = (4*TMath::Power(s0_k,2))/TMath::Power(s0_offset,2);
 
-  cout << "s0 k = " << s0_k << ", s0 ADC_MIP = " << s0_MIP << endl;
+    cout << "s0 k = " << s0_k << ", s0 ADC_MIP = " << s0_MIP << endl;
     
-
+  }
 
     
   for(Int_t i = 0; i<NS2Pad; i++){
@@ -736,7 +977,6 @@ void L_tw_correct(Int_t runno){
 
     // left time
 
-    // marker
     c4[i]->cd(11);
 
     h_L_s2_tl_ADCr[i]->Draw("colz");
@@ -843,9 +1083,12 @@ void L_tw_correct(Int_t runno){
   
 
   // save canvases to pdf
-  /*
-  c1->Print(Form("time_walk/plots/L_s0_tw_%i.pdf(",runno));
-  c2->Print(Form("time_walk/plots/L_s0_tw_%i.pdf)",
+
+
+  if(!Coinc){
+    c1->Print(Form("time_walk/plots/L_s0_tw_%i.pdf(",runno));
+    c2->Print(Form("time_walk/plots/L_s0_tw_%i.pdf)",runno));
+  }
 
   
   for(int i=0;i<NS2Pad;i++){
@@ -864,21 +1107,23 @@ void L_tw_correct(Int_t runno){
     }
   }
  
-  */
   
   // Print all corrections coeffecients and print to DB
 
   ofstream oofile(Form("time_walk/DB/LHRS_tw_%i.txt",runno));
 
-  oofile << "S0: "  << endl;
-  oofile << "L.s0.MIP = " << s0_MIP << endl;
-  oofile << "L.s0.timewalk_params = " << s0_k << endl;
-  oofile << endl << endl;
 
-  cout << "S0: "  << endl;
-  cout << "L.s0.MIP = " << s0_MIP << endl;
-  cout << "L.s0.timewalk_params = " << s0_k << endl;
-  cout << endl << endl;
+  if(!Coinc){
+    oofile << "S0: "  << endl;
+    oofile << "L.s0.MIP = " << s0_MIP << endl;
+    oofile << "L.s0.timewalk_params = " << s0_k << endl;
+    oofile << endl << endl;
+
+    cout << "S0: "  << endl;
+    cout << "L.s0.MIP = " << s0_MIP << endl;
+    cout << "L.s0.timewalk_params = " << s0_k << endl;
+    cout << endl << endl;
+  }
 
 
   oofile << "S2: "  << endl;
@@ -949,11 +1194,15 @@ void L_tw_correct(Int_t runno){
 
 
   // S0 csv outfile
-  ofstream oofile_csv_s0(Form("time_walk/DB/LHRS_tw_%i_S0.csv",runno));
+
+
+  if(!Coinc){
+    ofstream oofile_csv_s0(Form("time_walk/DB/LHRS_tw_%i_S0.csv",runno));
   
-  oofile_csv_s0<<"L_tw_param, L_MIP"<<endl;
+    oofile_csv_s0<<"L_tw_param, L_MIP"<<endl;
   
-  oofile_csv_s0<<s0_k<<","<<s0_MIP<<endl;
+    oofile_csv_s0<<s0_k<<","<<s0_MIP<<endl;
+  }
   
 }
 

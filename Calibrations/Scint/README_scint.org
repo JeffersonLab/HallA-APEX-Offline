@@ -61,11 +61,25 @@ Timewalk correction in Hall A typically characterised as proportional to ADC^{-0
 
 L_tw_correct.C: Attempts standard Hall A timewalk correction for LHRS. Currently find this works well for S0 but not for S2. 
 
+ - outputs to LHRS_tw_%i_S2.csv (%i is runnumber)
+ - attempts form of standard correction on Left PMT ADC time only
+   - standard form of output: TW coeffecietn, MIP and start time for effect?
+
 L_tw_correct_diff.C: Uses differences between left and right PMT ADC hits in S2 paddles to characterise TW effect. This seems to do superior job for S2. 
+
+ - uses difference in ADC level for left and right PMTs to correct left time
+   - both have timewalk effect for left PMT time
+   - right PMT decides time thus does not show effect
 
 
 R_tw_correct.C: Attempts standard Hall A timewalk correction for RHRS. Currently find this works well for S0 but not for S2.
 
+
+R_tw_correct_diff.C: Uses differences between left and right PMT ADC hits in S2 paddles to characterise TW effect. This seems to do superior job for S2. 
+
+ - uses difference in ADC level for left and right PMTs to correct left time
+   - both have timewalk effect for left PMT time
+   - right PMT decides time thus does not show effect
 
 Scripts output results in timewalk/plots and timewalk/DB.
 
