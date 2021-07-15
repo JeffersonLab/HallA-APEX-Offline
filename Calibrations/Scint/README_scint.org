@@ -133,4 +133,5 @@ Current structure of scripts:
 3) Use Coinc time plotting scripts:
    - Coinc_peak.C: again need to specify offset DBs
    - plot_coinc.py: can plot results from  CoinC_peak.C
+   - Coinc_test.C: plots coincidence time from analyzer
 
