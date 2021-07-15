@@ -445,15 +445,15 @@ void pl_corrections_all(Int_t runno,  TString DB_Lname /* LHRS DB name where cor
 
   
 
-
+  
 
   // variables lims
 
-  Double_t L_x_low = -0.62;
-  Double_t L_x_up = 0.5;
+  Double_t L_x_low = -0.5;
+  Double_t L_x_up = 0.4;
   
-  Double_t L_th_low = -0.025;
-  Double_t L_th_up = 0.018;
+  Double_t L_th_low = -0.022;
+  Double_t L_th_up = 0.020;
 
   Double_t L_ph_low = -0.03;
   Double_t L_ph_up = 0.025;
@@ -470,7 +470,7 @@ void pl_corrections_all(Int_t runno,  TString DB_Lname /* LHRS DB name where cor
   Double_t R_th_up = 0.02;
 
   Double_t R_ph_low = -0.015;
-  Double_t R_ph_up = 0.03;
+  Double_t R_ph_up = 0.02;
 
   Double_t R_dp_low = -0.04;
   Double_t R_dp_up = 0.045;
@@ -487,13 +487,13 @@ void pl_corrections_all(Int_t runno,  TString DB_Lname /* LHRS DB name where cor
   
   TH2F* h_coinc_s2_pad = new TH2F("h_coinc_s2_pad","s2 left + right time vs paddle",16,-0.5,15.5,coinc_bins,coinc_start_corr,coinc_end_corr);
   
-  TH2F* h_coinc_s2_x = new TH2F("h_coinc_s2_x","s2 left + right time vs X",150,L_x_low,L_x_up,coinc_bins,coinc_start_corr,coinc_end_corr);
+  TH2F* h_coinc_s2_x = new TH2F("h_coinc_s2_x","s2 left + right time vs X",20,L_x_low,L_x_up,coinc_bins,coinc_start_corr,coinc_end_corr);
 
-  TH2F* h_coinc_s2_th = new TH2F("h_coinc_s2_th","L time vs L_th",50,L_th_low,L_th_up,coinc_bins,coinc_start_corr,coinc_end_corr);
+  TH2F* h_coinc_s2_th = new TH2F("h_coinc_s2_th","s2 left + right time vs L_th",20,L_th_low,L_th_up,coinc_bins,coinc_start_corr,coinc_end_corr);
 
-  TH2F* h_coinc_s2_ph = new TH2F("h_coinc_s2_ph","L time vs L_ph",50,L_ph_low,L_ph_up,coinc_bins,coinc_start_corr,coinc_end_corr);
+  TH2F* h_coinc_s2_ph = new TH2F("h_coinc_s2_ph","s2 left + right time vs L_ph",20,L_ph_low,L_ph_up,coinc_bins,coinc_start_corr,coinc_end_corr);
 
-  TH2F* h_coinc_s2_dp = new TH2F("h_coinc_s2_dp","L time vs L_dp",150,L_dp_low,L_dp_up,coinc_bins,coinc_start_corr,coinc_end_corr);
+  TH2F* h_coinc_s2_dp = new TH2F("h_coinc_s2_dp","s2 left + right time vs L_dp",20,L_dp_low,L_dp_up,coinc_bins,coinc_start_corr,coinc_end_corr);
   
   // both arm pmt (difference) TW lims
   Double_t tw_b_low = -0.0075;
@@ -662,22 +662,22 @@ void pl_corrections_all(Int_t runno,  TString DB_Lname /* LHRS DB name where cor
   
   TH2F* h_coincCorr_s2_x = new TH2F("h_coincCorr_s2_x","s2 left + right time vs X",150,L_x_low,L_x_up,coinc_bins,coinc_start_corr,coinc_end_corr);
 
-  TH2F* h_coincCorr_s2_th = new TH2F("h_coincCorr_s2_th","L time vs L_th",50,L_th_low,L_th_up,coinc_bins,coinc_start_corr,coinc_end_corr);
+  TH2F* h_coincCorr_s2_th = new TH2F("h_coincCorr_s2_th","s2 left + right time vs L_th",50,L_th_low,L_th_up,coinc_bins,coinc_start_corr,coinc_end_corr);
 
-  TH2F* h_coincCorr_s2_ph = new TH2F("h_coincCorr_s2_ph","L time vs L_ph",50,L_ph_low,L_ph_up,coinc_bins,coinc_start_corr,coinc_end_corr);
+  TH2F* h_coincCorr_s2_ph = new TH2F("h_coincCorr_s2_ph","s2 left + right time vs L_ph",50,L_ph_low,L_ph_up,coinc_bins,coinc_start_corr,coinc_end_corr);
 
-  TH2F* h_coincCorr_s2_dp = new TH2F("h_coincCorr_s2_dp","L time vs L_dp",150,L_dp_low,L_dp_up,coinc_bins,coinc_start_corr,coinc_end_corr);
+  TH2F* h_coincCorr_s2_dp = new TH2F("h_coincCorr_s2_dp","s2 left + right time vs L_dp",150,L_dp_low,L_dp_up,coinc_bins,coinc_start_corr,coinc_end_corr);
 
   
   TProfile* hprof_coincCorr_s2_pad = new TProfile("hprof_coincCorr_s2_pad","s2 left + right time vs paddle",16,-0.5,15.5,coinc_start_corr,coinc_end_corr);
   
   TProfile* hprof_coincCorr_s2_x = new TProfile("hprof_coincCorr_s2_x","s2 left + right time vs X",20,L_x_low,L_x_up,coinc_start_corr,coinc_end_corr);
 
-  TProfile* hprof_coincCorr_s2_th = new TProfile("hprof_coincCorr_s2_th","L time vs L_th",20,L_th_low,L_th_up,coinc_start_corr,coinc_end_corr);
+  TProfile* hprof_coincCorr_s2_th = new TProfile("hprof_coincCorr_s2_th","s2 left + right time vs L_th",20,L_th_low,L_th_up,coinc_start_corr,coinc_end_corr);
 
-  TProfile* hprof_coincCorr_s2_ph = new TProfile("hprof_coincCorr_s2_ph","L time vs L_ph",20,L_ph_low,L_ph_up,coinc_start_corr,coinc_end_corr);
+  TProfile* hprof_coincCorr_s2_ph = new TProfile("hprof_coincCorr_s2_ph","s2 left + right time vs L_ph",20,L_ph_low,L_ph_up,coinc_start_corr,coinc_end_corr);
 
-  TProfile* hprof_coincCorr_s2_dp = new TProfile("hprof_coincCorr_s2_dp","L time vs L_dp",20,L_dp_low,L_dp_up,coinc_start_corr,coinc_end_corr);
+  TProfile* hprof_coincCorr_s2_dp = new TProfile("hprof_coincCorr_s2_dp","s2 left + right time vs L_dp",20,L_dp_low,L_dp_up,coinc_start_corr,coinc_end_corr);
 
 
   // RHRS vars against correlation time
@@ -973,14 +973,13 @@ void pl_corrections_all(Int_t runno,  TString DB_Lname /* LHRS DB name where cor
     
     
     
-    if(L_s2_nthit ==1 &&  L_tr_n==1 && L_cer_asum_c>1500 && (L_ps_e+L_sh_e)/(1000.*L_tr_p[0])>0.8  && R_tr_n==1 && R_cer_asum_c>200 &&  R_s2_nthit==1 && (R_ps_asum_c + 0.9*R_sh_asum_c)>800 && R_ps_asum_c>350 && T2Pass && T5Pass && Trig_type == 6){
+    if(L_s2_nthit==1 &&  L_tr_n==1 && L_cer_asum_c>1500 && (L_ps_e+L_sh_e)/(1000.*L_tr_p[0])>0.8  && R_tr_n==1 && R_cer_asum_c>200 &&  R_s2_nthit==1 && (R_ps_asum_c + 0.9*R_sh_asum_c)>800 && R_ps_asum_c>350 && T2Pass && T5Pass && Trig_type == 6){
     
       for(int j=0;j<NS2Pad;j++){                                                                              
 
 
 
-	if (L_s2_t_pads[0]==j && L_s2_lt_c[j]+L_s2_rt_c[j] != 0){    
-	  //	  LTime = (L_s2_lt_o[j]+L_s2_rt_o[j])/2.;
+	if (L_s2_t_pads[0]==j && (L_s2_lt_c[j]+L_s2_rt_c[j]) != 0){    
 	  LTime = fTdc2T*(L_s2_lt[j]-L_ls2_coeff[j] + L_s2_rt[j]-L_rs2_coeff[j])/2.;	  
 	  LTime_un = (L_s2_lt_t[j]+L_s2_rt_t[j])/2.;
 	  LTime *= 1e9;
@@ -990,15 +989,16 @@ void pl_corrections_all(Int_t runno,  TString DB_Lname /* LHRS DB name where cor
 	
 	
 
-	// if (j == 4 || j==5){
-	//     if(L_s2_t_pads[0]==j && (L_s2_lt_c[j]+L_s2_rt_c[j]) != 0 && (L_s2_la_c[j]>100 || L_s2_ra_c[j]>100)){    
-	//       LTime = (L_s2_lt_o[j]+L_s2_rt_o[j])/2.;
-	//       LTime_un = (L_s2_lt_t[j]+L_s2_rt_t[j])/2.;
-	      
-	//       LHRS_pad = j;
-	//       L_hits[j] += 1;
-	//     }
-	//   }
+	if (j == 4 || j==5 || j ==7){
+	  //if(L_s2_t_pads[0]==j){
+	  if(L_s2_t_pads[0]==j && (L_s2_lt[j]!= 0 || L_s2_rt[j] != 0)  && (L_s2_la_c[j]>100 || L_s2_ra_c[j]>100) ){
+	    LTime = fTdc2T*(L_s2_lt[j]-L_ls2_coeff[j] + L_s2_rt[j]-L_rs2_coeff[j])/2.;	  
+	    LTime_un = (L_s2_lt_t[j]+L_s2_rt_t[j])/2.;
+	    LTime *= 1e9;
+	    LTime_un *= 1e9;	  
+	    LHRS_pad = j;
+	  }
+	}
       	//   else{
 	//     if(L_s2_t_pads[0]==j &&  (L_s2_lt_c[j]+L_s2_rt_c[j]) != 0 && L_s2_la_c[j]>100 && L_s2_ra_c[j]>100){    
 	//     LTime = (L_s2_lt_o[j]+L_s2_rt_o[j])/2.;
@@ -1049,7 +1049,7 @@ void pl_corrections_all(Int_t runno,  TString DB_Lname /* LHRS DB name where cor
     
     
     
-      if( (LTime) > 0 ){
+    if( (LTime) > 0 ){
 
 	L_hits[LHRS_pad] += 1;
 	
@@ -1075,124 +1075,124 @@ void pl_corrections_all(Int_t runno,  TString DB_Lname /* LHRS DB name where cor
 	  Double_t R_TW_p = R_TW_l + R_TW_r;
 
 
-	  if( abs(L_TW_b) < TW_lim && abs(R_TW_b) < TW_lim){
+	  //  if( abs(L_TW_b) < TW_lim && abs(R_TW_b) < TW_lim){
 
 
-	    L_tw_1p_corr = L_s2_Tw_1P_slope[LHRS_pad]*(L_TW_b +  L_s2_Tw_1P_off[LHRS_pad]);
-	    LTime_tw_1p = LTime - L_tw_1p_corr;
+	  L_tw_1p_corr = L_s2_Tw_1P_slope[LHRS_pad]*(L_TW_b +  L_s2_Tw_1P_off[LHRS_pad]);
+	  LTime_tw_1p = LTime - L_tw_1p_corr;
+	  
+	  R_tw_1p_corr = R_s2_Tw_1P_slope[RHRS_pad]*(R_TW_b +  R_s2_Tw_1P_off[RHRS_pad]);
+	  RTime_tw_1p = RTime - 0.5*R_tw_1p_corr;
+	  
+	  Double_t Coinc_time = LTime-RTime;
+	  
+	  Double_t Coinc_timeCorr = (LTime-L_x_coeff*L_r_x-L_ph_coeff*L_r_ph-L_th_coeff*L_r_th)-(RTime-R_x_coeff*R_r_x-R_ph_coeff*R_r_ph-R_th_coeff*R_r_th);
+	  
+	  
+	  h1->Fill(LTime-RTime);
+	  h_coinc_s2_pad->Fill(LPad,LTime-RTime);
+	  h_coinc_s2_x->Fill(L_r_x,LTime-RTime);	  
+	  h_coinc_s2_th->Fill(L_r_th,LTime-RTime);
+	  h_coinc_s2_ph->Fill(L_r_ph,LTime-RTime);	  
+	  h_coinc_s2_dp->Fill(L_tg_dp,LTime-RTime);
+	  h_coinc_s2_TW->Fill(L_TW_b,Coinc_timeCorr);
+	  h_coinc_s2_TW_p->Fill(L_TW_p,Coinc_timeCorr);
+	  h_coinc_s2_TW_L->Fill(L_TW_l,Coinc_timeCorr);
+	  h_coinc_s2_TW_R->Fill(L_TW_r,Coinc_timeCorr);
+	  h_coinc_TW_vs->Fill(L_TW_p,L_TW_b);
+	  hprof_coinc_s2_pad->Fill(LPad,LTime-RTime);
+	  hprof_coinc_s2_x->Fill(L_r_x,LTime-RTime);
+	  hprof_coinc_s2_th->Fill(L_r_th,LTime-RTime);
+	  hprof_coinc_s2_ph->Fill(L_r_ph,LTime-RTime);
+	  hprof_coinc_s2_dp->Fill(L_tg_dp,LTime-RTime);
+	  hprof_coinc_s2_TW->Fill(L_TW_b,Coinc_timeCorr);
+	  hprof_coinc_s2_TW_p->Fill(L_TW_p,Coinc_timeCorr);
+	  hprof_coinc_s2_TW_L->Fill(L_TW_l,Coinc_timeCorr);
+	  hprof_coinc_s2_TW_R->Fill(L_TW_r,Coinc_timeCorr);
+	  hprof_coinc_TW_vs->Fill(L_TW_p,L_TW_b);
+
 	    
-	    R_tw_1p_corr = R_s2_Tw_1P_slope[RHRS_pad]*(R_TW_b +  R_s2_Tw_1P_off[RHRS_pad]);
-	    RTime_tw_1p = RTime - 0.5*R_tw_1p_corr;
-	  
-	    Double_t Coinc_time = LTime-RTime;
-
-	    Double_t Coinc_timeCorr = (LTime-L_x_coeff*L_r_x-L_ph_coeff*L_r_ph-L_th_coeff*L_r_th)-(RTime-R_x_coeff*R_r_x-R_ph_coeff*R_r_ph-R_th_coeff*R_r_th);
-	  
-	  
-	    h1->Fill(LTime-RTime);
-	    h_coinc_s2_pad->Fill(LPad,LTime-RTime);
-	    h_coinc_s2_x->Fill(L_r_x,LTime-RTime);	  
-	    h_coinc_s2_th->Fill(L_r_th,LTime-RTime);
-	    h_coinc_s2_ph->Fill(L_r_ph,LTime-RTime);	  
-	    h_coinc_s2_dp->Fill(L_tg_dp,LTime-RTime);
-	    h_coinc_s2_TW->Fill(L_TW_b,Coinc_timeCorr);
-	    h_coinc_s2_TW_p->Fill(L_TW_p,Coinc_timeCorr);
-	    h_coinc_s2_TW_L->Fill(L_TW_l,Coinc_timeCorr);
-	    h_coinc_s2_TW_R->Fill(L_TW_r,Coinc_timeCorr);
-	    h_coinc_TW_vs->Fill(L_TW_p,L_TW_b);
-	    hprof_coinc_s2_pad->Fill(LPad,LTime-RTime);
-	    hprof_coinc_s2_x->Fill(L_r_x,LTime-RTime);
-	    hprof_coinc_s2_th->Fill(L_r_th,LTime-RTime);
-	    hprof_coinc_s2_ph->Fill(L_r_ph,LTime-RTime);
-	    hprof_coinc_s2_dp->Fill(L_tg_dp,LTime-RTime);
-	    hprof_coinc_s2_TW->Fill(L_TW_b,Coinc_timeCorr);
-	    hprof_coinc_s2_TW_p->Fill(L_TW_p,Coinc_timeCorr);
-	    hprof_coinc_s2_TW_L->Fill(L_TW_l,Coinc_timeCorr);
-	    hprof_coinc_s2_TW_R->Fill(L_TW_r,Coinc_timeCorr);
-	    hprof_coinc_TW_vs->Fill(L_TW_p,L_TW_b);
-
-	    
-	    h_coincCorr_s2_pad->Fill(LPad,(LTime-L_x_coeff*L_r_x-L_ph_coeff*L_r_ph-L_th_coeff*L_r_th)-(RTime-R_x_coeff*R_r_x-R_ph_coeff*R_r_ph-R_th_coeff*R_r_th));
-	    h_coincCorr_s2_pad->Fill(LPad,(LTime-L_x_coeff*L_r_x-L_ph_coeff*L_r_ph-L_th_coeff*L_r_th)-(RTime-R_x_coeff*R_r_x-R_ph_coeff*R_r_ph-R_th_coeff*R_r_th));
-	    h_coincCorr_s2_x->Fill(L_r_x,(LTime-L_x_coeff*L_r_x-L_ph_coeff*L_r_ph-L_th_coeff*L_r_th)-(RTime-R_x_coeff*R_r_x-R_ph_coeff*R_r_ph-R_th_coeff*R_r_th));	  
-	    h_coincCorr_s2_th->Fill(L_r_th,(LTime-L_x_coeff*L_r_x-L_ph_coeff*L_r_ph-L_th_coeff*L_r_th)-(RTime-R_x_coeff*R_r_x-R_ph_coeff*R_r_ph-R_th_coeff*R_r_th));
-	    h_coincCorr_s2_ph->Fill(L_r_ph,(LTime-L_x_coeff*L_r_x-L_ph_coeff*L_r_ph-L_th_coeff*L_r_th)-(RTime-R_x_coeff*R_r_x-R_ph_coeff*R_r_ph-R_th_coeff*R_r_th));	  
-	    h_coincCorr_s2_dp->Fill(L_tg_dp,(LTime-L_x_coeff*L_r_x-L_ph_coeff*L_r_ph-L_th_coeff*L_r_th)-(RTime-R_x_coeff*R_r_x-R_ph_coeff*R_r_ph-R_th_coeff*R_r_th));
-	    hprof_coincCorr_s2_pad->Fill(LPad,(LTime-L_x_coeff*L_r_x-L_ph_coeff*L_r_ph-L_th_coeff*L_r_th)-(RTime-R_x_coeff*R_r_x-R_ph_coeff*R_r_ph-R_th_coeff*R_r_th));
-	    hprof_coincCorr_s2_x->Fill(L_r_x,(LTime-L_x_coeff*L_r_x-L_ph_coeff*L_r_ph-L_th_coeff*L_r_th)-(RTime-R_x_coeff*R_r_x-R_ph_coeff*R_r_ph-R_th_coeff*R_r_th));
-	    hprof_coincCorr_s2_th->Fill(L_r_th,(LTime-L_x_coeff*L_r_x-L_ph_coeff*L_r_ph-L_th_coeff*L_r_th)-(RTime-R_x_coeff*R_r_x-R_ph_coeff*R_r_ph-R_th_coeff*R_r_th));
-	    hprof_coincCorr_s2_ph->Fill(L_r_ph,(LTime-L_x_coeff*L_r_x-L_ph_coeff*L_r_ph-L_th_coeff*L_r_th)-(RTime-R_x_coeff*R_r_x-R_ph_coeff*R_r_ph-R_th_coeff*R_r_th));
-	    hprof_coincCorr_s2_dp->Fill(L_tg_dp,(LTime-L_x_coeff*L_r_x-L_ph_coeff*L_r_ph-L_th_coeff*L_r_th)-(RTime-R_x_coeff*R_r_x-R_ph_coeff*R_r_ph-R_th_coeff*R_r_th));
+	  h_coincCorr_s2_pad->Fill(LPad,(LTime-L_x_coeff*L_r_x-L_ph_coeff*L_r_ph-L_th_coeff*L_r_th)-(RTime-R_x_coeff*R_r_x-R_ph_coeff*R_r_ph-R_th_coeff*R_r_th));
+	  h_coincCorr_s2_pad->Fill(LPad,(LTime-L_x_coeff*L_r_x-L_ph_coeff*L_r_ph-L_th_coeff*L_r_th)-(RTime-R_x_coeff*R_r_x-R_ph_coeff*R_r_ph-R_th_coeff*R_r_th));
+	  h_coincCorr_s2_x->Fill(L_r_x,(LTime-L_x_coeff*L_r_x-L_ph_coeff*L_r_ph-L_th_coeff*L_r_th)-(RTime-R_x_coeff*R_r_x-R_ph_coeff*R_r_ph-R_th_coeff*R_r_th));	  
+	  h_coincCorr_s2_th->Fill(L_r_th,(LTime-L_x_coeff*L_r_x-L_ph_coeff*L_r_ph-L_th_coeff*L_r_th)-(RTime-R_x_coeff*R_r_x-R_ph_coeff*R_r_ph-R_th_coeff*R_r_th));
+	  h_coincCorr_s2_ph->Fill(L_r_ph,(LTime-L_x_coeff*L_r_x-L_ph_coeff*L_r_ph-L_th_coeff*L_r_th)-(RTime-R_x_coeff*R_r_x-R_ph_coeff*R_r_ph-R_th_coeff*R_r_th));	  
+	  h_coincCorr_s2_dp->Fill(L_tg_dp,(LTime-L_x_coeff*L_r_x-L_ph_coeff*L_r_ph-L_th_coeff*L_r_th)-(RTime-R_x_coeff*R_r_x-R_ph_coeff*R_r_ph-R_th_coeff*R_r_th));
+	  hprof_coincCorr_s2_pad->Fill(LPad,(LTime-L_x_coeff*L_r_x-L_ph_coeff*L_r_ph-L_th_coeff*L_r_th)-(RTime-R_x_coeff*R_r_x-R_ph_coeff*R_r_ph-R_th_coeff*R_r_th));
+	  hprof_coincCorr_s2_x->Fill(L_r_x,(LTime-L_x_coeff*L_r_x-L_ph_coeff*L_r_ph-L_th_coeff*L_r_th)-(RTime-R_x_coeff*R_r_x-R_ph_coeff*R_r_ph-R_th_coeff*R_r_th));
+	  hprof_coincCorr_s2_th->Fill(L_r_th,(LTime-L_x_coeff*L_r_x-L_ph_coeff*L_r_ph-L_th_coeff*L_r_th)-(RTime-R_x_coeff*R_r_x-R_ph_coeff*R_r_ph-R_th_coeff*R_r_th));
+	  hprof_coincCorr_s2_ph->Fill(L_r_ph,(LTime-L_x_coeff*L_r_x-L_ph_coeff*L_r_ph-L_th_coeff*L_r_th)-(RTime-R_x_coeff*R_r_x-R_ph_coeff*R_r_ph-R_th_coeff*R_r_th));
+	  hprof_coincCorr_s2_dp->Fill(L_tg_dp,(LTime-L_x_coeff*L_r_x-L_ph_coeff*L_r_ph-L_th_coeff*L_r_th)-(RTime-R_x_coeff*R_r_x-R_ph_coeff*R_r_ph-R_th_coeff*R_r_th));
 
 
 
-	    h_L_th->Fill(L_r_th);
-	    h_L_ph->Fill(L_r_ph);
-	    h_L_x->Fill(L_r_x);
-	    h_L_dp->Fill(L_tg_dp);
-	    h_L_TW->Fill(L_TW_b);
-	    h_L_TW_p->Fill(L_TW_p);
-	    h_L_TW_l->Fill(L_TW_l);
-	    h_L_TW_r->Fill(L_TW_r);
+	  h_L_th->Fill(L_r_th);
+	  h_L_ph->Fill(L_r_ph);
+	  h_L_x->Fill(L_r_x);
+	  h_L_dp->Fill(L_tg_dp);
+	  h_L_TW->Fill(L_TW_b);
+	  h_L_TW_p->Fill(L_TW_p);
+	  h_L_TW_l->Fill(L_TW_l);
+	  h_L_TW_r->Fill(L_TW_r);
 
-	    h_TW_both->Fill(L_TW_b-R_TW_b);
-	    h_TW_p_both->Fill(L_TW_p-R_TW_p);
+	  h_TW_both->Fill(L_TW_b-R_TW_b);
+	  h_TW_p_both->Fill(L_TW_p-R_TW_p);
 
-	    h_coinc_s2_TW_both->Fill(L_TW_b-R_TW_b,Coinc_timeCorr);
-	    h_coinc_s2_TW_p_both->Fill(L_TW_p-R_TW_p,Coinc_timeCorr);
+	  h_coinc_s2_TW_both->Fill(L_TW_b-R_TW_b,Coinc_timeCorr);
+	  h_coinc_s2_TW_p_both->Fill(L_TW_p-R_TW_p,Coinc_timeCorr);
 
-	    hprof_coinc_s2_TW_both->Fill(L_TW_b-R_TW_b,Coinc_timeCorr);
-	    hprof_coinc_s2_TW_p_both->Fill(L_TW_p-R_TW_p,Coinc_timeCorr);
+	  hprof_coinc_s2_TW_both->Fill(L_TW_b-R_TW_b,Coinc_timeCorr);
+	  hprof_coinc_s2_TW_p_both->Fill(L_TW_p-R_TW_p,Coinc_timeCorr);
 
-	    h_R_th->Fill(R_r_th);
-	    h_R_ph->Fill(R_r_ph);
-	    h_R_x->Fill(R_r_x);
-	    h_R_dp->Fill(R_tg_dp);
-	    h_R_TW->Fill(R_TW_b);
-	    h_R_TW_p->Fill(R_TW_p);
-	    h_R_TW_l->Fill(R_TW_l);
-	    h_R_TW_r->Fill(R_TW_r);
+	  h_R_th->Fill(R_r_th);
+	  h_R_ph->Fill(R_r_ph);
+	  h_R_x->Fill(R_r_x);
+	  h_R_dp->Fill(R_tg_dp);
+	  h_R_TW->Fill(R_TW_b);
+	  h_R_TW_p->Fill(R_TW_p);
+	  h_R_TW_l->Fill(R_TW_l);
+	  h_R_TW_r->Fill(R_TW_r);
 
 	  
 	  
-	    h_coincR_s2_pad->Fill(RPad,LTime-RTime);
-	    h_coincR_s2_x->Fill(R_r_x,LTime-RTime);	  
-	    h_coincR_s2_th->Fill(R_r_th,LTime-RTime);
-	    h_coincR_s2_ph->Fill(R_r_ph,LTime-RTime);	  
-	    h_coincR_s2_dp->Fill(R_tg_dp,LTime-RTime);
-	    h_coincR_s2_TW->Fill(R_TW_b,Coinc_timeCorr);
-	    h_coincR_s2_TW_p->Fill(R_TW_p,Coinc_timeCorr);
-	    h_coincR_s2_TW_L->Fill(R_TW_l,Coinc_timeCorr);
-	    h_coincR_s2_TW_R->Fill(R_TW_r,Coinc_timeCorr);
-	    h_coincR_TW_vs->Fill(R_TW_p,R_TW_b);
-	    hprof_coincR_s2_pad->Fill(RPad,LTime-RTime);
-	    hprof_coincR_s2_x->Fill(R_r_x,LTime-RTime);
-	    hprof_coincR_s2_th->Fill(R_r_th,LTime-RTime);
-	    hprof_coincR_s2_ph->Fill(R_r_ph,LTime-RTime);
-	    hprof_coincR_s2_dp->Fill(R_tg_dp,LTime-RTime);
-	    hprof_coincR_s2_TW->Fill(R_TW_b,Coinc_timeCorr);
-	    hprof_coincR_s2_TW_p->Fill(R_TW_p,Coinc_timeCorr);
-	    hprof_coincR_s2_TW_L->Fill(R_TW_l,Coinc_timeCorr);
-	    hprof_coincR_s2_TW_R->Fill(R_TW_r,Coinc_timeCorr);
-	    hprof_coincR_TW_vs->Fill(R_TW_p,R_TW_b);
+	  h_coincR_s2_pad->Fill(RPad,LTime-RTime);
+	  h_coincR_s2_x->Fill(R_r_x,LTime-RTime);	  
+	  h_coincR_s2_th->Fill(R_r_th,LTime-RTime);
+	  h_coincR_s2_ph->Fill(R_r_ph,LTime-RTime);	  
+	  h_coincR_s2_dp->Fill(R_tg_dp,LTime-RTime);
+	  h_coincR_s2_TW->Fill(R_TW_b,Coinc_timeCorr);
+	  h_coincR_s2_TW_p->Fill(R_TW_p,Coinc_timeCorr);
+	  h_coincR_s2_TW_L->Fill(R_TW_l,Coinc_timeCorr);
+	  h_coincR_s2_TW_R->Fill(R_TW_r,Coinc_timeCorr);
+	  h_coincR_TW_vs->Fill(R_TW_p,R_TW_b);
+	  hprof_coincR_s2_pad->Fill(RPad,LTime-RTime);
+	  hprof_coincR_s2_x->Fill(R_r_x,LTime-RTime);
+	  hprof_coincR_s2_th->Fill(R_r_th,LTime-RTime);
+	  hprof_coincR_s2_ph->Fill(R_r_ph,LTime-RTime);
+	  hprof_coincR_s2_dp->Fill(R_tg_dp,LTime-RTime);
+	  hprof_coincR_s2_TW->Fill(R_TW_b,Coinc_timeCorr);
+	  hprof_coincR_s2_TW_p->Fill(R_TW_p,Coinc_timeCorr);
+	  hprof_coincR_s2_TW_L->Fill(R_TW_l,Coinc_timeCorr);
+	  hprof_coincR_s2_TW_R->Fill(R_TW_r,Coinc_timeCorr);
+	  hprof_coincR_TW_vs->Fill(R_TW_p,R_TW_b);
 	  
-	    h_coincCorrR_s2_pad->Fill(RPad,(LTime-L_x_coeff*L_r_x-L_ph_coeff*L_r_ph-L_th_coeff*L_r_th)-(RTime-R_x_coeff*R_r_x-R_ph_coeff*R_r_ph-R_th_coeff*R_r_th));
-	    h_coincCorrR_s2_x->Fill(R_r_x,(LTime-L_x_coeff*L_r_x-L_ph_coeff*L_r_ph-L_th_coeff*L_r_th)-(RTime-R_x_coeff*R_r_x-R_ph_coeff*R_r_ph-R_th_coeff*R_r_th));	  
-	    h_coincCorrR_s2_th->Fill(R_r_th,(LTime-L_x_coeff*L_r_x-L_ph_coeff*L_r_ph-L_th_coeff*L_r_th)-(RTime-R_x_coeff*R_r_x-R_ph_coeff*R_r_ph-R_th_coeff*R_r_th));
-	    h_coincCorrR_s2_ph->Fill(R_r_ph,(LTime-L_x_coeff*L_r_x-L_ph_coeff*L_r_ph-L_th_coeff*L_r_th)-(RTime-R_x_coeff*R_r_x-R_ph_coeff*R_r_ph-R_th_coeff*R_r_th));	  
-	    h_coincCorrR_s2_dp->Fill(R_tg_dp,(LTime-L_x_coeff*L_r_x-L_ph_coeff*L_r_ph-L_th_coeff*L_r_th)-(RTime-R_x_coeff*R_r_x-R_ph_coeff*R_r_ph-R_th_coeff*R_r_th));
-	    hprof_coincCorrR_s2_pad->Fill(RPad,(LTime-L_x_coeff*L_r_x-L_ph_coeff*L_r_ph-L_th_coeff*L_r_th)-(RTime-R_x_coeff*R_r_x-R_ph_coeff*R_r_ph-R_th_coeff*R_r_th));
-	    hprof_coincCorrR_s2_x->Fill(R_r_x,(LTime-L_x_coeff*L_r_x-L_ph_coeff*L_r_ph-L_th_coeff*L_r_th)-(RTime-R_x_coeff*R_r_x-R_ph_coeff*R_r_ph-R_th_coeff*R_r_th));
-	    hprof_coincCorrR_s2_th->Fill(R_r_th,(LTime-L_x_coeff*L_r_x-L_ph_coeff*L_r_ph-L_th_coeff*L_r_th)-(RTime-R_x_coeff*R_r_x-R_ph_coeff*R_r_ph-R_th_coeff*R_r_th));
-	    hprof_coincCorrR_s2_ph->Fill(R_r_ph,(LTime-L_x_coeff*L_r_x-L_ph_coeff*L_r_ph-L_th_coeff*L_r_th)-(RTime-R_x_coeff*R_r_x-R_ph_coeff*R_r_ph-R_th_coeff*R_r_th));
-	    hprof_coincCorrR_s2_dp->Fill(R_tg_dp,(LTime-L_x_coeff*L_r_x-L_ph_coeff*L_r_ph-L_th_coeff*L_r_th)-(RTime-R_x_coeff*R_r_x-R_ph_coeff*R_r_ph-R_th_coeff*R_r_th));
+	  h_coincCorrR_s2_pad->Fill(RPad,(LTime-L_x_coeff*L_r_x-L_ph_coeff*L_r_ph-L_th_coeff*L_r_th)-(RTime-R_x_coeff*R_r_x-R_ph_coeff*R_r_ph-R_th_coeff*R_r_th));
+	  h_coincCorrR_s2_x->Fill(R_r_x,(LTime-L_x_coeff*L_r_x-L_ph_coeff*L_r_ph-L_th_coeff*L_r_th)-(RTime-R_x_coeff*R_r_x-R_ph_coeff*R_r_ph-R_th_coeff*R_r_th));	  
+	  h_coincCorrR_s2_th->Fill(R_r_th,(LTime-L_x_coeff*L_r_x-L_ph_coeff*L_r_ph-L_th_coeff*L_r_th)-(RTime-R_x_coeff*R_r_x-R_ph_coeff*R_r_ph-R_th_coeff*R_r_th));
+	  h_coincCorrR_s2_ph->Fill(R_r_ph,(LTime-L_x_coeff*L_r_x-L_ph_coeff*L_r_ph-L_th_coeff*L_r_th)-(RTime-R_x_coeff*R_r_x-R_ph_coeff*R_r_ph-R_th_coeff*R_r_th));	  
+	  h_coincCorrR_s2_dp->Fill(R_tg_dp,(LTime-L_x_coeff*L_r_x-L_ph_coeff*L_r_ph-L_th_coeff*L_r_th)-(RTime-R_x_coeff*R_r_x-R_ph_coeff*R_r_ph-R_th_coeff*R_r_th));
+	  hprof_coincCorrR_s2_pad->Fill(RPad,(LTime-L_x_coeff*L_r_x-L_ph_coeff*L_r_ph-L_th_coeff*L_r_th)-(RTime-R_x_coeff*R_r_x-R_ph_coeff*R_r_ph-R_th_coeff*R_r_th));
+	  hprof_coincCorrR_s2_x->Fill(R_r_x,(LTime-L_x_coeff*L_r_x-L_ph_coeff*L_r_ph-L_th_coeff*L_r_th)-(RTime-R_x_coeff*R_r_x-R_ph_coeff*R_r_ph-R_th_coeff*R_r_th));
+	  hprof_coincCorrR_s2_th->Fill(R_r_th,(LTime-L_x_coeff*L_r_x-L_ph_coeff*L_r_ph-L_th_coeff*L_r_th)-(RTime-R_x_coeff*R_r_x-R_ph_coeff*R_r_ph-R_th_coeff*R_r_th));
+	  hprof_coincCorrR_s2_ph->Fill(R_r_ph,(LTime-L_x_coeff*L_r_x-L_ph_coeff*L_r_ph-L_th_coeff*L_r_th)-(RTime-R_x_coeff*R_r_x-R_ph_coeff*R_r_ph-R_th_coeff*R_r_th));
+	  hprof_coincCorrR_s2_dp->Fill(R_tg_dp,(LTime-L_x_coeff*L_r_x-L_ph_coeff*L_r_ph-L_th_coeff*L_r_th)-(RTime-R_x_coeff*R_r_x-R_ph_coeff*R_r_ph-R_th_coeff*R_r_th));
 
-	    R_hits[RHRS_pad] += 1;
-	  }
+	  R_hits[RHRS_pad] += 1;
 	}
-       
+    
+	
 	h_L_s2_t->Fill(LTime);
-
+	
 
 	
 	h_L_s2_pad->Fill(LPad*1.0,LTime);
@@ -1235,7 +1235,7 @@ void pl_corrections_all(Int_t runno,  TString DB_Lname /* LHRS DB name where cor
 	hprof_R_s2_un_th->Fill(R_r_th,RTime_un);
 	hprof_R_s2_un_dp->Fill(R_tg_dp,RTime_un);
 
-
+	
 	
       }
       
@@ -1418,7 +1418,7 @@ void pl_corrections_all(Int_t runno,  TString DB_Lname /* LHRS DB name where cor
   
   TCanvas* c4 = new TCanvas("c4","Coinc time vs L pl variables");
 
-  c4->Divide(6,2);
+  c4->Divide(6,3);
 
   c4->cd(1);
   h_coinc_s2_th->Draw("colz");
@@ -1442,8 +1442,8 @@ void pl_corrections_all(Int_t runno,  TString DB_Lname /* LHRS DB name where cor
   c4->cd(7);
   hprof_coinc_s2_th->Draw();
   
-  TF1* f_L_th = new TF1("f_L_th","pol1",-0.02,0.014);
-  hprof_coinc_s2_th->Fit("f_L_th","QR","",-0.02,0.014);
+  TF1* f_L_th = new TF1("f_L_th","pol1",-0.01,0.014);
+  hprof_coinc_s2_th->Fit("f_L_th","QR","",-0.01,0.014);
   Double_t L_th_slope = f_L_th->GetParameter(1);
   
   c4->cd(8);
@@ -1455,6 +1455,7 @@ void pl_corrections_all(Int_t runno,  TString DB_Lname /* LHRS DB name where cor
 
   c4->cd(9);
   hprof_coinc_s2_x->Draw();
+  hprof_coinc_s2_x->GetYaxis()->SetRangeUser(coinc_start_corr,coinc_end_corr);
 
   TF1* f_L_x = new TF1("f_L_x","pol1",-0.5,0.5);
   hprof_coinc_s2_x->Fit("f_L_x","QR","",-0.5,0.5);
@@ -1470,12 +1471,72 @@ void pl_corrections_all(Int_t runno,  TString DB_Lname /* LHRS DB name where cor
   c4->cd(12);
   hprof_coinc_s2_TW->Draw();
 
+  c4->cd(13);
+  h_coinc_s2_th->FitSlicesY(0,0,-1,10,"QNR");
+
+  TH1D* h_coinc_s2_th_mean = (TH1D*)gDirectory->Get("h_coinc_s2_th_1");
+  h_coinc_s2_th_mean->GetYaxis()->SetRangeUser(coinc_start_corr,coinc_end_corr);
+  h_coinc_s2_th_mean->Draw();
+
+  TF1* f_L_th_sl = new TF1("f_L_th_sl","pol1",-0.01,0.014);
+  h_coinc_s2_th_mean->Fit("f_L_th_sl","QR","",-0.01,0.014);
+  Double_t L_th_slope_sl = f_L_th_sl->GetParameter(1);
 
 
+  c4->cd(14);
+  h_coinc_s2_ph->FitSlicesY(0,0,-1,10,"QN");
+
+  TH1D* h_coinc_s2_ph_mean = (TH1D*)gDirectory->Get("h_coinc_s2_ph_1");
+  h_coinc_s2_ph_mean->GetYaxis()->SetRangeUser(coinc_start_corr,coinc_end_corr);
+  h_coinc_s2_ph_mean->Draw();
+  
+  TF1* f_L_ph_sl = new TF1("f_L_ph_sl","pol1",-0.02,0.02);
+  h_coinc_s2_ph_mean->Fit("f_L_ph_sl","QR","",-0.02,0.02);
+  Double_t L_ph_slope_sl = f_L_ph_sl->GetParameter(1);
+
+  
+  c4->cd(15);
+  h_coinc_s2_x->FitSlicesY(0,0,-1,10,"QN");
+
+  TH1D* h_coinc_s2_x_mean = (TH1D*)gDirectory->Get("h_coinc_s2_x_1");
+  h_coinc_s2_x_mean->GetYaxis()->SetRangeUser(coinc_start_corr,coinc_end_corr);
+  h_coinc_s2_x_mean->Draw();
+
+  TF1* f_L_x_sl = new TF1("f_L_x_sl","pol1",-0.5,0.5);
+  h_coinc_s2_x_mean->Fit("f_L_x_sl","QR","",-0.5,0.5);
+  Double_t L_x_slope_sl = f_L_x_sl->GetParameter(1);
+
+    
+  c4->cd(16);
+  h_coinc_s2_dp->FitSlicesY(0,0,-1,10,"QN");
+
+  TH1D* h_coinc_s2_dp_mean = (TH1D*)gDirectory->Get("h_coinc_s2_dp_1");
+  h_coinc_s2_dp_mean->GetYaxis()->SetRangeUser(coinc_start_corr,coinc_end_corr);
+  h_coinc_s2_dp_mean->Draw();
+
+  c4->cd(17);
+  h_coinc_s2_pad->FitSlicesY(0,0,-1,10,"QN");
+
+  TH1D* h_coinc_s2_pad_mean = (TH1D*)gDirectory->Get("h_coinc_s2_pad_1");
+  h_coinc_s2_pad_mean->GetYaxis()->SetRangeUser(coinc_start_corr,coinc_end_corr);
+  h_coinc_s2_pad_mean->Draw();
+
+  c4->cd(18);
+  h_coinc_s2_TW->FitSlicesY(0,0,-1,10,"QN");
+
+  TH1D* h_coinc_s2_TW_mean = (TH1D*)gDirectory->Get("h_coinc_s2_TW_1");
+  h_coinc_s2_TW_mean->GetYaxis()->SetRangeUser(coinc_start_corr,coinc_end_corr);
+  h_coinc_s2_TW_mean->Draw();
+
+
+
+  
+
+  
 
   TCanvas* c5 = new TCanvas("c5","Coinc time vs R pl variables");
 
-  c5->Divide(6,2);
+  c5->Divide(6,3);
   c5->cd(1);
   h_coincR_s2_th->Draw("colz");
   
@@ -1523,6 +1584,64 @@ void pl_corrections_all(Int_t runno,  TString DB_Lname /* LHRS DB name where cor
 
   c5->cd(12);
   hprof_coincR_s2_TW->Draw();
+
+  c5->cd(13);
+  h_coincR_s2_th->FitSlicesY(0,0,-1,10,"QN");
+
+  TH1D* h_coincR_s2_th_mean = (TH1D*)gDirectory->Get("h_coincR_s2_th_1");
+  h_coincR_s2_th_mean->GetYaxis()->SetRangeUser(coinc_start_corr,coinc_end_corr);
+  h_coincR_s2_th_mean->Draw();
+
+  TF1* f_R_th_sl = new TF1("f_R_th_sl","pol1",-0.017,0.017);
+  h_coincR_s2_th_mean->Fit("f_R_th_sl","QR","",-0.017,0.017);
+  Double_t R_th_slope_sl = f_R_th_sl->GetParameter(1);
+
+
+  c5->cd(14);
+  h_coincR_s2_ph->FitSlicesY(0,0,-1,10,"QN");
+
+  TH1D* h_coincR_s2_ph_mean = (TH1D*)gDirectory->Get("h_coincR_s2_ph_1");
+  h_coincR_s2_ph_mean->GetYaxis()->SetRangeUser(coinc_start_corr,coinc_end_corr);
+  h_coincR_s2_ph_mean->Draw();
+
+  TF1* f_R_ph_sl = new TF1("f_R_ph_sl","pol1",-0.017,0.02);
+  h_coincR_s2_ph_mean->Fit("f_R_ph_sl","QR","",-0.017,0.02);
+  Double_t R_ph_slope_sl = f_R_ph_sl->GetParameter(1);
+
+  
+  c5->cd(15);
+  h_coincR_s2_x->FitSlicesY(0,0,-1,10,"QN");
+
+  TH1D* h_coincR_s2_x_mean = (TH1D*)gDirectory->Get("h_coincR_s2_x_1");
+  h_coincR_s2_x_mean->GetYaxis()->SetRangeUser(coinc_start_corr,coinc_end_corr);
+  h_coincR_s2_x_mean->Draw();
+
+  TF1* f_R_x_sl = new TF1("f_R_x_sl","pol1",-0.45,0.4);
+  h_coincR_s2_x_mean->Fit("f_R_x_sl","QR","",-0.45,0.4);
+  Double_t R_x_slope_sl = f_R_x_sl->GetParameter(1);
+
+    
+  c5->cd(16);
+  h_coincR_s2_dp->FitSlicesY(0,0,-1,10,"QN");
+
+  TH1D* h_coincR_s2_dp_mean = (TH1D*)gDirectory->Get("h_coincR_s2_dp_1");
+  h_coincR_s2_dp_mean->GetYaxis()->SetRangeUser(coinc_start_corr,coinc_end_corr);
+  h_coincR_s2_dp_mean->Draw();
+
+  c5->cd(17);
+  h_coincR_s2_pad->FitSlicesY(0,0,-1,10,"QN");
+
+  TH1D* h_coincR_s2_pad_mean = (TH1D*)gDirectory->Get("h_coincR_s2_pad_1");
+  h_coincR_s2_pad_mean->GetYaxis()->SetRangeUser(coinc_start_corr,coinc_end_corr);
+  h_coincR_s2_pad_mean->Draw();
+
+  c5->cd(18);
+  h_coincR_s2_TW->FitSlicesY(0,0,-1,10,"QN");
+
+  TH1D* h_coincR_s2_TW_mean = (TH1D*)gDirectory->Get("h_coincR_s2_TW_1");
+  h_coincR_s2_TW_mean->GetYaxis()->SetRangeUser(coinc_start_corr,coinc_end_corr);
+  h_coincR_s2_TW_mean->Draw();
+
 
 
 
@@ -1669,23 +1788,22 @@ void pl_corrections_all(Int_t runno,  TString DB_Lname /* LHRS DB name where cor
   cout << endl << endl;
 
   cout << "Left pl parameters: " << endl;
-  cout << "th slope = " << L_th_slope << endl;
-  cout << "ph slope = " << L_ph_slope << endl;
-  cout << "x slope = " << L_x_slope << endl;
+  cout << "th slope = " << L_th_slope << ", th slope (sl) = " << L_th_slope_sl << endl;  
+  cout << "ph slope = " << L_ph_slope << ", ph slope (sl) = " << L_ph_slope_sl << endl;  
+  cout << "x slope = " << L_x_slope   << ", x slope (sl) = " << L_x_slope_sl << endl;  
 
 
   cout << endl << endl;
 
   cout << "Right pl parameters: " << endl;
-  cout << "th slope = " << R_th_slope << endl;
-  cout << "ph slope = " << R_ph_slope << endl;
-  cout << "x slope = " << R_x_slope << endl;
-
+  cout << "th slope = " << R_th_slope << ", th slope (sl) = " << R_th_slope_sl << endl;  
+  cout << "ph slope = " << R_ph_slope << ", ph slope (sl) = " << R_ph_slope_sl << endl;  
+  cout << "x slope = " << R_x_slope   << ", x slope (sl) = " << R_x_slope_sl << endl;  
 
   // save to DB file
 
   //  CsvParser csv_L_db(DB_Lname.Data());
-  /*
+  
   TString output_DB = DB_Lname.Remove(DB_Lname.Last('_'),9);
   output_DB.Remove(0,8);
   
@@ -1717,7 +1835,13 @@ void pl_corrections_all(Int_t runno,  TString DB_Lname /* LHRS DB name where cor
 
   oofile_csv.close();
 
-  */  
+
+  ofstream oofile_csv_sl(Form("pl_corr/DB/%s_Coinc_vs_%i_sl.csv",output_DB.Data(),runno));
+
+  oofile_csv_sl << "L th slope" << "," << " L ph slope" << "," << "L x slope" << "," << "R th slope" << "," << " R ph slope" << "," << "R x slope" << endl;
+  oofile_csv_sl << L_th_slope_sl << "," << L_ph_slope_sl << "," << L_x_slope_sl << "," << R_th_slope_sl << "," << R_ph_slope_sl << "," << R_x_slope_sl << endl;
+
+  oofile_csv_sl.close();
 
 
 

@@ -163,6 +163,29 @@ void Coinc_peak(Int_t runno, TString DB_Lname /* LHRS DB name where corrections 
 
   cout << "PL files read" << endl;
 
+  
+  // read in alternative PL correction 
+
+  TString pl_name_sl = Form("pl_corr/DB/%s_Coinc_vs_%i_sl.csv",output_DB.Data(),runno);
+  CsvParser pl_csv_sl(pl_name_sl.Data());
+
+  double L_th_slope_sl = stod((pl_csv_sl.GetColumn(0))[0]);
+  cout << "L_th_slope_sl = " << L_th_slope_sl << endl;
+  double L_ph_slope_sl = stod((pl_csv_sl.GetColumn(1))[0]);
+  cout << "L_ph_slope_sl = " << L_ph_slope_sl << endl;
+  double L_x_slope_sl = stod((pl_csv_sl.GetColumn(2))[0]);
+  cout << "L_x_slope_sl = " << L_x_slope_sl << endl;
+
+  double R_th_slope_sl = -1.*stod((pl_csv_sl.GetColumn(3))[0]);
+  cout << "R_th_slope_sl = " << R_th_slope_sl << endl;
+  double R_ph_slope_sl = -1.*stod((pl_csv_sl.GetColumn(4))[0]);
+  cout << "R_ph_slope_sl = " << R_ph_slope_sl << endl;
+  double R_x_slope_sl = -1.*stod((pl_csv_sl.GetColumn(5))[0]);
+  cout << "R_x_slope_sl = " << R_x_slope_sl << endl;
+
+  cout << "alt PL files read" << endl;
+
+  
 
   // read in TW correction
 
@@ -359,7 +382,7 @@ void Coinc_peak(Int_t runno, TString DB_Lname /* LHRS DB name where corrections 
   const Double_t fTdc2T = 0.5e-9;      // seconds/channel
 
 
-  // variabls used for cutting
+  // variables used for cutting
   Double_t L_tr_n,L_cer_asum_c,L_ps_e,L_sh_e;
   Double_t L_tr_p[100],L_s0_trx[100],L_s2_try[100];
 
@@ -512,7 +535,7 @@ void Coinc_peak(Int_t runno, TString DB_Lname /* LHRS DB name where corrections 
   
 
   Int_t nentries = T->GetEntries();
-  //  nentries = 10e4;
+  nentries = 5e4;
   //  Int_t nentries = 100;
 
   // coincidence histogram widths
@@ -531,6 +554,9 @@ void Coinc_peak(Int_t runno, TString DB_Lname /* LHRS DB name where corrections 
 
   // intitialise timing coincidence histogram with offset + pl corrections
   TH1F *h3 = new TH1F("h3"," S2-Time difference (offset + pl corrected)",coinc_bins,coinc_start,coinc_end);
+  
+  // intitialise timing coincidence histogram with offset + pl corrections
+  TH1F *h3_sl = new TH1F("h3_sl"," S2-Time difference (offset + pl (sl) corrected)",coinc_bins,coinc_start,coinc_end);
 
   // intitialise timing coincidence histogram with offset + TW (1P) corrections
   TH1F *h4 = new TH1F("h4"," S2-Time difference (offset, pl + TW (1P) corrected)",coinc_bins,coinc_start,coinc_end);
@@ -591,7 +617,20 @@ void Coinc_peak(Int_t runno, TString DB_Lname /* LHRS DB name where corrections 
   h_R_lvT_tw_3p->GetYaxis()->SetTitle("Coincidence time (s)");
  
   
+
+  // histogram to record size of overall pl correction(s)
+
+  Double_t pl_lim_up = 10; // upper lim of pl correction (s)
+  Double_t pl_lim_low = -10; // low lim of pl correction (s)
   
+  TH1F* h_pl_L = new TH1F("h_pl_L","pl correction (LHRS)",50,pl_lim_low,pl_lim_up);
+
+  TH1F* h_pl_R = new TH1F("h_pl_R","pl correction (RHRS)",50,pl_lim_low,pl_lim_up);
+
+  TH1F* h_pl_sl_L = new TH1F("h_pl_sl_L","pl_sl correction (LHRS)",50,pl_lim_low,pl_lim_up);
+
+  TH1F* h_pl_sl_R = new TH1F("h_pl_sl_R","pl_sl correction (RHRS)",50,pl_lim_low,pl_lim_up);
+
 
   
   Double_t LTime = 0.0;
@@ -604,6 +643,11 @@ void Coinc_peak(Int_t runno, TString DB_Lname /* LHRS DB name where corrections 
   Double_t RTime_pl = 0.0;
   Double_t L_pl_corr = 0.0;
   Double_t R_pl_corr = 0.0;
+
+  Double_t LTime_pl_sl = 0.0;
+  Double_t RTime_pl_sl = 0.0;
+  Double_t L_pl_sl_corr = 0.0;
+  Double_t R_pl_sl_corr = 0.0;
 
 
   Double_t L_tw_b = 0.0; // difference between left and right paddle ADCs TW effects
@@ -710,7 +754,10 @@ void Coinc_peak(Int_t runno, TString DB_Lname /* LHRS DB name where corrections 
 	  LTime_un = (fTdc2T*(L_s2_lt[j]+L_s2_rt[j]))/2.;
 
           L_pl_corr = L_th_slope * L_r_th[0] + L_ph_slope * L_r_ph[0] + L_x_slope * L_r_x[0];
-	  LTime_pl = (fTdc2T*(L_s2_lt[j]-L_ls2_coeff[j]+L_s2_rt[j]-L_rs2_coeff[j]))/2. - L_pl_corr;
+	  LTime_pl = (fTdc2T*(L_s2_lt[j]-L_ls2_coeff[j]+L_s2_rt[j]-L_rs2_coeff[j] - 2*L_pl_corr  ))/2.;
+
+	  L_pl_sl_corr = L_th_slope_sl * L_r_th[0] + L_ph_slope_sl * L_r_ph[0] + L_x_slope_sl * L_r_x[0];
+	  LTime_pl_sl = (fTdc2T*(L_s2_lt[j]-L_ls2_coeff[j] + L_s2_rt[j]-L_rs2_coeff[j] - 2*L_pl_sl_corr))/2.;
 
 
           if(j==4 || j==5 || L_s2_la_c[j]<100 || L_s2_ra_c[j]<100){
@@ -725,7 +772,7 @@ void Coinc_peak(Int_t runno, TString DB_Lname /* LHRS DB name where corrections 
 	  L_tw_1p_corr = 0.0;
 
 	  
-          LTime_tw_1p = (fTdc2T*(L_s2_lt[j]-L_ls2_coeff[j]+L_s2_rt[j]-L_rs2_coeff[j] - L_tw_1p_corr ))/2. - L_pl_corr;
+          LTime_tw_1p = (fTdc2T*(L_s2_lt[j]-L_ls2_coeff[j]+L_s2_rt[j]-L_rs2_coeff[j] - L_tw_1p_corr - 2*L_pl_sl_corr ))/2.;
 
 
 	  LHRS_pad = j+1;
@@ -746,7 +793,11 @@ void Coinc_peak(Int_t runno, TString DB_Lname /* LHRS DB name where corrections 
 	  RTime = fTdc2T*(R_s2_lt[j]-R_ls2_coeff[j] + R_s2_rt[j]-R_rs2_coeff[j])/2.;
 	  RTime_un = (fTdc2T*(R_s2_lt[j]+R_s2_rt[j]))/2.;
 	  R_pl_corr = R_th_slope * R_r_th[0] + R_ph_slope * R_r_ph[0] + R_x_slope * R_r_x[0];
-	  RTime_pl = (fTdc2T*(R_s2_lt[j]-R_ls2_coeff[j] + R_s2_rt[j]-R_rs2_coeff[j]))/2. - R_pl_corr;
+	  RTime_pl = (fTdc2T*(R_s2_lt[j]-R_ls2_coeff[j] + R_s2_rt[j]-R_rs2_coeff[j] - 2*R_pl_corr))/2.;
+
+	  R_pl_sl_corr = R_th_slope_sl * R_r_th[0] + R_ph_slope_sl * R_r_ph[0] + R_x_slope_sl * R_r_x[0];
+	  RTime_pl_sl = (fTdc2T*(R_s2_lt[j]-R_ls2_coeff[j] + R_s2_rt[j]-R_rs2_coeff[j] - 2*R_pl_sl_corr))/2.;
+
 
 	  if(R_s2_la_c[j]<100 || R_s2_ra_c[j]<100 || !T5Pass || !T2Pass){
 	    R_tw_b = 0.0;
@@ -764,15 +815,18 @@ void Coinc_peak(Int_t runno, TString DB_Lname /* LHRS DB name where corrections 
 	  
 	  
 	  
-          RTime_tw_1p = (fTdc2T*(R_s2_lt[j]-R_ls2_coeff[j] - R_tw_1p_corr +R_s2_rt[j]-R_rs2_coeff[j]))/2. - R_pl_corr;
+          RTime_tw_1p = (fTdc2T*(R_s2_lt[j]-R_ls2_coeff[j] - R_tw_1p_corr +R_s2_rt[j]-R_rs2_coeff[j] - 2*R_pl_corr))/2.;
 
 
 
 	  RHRS_pad = j+1;
 
 	  if(i%10000 == 0){
-	    cout << "Event " << i << ": R_pl_corr = " << R_pl_corr << ", RTime_pl = " << RTime_pl << ", RTime = " << RTime << endl;
+	    cout << "Event " << i << endl;
+	    cout << ": R_pl_corr = " << R_pl_corr << ", RTime_pl = " << RTime_pl << ", RTime = " << RTime << endl;
 	    cout << "R_r_th = " << R_r_th[0] << ", R_r_ph = " << R_r_ph[0] << ", R_r_x = " << R_r_x[0] << endl;
+	    cout << ": L_pl_corr = " << L_pl_corr << ", LTime_pl = " << LTime_pl << ", LTime = " << LTime << endl;
+	    cout << "L_r_th = " << L_r_th[0] << ", L_r_ph = " << L_r_ph[0] << ", L_r_x = " << L_r_x[0] << endl;
 	    cout << endl;
 	  }
 
@@ -786,6 +840,7 @@ void Coinc_peak(Int_t runno, TString DB_Lname /* LHRS DB name where corrections 
 	h1->Fill(LTime-RTime);
 	h2->Fill(LTime_un-RTime_un);
 	h3->Fill(LTime_pl-RTime_pl);
+	h3_sl->Fill(LTime_pl_sl-RTime_pl_sl);
 	h4->Fill(LTime_pl - RTime_tw_1p);
       
 	h_L_lvT->Fill(LHRS_pad,LTime-RTime);
@@ -799,6 +854,11 @@ void Coinc_peak(Int_t runno, TString DB_Lname /* LHRS DB name where corrections 
 
 	h_L_lvT_tw_1p->Fill(LHRS_pad,LTime_tw_1p-RTime_tw_1p);
 	h_R_lvT_tw_1p->Fill(RHRS_pad,LTime_tw_1p-RTime_tw_1p);
+
+	h_pl_L->Fill(L_pl_corr);
+	h_pl_R->Fill(R_pl_corr);
+	h_pl_sl_L->Fill(L_pl_sl_corr);
+	h_pl_sl_R->Fill(R_pl_sl_corr);
       }
       
     }
@@ -921,8 +981,6 @@ void Coinc_peak(Int_t runno, TString DB_Lname /* LHRS DB name where corrections 
   h3->Draw();
   
   Double_t max3= h3->GetBinCenter(h3->GetMaximumBin());
-
-
   
   TF1* f1_pl = new TF1("f1_pl","pol1",max3-(6e-8),max3-(1e-8));
   h3->Fit(f1_pl,"FRQ");
@@ -962,6 +1020,54 @@ void Coinc_peak(Int_t runno, TString DB_Lname /* LHRS DB name where corrections 
   st_3->SetX2NDC(0.45); 
   st_3->SetY1NDC(0.45); 
   st_3->SetY2NDC(0.90); 
+
+
+  TCanvas* c3_b = new TCanvas("c3_b","c3_b",1000,800);
+  
+  h3_sl->Draw();
+  
+  Double_t max3_sl= h3_sl->GetBinCenter(h3_sl->GetMaximumBin());
+  
+  TF1* f1_pl_sl = new TF1("f1_pl_sl","pol1",max3_sl-(6e-8),max3_sl-(1e-8));
+  h3_sl->Fit(f1_pl_sl,"FRQ");
+  
+  Double_t par3_sl[5];   
+  f1_pl_sl->GetParameters(&par3_sl[0]);
+  
+  h3_sl->Fit(f1_pl_sl,"FRQ");
+  
+  f1_pl_sl->GetParameters(&par3_sl[0]);
+  
+  TF1* f2_pl_sl = new TF1("f2_pl_sl","gaus",max3_sl-(2.5e-9),max3_sl+(2.5e-9));
+ 
+  h3_sl->Fit(f2_pl_sl,"FRQ");
+ 
+  
+  f2_pl_sl->GetParameters(&par3_sl[2]);
+ 
+ 
+
+  TF1* f3_pl_sl = new TF1("f3_pl_sl","pol1(0)+gaus(2)",max3_sl-(6e-8),max3_sl+(1e-8));
+ 
+  f3_pl_sl->SetParameters(par3_sl);
+  h3_sl->Fit(f3_pl_sl,"FRQ");
+
+  f3_pl_sl->GetParameters(&par3_sl[0]);
+  
+  Double_t plcorr_width_sl = par3_sl[4];
+  Double_t plcorr_mean_sl = par3_sl[3];
+
+
+  gPad->Update();
+
+  
+  TPaveStats *st_3_sl = (TPaveStats*)h3_sl->FindObject("stats");
+  st_3_sl->SetX1NDC(0.15); 
+  st_3_sl->SetX2NDC(0.45); 
+  st_3_sl->SetY1NDC(0.45); 
+  st_3_sl->SetY2NDC(0.90); 
+
+
 
   
   TCanvas* c4 = new TCanvas("c4","c4",1000,800);
@@ -1054,6 +1160,21 @@ void Coinc_peak(Int_t runno, TString DB_Lname /* LHRS DB name where corrections 
 
   h_R_lvT_tw_1p->Draw("colz");
 
+
+  TCanvas* c13 = new TCanvas("c13","c13",1000,800);
+  c13->Divide(2,2);
+
+  c13->cd(1);
+  h_pl_L->Draw();
+
+  c13->cd(2);
+  h_pl_R->Draw();
+
+  c13->cd(3);
+  h_pl_sl_L->Draw();
+
+  c13->cd(4);
+  h_pl_sl_R->Draw();
 
 
 
