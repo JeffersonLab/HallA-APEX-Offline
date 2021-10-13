@@ -229,6 +229,7 @@ void projection(Int_t foil_no, TString option = ""){
       Double_t Sieve_Z = MomDirectionTCS_hole.Z(); // distance from target to sieve
       
       Double_t hole_sig = TMath::ATan(hole_sig/(Sieve_Z)); // convert to angular sigma
+      cout << "hole_sig = " << hole_sig << endl;
 
       Double_t hrad_ang = TMath::ATan(hrad/Sieve_Z); // angular 'radius'
       cout << "hrad_ang = " << hrad_ang << endl;
@@ -367,8 +368,9 @@ void projection(Int_t foil_no, TString option = ""){
       phi_rms_cor *= 1e3; // convert from rad to mrad
       
       
-      cutcsvnew<<1<<","<<phi_cen<<","<<ph_exp*1000<<","<<th_cen<<","<<th_exp*1000<<","<<phi_rms_cor<<","<<th_rms_cor<<","<<stat<<","<<n_col<<","<<n_row<<endl;
-      
+      //cutcsvnew<<1<<","<<phi_cen<<","<<ph_exp*1000<<","<<th_cen<<","<<th_exp*1000<<","<<phi_rms_cor<<","<<th_rms_cor<<","<<stat<<","<<n_col<<","<<n_row<<endl;
+      cutcsvnew<<1<<","<<phi_cen<<","<<ph_exp*1000<<","<<th_cen<<","<<th_exp*1000<<","<<phi_rms<<","<<th_rms<<","<<stat<<","<<n_col<<","<<n_row<<endl;
+            
       n_canvas++;
   }
   
