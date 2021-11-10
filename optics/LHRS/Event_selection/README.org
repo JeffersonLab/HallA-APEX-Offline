@@ -51,9 +51,11 @@ This is used to add an additional FP cut for holes (after step 3 has been perfor
 
 
 * mas_res & projection
+
+
 projection.C: projects holes in theta and phi, fits gaussian and attempts to finds deviation from expected values
 
-mas_res.C: plots results of projection.C as well as calculating mass resolution
+mass_res.C: plots results of projection.C as well as calculating mass resolution
 
 
 * SieveCheck
