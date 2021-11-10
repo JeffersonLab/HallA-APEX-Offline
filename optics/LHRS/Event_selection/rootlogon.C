@@ -52,6 +52,7 @@
     //    gSystem->Exec("cd $ROOTSYS/bin; bash thisroot.sh; cd -");
     
     //    gROOT->ProcessLine(".! bash ${ROOTSYS}/bin/thisroot.sh");
+    gROOT->LoadMacro("CsvParser.C+");
 		
 }
 
