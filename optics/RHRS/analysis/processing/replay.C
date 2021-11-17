@@ -12,7 +12,7 @@ class ROpticsOpt;
 
 ROpticsOpt * opt;
 
-void replay(TString run,TString order,TString range){
+void replay(TString run = "4647",TString order = "5th",TString range = "-10_10", TString select = "V_Opt_All"){
 
   //Simplified replay code. Takes some functions for ROpticsOpt class and uses them to calculate new target variables with different matrix.
 
@@ -21,20 +21,24 @@ void replay(TString run,TString order,TString range){
 
   TChain *t = new TChain("T");
   
-  t->Add(rootfiles + "apex_" + run + ".root");
+  //t->Add(rootfiles + "apex_" + run + ".root");
+  t->Add(rootfiles + "apex_" + run + "_opt_3rd_xfp_full_V_wires_test.root");
+
   int entries = t->GetEntries();
 
 
-  TFile* f_new = new TFile(rootfiles + "apex_" + run + "_opt_"+order+"_xfp_"+range+"_V_wires_test.root","recreate");
+  //TFile* f_new = new TFile(rootfiles + "apex_" + run + "_opt_"+order+"_iter_" + iter + "_xfp_"+range+".root","recreate");
+  TFile* f_new = new TFile(rootfiles + "apex_" + run + "_opt_"+order+"_xfp_"+range+"_" + select + ".root","recreate");
+  //TFile* f_new = new TFile(rootfiles + "test.root","recreate");
   //TFile* f_new = new TFile(rootfiles + ".root","recreate");
   TTree* t_new = new TTree("T","");
   
-  run = "V_wires_test";
   //Load focal plane data with new matrix
   opt = new ROpticsOpt();
-  opt->LoadRawData(t);
-  opt->LoadDataBase("./DB/" + run + "/db_R.vdc.dat_y_"+order+"_xfp_"+range);
-  //opt->LoadDataBase("db_R.vdc.dat");
+  opt->LoadRawData(t,run);
+  //opt->LoadDataBase("./DB/db_R.vdc.dat");
+  opt->LoadDataBase("./DB/" + select + "/db_R.vdc.dat_y_"+order+"_xfp_"+range);
+  //opt->LoadDataBase("./DB/V_wires_2/db_R.vdc.dat_y_"+order+"_xfp_"+range);
   
 
   //Define all the variables we want our output tree to have
@@ -85,7 +89,7 @@ void replay(TString run,TString order,TString range){
   t->SetBranchStatus("R.s0.nthit",1);
   t->SetBranchStatus("Rrb.x",1);
   t->SetBranchStatus("Rrb.y",1);
-  t->SetBranchStatus("Rurb.y",1);
+  t->SetBranchStatus("Rurb.x",1);
   t->SetBranchStatus("Rurb.y",1);
   t->SetBranchStatus("R.tr.r_x",1);
   t->SetBranchStatus("R.tr.r_y",1);
@@ -115,6 +119,8 @@ void replay(TString run,TString order,TString range){
   t->SetBranchAddress("R.s0.nthit",&R_s0_nthit);
   t->SetBranchAddress("Rrb.x",beam_x);
   t->SetBranchAddress("Rrb.y",beam_y);
+  t->SetBranchAddress("Rurb.x",ubeam_x);
+  t->SetBranchAddress("Rurb.y",ubeam_y);
   t->SetBranchAddress("R.tr.r_x",R_tr_x_rot);
   t->SetBranchAddress("R.tr.r_y",R_tr_y_rot);
   t->SetBranchAddress("R.tr.r_th",R_tr_th_rot);
@@ -170,7 +176,7 @@ void replay(TString run,TString order,TString range){
   t_new->Branch("Sieve.y",sieve_y);
 
 
-
+  cout<<endl;
   //Calculate target variables
   for(int i=0; i<entries; i++){
   
@@ -183,10 +189,12 @@ void replay(TString run,TString order,TString range){
     R_tr_vz[0] = opt->calc_vz(i, R_tr_tg_y[0], R_tr_tg_ph[0]);
     sieve_x[0] = opt->sieve_x(i);
     sieve_y[0] = opt->sieve_y(i);
-
+   
+    //if(R_tr_x_rot[0] > 0.0259936 && R_tr_x_rot[0] < 0.0259938) cout<<i<<" "<<R_tr_x_rot[0]<<" "<<R_tr_tg_th[0]<<endl;
+    
     t_new->Fill();
 
-    if(i%10000 == 0) cout<<std::setprecision(2)<<i*1.0/entries*100<<"%"<<endl;
+    if(i%10000 == 0) cout<<std::setprecision(2)<<i*1.0/entries*100<<"% \r"<<std::flush;
     
   }
 

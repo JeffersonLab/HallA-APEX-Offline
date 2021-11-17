@@ -1,16 +1,15 @@
-void xpyp_plot(){
+void xpyp_plot(TString run = "4647"){
 
   //Macro makes plots to analyze the new theta and phi after optimization
 
-  TString run = "4657";     //Run number
-  TString order = "5th";    //Optimization order
+  TString order = "3rd";    //Optimization order
   //example for range is -10_10 for -10 cm < x_fp <10 cm
   //use "full" for full focal plane range
   TString range = "full";   //Range in focal plane
-  bool before = true;      //Are we doing before optimization plots
-  bool make_plots = true;
-  bool brute_force = false;  //Are we using brute force method
-  bool V_wires = false;  //Are we using multiple wires
+  bool before = false;      //Are we doing before optimization plots
+  bool make_plots = false;
+  bool brute_force = true;  //Are we using brute force method
+  bool V_wires = true;  //Are we using multiple wires
 
   TString rootfiles = "/home/sean/Grad/Research/APEX/Rootfiles/";
   gStyle->SetPalette(1);
@@ -18,27 +17,34 @@ void xpyp_plot(){
   TChain *t = new TChain("T");
   TString name;
 
+  int FoilID = 1;
+
+  if(run == "4648") FoilID = 0;
+  if(run == "4650") FoilID = 2;
+
+  
   
   if(before) name = rootfiles + "apex_"+run;
   else if(range == "full" && !brute_force) name = rootfiles + "apex_"+run+"_opt_"+order+"_xfp_full";       //Full x_fp with single matrix
-  else if(range == "full" && brute_force && !V_wires) name = rootfiles + "apex_"+run+"_opt_"+order+"_xfp_full_brute";  //Full x_fp with 5 matrices
-  else if(range == "full" && brute_force && V_wires) name = rootfiles + "apex_"+run+"_opt_"+order+"_xfp_full_V_wires";  //Full x_fp with 5 matrices
+  else if(brute_force && !V_wires) name = rootfiles + "apex_"+run+"_opt_"+order+"_xfp_full_brute";  //Full x_fp with 5 matrices
+  else if(brute_force && V_wires) name = rootfiles + "apex_"+run+"_opt_"+order+"_xfp_full_V_wires";  //Full x_fp with 5 matrices
   else name = rootfiles + "apex_"+run+"_opt_"+order+"_xfp_"+range;
 
-  //name = rootfiles + "apex_"+run+"_opt_"+order+"_xfp_"+range+"_brute";
+  name = rootfiles + "apex_"+run+"_opt_"+order+"_xfp_"+range + "_V_Opt_All";
+  
+  //name = rootfiles + "apex_"+run+"_test";
   
   t->Add(name + ".root");
-  
+
     
   TH2D * xpyp = new TH2D("Tg angles", "", 400, -65, 65, 400, -65, 65);
+  
 
   //Cuts made for all the plots
   TCut GeneralCut;
   //TCut GeneralCut = "R.tr.n==1 && (R.cer.asum_c>500) && R.s0.nthit==1  && abs(R.tr.tg_dp) < 0.01";
   if(range == "full") GeneralCut = "R.tr.n==1 && (R.cer.asum_c>500)";
   if(range == "-10_10") GeneralCut = "R.tr.n==1 && (R.cer.asum_c>500) && abs(R.tr.r_x) < 0.10";
-  if(range == "-45_-25") GeneralCut = "R.tr.n==1 && (R.cer.asum_c>500) && (R.tr.r_x > -0.45 && R.tr.r_x < -0.25)";
-  if(range == "25_45") GeneralCut = "R.tr.n==1 && (R.cer.asum_c>500) && (R.tr.r_x > 0.25 && R.tr.r_x < 0.45)";
   if(range == "-50_-30") GeneralCut = "R.tr.n==1 && (R.cer.asum_c>500) && (R.tr.r_x > -0.50 && R.tr.r_x < -0.30)";
   if(range == "-30_-10") GeneralCut = "R.tr.n==1 && (R.cer.asum_c>500) && (R.tr.r_x > -0.30 && R.tr.r_x < -0.10)";
   if(range == "30_50") GeneralCut = "R.tr.n==1 && (R.cer.asum_c>500) && (R.tr.r_x > 0.30 && R.tr.r_x < 0.50)";
@@ -48,10 +54,10 @@ void xpyp_plot(){
   //Draw tg theta and phi plots
   TCanvas* c = new TCanvas("c","c",1000,1000);
   t->Draw("R.tr.tg_th*1000:R.tr.tg_ph*1000>>Tg angles",GeneralCut,"colz");
-  if(range == "full") xpyp->GetZaxis()->SetRangeUser(0,150);
-  else xpyp->GetZaxis()->SetRangeUser(0,50);
+  if(range == "full") xpyp->GetZaxis()->SetRangeUser(0,200);
   if(before) xpyp->SetTitle("Tg x' vs y' Before Opt;Tg #phi (mrad);Tg #theta (mrad)");
-  else xpyp->SetTitle("Tg x' vs y' "+order+" Order Opt;Tg #phi (mrad);Tg #theta (mrad)");
+  else xpyp->SetTitle("Tg x' vs y' "+order+" Order Opt;#phi_{tg} (mrad);#theta_{tg} (mrad)");
+
 
   /////Add labels for the run number and cuts ////
   TPaveText *pt1 = new TPaveText(0.12,0.78,0.32,0.89,"nbNDC");
@@ -81,8 +87,33 @@ void xpyp_plot(){
 
   ///// Get expected hole positions from csv file and draw /////
   double sieve_ph[27], sieve_th[17];
+  
+  for(int i_col = 0; i_col < 27; i_col++){
+      double ph_th[2];
+      double yx[2];
 
-  ifstream csv_file("../Sieve/"+run+"/xfp_-50_-30/apex_"+run+".root.cuts_full.csv");
+      Sieve_hole_pos(FoilID,i_col,8,ph_th,yx);
+
+      sieve_ph[i_col] = ph_th[0]*1000;
+  }
+
+  
+  for(int i_row = 0; i_row < 17; i_row++){
+    double ph_th[2];
+    double yx[2];
+    
+    Sieve_hole_pos(FoilID,4,i_row,ph_th,yx);
+    
+    sieve_th[i_row] = ph_th[1]*1000;
+  }
+  
+
+  
+  /*
+  
+  ifstream csv_file("../Sieve/"+run+"_test/xfp_-50_-30/apex_"+run+".root.cuts_full.csv");
+  //ifstream csv_file("../Sieve/"+run+"_test/xfp_-50_-30/apex_"+run+".root.cuts_full.csv");
+
 
   
   
@@ -110,7 +141,7 @@ void xpyp_plot(){
     
     row_n++;
   }
-
+  */
 
   TLine *l[27];
   TLine *l2[17];
@@ -145,7 +176,7 @@ void xpyp_plot(){
       l[i] = new TLine(sieve_ph[i], -65, sieve_ph[i], 65);
       l[i]->SetLineColor(2);
       if(!before) l[i]->Draw("same");
-    }
+  }
  
   for(int i=row_min;i<=row_max;i++){
     l2[i] = new TLine(-65, sieve_th[i], 65, sieve_th[i]);
@@ -177,8 +208,8 @@ void xpyp_plot(){
 
   if(make_plots){
     if(before) c->SaveAs("plots/tg_th_ph/"+run+"/xpyp_before_opt_xfp_"+range+".gif");
-    else if(V_wires) c->SaveAs("plots/tg_th_ph/"+run+"/xpyp_opt_"+order+"_xfp_full_V_wires.gif");
-    else if(brute_force) c->SaveAs("plots/tg_th_ph/"+run+"/xpyp_opt_"+order+"_xfp_full_brute.gif");
+    else if(V_wires) c->SaveAs("plots/tg_th_ph/"+run+"/xpyp_opt_"+order+"_xfp_" + range + "_V_Opt_All.gif");
+    else if(brute_force) c->SaveAs("plots/tg_th_ph/"+run+"/xpyp_opt_"+order+"_xfp_"+range+"_brute.gif");
     else c->SaveAs("plots/tg_th_ph/"+run+"/xpyp_opt_"+order+"_xfp_"+range+".gif");
   }
   
