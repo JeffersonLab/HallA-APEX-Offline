@@ -100,8 +100,9 @@ void projection(Int_t foil_no, TString option = ""){
   cutcsvnew<<date->GetDay()<<"/"<<date->GetMonth()<<"/"<<date->GetYear()<<" (dd/mm/yyyy)"<<endl;
   // getline(cutcsv,line);
   // cutcsvnew<<line<<endl
-  cutcsvnew << "Hole ID: col, row, Included in opt, Ellipse ph cen, Expected ph, Ellipse th cen, Expected th, Semi axis ph, Semi axis th, Ellipse Tilt (deg), -  All angles in mrad except ellipse tilt which is positive counterclockwise from vertical axis"<<endl;
-    ;
+  //  cutcsvnew << "Hole ID: col, row, Included in opt, Ellipse ph cen, Expected ph, Ellipse th cen, Expected th, Semi axis ph, Semi axis th, Ellipse Tilt (deg), -  All angles in mrad except ellipse tilt which is positive counterclockwise from vertical axis"<<endl;
+  cutcsvnew << "Used,phi_cen,ph_exp,th_cen,th_exp,phi_rms_cr,th_rms_cor,stat,n_col,n_row"<<endl;
+    
 
   // gStyle->SetOptStat(11);
     //    gStyle->SetOptFit(1);
@@ -148,8 +149,16 @@ void projection(Int_t foil_no, TString option = ""){
 
   
   // add beam cut
-  //  GenrealCut += get_Beamcut(Run_number);
+  GenrealCut += get_Beamcut(Run_number);
 
+
+  // load in tcutgs for foil (in target and focal plane vars)
+
+  TCutG* gFoiltg = NULL;
+  tcuts->GetObject(Form("fcut_L_%d",foil_no), gFoiltg);
+  
+  TCutG* gFoilFp = NULL;
+  tcuts->GetObject(Form("fcut_L_FP_%d",foil_no), gFoilFp);
   
   for(int n_hole = 0; n_hole < NHoles; n_hole++){
   // for(int n_hole = 56; n_hole < 58; n_hole++){
@@ -166,7 +175,7 @@ void projection(Int_t foil_no, TString option = ""){
 
 
     if (!g){
-      cutcsvnew<<line<<"0,0,0,0"<<endl;
+      cutcsvnew<<line<<"0,0,0,0,0,0,0,0,0,0"<<endl;
 	continue;
     }
 
@@ -196,11 +205,13 @@ void projection(Int_t foil_no, TString option = ""){
        // 	}             
 
     TCut id_cut = TCut(Form("e_hcut_L_%d_%d_%d",foil_no,n_col,n_row));
+    
+    TCut idF_cut = TCut(Form("fcut_L_%d && fcut_L_FP_%d",foil_no,foil_no)); // foil cut
 
 
-      c[n_canvas] = new TCanvas(Form("c_%d",n_canvas),"",800,600);
-      t->Draw("ph_tgt*1000>>" + name, GenrealCut && id_cut,"");
-      //t->Draw("Sieve.y*100>>" + name, GenrealCut && id_cut,"");
+    c[n_canvas] = new TCanvas(Form("c_%d",n_canvas),"",800,600);
+    t->Draw("ph_tgt*1000>>" + name, GenrealCut && id_cut && idF_cut,"");
+    //t->Draw("Sieve.y*100>>" + name, GenrealCut && id_cut,"");
       
       //      gPad->ls();
       
@@ -303,7 +314,7 @@ void projection(Int_t foil_no, TString option = ""){
 
       
       // t->Draw(Form("(th_tgt-%f)*1000>>",th_exp) + name2, GenrealCut && id_cut,""); //  altered JW
-      t->Draw("th_tgt*1000>>" + name2, GenrealCut && id_cut,""); //  altered JW
+      t->Draw("th_tgt*1000>>" + name2, GenrealCut && id_cut && idF_cut,""); //  altered JW
       
       
 

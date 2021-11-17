@@ -65,7 +65,7 @@ void compare(double &ph_wid,double &th_wid,double &ph_off,double &th_off, TStrin
   
   string line;
 
-  getline(file,line);
+  //  getline(file,line);
   getline(file,line);
   while (getline(file,line)){
     stringstream linestream(line);
