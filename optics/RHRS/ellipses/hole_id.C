@@ -3,7 +3,7 @@ void hole_id(){
   // Macro that shows all of the holes and the graphical cuts side by side for a nice visualization
 
   gStyle->SetPalette(1);
-  TFile* tcuts = new TFile("../Sieve/xfp_-10_10/apex_4647.root.FullCut.root","read");
+  TFile* tcuts = new TFile("../Sieve/4647_test/xfp_-10_10/apex_4647.root.FullCut.root","read");
   TChain * t = new TChain("T");
   t->Add("/home/sean/Grad/Research/APEX/Rootfiles/apex_4647.root");
   

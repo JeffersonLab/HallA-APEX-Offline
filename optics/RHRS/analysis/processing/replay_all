@@ -1,0 +1,25 @@
+#!/bin/bash
+
+ORDERS="3rd"
+RANGE="full"
+#RUNS="4647 4648 4650"
+RUNS="4652"
+OUTPUT="V_Opt_All"
+
+
+for run in $RUNS
+do
+    for order in $ORDERS
+    do
+	if [[ "$OUTPUT" == "same" ]];then
+	    OUTPUT="$run"
+	fi
+	
+	analyzer -q 'replay.C("'$run'","'$order'","'$RANGE'","'$OUTPUT'")'
+
+	if [[ "$OUTPUT" == "$run" ]];then
+	    OUTPUT="same"
+	fi
+    done
+    
+done

@@ -1,13 +1,19 @@
 #!/bin/bash
 
-ORDERS="5th"
-RUNS="4647"
+ORDERS="3rd"
+RUNS="V_Opt_All"
 #RANGES="-50_-30 -30_-10 -10_10 10_30 30_50"
-RANGES="-10_10"
+RANGES="full"
 
 
 
 #ROpticsOptScript("$run","$range","phi","db_R.vdc.dat_$order","$phi_file")
+#LOpticsOptScript("$run","$range","phi","before_tails_$order.dat","$phi_file")
+#LOpticsOptScript("$run","$range","theta","$phi_file","$theta_file")
+#LOpticsOptScript("$run","$range","y","$theta_file","$y_file")
+
+
+
 
 for run in $RUNS
 do
@@ -15,12 +21,20 @@ do
     do
 	for order in $ORDERS
 	do
-	    phi_file="db_R.vdc.dat_phi_"$order"_xfp_"$range
+	    start_file="db_R.vdc.dat_y_"$order"_xfp_"$range
+	    #start_file="db_R.vdc.dat_"$order
+	    phi_file1="before_tails_"$order"_xfp_"$range
+	    phi_file2="db_R.vdc.dat_phi_"$order"_xfp_"$range
 	    theta_file="db_R.vdc.dat_theta_"$order"_xfp_"$range
 	    y_file="db_R.vdc.dat_y_"$order"_xfp_"$range
-	    analyzer <<EOF
-ROpticsOptScript("$run","$range","phi","db_R.vdc.dat_$order","$phi_file")
-EOF
+	    pta_file="db_R.vdc.dat_pta_"$order"_xfp_"$range
+	    
+#	    analyzer <<EOF
+#    	    analyzer -b -q 'ROpticsOptScript.C("'$run'","'$range'","phi","'$start_file'","'$phi_file2'")'
+#	    analyzer -b -q 'ROpticsOptScript.C("'$run'","'$range'","phi","'$phi_file1'","'$phi_file2'")'
+#	    analyzer -b -q 'ROpticsOptScript.C("'$run'","'$range'","theta","'$phi_file2'","'$theta_file'")'
+	    analyzer  'ROpticsOptScript.C("'$run'","'$range'","y","'$theta_file'","'$y_file'")'
+#EOF
 	done
 	
     done

@@ -2,14 +2,15 @@ void y_tg_plot(){
 
   //Macro makes plots to analyze the new theta and phi after optimization
 
-  TString order = "5th";    //Optimization order
+  TString order = "3rd";    //Optimization order
   //example for range is -10_10 for -10 cm < x_fp <10 cm
   //use "full" for full focal plane range
   TString range = "full";   //Range in focal plane
-  TString target = "Vertical Wires";  //Vertical Wires, Optics 3, or Optics 1
-
+  TString target = "Optics 3";  //Vertical Wires, Optics 3, or Optics 1
+  TString opt = "V_Opt_All";
+  
   bool before = false;      //Are we doing before optimization plots
-  bool make_plots = false;  
+  bool make_plots = true;  
 
   TString output = "V_wires";
   if(target == "Optics 3") output = "Opt3";
@@ -30,17 +31,22 @@ void y_tg_plot(){
     t->Add(rootfiles + "apex_4650.root");
   }
   if(!before && target == "Vertical Wires") {
-    t->Add(rootfiles + "apex_4647_opt_"+order+"_xfp_full_V_wires.root");
-    t->Add(rootfiles + "apex_4648_opt_"+order+"_xfp_full_V_wires.root");
-    t->Add(rootfiles + "apex_4650_opt_"+order+"_xfp_full_V_wires.root");
+    //t->Add(rootfiles + "apex_4647_opt_"+order+"_xfp_full_V_wires.root");
+    //t->Add(rootfiles + "apex_4648_opt_"+order+"_xfp_full_V_wires.root");
+    //t->Add(rootfiles + "apex_4650_opt_"+order+"_xfp_full_V_wires.root");
+
+    t->Add(rootfiles + "apex_4647_opt_"+order+"_xfp_" + range + "_" + opt + ".root");
+    t->Add(rootfiles + "apex_4648_opt_"+order+"_xfp_" + range + "_" + opt + ".root");
+    t->Add(rootfiles + "apex_4650_opt_"+order+"_xfp_" + range + "_" + opt + ".root");
   }
+
   if(before && target == "Optics 3") t->Add(rootfiles + "apex_4652.root");
  
-  if(!before && target == "Optics 3") t->Add(rootfiles + "apex_4652_opt_"+order+"_xfp_"+range+"_V_wires.root");
+  if(!before && target == "Optics 3") t->Add(rootfiles + "apex_4652_opt_"+order+"_xfp_" + range + "_" + opt + ".root");
   
   if(before && target == "Optics 1") t->Add(rootfiles + "apex_4653.root");
  
-  if(!before && target == "Optics 1") t->Add(rootfiles + "apex_4653_opt_"+order+"_xfp_"+range+"_V_wires.root");
+  if(!before && target == "Optics 1") t->Add(rootfiles + "apex_4653_opt_"+order+"_xfp_" + range + "_" + opt + ".root");
 
   if(before && target == "Vert + Opt 1") {
     t->Add(rootfiles + "apex_4653.root");
@@ -54,7 +60,6 @@ void y_tg_plot(){
     //t->Add(rootfiles + "apex_4648_opt_"+order+"_xfp_"+range+"_V_Opt1.root");
     //t->Add(rootfiles + "apex_4650_opt_"+order+"_xfp_"+range+"_V_Opt1.root");
   }
-
 
   //Cuts made for all the plots
   TCut GeneralCut;
@@ -97,6 +102,7 @@ void y_tg_plot(){
 
   TLine *ly[3];
   TLine *lz[11];
+  TLine *lz2[11];
 
   c->Update();
 
@@ -104,14 +110,15 @@ void y_tg_plot(){
   int endfoil = 3;
 
   if(target == "Optics 3"){
-    startfoil = 3;
-    endfoil = 7;
-  }
-  if(target == "Optics 1"){
     startfoil = 7;
     endfoil = 11;
   }
-  
+  if(target == "Optics 1"){
+    startfoil = 3;
+    endfoil = 7;
+  }
+
+  /*
   for(int i=startfoil; i<endfoil; i++) {
     ly[i] = new TLine(y_exp[i]*1000,0,y_exp[i]*1000,c->GetUymax());
     ly[i]->SetLineColor(2);
@@ -121,6 +128,7 @@ void y_tg_plot(){
   TLegend *leg = new TLegend (0.72, 0.8, 0.9, 0.85);
   leg->AddEntry(ly[0], "Exp Wire Positions", "l");
   if(!before && target == "Vertical Wires") leg->Draw("same");
+  */
   
   ///// Set Stats to just show number of events/////
   gStyle->SetOptStat(10);
@@ -133,7 +141,7 @@ void y_tg_plot(){
   
   if(make_plots){
     if(before) c->SaveAs("plots/vertex/"+output+"/y_tg_before_opt_xfp_"+range+".gif");
-    else c->SaveAs("plots/vertex/"+output+"/y_tg_opt_"+order+"_xfp_"+range+".gif");
+    else c->SaveAs("plots/vertex/V_Opt_All/" + output + "_y_tg_opt_"+order+"_xfp_"+range+"_" + opt + ".gif");
   }
 
   double zmax = 400;
@@ -155,17 +163,42 @@ void y_tg_plot(){
   if(before) z_r->SetTitle("Z React Before Opt;Z (mm);");
   else z_r->SetTitle("Z React "+order+" Order Opt;Z (mm);");
     
-  
 
   pt1->Draw("same");
 
+  
 
   c2->Update();
+
   
+  TF1 *fgaus[11];
+  TF1 *f_refine[11];
+  TPaveText *fit_txt[11];
+
+
   for(int i=startfoil; i<endfoil; i++) {
     lz[i] = new TLine(z_exp[i]*1000,0,z_exp[i]*1000,c2->GetUymax());
     lz[i]->SetLineColor(2);
     if(!before) lz[i]->Draw("same");
+  
+    fgaus[i] = new TF1(Form("f%i",i),"gaus",z_exp[i]*1000 - 50,z_exp[i]*1000 + 50);
+    z_r->Fit(Form("f%i",i),"qR");
+
+
+    f_refine[i] = new TF1(Form("fref_%i",i),"gaus",fgaus[i]->GetParameter(1) - 1.2*fgaus[i]->GetParameter(2),fgaus[i]->GetParameter(1) + 1.2*fgaus[i]->GetParameter(2));
+    z_r->Fit(Form("fref_%i",i),"qR");
+    
+    f_refine[i]->Draw("same");
+
+    //fit_txt[i] = new TPaveText(0.12,0.78,0.32,0.89,"nbNDC");
+    double max_val = gPad->GetUymax();
+    
+    fit_txt[i] = new TPaveText(z_exp[i]*1000 + 20,max_val*0.7,z_exp[i]*1000 + 180,max_val*0.7 + 0.15*max_val);
+    fit_txt[i]->AddText(Form("#Delta = %g",f_refine[i]->GetParameter(1) - z_exp[i]*1000));
+    fit_txt[i]->AddText(Form("#sigma = %g",f_refine[i]->GetParameter(2)));
+    fit_txt[i]->SetFillColor(0);
+    fit_txt[i]->Draw("same");
+  
   }
   
 
@@ -183,7 +216,7 @@ void y_tg_plot(){
 
   if(make_plots){
     if(before) c2->SaveAs("plots/vertex/"+output+"/z_before_opt_xfp_"+range+".gif");
-    else c2->SaveAs("plots/vertex/"+output+"/z_opt_"+order+"_xfp_"+range+".gif");
+    else c2->SaveAs("plots/vertex/V_Opt_All/" + output + "_z_opt_"+order+"_xfp_"+range+"_" + opt + ".gif");
   }
   
 
@@ -196,13 +229,19 @@ void y_tg_plot(){
   t->Draw("R.tr.vz*1000:R.tr.tg_ph*1000>>zph",GeneralCut,"colz");
   if(before) zph->SetTitle("Before Y Opt;Tg #phi (mrad);z (mm)");
   else zph->SetTitle("Tg y " + order +" Order Opt;Tg #phi (mrad);z (mm)");
-  
+
+
+  for(int i=startfoil; i<endfoil; i++) {
+    lz2[i] = new TLine(-65,z_exp[i]*1000,65,z_exp[i]*1000);
+    lz2[i]->SetLineColor(2);
+    if(!before) lz2[i]->Draw("same");
+  }
   
   pt1->Draw("same");
 
   if(make_plots){
     if(before) c3->SaveAs("plots/vertex/"+output+"/z_ph_before_opt_xfp_"+range+".gif");
-    else c3->SaveAs("plots/vertex/"+output+"/z_ph_opt_"+order+"_xfp_"+range+".gif");
+    else c3->SaveAs("plots/vertex/V_Opt_All/" + output + "_z_ph_opt_"+order+"_xfp_"+range+"_" + opt + ".gif");
   }
 
 

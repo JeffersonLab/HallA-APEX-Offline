@@ -1,3 +1,18 @@
+TString which_file(int n_foil){
+
+  TString run_number = "4648";
+
+  if(n_foil == 1) run_number = "4647";
+  if(n_foil == 2) run_number = "4650";
+
+  if(n_foil > 2 && n_foil < 7) run_number = "4653";
+  if(n_foil > 6 && n_foil < 11) run_number = "4652";
+
+
+  return run_number;
+}
+
+
 void correction(TH2F *hist){
 
   TF1 *fit = new TF1("line","pol1");
@@ -57,74 +72,66 @@ void projection(){
 
   //Macro takes graphical cuts and makes phi and theta projections from them and writes some results to the csv file containing all the information
 
-  TString range = "full_brute";
+  
+  TString range = "-10_10";
   bool opt = true;
   
   TFile* tcuts;
-  if(opt) tcuts = new TFile("../Sieve/4647/xfp_" + range + "/apex_4647_opt_5th_xfp_"+range+".root.FullCut.root","READ");
-  else tcuts = new TFile("../Sieve/4647/xfp_" + range + "/apex_4647.root.FullCut.root","READ");
-  TChain * t = new TChain("T");
-  if(opt)  t->Add("/home/sean/Grad/Research/APEX/Rootfiles/apex_4647_opt_5th_xfp_"+range+".root");
-  else t->Add("/home/sean/Grad/Research/APEX/Rootfiles/apex_4647.root");
+  tcuts = new TFile("../Sieve/Opt_All_Ellipses/xfp_" + range + "/Opt_All_Ellipses.root","READ");
+
+  TString RootDir = "/home/sean/Grad/Research/APEX/Rootfiles/";
+
   
-  TCut GeneralCut = "R.tr.n==1 && (R.cer.asum_c>500)";
+  TCut GeneralCut = "R.tr.n==1 && (R.cer.asum_c>500) && abs(R.tr.r_x) < 0.10";
+  //TCut GeneralCut = "R.tr.n==1 && (R.cer.asum_c>500)";
   double phi_rms = 0;
   double th_rms = 0;
   double phi_cen = 0;
   double th_cen = 0;
   int  stat;
 
-  ifstream cutcsv("../Sieve/4647/xfp_" + range + "/apex_4647.root.cuts_full.csv");
-  ofstream cutcsvnew("xfp_" + range + "/apex_4647.root.EllipseCuts.csv");
+  
+  ofstream cutcsvnew("Opt_All_Ellipses/xfp_" + range + "/Opt_All_Ellipses.root.EllipseCuts.csv");
   string line;
 
   TDatime* date = new TDatime();  //Get Current date
   
   cutcsvnew<<fixed<<setprecision(2);
-  getline(cutcsv,line);
   cutcsvnew<<date->GetDay()<<"/"<<date->GetMonth()<<"/"<<date->GetYear()<<" (dd/mm/yyyy)"<<endl;
-  getline(cutcsv,line);
-  cutcsvnew<<line<<endl;
+  cutcsvnew<< "Hole ID (foil:col:row),Hole Exists,Included in opt,Ellipse ph cen,Expected ph,Ellipse th cen,Expected th,Ellipse ph rms,Ellipse th rms,Statistics"<<endl;
 
   gStyle->SetOptStat(11);
   gStyle->SetOptFit(1);
   gStyle->SetStatW(0.15);
   gStyle->SetStatH(0.15);
 
-  TCanvas *c[100] = {NULL};
-  TCanvas *c2[100] = {NULL};
+  TCanvas *c[10][200] = {NULL};
+  TCanvas *c2[10][200] = {NULL};
   
-  int n_canvas = 0;
-  for(int n_col = 0; n_col < 26; n_col++){
-    for(int n_row = 0; n_row < 17; n_row++){
-      TCutG* g = NULL;
-      tcuts->GetObject(Form("hcut_R_1_%d_%d",n_col,n_row), g);
-      getline(cutcsv,line);
+
+  for(int n_foil = 0; n_foil < 11; n_foil++){
+
+    TString run_number = which_file(n_foil);
+
+    TFile *Tfile = new TFile(RootDir + "apex_" + run_number + "_opt_3rd_xfp_" + range + "_V_Opt_All.root","read");
+
+    TTree *t = (TTree*)Tfile->Get("T");
+
+    int n_canvas = 0;
+    
+    for(int n_col = 0; n_col < 27; n_col++){
+      for(int n_row = 0; n_row < 17; n_row++){
+	TCutG* g = NULL;
+	tcuts->GetObject(Form("hcut_R_%d_%d_%d",n_foil,n_col,n_row), g);
+
 
       if (!g){
-	cutcsvnew<<line<<",0,0,0"<<endl;
+	cutcsvnew<<n_foil<<":"<<n_col<<":"<<n_row<<",0,0,0,0,0,0,0,0,0"<<endl;
 	continue;
       }
-
-
-      stringstream linestream(line);
-      string cell;
-
-      string ph_exp,th_exp,ph_axis,th_axis,tilt;
-      int n_elem = 1;
-      while(getline(linestream,cell,',')){
-	if(n_elem<=3) cutcsvnew<<cell<<",";
-	if(n_elem == 5) ph_exp = cell;
-	if(n_elem == 7) th_exp = cell;
-	if(n_elem == 8) ph_axis = cell;
-	if(n_elem == 9) th_axis = cell;
-	if(n_elem == 10) tilt = cell; 
-	n_elem++;
-      }
       
-      
-      TString name = Form("ID = %d:%d",n_col,n_row);
-      TString name2 = Form("ID  = %d:%d",n_col,n_row);
+      TString name = Form("ID = %d:%d:%d",n_foil,n_col,n_row);
+      TString name2 = Form("ID  = %d:%d:%d",n_foil,n_col,n_row);
 
 
       double theta_min = 100;
@@ -142,10 +149,10 @@ void projection(){
 	g->GetY()[i] /= 1000;
       }             
 
-      TCut id_cut = TCut(Form("hcut_R_1_%d_%d",n_col,n_row));
+      TCut id_cut = TCut(Form("hcut_R_%d_%d_%d",n_foil,n_col,n_row));
 
       
-      c[n_canvas] = new TCanvas(Form("c_%d",n_canvas),"",800,600);
+      c[n_foil][n_canvas] = new TCanvas(Form("c_%d_%d",n_foil,n_canvas),"",800,600);
       t->Draw("R.tr.tg_ph*1000>>" + name, GeneralCut && id_cut,"");
       //t->Draw("Sieve.y*100>>" + name, GeneralCut && id_cut,"");
       
@@ -199,7 +206,7 @@ void projection(){
       correction(th_y);
       
 
-      c2[n_canvas] = new TCanvas(Form("c2_%d",n_canvas),"",800,600);
+      c2[n_foil][n_canvas] = new TCanvas(Form("c2_%d_%d",n_foil,n_canvas),"",800,600);
       TH1D *htemp2 = th_y->ProjectionY(name2);
 
       
@@ -243,28 +250,43 @@ void projection(){
       th_cen = fth->GetParameter(1);
 
       
-      cutcsvnew<<phi_cen<<","<<ph_exp<<","<<th_cen<<","<<th_exp<<","<<ph_axis<<","<<th_axis<<","<<tilt<<","<<phi_rms<<","<<th_rms<<","<<stat<<endl;
+      double ph_th[2];
+      double yx[2];
+
+      Sieve_hole_pos(n_foil,n_col,n_row,ph_th,yx);
+      
+      cutcsvnew<<n_foil<<":"<<n_col<<":"<<n_row<<",1,1,"<<phi_cen<<","<<ph_th[0]*1000<<","<<th_cen<<","<<ph_th[1]*1000<<","<<phi_rms<<","<<th_rms<<","<<stat<<endl;
 
       n_canvas++;
     }
   }
-
-  int n = 0;
-  
-  while(c[n] != NULL) n++;
-  
-  for(int i = 0; i<n; i++){
-    if(i == 0) {
-      c[i]->Print("xfp_" + range + "/projections/phi.pdf(","pdf");
-      c2[i]->Print("xfp_" + range + "/projections/theta.pdf(","pdf");
-    }
-    else if(i == n-1) {
-      c[i]->Print("xfp_" + range + "/projections/phi.pdf)","pdf");
-      c2[i]->Print("xfp_" + range + "/projections/theta.pdf)","pdf");
-    }
-    else {
-      c[i]->Print("xfp_" + range + "/projections/phi.pdf","pdf");
-      c2[i]->Print("xfp_" + range + "/projections/theta.pdf","pdf");
-    }
   }
+
+
+  for(int n_foil = 0; n_foil < 11; n_foil++){
+
+    TString run_number = which_file(n_foil);
+    
+    
+    int n = 0;
+    
+    while(c[n_foil][n] != NULL) n++;
+    
+    for(int i = 0; i<n; i++){
+      if(i == 0) {
+	c[n_foil][i]->Print("./Opt_All_Ellipses/xfp_" + range + "/" + run_number + "/phi.pdf(","pdf");
+	c2[n_foil][i]->Print("./Opt_All_Ellipses/xfp_" + range + "/" + run_number + "/theta.pdf(","pdf");
+      }
+      else if(i == n-1) {
+	c[n_foil][i]->Print("./Opt_All_Ellipses/xfp_" + range + "/" + run_number + "/phi.pdf)","pdf");
+	c2[n_foil][i]->Print("./Opt_All_Ellipses/xfp_" + range + "/" + run_number + "/theta.pdf)","pdf");
+      }
+      else {
+	c[n_foil][i]->Print("./Opt_All_Ellipses/xfp_" + range + "/" + run_number + "/phi.pdf","pdf");
+	c2[n_foil][i]->Print("./Opt_All_Ellipses/xfp_" + range + "/" + run_number + "/theta.pdf","pdf");
+      }
+    }
+
+  }
+  
 }

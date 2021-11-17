@@ -7,14 +7,14 @@
 #include "TString.h"
 #include "TVirtualFitter.h"
 
-#define th_ph_optimize false
+#define th_ph_optimize true
 #define draw_plots true
 #define y_optimize true
 #define dp_optimize false
 
 // this parameter can turn on cutting of events not in main gaus for reconstructed phi_tg
 // uses initial matrix to produce phi_tg, fit gaus to y_sieve diff plot and cut based on this
-#define tail_cutting false
+#define tail_cutting true
 
 //#include "ROpticsOpt.h"
 //#include "SaveCanvas.C"
@@ -31,6 +31,22 @@ Bool_t freed[10000] = {kFALSE}; //NPara
 UInt_t MaxDataPerGroup = 100;
 //UInt_t MaxDataPerGroup = 100;
 
+// Inputs for minimiser and algorithm used
+char* minimiser = NULL;
+char* algorithm = NULL;
+
+// default minimiser and algorithm used
+const char *min_def = "Minuit";
+const char *al_def = "Migrad";
+
+
+// set max calls for Minuit minimisers and GSL minimisers
+
+const Int_t Minuit_maxCalls = 1000000;
+const Int_t GSL_maxCalls = 100;
+
+
+
 TString run;     //Don't forget to change CheckSieve(#) as well
 TString range;
 TString DataSource;
@@ -39,43 +55,69 @@ TString DataSource;
 typedef void (*PTRFCN)(Int_t &, Double_t *, Double_t &, Double_t*, Int_t);
 PTRFCN myfcn = NULL;
 
-void myfcn1(Int_t &, Double_t *, Double_t &f, Double_t *par, Int_t)
+typedef double (*PTRFCNX)(const double *);
+PTRFCNX myfcnX = NULL;
+
+double myfcn1(const double *par)
 {
-    //compute the sum of squares of dth
+  //compute the sum of squares of dth
+ 
 
-    assert(opt);
-    assert(opt->fCurrentMatrixElems);
+  static UInt_t NCall = 0;
+  NCall++;
 
-    opt->Array2Matrix(par);
-    f = opt->SumSquareDTh();
 
-    return;
+  assert(opt);
+  assert(opt->fCurrentMatrixElems);
+
+   
+
+  opt->Array2Matrix(par);
+  double f = opt->SumSquareDTh();
+  
+  //  cout << "For NCall :" << NCall << ", f = " << f << endl;
+
+  return f;
 }
 
-void myfcn2(Int_t &, Double_t *, Double_t &f, Double_t *par, Int_t)
+double myfcn2(const double *par)
 {
-    //compute the sum of squares of dph
+  //compute the sum of squares of dph
+  static UInt_t NCall = 0;
+  NCall++;
 
-    assert(opt);
-    assert(opt->fCurrentMatrixElems);
+  assert(opt);
+  assert(opt->fCurrentMatrixElems);
+  
+  opt->Array2Matrix(par);
+  
+  std::pair<Double_t,Double_t> rms_ph_dy = opt->SumSquareDPhi();
+  //  Double_t f = rms_ph_dy.first;
+  Double_t f = rms_ph_dy.second;
+  
+  //double f = opt->SumSquareDPhi();
+  
 
-    opt->Array2Matrix(par);
-    f = opt->SumSquareDPhi();
+  //  cout << "For NCall :" << NCall << ", f = " << f << endl;
 
-    return;
+  return f;
 }
 
-void myfcn3(Int_t &, Double_t *, Double_t &f, Double_t *par, Int_t)
+double myfcn3(const double *par)
 {
-    //compute the sum of squares of dtgy
+  //compute the sum of squares of dtgy
+  static UInt_t NCall = 0;
+  NCall++;
 
-    assert(opt);
-    assert(opt->fCurrentMatrixElems);
+  assert(opt);
+  assert(opt->fCurrentMatrixElems);
 
-    opt->Array2Matrix(par);
-    f = opt->SumSquareDTgY();
+  opt->Array2Matrix(par);
+  double f = opt->SumSquareDTgY();
+  
+  //  cout << "For NCall :" << NCall << ", f = " << f << endl;
 
-    return;
+  return f;
 }
 
 void myfcn4(Int_t &, Double_t *, Double_t &f, Double_t *par, Int_t)
@@ -123,33 +165,52 @@ void DoMinTP(TString SourceDataBase, TString DestDataBase, UInt_t MaxDataPerGrou
     opt->Print("");
     
 #if th_ph_optimize  
-                                          
+
+    /*
     TVirtualFitter::SetDefaultFitter(); //default is Minuit
     TVirtualFitter *fitter = TVirtualFitter::Fitter(NULL, NPara);
     fitter->SetFCN(myfcn);
+    */
 
+    ROOT::Math::Minimizer* min = ROOT::Math::Factory::CreateMinimizer(minimiser, algorithm);
+
+    min->SetTolerance(0.001);
+    
+    ROOT::Math::Functor f(myfcnX,NPara); 
+    
+    min->SetFunction(f);
+
+    min->SetMaxIterations(GSL_maxCalls);  // for GSL
+    min->SetMaxFunctionCalls(Minuit_maxCalls);   // for Minuit/Minuit2
+    
     for (UInt_t i = 0; i < NPara; i++) {
       //      cout<<"i:"<<i<<endl;
         Double_t absold = TMath::Abs(OldMatrixArray[i]);
         Double_t abslimit = absold > 0 ? absold * 10000 : 10000;
 
-        fitter->SetParameter(i, Form("TMatrix%03d", i), OldMatrixArray[i], absold > 0 ? absold / 10 : 0.1, -abslimit, abslimit);
-        // fitter->SetParameter(1,"asdf",0,0,0,0);
+        //fitter->SetParameter(i, Form("TMatrix%03d", i), OldMatrixArray[i], absold > 0 ? absold / 10 : 0.1, -abslimit, abslimit);
+        // //fitter->SetParameter(1,"asdf",0,0,0,0);
 
-        if (!freed[i]) fitter->FixParameter(i);
+	min->SetLimitedVariable(i,  Form("TMatrix%03d", i), OldMatrixArray[i], absold > 0 ? absold / 10 : 0.1, -abslimit, abslimit);
+
+        //if (!freed[i]) fitter->FixParameter(i);
+	if (!freed[i])  min->FixVariable(i);
     }
 
-    fitter->Print();
-    cout << fitter->GetNumberFreeParameters() << " Free  / " << fitter->GetNumberTotalParameters() << " Parameters\n";
+    //fitter->Print();
+    //cout << fitter->GetNumberFreeParameters() << " Free  / " << fitter->GetNumberTotalParameters() << " Parameters\n";
 
+    min->PrintLevel();
+    
     assert(opt->fNRawData > 0);
     assert(NPara > 0);
-    assert(fitter->GetNumberFreeParameters() > 0);
-    assert(fitter->GetNumberTotalParameters() == NPara);
+    //assert(fitter->GetNumberFreeParameters() > 0);
+    //assert(fitter->GetNumberTotalParameters() == NPara);
 
-    Double_t arglist[1] = {0};
-    fitter->ExecuteCommand("MIGRAD", arglist, 0);
-    
+    //Double_t arglist[1] = {0};
+    //fitter->ExecuteCommand("MIGRAD", arglist, 0);
+       
+    min->Minimize();
 #endif                   
                  
     opt->Print("");
@@ -163,7 +224,7 @@ void DoMinTP(TString SourceDataBase, TString DestDataBase, UInt_t MaxDataPerGrou
     //opt->check_fit_qual_Th();
     //#endif
     
-    TCanvas * c1 = opt->CheckSieve(1);
+    TCanvas * c1 = opt->CheckSieve(-1);
     c1->Print(DestDataBase+".Sieve.Opt.png", "png");
     //c1->Print(DestDataBase+".Sieve.Opt.eps", "eps");
     
@@ -185,10 +246,11 @@ void DoMinTP(TString SourceDataBase, TString DestDataBase, UInt_t MaxDataPerGrou
 #endif
 #endif
     
-    
+    c2_diff->SaveAs(DestDataBase + ".phi.png");
 
 #if th_ph_optimize
-    delete fitter;
+    //delete fitter;
+    delete min;
 #endif    
 }
 
@@ -216,21 +278,46 @@ void DoMinY(TString SourceDataBase, TString DestDataBase, UInt_t MaxDataPerGroup
     
     opt->Print("");
 
-#if y_optimize                                  
+
+#if y_optimize
+    /*
     TVirtualFitter::SetDefaultFitter(); //default is Minuit
     TVirtualFitter *fitter = TVirtualFitter::Fitter(NULL, NPara);
     fitter->SetFCN(myfcn);
+    */
 
+    ROOT::Math::Minimizer* min = ROOT::Math::Factory::CreateMinimizer(minimiser, algorithm);
+
+    min->SetTolerance(0.001);
+    
+    ROOT::Math::Functor f(myfcnX,NPara); 
+    
+    min->SetFunction(f);
+
+    min->SetMaxIterations(GSL_maxCalls);  // for GSL
+    min->SetMaxFunctionCalls(Minuit_maxCalls);   // for Minuit/Minuit2
+
+    cout << "NPara = " << NPara << endl;
+    
     for (UInt_t i = 0; i < NPara; i++) {
         Double_t absold = TMath::Abs(OldMatrixArray[i]);
         Double_t abslimit = absold > 0 ? absold * 10000 : 10000;
 
-        fitter->SetParameter(i, Form("TMatrix%03d", i), OldMatrixArray[i], absold > 0 ? absold / 10 : 0.1, -abslimit, abslimit);
-        // fitter->SetParameter(1,"asdf",0,0,0,0);
+        //fitter->SetParameter(i, Form("TMatrix%03d", i), OldMatrixArray[i], absold > 0 ? absold / 10 : 0.1, -abslimit, abslimit);
+        min->SetLimitedVariable(i,  Form("TMatrix%03d", i), OldMatrixArray[i], absold > 0 ? absold / 10 : 0.1, -abslimit, abslimit);
 
-        if (!freed[i]) fitter->FixParameter(i);
+        //if (!freed[i]) fitter->FixParameter(i);
+	if (!freed[i])  min->FixVariable(i);
     }
 
+    min->PrintLevel();
+    
+    assert(opt->fNRawData > 0);
+    assert(NPara > 0);
+        
+    min->Minimize();
+
+    /*
     fitter->Print();
     cout << fitter->GetNumberFreeParameters() << " Free  / " << fitter->GetNumberTotalParameters() << " Parameters\n";
     //    cout<<"NPara:"<<NPara<<endl;
@@ -242,6 +329,7 @@ void DoMinY(TString SourceDataBase, TString DestDataBase, UInt_t MaxDataPerGroup
     
     Double_t arglist[1] = {0};
     fitter->ExecuteCommand("MIGRAD", arglist, 0);
+    */
 #endif
                                
     opt->Print("");
@@ -253,7 +341,8 @@ void DoMinY(TString SourceDataBase, TString DestDataBase, UInt_t MaxDataPerGroup
     c1->Print(DestDataBase + ".Vertex.Opt.png", "png");
 
 #if y_optimize
-    delete fitter;
+    //delete fitter;
+    delete min;
 #endif
 }
 
@@ -359,18 +448,25 @@ void PlotDataBase(TString DatabaseFileName, UInt_t MaxDataPerGroup = 1000)
 void ROpticsOptScript(TString run, TString range,TString select, TString SourceDataBase, TString DestDataBase)
 {
   
-  DataSource = "../Sieve/"+run+"/xfp_"+range+"/Sieve.full.f"+run;
+  DataSource = "../Sieve/"+run+"/Sieve.full.f"+run;
   //DataSource = "../Sieve/"+run+"/xfp_"+range+"/Sieve.full.f4647";
   
   opt = new ROpticsOpt();
   
-  TString extra_dir = "";
+  //TString extra_dir = run + "/";
+  TString extra_dir = "V_wires_test/";
   if(select != "phi") extra_dir = run + "/";
   //if(select != "phi" && select != "y") extra_dir = run + "/";
     
-    
     SourceDataBase = "DB/" + extra_dir + SourceDataBase;
     DestDataBase = "DB/" + run + "/" + DestDataBase;
+
+
+    const char* min = min_def;
+    const char* algo = al_def;
+
+    minimiser = (char*)min;
+    algorithm = (char*)algo;
     
     Int_t s = 0;
     if (select == "theta") s = 1;
@@ -384,21 +480,22 @@ void ROpticsOptScript(TString run, TString range,TString select, TString SourceD
     switch (s) {
     case 1:
         cout << "Optimizing for Theta\n";
-        myfcn = myfcn1;
+        myfcnX = myfcn1;
         opt->fCurrentMatrixElems = &(opt->fTMatrixElems);
         DoMinTP(SourceDataBase, DestDataBase, 500);
         break;
     case 2:
         cout << "Optimizing for Phi\n";
-        myfcn = myfcn2;
+        myfcnX = myfcn2;
         opt->fCurrentMatrixElems = &(opt->fPMatrixElems);
-        DoMinTP(SourceDataBase, DestDataBase, 500);
+        DoMinTP(SourceDataBase, DestDataBase, 100);
         break;
     case 3:
         cout << "Optimizing for Y\n";
-        myfcn = myfcn3;
+        myfcnX = myfcn3;
         opt->fCurrentMatrixElems = &(opt->fYMatrixElems);
-        DoMinY(SourceDataBase, DestDataBase, 200000);
+        //DoMinY(SourceDataBase, DestDataBase, 200000);
+	DoMinY(SourceDataBase, DestDataBase, 100);
         break;
     case 4:
         cout << "Optimizing for Delta\n";
@@ -408,7 +505,7 @@ void ROpticsOptScript(TString run, TString range,TString select, TString SourceD
         break;
     case 5:
         cout << "Optimizing for Phi\n";
-        myfcn = myfcn2;
+        myfcnX = myfcn2;
         opt->fCurrentMatrixElems = &(opt->fPTAMatrixElems);
         DoMinTP(SourceDataBase, DestDataBase, 500);
         break;
