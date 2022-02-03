@@ -1,3 +1,18 @@
+TString which_file(int n_foil){
+
+  TString run_number = "4648";
+
+  if(n_foil%2 == 0) run_number = "4653";
+  if(n_foil%2 == 1) run_number = "4652";
+  
+  if(n_foil == 8) run_number = "4648";
+  if(n_foil == 9) run_number = "4647";
+  if(n_foil == 10) run_number = "4650";
+
+
+
+  return run_number;
+}
 
 
 double Avg(double R[3]){
@@ -34,23 +49,8 @@ Double_t GausFunc(Double_t *x, Double_t *par)
    return f;   
 }
 
-TString which_file(int n_foil){
 
-  TString run_number = "4648";
-
-  if(n_foil == 8) run_number = "4647";
-  if(n_foil == 10) run_number = "4650";
-
-  if(n_foil%2 == 0) run_number = "4653";
-  if(n_foil%2 == 1) run_number = "4652";
-
-
-  return run_number;
-}
-
-
-
-void projection_LHRS(Int_t foil_no, TString option = ""){
+void projection_LHRS2(Int_t foil_no, TString option = ""){
 
   
   
@@ -119,16 +119,17 @@ void projection_LHRS(Int_t foil_no, TString option = ""){
   cutcsvnew<<date->GetDay()<<"/"<<date->GetMonth()<<"/"<<date->GetYear()<<" (dd/mm/yyyy)"<<endl;
   // getline(cutcsv,line);
   // cutcsvnew<<line<<endl
-  cutcsvnew << "Hole ID: col, row, Included in opt, Ellipse ph cen, Expected ph, Ellipse th cen, Expected th, Semi axis ph, Semi axis th, Ellipse Tilt (deg), -  All angles in mrad except ellipse tilt which is positive counterclockwise from vertical axis"<<endl;
-    ;
+  //cutcsvnew << "Hole ID: col, row, Included in opt, Ellipse ph cen, Expected ph, Ellipse th cen, Expected th, Semi axis ph, Semi axis th, Ellipse Tilt (deg), -  All angles in mrad except ellipse tilt which is positive counterclockwise from vertical axis"<<endl;
+  cutcsvnew << "Used,phi_cen,ph_exp,th_cen,th_exp,phi_rms_cr,th_rms_cor,stat,n_col,n_row"<<endl;
+
 
   // gStyle->SetOptStat(11);
     //    gStyle->SetOptFit(1);
   gStyle->SetStatW(0.15);
   gStyle->SetStatH(0.15);
 
-  TCanvas *c[100] = {NULL};
-  TCanvas *c2[100] = {NULL};
+  TCanvas *c[500] = {NULL};
+  TCanvas *c2[500] = {NULL};
   
   int n_canvas = 0;
   // for(int n_col = 0; n_col < 26; n_col++){
@@ -187,12 +188,9 @@ void projection_LHRS(Int_t foil_no, TString option = ""){
   
   //  for(int n_hole = 0; n_hole < NHoles; n_hole++){
   for(int n_col = 0; n_col < 27; n_col++){
-      for(int n_row = 0; n_row < 17; n_row++){
-	/*  
-    vector<int> col_row = Get_Col_Row(n_hole);
-    int n_col = col_row[0];
-    int n_row = col_row[1];
-	*/
+    for(int n_row = 0; n_row < 17; n_row++){
+    
+	
         
   
     TCutG* g = NULL;
@@ -200,7 +198,8 @@ void projection_LHRS(Int_t foil_no, TString option = ""){
 
 
     if (!g){
-      cutcsvnew<<line<<"0,0,0,0"<<endl;
+      //cutcsvnew<<line<<"0,0,0,0"<<endl;
+      cutcsvnew<<line<<"0,0,0,0,0,0,0,0,0,0"<<endl;
 	continue;
     }
 
@@ -232,11 +231,13 @@ void projection_LHRS(Int_t foil_no, TString option = ""){
     TCut foil_cut = TCut(Form("fcut_R_%d",foil_no));
     TCut foil_FP_cut = TCut(Form("fcut_R_FP_%d",foil_no));
     TCut hole_cut = TCut(Form("hcut_R_%d_%d_%d",foil_no,n_col,n_row));
+    TCut beam_cut = "0.00120<Rrb.x && Rrb.x<0.0024";
 
-    TCut id_cut = foil_cut + foil_FP_cut + hole_cut;
+    TCut id_cut = foil_cut + foil_FP_cut + hole_cut + beam_cut;
+    
 
       c[n_canvas] = new TCanvas(Form("c_%d",n_canvas),"",800,600);
-      t->Draw("R.tr.tg_th*1000>>" + name, GeneralCut && id_cut,"");
+      t->Draw("R.tr.tg_ph*1000>>" + name, GeneralCut && id_cut,"");
       //t->Draw("Sieve.y*100>>" + name, GeneralCut && id_cut,"");
       
       //      gPad->ls();
@@ -285,6 +286,7 @@ void projection_LHRS(Int_t foil_no, TString option = ""){
       cout << "Made fCirc" << endl;
       //      TF1* fGaus = new TF1("fGaus","gaus(0)");
       TF1* fGaus = new TF1("fGaus",GausFunc,-10,10,1);
+      
       
       TF1Convolution *f_conv_ph= new TF1Convolution(fCirc,fGaus,ph_lowerlim,ph_upperlim,true);
       cout << "Made convolution" << endl;
@@ -406,10 +408,10 @@ void projection_LHRS(Int_t foil_no, TString option = ""){
       
       
       //cutcsvnew<<1<<","<<phi_cen<<","<<ph_exp*1000<<","<<th_cen<<","<<th_exp*1000<<","<<phi_rms_cor<<","<<th_rms_cor<<","<<stat<<","<<n_col<<","<<n_row<<endl;
-      cutcsvnew<<1<<","<<phi_cen<<","<<ph_exp*1000<<","<<th_cen<<","<<th_exp*1000<<","<<phi_rms<<","<<th_rms<<","<<stat<<","<<n_col<<","<<n_row<<endl;
-            
+      cutcsvnew<<1<<","<<phi_cen<<","<<ph_exp*1000<<","<<th_cen<<","<<th_exp*1000<<","<<phi_rms<<","<<th_rms<<","<<stat<<","<<n_col<<","<<n_row<<endl;    
+
       n_canvas++;
-  }
+      }
   }
   
 

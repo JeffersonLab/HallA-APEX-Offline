@@ -41,8 +41,10 @@ const Double_t SieveRadius_c = 0.106*25.4/2.0*1e-3;
 //const Double_t SieveRadius_c = 0;   
 
 // average beam positions
-const Double_t BeamX_average[] = {1.76e-3, -0.9646e-3, -2.137e-3, -2.211e-3, -2.211e-3, -2.211e-3, -2.211e-3, -2.2e-3, -2.2e-3, -2.2e-3, -2.2e-3};
-const Double_t BeamY_average[] = {2.726e-3, 2.845*1e-3, 2.879e-3, 2.9e-3, 2.9e-3, 2.9e-3, 2.9e-3, 2.912e-3, 2.912e-3, 2.912e-3, 2.912e-3};
+const Double_t BeamX_average[] = {-2.211e-3, -2.2e-3, -2.211e-3, -2.2e-3, -2.211e-3, -2.2e-3, -2.211e-3, -2.2e-3, 1.76e-3, -0.9646e-3, -2.137e-3}; //John
+//const Double_t BeamX_average[] = {1.76e-3, -0.9646e-3, -2.137e-3, -2.211e-3, -2.211e-3, -2.211e-3, -2.211e-3, -2.2e-3, -2.2e-3, -2.2e-3, -2.2e-3}; //Sean
+const Double_t BeamY_average[] =  {2.9e-3, 2.726e-3, 2.9e-3, 2.726e-3, 2.9e-3, 2.726e-3, 2.9e-3, 2.726e-3, 2.726e-3, 2.845*1e-3, 2.879e-3}; //John
+//const Double_t BeamY_average[] = {2.726e-3, 2.845*1e-3, 2.879e-3, 2.9e-3, 2.9e-3, 2.9e-3, 2.9e-3, 2.912e-3, 2.912e-3, 2.912e-3, 2.912e-3}; //Sean
 
 
 /////////////////////////////////////////////////////////////////////////
@@ -76,16 +78,19 @@ const Double_t ZPos = 31.23 * 25.4e-3;
 
 static const UInt_t NFoils = 11;   //4 foils in each optics run
 const Double_t targetoffset = -5*1e-3;
-//const Double_t targetfoils[] = {-0.2 + targetoffset, 0.0 + targetoffset, 0.2 + targetoffset, -0.3 + targetoffset, -0.15 + targetoffset, 0.075 + targetoffset, 0.219 + targetoffset, -0.219 + targetoffset, -0.075 + targetoffset, 0.150 + targetoffset, 0.3 + targetoffset, 1e36};
 //Vertical Wires ID 0-2, Optics 1 ID 3-6, Optics 3 ID 7-10
 //Using Johns version, Vertical Wires ID 8-10, Optics 1 ID 0,2,4,6, Optics 3 ID 1,3,5,7
-const Double_t targetfoils[] = {-0.3 + targetoffset, -0.219 + targetoffset, -0.15 + targetoffset, -0.075 + targetoffset, 0.075 + targetoffset, 0.150 + targetoffset, 0.219 + targetoffset, 0.3 + targetoffset, -0.2 + targetoffset, 0.0 + targetoffset, 0.2 + targetoffset, 1e36};
+const Double_t targetfoils[] = {-0.3 + targetoffset, -0.219 + targetoffset, -0.15 + targetoffset, -0.075 + targetoffset, 0.075 + targetoffset, 0.150 + targetoffset, 0.219 + targetoffset, 0.3 + targetoffset, -0.2 + targetoffset, 0.0 + targetoffset, 0.2 + targetoffset, 1e36}; //John
+//const Double_t targetfoils[] = {-0.2 + targetoffset, 0.0 + targetoffset, 0.2 + targetoffset, -0.3 + targetoffset, -0.15 + targetoffset, 0.075 + targetoffset, 0.219 + targetoffset, -0.219 + targetoffset, -0.075 + targetoffset, 0.150 + targetoffset, 0.3 + targetoffset, 1e36}; //Sean
+
 
 
 double target_yaw =  0.1022 * D2R;
 double target_pitch = -0.0219 * D2R;
 
-const Double_t targetfoilsX[] = {-2.211e-3, -2.2e-3, -2.211e-3, -2.2e-3, -2.211e-3, -2.2e-3, -2.211e-3, -2.2e-3, 2.5e-3, 0, -2.5e-3,};
+const Double_t targetfoilsX[] = {-2.211e-3, -2.2e-3, -2.211e-3, -2.2e-3, -2.211e-3, -2.2e-3, -2.211e-3, -2.2e-3, 2.5e-3, 0, -2.5e-3,}; //John
+//const Double_t targetfoilsX[] = {2.5e-3, 0, -2.5e-3,-2.211e-3, -2.2e-3, -2.211e-3, -2.2e-3, -2.211e-3, -2.2e-3, -2.211e-3, -2.2e-3}; //Sean
+
 
 
 

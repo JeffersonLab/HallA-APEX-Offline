@@ -2,11 +2,13 @@ TString which_file(int n_foil){
 
   TString run_number = "4648";
 
-  if(n_foil == 1) run_number = "4647";
-  if(n_foil == 2) run_number = "4650";
+  if(n_foil%2 == 0) run_number = "4653";
+  if(n_foil%2 == 1) run_number = "4652";
+  
+  if(n_foil == 8) run_number = "4648";
+  if(n_foil == 9) run_number = "4647";
+  if(n_foil == 10) run_number = "4650";
 
-  if(n_foil > 2 && n_foil < 7) run_number = "4653";
-  if(n_foil > 6 && n_foil < 11) run_number = "4652";
 
 
   return run_number;
@@ -77,13 +79,14 @@ void projection(){
   bool opt = true;
   
   TFile* tcuts;
-  tcuts = new TFile("../Sieve/Opt_All_Ellipses/xfp_" + range + "/Opt_All_Ellipses.root","READ");
+  //tcuts = new TFile("../Sieve/Opt_All_Ellipses/xfp_" + range + "/Opt_All_Ellipses.root","READ");
+  tcuts = new TFile("../Sieve/V_Opt_All/xfp_full/apex_optics_xfp_full_V_Opt_All.root","READ");
 
   TString RootDir = "/home/sean/Grad/Research/APEX/Rootfiles/";
 
   
-  TCut GeneralCut = "R.tr.n==1 && (R.cer.asum_c>500) && abs(R.tr.r_x) < 0.10";
-  //TCut GeneralCut = "R.tr.n==1 && (R.cer.asum_c>500)";
+  //TCut GeneralCut = "R.tr.n==1 && (R.cer.asum_c>500) && abs(R.tr.r_x) < 0.10";
+  TCut GeneralCut = "R.tr.n==1 && (R.cer.asum_c>500)";
   double phi_rms = 0;
   double th_rms = 0;
   double phi_cen = 0;
@@ -91,14 +94,16 @@ void projection(){
   int  stat;
 
   
-  ofstream cutcsvnew("Opt_All_Ellipses/xfp_" + range + "/Opt_All_Ellipses.root.EllipseCuts.csv");
+  //ofstream cutcsvnew("Opt_All_Ellipses/xfp_" + range + "/Opt_All_Ellipses.root.EllipseCuts.csv");
+  ofstream cutcsvnew("V_Opt_All/xfp_full/apex_optics_test.csv");
   string line;
 
   TDatime* date = new TDatime();  //Get Current date
   
   cutcsvnew<<fixed<<setprecision(2);
   cutcsvnew<<date->GetDay()<<"/"<<date->GetMonth()<<"/"<<date->GetYear()<<" (dd/mm/yyyy)"<<endl;
-  cutcsvnew<< "Hole ID (foil:col:row),Hole Exists,Included in opt,Ellipse ph cen,Expected ph,Ellipse th cen,Expected th,Ellipse ph rms,Ellipse th rms,Statistics"<<endl;
+  //cutcsvnew<< "Hole ID (foil:col:row),Hole Exists,Included in opt,Ellipse ph cen,Expected ph,Ellipse th cen,Expected th,Ellipse ph rms,Ellipse th rms,Statistics"<<endl;
+  cutcsvnew << "Used,phi_cen,ph_exp,th_cen,th_exp,phi_rms_cr,th_rms_cor,stat,n_col,n_row"<<endl;
 
   gStyle->SetOptStat(11);
   gStyle->SetOptFit(1);
@@ -106,27 +111,68 @@ void projection(){
   gStyle->SetStatH(0.15);
 
   TCanvas *c[10][200] = {NULL};
-  TCanvas *c2[10][200] = {NULL};
+  TCanvas *c2[10][200] = {NULL}; 
+
+  TRotation fTCSInHCS;
+  TVector3 TCSX(0,-1,0);
+  TVector3 TCSZ(TMath::Sin(HRSAngle),0,TMath::Cos(HRSAngle));
+  TVector3 TCSY = TCSZ.Cross(TCSX);
+  fTCSInHCS.RotateAxes(TCSX,TCSY,TCSZ);
+
+  for(int n_foil = 8; n_foil < 9; n_foil++){
+
+     const TVector3 BeamSpotHCS_average = BeamSpotHCS_Correction(n_foil,BeamY_average[n_foil], targetfoils[n_foil]);
+
+  TVector3 BeamSpotTCS_average = fTCSInHCS.Inverse()*(BeamSpotHCS_average-fPointingOffset);
+
+  TVector3 Hole_posCen = GetSieveHoleCorrectionTCS(n_foil,14,8);
+
+  TVector3 MomDirectionTCS_holeCen = Hole_posCen - BeamSpotTCS_average;
+
+  Double_t Sieve_ZCen = MomDirectionTCS_holeCen.Z();
+
+  Double_t hole_varEx = TMath::ATan((SieveRadius)/(2*Sieve_ZCen));
+
+
+  TCutG* g_F = NULL;
+  TCutG* g_FP = NULL;
   
+  tcuts->GetObject(Form("fcut_R_%d",n_foil), g_F);
+  tcuts->GetObject(Form("fcut_R_FP_%d",n_foil), g_FP);
+  
+ for(int i = 0; i<g_F->GetN();i++){
+    g_F->GetX()[i] /= 1000;
+    g_F->GetY()[i] /= 1000;
+  }
 
-  for(int n_foil = 0; n_foil < 11; n_foil++){
+  for(int i = 0; i<g_FP->GetN();i++){
+    g_FP->GetX()[i] /= 1000;
+    g_FP->GetY()[i] /= 1000;
+  }     
 
-    TString run_number = which_file(n_foil);
-
-    TFile *Tfile = new TFile(RootDir + "apex_" + run_number + "_opt_3rd_xfp_" + range + "_V_Opt_All.root","read");
-
-    TTree *t = (TTree*)Tfile->Get("T");
-
-    int n_canvas = 0;
-    
-    for(int n_col = 0; n_col < 27; n_col++){
+  
+  TString run_number = which_file(n_foil);
+  
+  //TFile *Tfile = new TFile(RootDir + "apex_" + run_number + "_opt_3rd_xfp_" + range + "_V_Opt_All.root","read");
+  TFile *Tfile = new TFile(RootDir + "apex_" + run_number + "_opt_3rd_xfp_full_V_Opt_All.root","read");
+  
+  TTree *t = (TTree*)Tfile->Get("T");
+  
+  int n_canvas = 0;
+  
+  for(int n_col = 0; n_col < 27; n_col++){
       for(int n_row = 0; n_row < 17; n_row++){
+      
 	TCutG* g = NULL;
+	
+	
 	tcuts->GetObject(Form("hcut_R_%d_%d_%d",n_foil,n_col,n_row), g);
+	
 
 
       if (!g){
-	cutcsvnew<<n_foil<<":"<<n_col<<":"<<n_row<<",0,0,0,0,0,0,0,0,0"<<endl;
+	//cutcsvnew<<n_foil<<":"<<n_col<<":"<<n_row<<",0,0,0,0,0,0,0,0,0"<<endl;
+	cutcsvnew<<line<<"0,0,0,0,0,0,0,0,0,0"<<endl;
 	continue;
       }
       
@@ -140,23 +186,24 @@ void projection(){
       double phi_max = -100;
       
       for(int i = 0; i<g->GetN();i++){
-	if(g->GetX()[i] < phi_min) phi_min = g->GetX()[i];
-	if(g->GetX()[i] > phi_max) phi_max = g->GetX()[i];
-	if(g->GetY()[i] < theta_min) theta_min = g->GetY()[i];
-	if(g->GetY()[i] > theta_max) theta_max = g->GetY()[i];
-	
 	g->GetX()[i] /= 1000;
 	g->GetY()[i] /= 1000;
       }             
-
-      TCut id_cut = TCut(Form("hcut_R_%d_%d_%d",n_foil,n_col,n_row));
+      
+      TCut foil_cut = TCut(Form("fcut_R_%d",n_foil));
+      TCut foil_FP_cut = TCut(Form("fcut_R_FP_%d",n_foil));
+      TCut hole_cut = TCut(Form("hcut_R_%d_%d_%d",n_foil,n_col,n_row));
+      TCut beam_cut = "0.00120<Rrb.x && Rrb.x<0.0024";
+      
+      TCut id_cut = foil_cut + foil_FP_cut + hole_cut + beam_cut;
 
       
       c[n_foil][n_canvas] = new TCanvas(Form("c_%d_%d",n_foil,n_canvas),"",800,600);
+      
       t->Draw("R.tr.tg_ph*1000>>" + name, GeneralCut && id_cut,"");
       //t->Draw("Sieve.y*100>>" + name, GeneralCut && id_cut,"");
       
-      
+     
       TH1F *htemp = (TH1F*)gPad->GetPrimitive(name);   
       htemp->SetTitle("");
       htemp->GetXaxis()->SetTitle("Target #phi (mrad)");
@@ -165,7 +212,7 @@ void projection(){
 
       TF1 *f1 = new TF1("f1","gaus");
       htemp->Fit("f1","q0");
-
+      
       TF1 *fph = new TF1("fph","gaus",f1->GetParameter(1) - 2*f1->GetParameter(2),f1->GetParameter(1) + 2*f1->GetParameter(2));
       
       htemp->Fit("fph","qR");
@@ -185,6 +232,7 @@ void projection(){
       
       double m = (y2 - y1)/(x2 - x1);
       double b = y1 - m*x1;
+      
 
       fph = new TF1("fph",Form("[0]*exp(-0.5*((x-[1])/[2])^2) + %g*x + %g",m,b),fph->GetParameter(1) - 2*fph->GetParameter(2),fph->GetParameter(1) + 2*fph->GetParameter(2));
       fph->SetParameters(htemp->GetBinContent(htemp->GetMaximumBin()),htemp->GetMean(),htemp->GetRMS()/2);
@@ -250,20 +298,26 @@ void projection(){
       th_cen = fth->GetParameter(1);
 
       
-      double ph_th[2];
-      double yx[2];
-
-      Sieve_hole_pos(n_foil,n_col,n_row,ph_th,yx);
+      TVector3 Hole_pos = GetSieveHoleCorrectionTCS(n_foil,n_col,n_row);
+      TVector3 MomDirectionTCS_hole = Hole_pos - BeamSpotTCS_average;
       
-      cutcsvnew<<n_foil<<":"<<n_col<<":"<<n_row<<",1,1,"<<phi_cen<<","<<ph_th[0]*1000<<","<<th_cen<<","<<ph_th[1]*1000<<","<<phi_rms<<","<<th_rms<<","<<stat<<endl;
+      Double_t th_exp = MomDirectionTCS_hole.X()/MomDirectionTCS_hole.Z();
+      Double_t ph_exp = MomDirectionTCS_hole.Y()/MomDirectionTCS_hole.Z();
+
+      //Sieve_hole_pos(n_foil,n_col,n_row,ph_th,yx);
+      
+      //cutcsvnew<<n_foil<<":"<<n_col<<":"<<n_row<<",1,1,"<<phi_cen<<","<<ph_exp*1000<<","<<th_cen<<","<<th_exp*1000<<","<<phi_rms<<","<<th_rms<<","<<stat<<endl;
+      cutcsvnew<<1<<","<<phi_cen<<","<<ph_exp*1000<<","<<th_cen<<","<<th_exp*1000<<","<<phi_rms<<","<<th_rms<<","<<stat<<","<<n_col<<","<<n_row<<endl;    
 
       n_canvas++;
     }
-  }
+    }
   }
 
-
-  for(int n_foil = 0; n_foil < 11; n_foil++){
+  TString output = "V_Opt_All/xfp_full/projections_old";
+  
+  
+  for(int n_foil = 0; n_foil < 10; n_foil++){
 
     TString run_number = which_file(n_foil);
     
@@ -274,16 +328,16 @@ void projection(){
     
     for(int i = 0; i<n; i++){
       if(i == 0) {
-	c[n_foil][i]->Print("./Opt_All_Ellipses/xfp_" + range + "/" + run_number + "/phi.pdf(","pdf");
-	c2[n_foil][i]->Print("./Opt_All_Ellipses/xfp_" + range + "/" + run_number + "/theta.pdf(","pdf");
+	c[n_foil][i]->Print(output + "/phi.pdf(","pdf");
+	c2[n_foil][i]->Print(output + "/theta.pdf(","pdf");
       }
       else if(i == n-1) {
-	c[n_foil][i]->Print("./Opt_All_Ellipses/xfp_" + range + "/" + run_number + "/phi.pdf)","pdf");
-	c2[n_foil][i]->Print("./Opt_All_Ellipses/xfp_" + range + "/" + run_number + "/theta.pdf)","pdf");
+	c[n_foil][i]->Print(output + "/phi.pdf)","pdf");
+	c2[n_foil][i]->Print(output + "/theta.pdf)","pdf");
       }
       else {
-	c[n_foil][i]->Print("./Opt_All_Ellipses/xfp_" + range + "/" + run_number + "/phi.pdf","pdf");
-	c2[n_foil][i]->Print("./Opt_All_Ellipses/xfp_" + range + "/" + run_number + "/theta.pdf","pdf");
+	c[n_foil][i]->Print(output + "/phi.pdf","pdf");
+	c2[n_foil][i]->Print(output + "/theta.pdf","pdf");
       }
     }
 
