@@ -310,7 +310,7 @@ Int_t ROpticsOpt::LoadDataBase(TString DataBaseName)
 
 
 
-UInt_t ROpticsOpt::LoadRawData(TTree* t)
+UInt_t ROpticsOpt::LoadRawData(TTree* t, TString run)
 {
 
   int entries = t->GetEntries();
@@ -355,10 +355,16 @@ UInt_t ROpticsOpt::LoadRawData(TTree* t)
     eventdata[1] = R_tr_th_rot[0];
     eventdata[2] = R_tr_y_rot[0];
     eventdata[3] = R_tr_ph_rot[0];
-    eventdata[4] = R_x[0];
-    eventdata[5] = R_y[0];
-  
 
+    if(run == "4652" || run == "4653"){
+      eventdata[4] = Ru_x[0];
+      eventdata[5] = Ru_y[0];
+    }
+    else{
+      eventdata[4] = R_x[0];
+      eventdata[5] = R_y[0];
+    }
+ 
  
     Double_t(*powers)[5] = fRawData[NRead].powers;
     Double_t x_fp = eventdata[kX];
@@ -628,4 +634,3 @@ void THaMatrixElement::SkimPoly()
 }
 
 ClassImp(ROpticsOpt);
-
